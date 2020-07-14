@@ -1,16 +1,13 @@
-### Hi there 👋
+### Hello, it’s Max. 👋
 
-<!--
-**mxdvl/mxdvl** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+A bilingual developer & designer in London.
 
-Here are some ideas to get you started:
+Elegance, simplicity and accessibility drive my work. Both curious and thorough in my approach to new technologies—see profile.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+Get in touch via [email][], [phone][] or [telegram][]. He/him.
+
+Online since 2007—colophon.
+
+[email]: max@mxdvl.com
+[phone]: <tel:+447491245727>
+[telegram]: https://t.me/mxdvl
