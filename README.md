@@ -1,13 +1,12 @@
-### Hello, it’s Max. 👋
+# Hello, it’s Max. 👋 👨🏻‍💻
 
-A bilingual developer & designer in London.
+### A designer & developer, working in London at [The Guardian][employer].
 
-Elegance, simplicity and accessibility drive my work. Both curious and thorough in my approach to new technologies—see profile.
+Online since 2007, [my work][] is driven by elegance, simplicity and accessibility.
 
-Get in touch via [email][], [phone][] or [telegram][]. He/him.
+Get in touch via [email][] or [telegram][]. He/him.
 
-Online since 2007—colophon.
-
-[email]: max@mxdvl.com
-[phone]: <tel:+447491245727>
+[my work]: https://www.mxdvl.com/works
+[employer]: https://www.theguardian.com/uk
+[email]: hi@mxdvl.com
 [telegram]: https://t.me/mxdvl
