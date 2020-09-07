@@ -1,6 +1,6 @@
 # Hello 👋, it’s Max. 👨🏻‍💻
 
-### A designer 🖋️ and developer ⌨️ in London ⛅ at [The Guardian][employer] 📰.
+### A designer & developer in London, at [The Guardian][employer] 📰.
 
 Online since 2007, [my work][] is driven by elegance, simplicity and accessibility.
 
