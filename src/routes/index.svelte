@@ -1,7 +1,6 @@
 <script>
-  import Counter from "$components/Counter.svelte";
-  import Header from "$components/Header.svelte";
-  import Footer from "$components/Header.svelte";
+  import Header from "../components/Header.svelte";
+  import Footer from "../components/Header.svelte";
 </script>
 
 <Header />
