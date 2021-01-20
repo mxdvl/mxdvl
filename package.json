@@ -8,9 +8,9 @@
 		"start": "svelte-kit start"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-node": "1.0.0-next.0",
-		"@sveltejs/kit": "1.0.0-next.1",
-		"@sveltejs/snowpack-config": "1.0.0-next.0",
+		"@sveltejs/adapter-node": "next",
+		"@sveltejs/kit": "next",
+		"@sveltejs/snowpack-config": "next",
 		"svelte": "^3.31.2",
 		"typescript": "^4.1.3",
 		"tslib": "^2.1.0",
