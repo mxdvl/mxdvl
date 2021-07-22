@@ -1,12 +1,12 @@
 # Hello 👋, it’s Max. 👨🏻‍💻
 
-### A designer & developer in London, at [The Guardian][employer] 📰.
+### Engineer & Designer in London, working at [The Guardian][employer] 📰.
 
-Online since 2007, [my work][] is driven by elegance, simplicity and accessibility.
+Building for the web since 2007, my work is driven by elegance, simplicity and accessibility.
 
 Get in touch via [email][] or [telegram][].
 
 [my work]: https://www.mxdvl.com/works
-[employer]: https://www.theguardian.com/uk
+[employer]: https://www.theguardian.com/info/2021/jun/25/a-day-in-the-life
 [email]: hi@mxdvl.com
 [telegram]: https://t.me/mxdvl
