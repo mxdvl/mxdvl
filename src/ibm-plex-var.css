@@ -3,5 +3,6 @@
 	font-style: normal;
 	font-weight: 100 700;
 	src: local("IBM Plex Sans Var"), local("IBMPlexSansVar-Roman"),
-		url("../node_modules/@ibm/plex/IBM-Plex-Sans-Variable/fonts/complete/woff2/IBMPlexSansVar-Roman.woff2") format("woff2-variations"),
+		url("../node_modules/@ibm/plex/IBM-Plex-Sans-Variable/fonts/complete/woff2/IBMPlexSansVar-Roman.woff2")
+			format("woff2-variations");
 }
