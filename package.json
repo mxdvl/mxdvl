@@ -29,6 +29,6 @@
 		"typescript": "^4.4.3"
 	},
 	"dependencies": {
-		"@ibm/plex": "^5.1.3"
+		"@ibm/plex": "^6"
 	}
 }
