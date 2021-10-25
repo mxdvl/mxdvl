@@ -1,18 +1,26 @@
 <script lang="ts">
+	import { languageStore } from "$lib/lang";
+
 	import { onMount } from "svelte";
 
-	let lang: string;
-	const languages = ["allo", "hi"];
+	const languages = ["allô", "hi"];
 
 	onMount(() => {
-		lang = window?.navigator?.language;
+		if (window?.navigator?.language.startsWith("fr")) languageStore.set("fr");
 	});
 </script>
 
-<h1>
-	{#each languages as language, i}
-		<a href="/{language}">{language}</a>{#if i < languages.length - 1}—{/if}
-	{/each}
-</h1>
+<h1>Allô, c’est Max | Hi, it’s Max</h1>
 
-<h2>({lang})</h2>
+<button
+	on:click={() => {
+		languageStore.set("en");
+	}}>en</button
+>
+<button
+	on:click={() => {
+		languageStore.set("fr");
+	}}>fr</button
+>
+
+<h2>({$languageStore})</h2>
