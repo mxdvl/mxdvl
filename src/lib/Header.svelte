@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { languageStore } from "./lang";
-
-	languageStore;
 </script>
 
 <svelte:head>

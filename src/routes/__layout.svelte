@@ -1,21 +1,22 @@
 <script lang="ts">
-	import { get } from "svelte/store";
 	import Header from "$lib/Header.svelte";
 	import Footer from "$lib/Footer.svelte";
 	import "../app.css";
-	import { languageStore } from "$lib/lang";
-
-	let lang = get(languageStore);
 </script>
 
-<Header {lang} />
+<Header />
 
 <main>
 	<slot />
 </main>
 
+<button
+	on:click={() => {
+		window.document.body.classList.toggle("dark");
+	}}>switch</button
+>
+
 <Footer />
-;
 
 <style>
 	main {
