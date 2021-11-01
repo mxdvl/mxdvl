@@ -12,7 +12,7 @@
 
 <button
 	on:click={() => {
-		window.document.body.classList.toggle("dark");
+		["light", "dark"].forEach((token) => window.document.body.classList.toggle(token));
 	}}>switch</button
 >
 
