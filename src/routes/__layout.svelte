@@ -1,10 +1,27 @@
+<script context="module" lang="ts">
+	import { Lang, pathLang } from "$lib/lang";
+	import type { Load } from "@sveltejs/kit";
+
+	export const load: Load = async ({ page }) => {
+		const lang: Lang = pathLang(page.path);
+		return {
+			props: {
+				lang
+			}
+		};
+	};
+</script>
+
 <script lang="ts">
 	import Header from "$lib/Header.svelte";
 	import Footer from "$lib/Footer.svelte";
+
 	import "../app.css";
+
+	export let lang: Lang;
 </script>
 
-<Header />
+<Header {lang} />
 
 <main>
 	<slot />
@@ -16,7 +33,7 @@
 	}}>switch</button
 >
 
-<Footer />
+<Footer {lang} />
 
 <style>
 	main {

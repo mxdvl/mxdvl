@@ -1,16 +1,18 @@
 <script lang="ts">
-	import { languageStore } from "./lang";
+	import type { Lang } from "./lang";
+
+	export let lang: Lang;
 </script>
 
 <svelte:head>
-	<html lang={$languageStore} />
+	<html {lang} />
 </svelte:head>
 
 <header class="header wrap wide" role="banner">
 	<nav>
 		<ul>
 			<li class="home active">
-				<a class="branding" href="/" rel="home">
+				<a class="branding" href={lang == "fr" ? "/allo" : "/hi"} rel="home">
 					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" xml:space="preserve">
 						<g id="cmps" fill="none" stroke-width="2">
 							<line x1="18" y1="0" x2="18" y2="36" />
@@ -22,24 +24,30 @@
 			</li>
 
 			<li class="menu-item ">
-				<a href="/works">Works</a>
+				{#if lang == "en"}
+					<a href="/works">Works</a>
+				{:else if lang == "fr"}
+					<a href="/travaux">Travaux</a>
+				{:else}
+					No dice
+				{/if}
 			</li>
 
 			<li class="menu-item ">
-				<a href="/profile">Profile</a>
+				{#if lang == "en"}
+					<a href="/profile">Profile</a>
+				{:else if lang == "fr"}
+					<a href="/profil">Profil</a>
+				{:else}
+					waddup/error
+				{/if}
 			</li>
 
-			{#if $languageStore == "en"}
-				<li class="menu-item" lang="fr">
-					<a href="/allo">allô</a>
-				</li>
-			{:else}
-				<li class="menu-item" lang="en">
-					<a href="/hi">hi</a>
-				</li>
-			{/if}
-
-			<li>{$languageStore}</li>
+			<li class="menu-item" lang="fr">
+				<a href="/allo">allô</a>
+				<span class="padded">–</span>
+				<a href="/hi">hi</a>
+			</li>
 		</ul>
 	</nav>
 </header>
@@ -64,6 +72,11 @@
 		height: 2.25rem;
 		display: flex;
 		text-transform: uppercase;
+		align-items: center;
+	}
+
+	.padded {
+		padding: 0 0.5rem;
 	}
 
 	a {

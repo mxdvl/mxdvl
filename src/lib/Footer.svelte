@@ -1,9 +1,15 @@
+<script lang="ts">
+	import type { Lang } from "./lang";
+
+	export let lang: Lang;
+</script>
+
 <footer class="footer cf" role="contentinfo">
-	<div class="wrap wide">
+	{#if lang == "en"}
 		<p class="footer-copyright">
 			Hello, it’s Max.<br />
 			<br />
-			A <a href="https://www.mxdvl.com/allo">bilingual</a> developer &amp; designer in
+			A <a href="/allo">bilingual</a> developer &amp; designer in
 			<em>cloudy</em>
 			London. Currently working at The Guardian.<br />
 			<br />
@@ -16,5 +22,21 @@
 			<br />
 			Online since 2007—<a href="https://www.mxdvl.com/colophon">colophon</a>.
 		</p>
-	</div>
+	{:else}
+		<section class="footer-copyright">
+			<p>Allô, c’est Max.</p>
+
+			<p>
+				Un dévelopeur & designer <a href="/hi">bilingue</a> à Londres
+				<em>nuageuse</em>.
+			</p>
+
+			<p>Je bosse chez The Guardian.</p>
+
+			<p>
+				En ligne depuis 2007—<a href="https://www.mxdvl.com/colophon">colophon</a>.
+			</p>
+		</section>
+	{/if}
+	<div class="wrap wide" />
 </footer>
