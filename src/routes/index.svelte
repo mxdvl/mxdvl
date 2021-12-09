@@ -1,26 +1,28 @@
+<script context="module" lang="ts">
+	import type { Lang } from "$lib/lang";
+	import type { Load } from "@sveltejs/kit";
+
+	export const load: Load = async () => {
+		const lang: Lang = "en";
+		return {
+			props: {
+				lang
+			}
+		};
+	};
+</script>
+
 <script lang="ts">
-	import { languageStore } from "$lib/lang";
-
 	import { onMount } from "svelte";
-
-	const languages = ["allô", "hi"];
+	import { goto } from "$app/navigation";
 
 	onMount(() => {
-		if (window?.navigator?.language.startsWith("fr")) languageStore.set("fr");
+		window?.navigator?.language.startsWith("fr") ? goto("/allo") : goto("/hi");
 	});
+
+	export let lang: Lang;
 </script>
 
 <h1>Allô, c’est Max | Hi, it’s Max</h1>
 
-<button
-	on:click={() => {
-		languageStore.set("en");
-	}}>en</button
->
-<button
-	on:click={() => {
-		languageStore.set("fr");
-	}}>fr</button
->
-
-<h2>({$languageStore})</h2>
+<h2>{lang}</h2>
