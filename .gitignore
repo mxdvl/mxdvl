@@ -2,6 +2,6 @@
 node_modules
 
 # Svelte
-/.svelte-kit
-/build
-/functions
+dotcom/.svelte-kit
+dotcom/build
+dotcom/functions
