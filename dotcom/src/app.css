@@ -1,0 +1,75 @@
+@import "./ibm-plex-var.css";
+
+.light {
+	--earth: hsl(190, 89%, 6%);
+	--ocean: hsl(192, 84%, 30%);
+	--glint: hsl(18, 96%, 60%);
+	--cloud: hsl(192, 18%, 72%);
+	--skies: white;
+}
+
+.dark {
+	--earth: white;
+	--ocean: hsl(200, 36%, 60%);
+	--glint: hsl(18, 96%, 60%);
+	--cloud: hsl(190, 89%, 12%);
+	--skies: hsl(200, 96%, 3%);
+}
+
+body {
+	margin: 0;
+	padding: 1rem;
+	font-family: "IBM Plex Sans Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+		Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+	font-weight: 400;
+
+	/*
+	Weight axis: 100 – 700
+	Width axis: 85 – 100
+	*/
+
+	/* font-variation-settings: "wght" var(--weight), "wdth" var(--weight); */
+
+	font-size: 16px;
+	line-height: 1.5rem;
+	background-color: var(--cloud);
+	color: var(--earth);
+	transition: background-color 0.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body {
+		transition: none;
+	}
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 0.5em 0;
+	line-height: 2rem;
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+a {
+	--border: var(--ocean);
+	color: inherit;
+	text-decoration: none;
+	background-size: 1rem 1rem;
+	background-repeat: repeat-x;
+	background-position: bottom center;
+	background-image: linear-gradient(to top, var(--border), var(--border) 0.125rem, transparent 0.0625rem);
+}
+
+a:hover {
+	color: var(--border);
+	/* text-shadow: 0px 0px 0.0625rem var(--border); */
+	/* background-color: var(--border); */
+}
