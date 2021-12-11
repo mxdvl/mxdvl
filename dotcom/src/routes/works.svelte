@@ -1,5 +1,8 @@
-<script context="module">
-	export const load = async ({ fetch }) => {
+<script context="module" lang="ts">
+	import type { Load } from "@sveltejs/kit";
+	import type { Work } from "./works.json";
+
+	export const load: Load = async ({ fetch }) => {
 		const url = "/works.json";
 		const res = await fetch(url);
 		const works = (await res.json()).works;
@@ -12,8 +15,8 @@
 	};
 </script>
 
-<script>
-	export let works;
+<script lang="ts">
+	export let works: Work[];
 </script>
 
 ## worky works
@@ -21,9 +24,14 @@
 <ul>
 	{#each works as work}
 		<li>
-			<h3>
-				{work.metadata.title}
-			</h3>
+			<a href={`/works/${work.slug}`}>
+				<h3>
+					{work.metadata.title}
+				</h3>
+				<h4>
+					{work.metadata.date}
+				</h4>
+			</a>
 		</li>
 	{/each}
 </ul>
@@ -45,7 +53,8 @@
 		box-sizing: border-box;
 	}
 
-	li:hover {
-		cursor: pointer;
+	li a {
+		display: block;
+		background-image: none;
 	}
 </style>
