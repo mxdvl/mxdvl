@@ -1,9 +1,6 @@
 ---
 title: Silence Solennel
 slug: silence-solennel
-date: 2011-05
-type: architecture
-at: uqam
 ---
 
 ![maquette à 1:10 souligant la symétrie de l’espace](symetrie.jpg)
