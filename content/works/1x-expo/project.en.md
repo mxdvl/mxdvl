@@ -1,8 +1,8 @@
 ---
-Title: 1:X Multidisciplinary Exploration
-Date: 2016-01
-Type: design
-At: provencher_roy
+title: 1:X Multidisciplinary Exploration
+date: 2016-01
+type: design
+at: provencher_roy
 ---
 
 Exhibition design at the Université de Montréal showcasing the various models and modes of explorations for five ongoing projects at Provencher_Roy.
