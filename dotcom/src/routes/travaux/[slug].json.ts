@@ -1,0 +1,1 @@
+../works/[slug].json.ts
