@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import type { Work } from "./works.json";
+	import type { Work } from "$lib/works";
 
 	export const load: Load = async ({ fetch }) => {
 		const url = "/works.json";

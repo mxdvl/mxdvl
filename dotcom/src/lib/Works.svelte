@@ -1,28 +1,19 @@
 <script lang="ts">
-	import { cleanDate } from "$lib/date";
-	import type { Work } from "src/routes/works.json";
+	import type { Work } from "$lib/works";
 	import type { Lang } from "./lang";
+
+	import { getUrl, cleanDate, getTitle } from "$lib/works";
 
 	export let works: Work[];
 	export let lang: Lang;
-
-	const getUrl = (work: Work) => {
-		const url = work.urls[lang] ?? work.urls["en"];
-		return "/" + url.split("/").slice(-2).join("/");
-	};
-
-	const getTitle = (titles: Work["metadata"]["titles"]) => {
-		const title = titles[lang] ?? titles["en"] + " (en)";
-		return title;
-	};
 </script>
 
 <ul>
 	{#each works as work}
 		<li>
-			<a href={getUrl(work)}>
+			<a href={getUrl(work, lang)}>
 				<h3>
-					{getTitle(work.metadata.titles)}
+					{getTitle(work.metadata.titles, lang)}
 				</h3>
 				<h4>
 					{cleanDate(work.metadata.date)}
