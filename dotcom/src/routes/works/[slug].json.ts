@@ -8,6 +8,6 @@ export const get: RequestHandler = async ({ params }) => {
 	if (!work) return;
 
 	return {
-		body: { work }
+		body: { work },
 	};
 };
