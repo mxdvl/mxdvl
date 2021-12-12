@@ -9,13 +9,15 @@
 
 		return {
 			props: {
-				works
-			}
+				works,
+			},
 		};
 	};
 </script>
 
 <script lang="ts">
+	import { cleanDate } from "$lib/date";
+
 	export let works: Work[];
 </script>
 
@@ -24,12 +26,12 @@
 <ul>
 	{#each works as work}
 		<li>
-			<a href={`/works/${work.slug}`}>
+			<a href={`/works/${work.metadata.slug}`}>
 				<h3>
 					{work.metadata.title}
 				</h3>
 				<h4>
-					{work.metadata.date}
+					{cleanDate(work.metadata.date)}
 				</h4>
 			</a>
 		</li>

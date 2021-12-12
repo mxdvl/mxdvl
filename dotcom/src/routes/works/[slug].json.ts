@@ -3,7 +3,7 @@ import { getWorks } from "../works.json";
 
 export const get: RequestHandler = async ({ params }) => {
 	const { slug } = params;
-	const work = getWorks().find((work) => work.slug === slug);
+	const work = getWorks("en").find((work) => work.metadata.slug === slug);
 
 	if (!work) return;
 
