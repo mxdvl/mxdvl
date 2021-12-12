@@ -26,9 +26,9 @@
 <ul>
 	{#each works as work}
 		<li>
-			<a href={`/works/${work.metadata.slug}`}>
+			<a href={"/" + work.urls.en.split("/").slice(-2).join("/")}>
 				<h3>
-					{work.metadata.title}
+					{work.metadata.titles.en}
 				</h3>
 				<h4>
 					{cleanDate(work.metadata.date)}

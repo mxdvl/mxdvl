@@ -1,9 +1,9 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { getWorks } from "../works.json";
 
-export const get: RequestHandler = async ({ params }) => {
+export const get: RequestHandler = async ({ params, path }) => {
 	const { slug } = params;
-	const work = getWorks("en").find((work) => work.metadata.slug === slug);
+	const work = getWorks().find((work) => work.urls.en.endsWith(slug));
 
 	if (!work) return;
 

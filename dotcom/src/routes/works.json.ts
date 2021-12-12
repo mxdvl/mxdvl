@@ -1,10 +1,7 @@
 import type { Lang } from "$lib/lang";
 import type { RequestHandler } from "@sveltejs/kit";
 
-const works: Record<Lang, Record<string, any>> = {
-	en: import.meta.globEager("../../../content/works/**/*.en.md"),
-	fr: import.meta.globEager("../../../content/works/**/*.fr.md"),
-};
+const works = import.meta.globEager("../../../content/works/**/*.md");
 
 export type Work = {
 	urls: {
@@ -12,12 +9,15 @@ export type Work = {
 		fr?: `https://www.mxdvl.com/travaux/${string}`;
 	};
 	metadata: {
-		title: string;
+		titles: {
+			en: string;
+			fr?: string;
+		};
 		date: string;
-		slug: string;
 	};
 	content: {
-		html: string;
+		en: string;
+		fr?: string;
 	};
 };
 
@@ -30,34 +30,41 @@ const getUrls = (path: string): Work["urls"] => {
 	};
 
 	const slugs = {
-		en: getSlug(paths.en, works.en[paths.en]?.metadata.slug),
-		fr: getSlug(paths.fr, works.fr[paths.fr]?.metadata.slug),
+		en: getSlug(paths.en, works[paths.en]?.metadata.slug),
+		fr: getSlug(paths.fr, works[paths.fr]?.metadata.slug),
 	};
-
-	console.log(works.fr[paths.fr]);
 
 	return {
 		en: `https://www.mxdvl.com/works/${slugs.en}`,
-		fr: works.fr[paths.fr] ? `https://www.mxdvl.com/travaux/${slugs.fr}` : undefined,
+		fr: works[paths.fr] ? `https://www.mxdvl.com/travaux/${slugs.fr}` : undefined,
 	};
 };
 
-const getSlug = (path: string, slug: unknown) => (isString(slug) ? slug : path.split("/").filter(Boolean).slice(-2)[0]);
+const getSlug = (path: string, slug?: unknown) =>
+	isString(slug) ? slug : path.split("/").filter(Boolean).slice(-2)[0];
 
-const getWork = (path: string, lang: Lang): Work => {
-	const entry = works[lang][path];
-	const parsed: Record<keyof Work["metadata"], unknown> = entry.metadata;
+export const getWork = (path: string): Work => {
+	const en = works[path.replace(".fr.", ".en.")];
+	const fr = works[path.replace(".en.", ".fr.")];
+
+	const parsed: Record<string, unknown> = en.metadata;
 	const metadata: Work["metadata"] = {
-		title: isString(parsed.title) ? parsed.title : "⚠️ MISSING TITLE",
+		titles: {
+			en: isString(parsed.title) ? parsed.title : "⚠️ MISSING TITLE",
+			fr: fr?.metadata?.title,
+		},
 		date: isString(parsed.date) ? new Date(parsed.date).toISOString() : "** MISSING DATE **",
-		slug: getSlug(path, parsed.slug),
 	};
 
 	const content: Work["content"] = {
-		html: entry.default.render().html,
+		en: en.default.render().html,
+		fr: fr?.default.render().html,
 	};
 
-	const urls = getUrls(path);
+	const urls: Work["urls"] = {
+		en: `https://www.mxdvl.com/works/${getSlug(path)}`,
+		fr: fr ? `https://www.mxdvl.com/travaux/${getSlug(path, fr.metadata.slug)}` : undefined,
+	};
 
 	return {
 		urls,
@@ -66,10 +73,14 @@ const getWork = (path: string, lang: Lang): Work => {
 	};
 };
 
-export const getWorks = (lang: Lang): Work[] => Object.keys(works[lang]).map((path) => getWork(path, lang));
+export const getWorks = (): Work[] =>
+	Object.keys(works)
+		.filter((path) => path.includes(`.en.`))
+		.map((path) => getWork(path));
 
 export const get: RequestHandler = async ({ params }) => {
-	const works = getWorks("en");
+	const works = getWorks();
+
 	if (!works) return;
 	return {
 		body: {

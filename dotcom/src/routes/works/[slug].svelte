@@ -20,9 +20,9 @@
 	export let work: Work;
 </script>
 
-<h2>{work.metadata.title}</h2>
+<h2>{work.metadata.titles.en}</h2>
 <h4>
 	{cleanDate(work.metadata.date)}
 </h4>
 
-{@html work.content.html}
+{@html work.content.en}
