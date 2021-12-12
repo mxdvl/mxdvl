@@ -1,12 +1,34 @@
-@import "./ibm-plex-var.css";
+html, .light {
+	--earth: hsl(190, 89%, 6%);
+	--ocean: hsl(192, 84%, 30%);
+	--glint: hsl(18, 96%, 60%);
+	--cloud: hsl(192, 18%, 72%);
+	--skies: white;
+}
+
+@media (prefers-color-scheme: dark) {
+	html {
+		--earth: white;
+		--ocean: hsl(200, 36%, 60%);
+		--glint: hsl(18, 96%, 60%);
+		--cloud: hsl(190, 89%, 12%);
+		--skies: hsl(200, 96%, 3%);
+	}
+}
 
 
+.dark {
+	--earth: white;
+	--ocean: hsl(200, 36%, 60%);
+	--glint: hsl(18, 96%, 60%);
+	--cloud: hsl(190, 89%, 12%);
+	--skies: hsl(200, 96%, 3%);
+}
 
 body {
 	margin: 0;
 	padding: 1rem;
-	font-family: "IBM Plex Sans Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-		Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	font-family: "IBM Plex Sans Variable", sans-serif;
 
 	font-weight: 400;
 
