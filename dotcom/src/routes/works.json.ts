@@ -3,6 +3,7 @@ import type { RequestHandler } from "@sveltejs/kit";
 const imports = import.meta.globEager('../../../content/works/**/*.en.md')
 
 export type Work = {
+	url: `https://www.mxdvl.com/works/${string}`;
 	slug: string;
 	metadata: {
 		title: string;
@@ -23,9 +24,10 @@ export const getWorks = (): Work[] => Object.entries(imports).map(([path, entry]
 		date: isString(parsed.date) ? parsed.date : "MISSING DATE",
 	}
 
-	const content: Work['content'] = entry.default.render();
+		const url: Work["url"] = `https://www.mxdvl.com/works/${slug}`;
 
 	return {
+			url,
 		slug,
 		metadata,
 		content,
