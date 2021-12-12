@@ -43,6 +43,9 @@ body {
 	line-height: 1.5rem;
 	background-color: var(--cloud);
 	color: var(--earth);
+}
+
+body.themed {
 	transition: background-color 0.6s;
 }
 

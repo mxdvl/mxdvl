@@ -6,8 +6,8 @@
 		const lang: Lang = pathLang(page.path);
 		return {
 			props: {
-				lang
-			}
+				lang,
+			},
 		};
 	};
 </script>
@@ -20,6 +20,7 @@
 	import "../ibm-plex-var.css";
 
 	const setTheme = (theme: "light" | "dark" | "default") => {
+		document.body.classList.add("themed");
 		const { classList } = document.querySelector("html");
 		classList.remove("light", "dark", "default");
 		switch (theme) {
