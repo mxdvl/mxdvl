@@ -12,7 +12,7 @@ const works = dirs.map((dir) => {
 	const fr = files?.find((file) => file.endsWith(".fr.md"));
 
 	return getWork(
-		path,
+		path.replace("../", "/"),
 		fs.readFileSync(`${path}/${en}`, "utf8"),
 		fr ? fs.readFileSync(`${path}/${fr}`, "utf8") : undefined,
 	);
