@@ -1,10 +1,10 @@
 import type { Lang } from "$lib/lang";
 import { unified } from "unified";
 import frontmatter from "remark-frontmatter";
-import type { Root } from "mdast";
 import parse from "remark-parse";
 import stringify from "rehype-stringify";
 import rehype from "remark-rehype";
+import type { HastRoot, MdastRoot } from "remark-rehype/lib";
 
 type Work = {
 	urls: {
@@ -43,9 +43,10 @@ const isString = (value): value is string => typeof value === "string" && value 
 const getSlug = (path: string, slug?: unknown) =>
 	isString(slug) ? slug : path.split("/").filter(Boolean).slice(-1)[0];
 
-const getMeta = (root: Root): Meta => {
-	// @ts-expect-error -- it’s actually there
+const getMeta = (root: MdastRoot): Meta => {
+	// @ts-expect-error -- there is a value. Maybe MdastRoot is not the right type
 	const matter: string | undefined = root.children.find((child) => child.type === "yaml")?.value;
+
 	if (!matter) return {};
 
 	return Object.fromEntries(
