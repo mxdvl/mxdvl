@@ -35,6 +35,4 @@
 	</h4>
 
 	{@html work.content[lang] ?? work.content.en}
-
-	<Figure path="/content/works/solemn-silence/symetrie.jpg" />
 </section>
