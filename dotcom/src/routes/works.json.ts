@@ -6,14 +6,16 @@ const dirs = fs.readdirSync("../content/works");
 
 export const get: RequestHandler = async ({ params }) => {
 	const works = dirs.map((dir) => {
-		const files = fs.readdirSync(`../content/works/${dir}`);
+		const path = `../content/works/${dir}`;
+
+		const files = fs.readdirSync(path);
 		const en = files.find((file) => file.endsWith(".en.md"));
 		const fr = files.find((file) => file.endsWith(".fr.md"));
 
 		return getWork(
-			en,
-			fs.readFileSync(`../content/works/${dir}/${en}`, "utf8"),
-			fr ? fs.readFileSync(`../content/works/${dir}/${fr}`, "utf8") : undefined,
+			path,
+			fs.readFileSync(`${path}/${en}`, "utf8"),
+			fr ? fs.readFileSync(`${path}/${fr}`, "utf8") : undefined,
 		);
 	});
 

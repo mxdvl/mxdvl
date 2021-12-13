@@ -41,7 +41,7 @@ const cleanDate = (date: string) => new Date(date).toISOString().slice(0, 7);
 const isString = (value): value is string => typeof value === "string" && value !== "";
 
 const getSlug = (path: string, slug?: unknown) =>
-	isString(slug) ? slug : path.split("/").filter(Boolean).slice(-2)[0];
+	isString(slug) ? slug : path.split("/").filter(Boolean).slice(-1)[0];
 
 const getMeta = (root: Root): Meta => {
 	// @ts-expect-error -- it’s actually there
@@ -79,8 +79,6 @@ export const getWork = (path: string, en: string, fr?: string): Work => {
 		fr: getMeta(parsed.parse(fr)),
 	};
 
-	console.log(meta);
-
 	const metadata: Work["metadata"] = {
 		titles: {
 			en: isString(meta.en.title) ? meta.en.title : "⚠️ MISSING TITLE",
@@ -92,7 +90,7 @@ export const getWork = (path: string, en: string, fr?: string): Work => {
 
 	const urls: Work["urls"] = {
 		en: `https://www.mxdvl.com/works/${getSlug(path)}`,
-		fr: fr ? `https://www.mxdvl.com/travaux/${getSlug(path)}` : undefined,
+		fr: fr ? `https://www.mxdvl.com/travaux/${getSlug(path, meta.fr.slug)}` : undefined,
 	};
 
 	return {
