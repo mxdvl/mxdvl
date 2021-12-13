@@ -1,7 +1,7 @@
 ---
-Title: Daily Doodles in Japan
-Date: 2016-04
-At: mgill
+title: Daily Doodles in Japan
+date: 2016-04
+at: mgill
 ---
 
 Life scenes from the Land of the Rising Sun, full archive [on tumblr][].

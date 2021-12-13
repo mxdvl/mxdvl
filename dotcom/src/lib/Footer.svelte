@@ -13,7 +13,8 @@
 			<em>cloudy</em>
 			London. Currently working at The Guardian.<br />
 			<br />
-			Elegance, simplicity and accessibility drive <a href="/works">my work</a>. I love building for the web and making
+			Elegance, simplicity and accessibility drive <a href="/works">my work</a>. I love building for the web and
+			making
 			<a href="https://github.com/mxdvl">open-source contributions</a>.<br />
 			<br />
 			Get in touch via <a href="mailto:hi@mxdvl.com">email</a>,

@@ -1,18 +1,20 @@
 import preprocess from "svelte-preprocess";
 import adapter from "@sveltejs/adapter-static";
+import { mdsvex } from "mdsvex";
+
+const extensions = [".svelte", ".md"];
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
-	preprocess: preprocess(),
+	extensions,
+	preprocess: [preprocess(), mdsvex({ extensions })],
 
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
 		adapter: adapter(),
 		target: "#svelte",
-		hostHeader: "X-Forwarded-Host"
-	}
+		hostHeader: "X-Forwarded-Host",
+	},
 };
 
 export default config;

@@ -2,13 +2,22 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
+		<script>
+			try {
+				const { theme } = localStorage;
+				if (theme) document.querySelector("html").classList.add(theme);
+			} catch (error) {
+				console.log(error);
+			}
+		</script>
+
+		<link rel="icon" href="/favicon.ico" />
 		%svelte.head%
 	</head>
 
-	<body class="light">
+	<body>
 		<div id="svelte">%svelte.body%</div>
 	</body>
 </html>

@@ -1,14 +1,11 @@
 ---
 title: Silence Solennel
 slug: silence-solennel
-date: 2011-05
-type: architecture
-at: uqam
 ---
 
-![maquette à 1:10 souligant la symétrie de l’espace](symetrie.jpg)
+<!-- ![maquette à 1:10 souligant la symétrie de l’espace](symetrie.jpg) -->
 
-![vue de la maquette par la porte d’entrée](entree.jpg)
+<!-- ![vue de la maquette par la porte d’entrée](entree.jpg) -->
 
 « La Cène, rouge et or:
 Coup de théâtre en contraste;

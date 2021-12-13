@@ -1,6 +1,6 @@
 ---
-Title: Nicolas Ménard
-Date: 2020-01
+title: Nicolas Ménard
+date: 2020-01
 ---
 
 Nicolas Ménard is a brilliant animation director and designer in London, and I've helped launch [his new portfolio][].
