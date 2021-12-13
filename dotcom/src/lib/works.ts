@@ -66,13 +66,16 @@ type Meta = {
 	at?: string;
 };
 
-export const getWork = (path: string, en: string, fr?: string): Work => {
-	const parsed = unified().use(parse).use(frontmatter);
-	const htmlProcessor = parsed().use(rehype).use(stringify);
+const getWork = (path: string, en: string, fr?: string): Work => {
+	const parsed = unified().use(parse).use(frontmatter).use(unwrap);
+	const htmlProcessor = parsed().use(rehype).use(cloudinary).use(stringify);
+
+	const REPLACER = /(\]\()\.?\/?([\w-]+\.)/gi;
+	const imgPaths = (s: string) => s.replace(REPLACER, `$1${path.slice(1)}/$2`);
 
 	const content: Work["content"] = {
-		en: htmlProcessor.processSync(en).toString(),
-		fr: fr ? htmlProcessor.processSync(fr).toString() : undefined,
+		en: htmlProcessor.processSync(imgPaths(en)).toString(),
+		fr: fr ? htmlProcessor.processSync(imgPaths(fr)).toString() : undefined,
 	};
 
 	const meta: Record<Lang, Meta> = {
@@ -102,4 +105,4 @@ export const getWork = (path: string, en: string, fr?: string): Work => {
 };
 
 export type { Work };
-export { getUrl, getTitle, cleanDate };
+export { getUrl, getTitle, cleanDate, getWork };
