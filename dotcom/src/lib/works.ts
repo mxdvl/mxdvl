@@ -1,9 +1,12 @@
 import type { Lang } from "$lib/lang";
+import type { Plugin } from "unified";
 import { unified } from "unified";
 import frontmatter from "remark-frontmatter";
 import parse from "remark-parse";
 import stringify from "rehype-stringify";
 import rehype from "remark-rehype";
+import unwrap from "remark-unwrap-images";
+import { SKIP, visit } from "unist-util-visit";
 import type { HastRoot, MdastRoot } from "remark-rehype/lib";
 
 type Work = {
@@ -64,6 +67,31 @@ type Meta = {
 	date?: string;
 	slug?: string;
 	at?: string;
+};
+
+const cloudinary: Plugin<void[], HastRoot> = () => {
+	const cdn = "https://res.cloudinary.com/mxdvl/image/upload";
+	return (tree) => {
+		visit(tree, "element", (node, index, parent) => {
+			const {
+				tagName,
+				properties: { src, alt },
+			} = node;
+
+			if (parent && tagName === "img") {
+				const { properties } = node;
+				console.log(properties.src);
+				node.properties = {
+					alt: properties.alt,
+					width: 600,
+					srcset: [300, 600, 1200].map((width) => `${cdn}/w_${width}/${properties.src} ${width}w`).join(", "),
+					src: `${cdn}/w_300/${properties.src}`,
+				};
+
+				return [SKIP];
+			}
+		});
+	};
 };
 
 const getWork = (path: string, en: string, fr?: string): Work => {
