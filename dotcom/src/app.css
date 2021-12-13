@@ -1,4 +1,5 @@
-html, .light {
+html,
+.light {
 	--earth: hsl(190, 89%, 6%);
 	--ocean: hsl(192, 84%, 30%);
 	--glint: hsl(18, 96%, 60%);
@@ -15,7 +16,6 @@ html, .light {
 		--skies: hsl(200, 96%, 3%);
 	}
 }
-
 
 .dark {
 	--earth: white;

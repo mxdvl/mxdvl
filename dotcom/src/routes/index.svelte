@@ -6,8 +6,8 @@
 		const lang: Lang = "en";
 		return {
 			props: {
-				lang
-			}
+				lang,
+			},
 		};
 	};
 </script>
