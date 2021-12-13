@@ -1,1 +1,0 @@
-../works/[slug].svelte
