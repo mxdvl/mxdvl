@@ -29,12 +29,14 @@
 		"remark-parse": "^10.0.1",
 		"remark-rehype": "^10.1.0",
 		"remark-stringify": "^10.0.2",
+		"remark-unwrap-images": "^3.0.1",
 		"svelte": "^3.44.2",
 		"svelte-check": "^2.2.10",
 		"svelte-preprocess": "^4.9.8",
 		"tslib": "^2.3.1",
 		"typescript": "^4.5.2",
-		"unified": "^10.1.1"
+		"unified": "^10.1.1",
+		"unist-util-visit": "^4.1.0"
 	},
 	"dependencies": {
 		"@ibm/plex": "^6"
