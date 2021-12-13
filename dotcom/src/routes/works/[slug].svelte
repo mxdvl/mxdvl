@@ -22,6 +22,7 @@
 
 <script lang="ts">
 	import { cleanDate } from "$lib/works";
+	import Figure from "$lib/Figure.svelte";
 
 	export let work: Work;
 	export let lang: Lang;
@@ -34,4 +35,6 @@
 	</h4>
 
 	{@html work.content[lang] ?? work.content.en}
+
+	<Figure path="/content/works/solemn-silence/symetrie.jpg" />
 </section>
