@@ -1,0 +1,28 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" xml:space="preserve">
+	<style>
+		#cmps {
+			stroke: hsl(190, 89%, 6%);
+		}
+
+		#bg {
+			fill: hsl(192, 18%, 72%);
+		}
+
+		@media (prefers-color-scheme: dark) {
+			#cmps {
+				stroke: hsl(192, 18%, 92%);
+			}
+
+			#bg {
+				fill: hsl(190, 89%, 12%)
+			}
+		}
+	</style>
+
+	<circle id="bg" cx="16" cy="16" r="16" fill="var(--cloud)" stroke="none" />
+	<g id="cmps" fill="none" stroke-width="2" stroke="var(--earth)">
+		<line x1="16" y1="2" x2="16" y2="30" />
+		<line x1="16" y1="16" x2="30" y2="16" />
+		<circle cx="16" cy="16" r="10" />
+	</g>
+</svg>
