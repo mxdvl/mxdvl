@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Lang } from "./lang";
+	import Logo from "$lib/CMPS.svelte";
 
 	export let lang: Lang;
 </script>
@@ -13,13 +14,7 @@
 		<ul>
 			<li class="home active">
 				<a class="branding" href={lang == "fr" ? "/allo" : "/hi"} rel="home">
-					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" xml:space="preserve">
-						<g id="cmps" fill="none" stroke-width="2">
-							<line x1="18" y1="0" x2="18" y2="36" />
-							<line x1="18" y1="18" x2="36" y2="18" />
-							<circle cx="18" cy="18" r="12" /></g
-						>
-					</svg>
+					<Logo />
 				</a>
 			</li>
 
@@ -53,10 +48,6 @@
 </header>
 
 <style>
-	svg {
-		stroke: currentColor;
-		height: 2.25rem;
-	}
 
 	ul {
 		display: flex;
