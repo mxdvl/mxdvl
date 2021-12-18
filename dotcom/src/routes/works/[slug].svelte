@@ -22,7 +22,6 @@
 
 <script lang="ts">
 	import { cleanDate } from "$lib/works";
-	import Figure from "$lib/Figure.svelte";
 
 	export let work: Work;
 	export let lang: Lang;
