@@ -14,6 +14,9 @@ const config = {
 		adapter: adapter(),
 		target: "#svelte",
 		hostHeader: "X-Forwarded-Host",
+		prerender: {
+			entries: ["/hi", "/allo", "/error", "/erreur"],
+		},
 	},
 };
 

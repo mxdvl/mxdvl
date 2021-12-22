@@ -11,5 +11,6 @@
 			"destination": "/hi",
 			"permanent": false
 		}
-	]
+	],
+	"routes": [{ "handle": "filesystem" }, { "src": "/(.*)", "status": 404, "dest": "/error/index.html" }]
 }
