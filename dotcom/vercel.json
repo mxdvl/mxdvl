@@ -19,7 +19,6 @@
 		},
 		{
 			"source": "/:error+",
-			"has": [{ "type": "header", "key": "Accept-Language", "value": "fr.+" }],
 			"destination": "/error",
 			"permanent": false
 		}
