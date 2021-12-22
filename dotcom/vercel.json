@@ -1,0 +1,15 @@
+{
+	"redirects": [
+		{
+			"source": "/",
+			"has": [{ "type": "header", "key": "Accept-Language", "value": "fr.+" }],
+			"destination": "/allo",
+			"permanent": false
+		},
+		{
+			"source": "/",
+			"destination": "/hi",
+			"permanent": false
+		}
+	]
+}
