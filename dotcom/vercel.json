@@ -10,7 +10,18 @@
 			"source": "/",
 			"destination": "/hi",
 			"permanent": false
+		},
+		{
+			"source": "/:erreur+",
+			"has": [{ "type": "header", "key": "Accept-Language", "value": "fr.+" }],
+			"destination": "/erreur",
+			"permanent": false
+		},
+		{
+			"source": "/:error+",
+			"has": [{ "type": "header", "key": "Accept-Language", "value": "fr.+" }],
+			"destination": "/error",
+			"permanent": false
 		}
-	],
-	"routes": [{ "handle": "filesystem" }, { "src": "/(.*)", "status": 404, "dest": "/error/index.html" }]
+	]
 }
