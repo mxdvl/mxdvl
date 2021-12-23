@@ -33,6 +33,6 @@
 <style>
 	main {
 		padding: var(--grid-double) 0;
-		margin: 0 auto;
+		margin: -1px auto 1px;
 	}
 </style>

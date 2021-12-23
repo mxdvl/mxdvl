@@ -34,7 +34,7 @@
 
 	li {
 		display: block;
-		height: calc(3 * var(--grid-double));
+		height: calc(3 * var(--grid-double) + 2px);
 		padding: 0.5rem;
 		border: 0.125rem solid var(--ocean);
 		box-sizing: border-box;

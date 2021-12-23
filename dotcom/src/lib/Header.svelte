@@ -50,7 +50,7 @@
 <style>
 	header {
 		height: calc(var(--grid) * 2);
-		padding-bottom: calc(var(--grid) - 1px);
+		padding-bottom: var(--grid);
 		border-bottom: 2px solid var(--skies);
 	}
 
@@ -59,7 +59,7 @@
 		justify-content: space-between;
 		align-items: stretch;
 		height: 100%;
-		margin: 0;
+		margin: -1px 0;
 		padding: 0;
 
 		font-weight: 480;
