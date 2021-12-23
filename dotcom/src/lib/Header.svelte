@@ -38,7 +38,7 @@
 				{/if}
 			</li>
 
-			<li class="menu-item" lang="fr">
+			<li class="menu-item desktop" lang="fr">
 				<a href="/allo">allô</a>
 				<span class="padded">–</span>
 				<a href="/hi">hi</a>
@@ -84,5 +84,20 @@
 
 	a {
 		background: none;
+	}
+
+	.menu-item a {
+		position: relative;
+		top: 0.125rem;
+	}
+
+	.desktop {
+		display: none;
+	}
+
+	@media screen and (min-width: 740px) {
+		.desktop {
+			display: flex;
+		}
 	}
 </style>
