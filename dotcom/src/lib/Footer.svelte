@@ -1,10 +1,13 @@
 <script lang="ts">
 	import type { Lang } from "./lang";
+	import Theme from "./Theme.svelte";
 
 	export let lang: Lang;
 </script>
 
 <footer class="footer cf" role="contentinfo">
+	<Theme />
+
 	{#if lang == "en"}
 		<p class="footer-copyright">
 			Hello, it’s Max.<br />
@@ -41,3 +44,11 @@
 	{/if}
 	<div class="wrap wide" />
 </footer>
+
+<style>
+	footer {
+		border-top: 2px solid var(--skies);
+		margin-top: -2px;
+		padding-top: var(--grid);
+	}
+</style>
