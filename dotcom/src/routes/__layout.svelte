@@ -57,7 +57,7 @@
 
 <style>
 	main {
-		padding: 1rem;
+		padding: var(--grid-double) 0;
 		margin: 0 auto;
 	}
 </style>

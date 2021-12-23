@@ -48,22 +48,34 @@
 </header>
 
 <style>
+	header {
+		height: calc(var(--grid) * 2);
+		padding-bottom: calc(var(--grid) - 1px);
+		border-bottom: 2px solid var(--skies);
+	}
 
 	ul {
 		display: flex;
 		justify-content: space-between;
-
-		list-style-type: none;
+		align-items: stretch;
+		height: 100%;
 		margin: 0;
 		padding: 0;
+
 		font-weight: 480;
 	}
 
 	li {
-		height: 2.25rem;
 		display: flex;
 		text-transform: uppercase;
 		align-items: center;
+		font-weight: 320;
+		font-size: 1.75rem;
+		line-height: calc(2 * var(--grid));
+	}
+
+	li * {
+		display: block;
 	}
 
 	.padded {
@@ -71,8 +83,6 @@
 	}
 
 	a {
-		display: block;
-		margin: auto;
 		background: none;
 	}
 </style>

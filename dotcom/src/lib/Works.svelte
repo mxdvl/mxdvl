@@ -26,15 +26,15 @@
 <style>
 	ul {
 		display: grid;
-		padding: 1rem;
+		padding: 0;
 		margin: 0;
-		grid-template-columns: repeat(3, 24rem);
-		gap: 1rem;
+		grid-template-columns: repeat(3, calc(12 * var(--grid-double)));
+		gap: var(--grid);
 	}
 
 	li {
 		display: block;
-		height: 6rem;
+		height: calc(3 * var(--grid-double));
 		padding: 0.5rem;
 		border: 0.125rem solid var(--ocean);
 		box-sizing: border-box;

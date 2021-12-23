@@ -26,8 +26,11 @@ html,
 }
 
 body {
+	--grid: 1.125rem;
+	--grid-double: calc( 2 * var(--grid));
+
 	margin: 0;
-	padding: 1rem;
+	padding: calc(0.5 * var(--grid));
 	font-family: "IBM Plex Sans Variable", sans-serif;
 
 	font-weight: 400;
@@ -40,9 +43,14 @@ body {
 	/* font-variation-settings: "wght" var(--weight), "wdth" var(--weight); */
 
 	font-size: 16px;
-	line-height: 1.5rem;
+	line-height: 18px;
 	background-color: var(--cloud);
 	color: var(--earth);
+
+	background-image: url("/grid.svg");
+
+	background-position: top left;
+	background-size: var(--grid-double) var(--grid-double);
 }
 
 body.themed {
@@ -61,8 +69,8 @@ h3,
 h4,
 h5,
 h6 {
-	margin: 0 0 0.5em 0;
-	line-height: 2rem;
+	margin: 0 0 var(--grid) 0;
+	line-height: calc(2 * var(--grid));
 }
 
 h1 {
@@ -83,4 +91,10 @@ a:hover {
 	color: var(--border);
 	/* text-shadow: 0px 0px 0.0625rem var(--border); */
 	/* background-color: var(--border); */
+}
+
+
+p {
+	margin: 0;
+	padding: var(--grid) 0;
 }
