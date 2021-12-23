@@ -38,6 +38,8 @@
 		padding: 0.5rem;
 		border: 0.125rem solid var(--ocean);
 		box-sizing: border-box;
+		margin: -1px;
+		border-radius: 1px;
 	}
 
 	li a {
