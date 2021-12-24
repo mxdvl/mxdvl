@@ -8,8 +8,6 @@ import rehype from "remark-rehype";
 import unwrap from "remark-unwrap-images";
 import { SKIP, visit } from "unist-util-visit";
 import type { HastRoot, MdastRoot } from "remark-rehype/lib";
-import { readFileSync } from "fs";
-import sharp from "sharp/lib";
 
 type Work = {
 	urls: {
@@ -74,7 +72,7 @@ type Meta = {
 const cloudinary: Plugin<void[], HastRoot> = () => {
 	const cdn = "https://res.cloudinary.com/mxdvl/image/upload";
 	return (tree) => {
-		visit(tree, "element", async (node, index, parent) => {
+		visit(tree, "element", (node, index, parent) => {
 			const {
 				tagName,
 				properties: { src, alt },
@@ -82,14 +80,6 @@ const cloudinary: Plugin<void[], HastRoot> = () => {
 
 			if (parent && tagName === "img") {
 				const { properties } = node;
-
-				const image = readFileSync("../" + properties.src);
-				const metadata = await sharp(image).metadata();
-				const { width, height } = metadata;
-
-				const ratio = Math.round((24 * width) / height);
-
-				console.log(ratio);
 
 				const child = {
 					type: "element",
