@@ -8,6 +8,8 @@ import rehype from "remark-rehype";
 import unwrap from "remark-unwrap-images";
 import { SKIP, visit } from "unist-util-visit";
 import type { HastRoot, MdastRoot } from "remark-rehype/lib";
+import { readFileSync } from "fs";
+import sharp from "sharp/lib";
 
 type Work = {
 	urls: {
@@ -72,7 +74,7 @@ type Meta = {
 const cloudinary: Plugin<void[], HastRoot> = () => {
 	const cdn = "https://res.cloudinary.com/mxdvl/image/upload";
 	return (tree) => {
-		visit(tree, "element", (node, index, parent) => {
+		visit(tree, "element", async (node, index, parent) => {
 			const {
 				tagName,
 				properties: { src, alt },
@@ -80,13 +82,33 @@ const cloudinary: Plugin<void[], HastRoot> = () => {
 
 			if (parent && tagName === "img") {
 				const { properties } = node;
-				console.log(properties.src);
-				node.properties = {
-					alt: properties.alt,
-					width: 600,
-					srcset: [300, 600, 1200].map((width) => `${cdn}/w_${width}/${properties.src} ${width}w`).join(", "),
-					src: `${cdn}/w_300/${properties.src}`,
+
+				const image = readFileSync("../" + properties.src);
+				const metadata = await sharp(image).metadata();
+				const { width, height } = metadata;
+
+				const ratio = Math.round((24 * width) / height);
+
+				console.log(ratio);
+
+				const child = {
+					type: "element",
+					tagName: "img",
+					properties: {
+						alt: properties.alt,
+						style: "display: block; width: 100%;",
+						srcset: [300, 600, 1200]
+							.map((width) => `${cdn}/w_${width}/${properties.src} ${width}w`)
+							.join(", "),
+						src: `${cdn}/w_300/${properties.src}`,
+					},
 				};
+
+				node.tagName = "picture";
+				node.properties = {
+					style: `display: block; width: calc(24 * var(--grid-double)); height: calc(12 * var(--grid-double))`,
+				};
+				node.children = [child];
 
 				return [SKIP];
 			}
