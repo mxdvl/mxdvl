@@ -52,6 +52,7 @@
 		height: calc(var(--grid) * 2);
 		padding-bottom: var(--grid);
 		border-bottom: 2px solid var(--skies);
+		margin-bottom: -1px;
 	}
 
 	ul {
