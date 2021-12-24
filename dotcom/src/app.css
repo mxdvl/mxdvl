@@ -3,31 +3,34 @@ html,
 	--earth: hsl(190, 89%, 6%);
 	--ocean: hsl(192, 84%, 30%);
 	--glint: hsl(18, 96%, 60%);
-	--cloud: hsl(192, 18%, 72%);
-	--skies: white;
+	--cloud: hsl(192, 18%, 84%);
+	--skies: hsl(200, 48%, 92%);
 }
 
 @media (prefers-color-scheme: dark) {
 	html {
-		--earth: white;
+		--earth: hsl(200, 48%, 92%);
 		--ocean: hsl(200, 36%, 60%);
 		--glint: hsl(18, 96%, 60%);
 		--cloud: hsl(190, 89%, 12%);
-		--skies: hsl(200, 96%, 3%);
+		--skies: hsl(200, 96%, 6%);
 	}
 }
 
 .dark {
-	--earth: white;
+	--earth: hsl(200, 48%, 92%);
 	--ocean: hsl(200, 36%, 60%);
 	--glint: hsl(18, 96%, 60%);
 	--cloud: hsl(190, 89%, 12%);
-	--skies: hsl(200, 96%, 3%);
+	--skies: hsl(200, 96%, 6%);
 }
 
 body {
+	--grid: 1.125rem;
+	--grid-double: calc( 2 * var(--grid));
+
 	margin: 0;
-	padding: 1rem;
+	padding: calc(0.5 * var(--grid));
 	font-family: "IBM Plex Sans Variable", sans-serif;
 
 	font-weight: 400;
@@ -40,9 +43,15 @@ body {
 	/* font-variation-settings: "wght" var(--weight), "wdth" var(--weight); */
 
 	font-size: 16px;
-	line-height: 1.5rem;
+	line-height: 18px;
 	background-color: var(--cloud);
 	color: var(--earth);
+
+	background-image: radial-gradient(circle at center, var(--skies) 1px, transparent 1px);
+	;
+
+	background-position: top left;
+	background-size: var(--grid) var(--grid);
 }
 
 body.themed {
@@ -61,8 +70,8 @@ h3,
 h4,
 h5,
 h6 {
-	margin: 0 0 0.5em 0;
-	line-height: 2rem;
+	margin: 0 0 var(--grid) 0;
+	line-height: calc(2 * var(--grid));
 }
 
 h1 {
@@ -83,4 +92,10 @@ a:hover {
 	color: var(--border);
 	/* text-shadow: 0px 0px 0.0625rem var(--border); */
 	/* background-color: var(--border); */
+}
+
+
+p {
+	margin: 0;
+	padding: var(--grid) 0;
 }

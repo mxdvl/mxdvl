@@ -8,7 +8,8 @@
 
 <style>
 	svg {
+		display: block;
 		stroke: currentColor;
-		height: 2.25rem;
+		height: calc(2 * var(--grid));
 	}
 </style>
