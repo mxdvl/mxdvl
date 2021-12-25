@@ -21,7 +21,7 @@ const getMedia = async (path: string) => {
 	};
 };
 
-const works = await Promise.all(
+const works = Promise.all(
 	dirs.map(async (dir) => {
 		const path = `../content/works/${dir}`;
 
@@ -48,11 +48,11 @@ const works = await Promise.all(
 );
 
 export const get: RequestHandler = async ({ params }) => {
-	if (!works) return;
+	if (!(await works)) return;
 
 	return {
 		body: {
-			works,
+			works: await works,
 		},
 	};
 };
