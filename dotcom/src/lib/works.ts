@@ -99,8 +99,8 @@ const cloudinary: Plugin<void[], HastRoot> = () => {
 					style: [
 						`display: block`,
 						"box-sizing: border-box",
-						`width: calc(24 * var(--grid-double) + 1px)`,
-						`height: calc(12 * var(--grid-double) + 1px)`,
+						`width: calc(9 * var(--grid-double) + 1px)`,
+						`height: calc(6 * var(--grid-double) + 1px)`,
 						"position: relative",
 						"border: 2px solid var(--skies)",
 						"border-radius: 2px",
