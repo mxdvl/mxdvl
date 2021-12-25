@@ -107,7 +107,7 @@ const cloudinary: Plugin<void[], HastRoot> = () => {
 						"position: relative",
 						"top: -1px",
 						"left: -1px",
-						"margin-bottom: -1px",
+						"margin-bottom: -2px",
 					].join(";"),
 				};
 				node.children = [child];
