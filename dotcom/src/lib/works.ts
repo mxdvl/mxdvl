@@ -96,7 +96,18 @@ const cloudinary: Plugin<void[], HastRoot> = () => {
 
 				node.tagName = "picture";
 				node.properties = {
-					style: `display: block; width: calc(24 * var(--grid-double)); height: calc(12 * var(--grid-double))`,
+					style: [
+						`display: block`,
+						"box-sizing: border-box",
+						`width: calc(24 * var(--grid-double) + 1px)`,
+						`height: calc(12 * var(--grid-double) + 1px)`,
+						"position: relative",
+						"border: 2px solid var(--skies)",
+						"border-radius: 2px",
+						"position: relative",
+						"top: -1px",
+						"left: -1px",
+					].join(";"),
 				};
 				node.children = [child];
 
