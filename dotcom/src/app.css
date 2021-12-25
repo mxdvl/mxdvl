@@ -27,7 +27,7 @@ html,
 
 body {
 	--grid: 1.125rem;
-	--grid-double: calc( 2 * var(--grid));
+	--grid-double: calc(2 * var(--grid));
 
 	margin: 0;
 	padding: calc(0.5 * var(--grid));
@@ -48,8 +48,6 @@ body {
 	color: var(--earth);
 
 	background-image: radial-gradient(circle at center, var(--skies) 1px, transparent 1px);
-	;
-
 	background-position: top left;
 	background-size: var(--grid) var(--grid);
 }
@@ -93,7 +91,6 @@ a:hover {
 	/* text-shadow: 0px 0px 0.0625rem var(--border); */
 	/* background-color: var(--border); */
 }
-
 
 p {
 	margin: 0;
