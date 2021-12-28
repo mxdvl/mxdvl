@@ -1,7 +1,7 @@
 {
 	"name": "mxdvl",
-	"version": "0.0.1",
-	"description": "Max Duval’s web site.",
+	"version": "0.1.0",
+	"description": "Max Duval’s website.",
 	"type": "module",
 	"scripts": {
 		"dev": "svelte-kit dev",
