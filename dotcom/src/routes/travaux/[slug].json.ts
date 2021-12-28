@@ -7,7 +7,7 @@ export const get: RequestHandler = async ({ params, path }) => {
 	const { slug } = params;
 	const lang: Lang = pathLang(path);
 
-	const work = findWork(slug, lang);
+	const work = await findWork(slug, lang);
 
 	if (!work) return;
 
