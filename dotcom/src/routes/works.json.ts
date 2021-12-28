@@ -12,7 +12,7 @@ const getPicture = async (path: string): Promise<Picture> => {
 	const { width, height, format } = metadata;
 
 	const basis = 12;
-	const ratio = `${Math.round((width / height) * basis)} / ${basis}`;
+	const ratio = `${basis} / ${Math.round((height / width) * basis)}`;
 
 	return {
 		path,
