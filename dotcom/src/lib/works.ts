@@ -97,7 +97,7 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 					tagName: "img",
 					properties: {
 						alt: properties.alt,
-						srcset: [300, 600, 1200]
+						srcset: [300, 600, 1200, 1800, 2400, 3000]
 							.map((width) => `${cdn}/w_${width}/${properties.src} ${width}w`)
 							.join(", "),
 						src: `${cdn}/w_300/${properties.src}`,

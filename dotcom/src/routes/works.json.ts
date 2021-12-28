@@ -4,7 +4,7 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { readdirSync, readFileSync } from "fs";
 import sharp from "sharp";
 
-const dirs = readdirSync("../content/works");
+const dirs = readdirSync("../content/works").filter((dir) => !dir.includes("."));
 
 const getPicture = async (path: string): Promise<Picture> => {
 	const image = readFileSync(path);
