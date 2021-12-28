@@ -11,7 +11,7 @@ const getPicture = async (path: string): Promise<Picture> => {
 	const metadata = await sharp(image).metadata();
 	const { width, height, format } = metadata;
 
-	const basis = 12;
+	const basis = 6;
 	const ratio = Math.round((height / width) * basis) / basis;
 
 	return {
