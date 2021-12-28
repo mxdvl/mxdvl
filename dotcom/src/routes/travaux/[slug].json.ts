@@ -1,12 +1,13 @@
 import { Lang, pathLang } from "$lib/lang";
 import type { RequestHandler } from "@sveltejs/kit";
-import { works } from "../works.json";
+import { getWorks } from "../works.json";
+import { findWork } from "../works/[slug].json";
 
 export const get: RequestHandler = async ({ params, path }) => {
 	const { slug } = params;
 	const lang: Lang = pathLang(path);
-	const work =
-		(await works).find((work) => work.urls[lang]?.endsWith(slug)) ?? (await works).find((work) => work.urls.en.endsWith(slug));
+
+	const work = findWork(slug, lang);
 
 	if (!work) return;
 

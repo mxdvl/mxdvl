@@ -1,12 +1,16 @@
 import { Lang, pathLang } from "$lib/lang";
 import type { RequestHandler } from "@sveltejs/kit";
-import { works } from "../works.json";
+import { getWorks } from "../works.json";
+
+const findWork = async (slug: string, lang: Lang): Promise<Work | void> => {
+	const works = await getWorks();
+	return works.find((work) => work.urls[lang]?.endsWith("/" + slug) ?? work.urls.en.endsWith("/" + slug));
+};
 
 export const get: RequestHandler = async ({ params, path }) => {
 	const { slug } = params;
 	const lang: Lang = pathLang(path);
-	const work =
-		(await works).find((work) => work.urls[lang]?.endsWith(slug)) ?? (await works).find((work) => work.urls.en.endsWith(slug));
+	const work = await findWork(slug, lang);
 
 	if (!work) return;
 
@@ -14,3 +18,5 @@ export const get: RequestHandler = async ({ params, path }) => {
 		body: { work },
 	};
 };
+
+export { findWork };

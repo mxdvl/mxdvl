@@ -26,6 +26,7 @@ type Work = {
 		en: string;
 		fr?: string;
 	};
+	hast: any;
 };
 
 const getUrl = (work: Work, lang: Lang) => {
@@ -153,6 +154,7 @@ const getWork = (path: string, en: string, fr?: string): Work => {
 		urls,
 		metadata,
 		content,
+		hast: parsed().use(rehype),
 	};
 };
 
