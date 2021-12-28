@@ -108,7 +108,7 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 
 				node.tagName = "picture";
 				node.properties = {
-					style: `aspect-ratio: ${picture.ratio}`,
+					style: `--ratio: ${picture.ratio}`,
 				};
 				node.children = [child];
 

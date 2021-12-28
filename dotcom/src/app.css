@@ -108,7 +108,9 @@ picture {
 	display: block;
 	position: relative;
 	--width: 12;
+	--ratio: 9;
 	width: calc(var(--width) * var(--grid));
+	height: calc(var(--width) * var(--ratio) * var(--grid));
 }
 
 picture::after {
