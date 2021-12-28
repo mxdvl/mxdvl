@@ -25,6 +25,13 @@ html,
 	--skies: hsl(200, 96%, 6%);
 }
 
+html {
+	-webkit-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+  }
+
 body {
 	--grid: 1.125rem;
 	--grid-double: calc(2 * var(--grid));
