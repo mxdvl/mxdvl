@@ -97,7 +97,6 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 					tagName: "img",
 					properties: {
 						alt: properties.alt,
-						style: ["display: block", "width: 100%", "height: 100%", "object-fit: cover"].join(";"),
 						srcset: [300, 600, 1200]
 							.map((width) => `${cdn}/w_${width}/${properties.src} ${width}w`)
 							.join(", "),
@@ -109,7 +108,7 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 
 				node.tagName = "picture";
 				node.properties = {
-					style: [`aspect-ratio: ${picture.ratio}`].join(";"),
+					style: `aspect-ratio: ${picture.ratio}`,
 				};
 				node.children = [child];
 
