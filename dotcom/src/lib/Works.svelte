@@ -25,25 +25,50 @@
 
 <style>
 	ul {
+		--columns: 1;
 		display: grid;
 		padding: 0;
 		margin: 0;
-		grid-template-columns: repeat(3, calc(12 * var(--grid-double)));
+		grid-template-columns: repeat(var(--columns), calc(18 * var(--grid)));
 		gap: var(--grid);
 	}
 
 	li {
 		display: block;
 		height: calc(3 * var(--grid-double) + 2px);
-		padding: 0.5rem;
-		border: 0.125rem solid var(--ocean);
 		box-sizing: border-box;
 		margin: -1px;
-		border-radius: 1px;
 	}
 
 	li a {
 		display: block;
+		box-sizing: border-box;
 		background-image: none;
+		height: 100%;
+		padding: 0.5rem;
+		border-radius: 1px;
+		border: 2px solid var(--skies);
+	}
+
+	li a:hover {
+		border-color: currentColor;
+	}
+
+	@media screen and (min-width: 700px) {
+		ul {
+			--columns: 2;
+		}
+	}
+
+	@media screen and (min-width: 1020px) {
+		ul {
+			--columns: 3;
+		}
+	}
+
+	@media screen and (min-width: 1360px) {
+		ul {
+			--columns: 4;
+		}
 	}
 </style>

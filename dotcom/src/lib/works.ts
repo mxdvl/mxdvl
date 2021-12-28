@@ -1,10 +1,14 @@
 import type { Lang } from "$lib/lang";
+import type { Plugin } from "unified";
 import { unified } from "unified";
 import frontmatter from "remark-frontmatter";
-import type { Root } from "mdast";
 import parse from "remark-parse";
 import stringify from "rehype-stringify";
 import rehype from "remark-rehype";
+import unwrap from "remark-unwrap-images";
+import { SKIP, visit } from "unist-util-visit";
+import type { Root as HastRoot } from "@types/hast";
+import type { Root as MdastRoot } from "@types/mdast";
 
 type Work = {
 	urls: {
@@ -25,6 +29,14 @@ type Work = {
 	};
 };
 
+type Picture = {
+	path: string;
+	width: number;
+	height: number;
+	ratio: number;
+	format: string;
+};
+
 const getUrl = (work: Work, lang: Lang) => {
 	const url = work.urls[lang] ?? work.urls["en"];
 	const path = "/" + url.split("/").slice(-2).join("/");
@@ -43,9 +55,10 @@ const isString = (value): value is string => typeof value === "string" && value 
 const getSlug = (path: string, slug?: unknown) =>
 	isString(slug) ? slug : path.split("/").filter(Boolean).slice(-1)[0];
 
-const getMeta = (root: Root): Meta => {
-	// @ts-expect-error -- it’s actually there
+const getMeta = (root: MdastRoot): Meta => {
+	// @ts-expect-error -- there is a value. Maybe MdastRoot is not the right type
 	const matter: string | undefined = root.children.find((child) => child.type === "yaml")?.value;
+
 	if (!matter) return {};
 
 	return Object.fromEntries(
@@ -65,13 +78,61 @@ type Meta = {
 	at?: string;
 };
 
-export const getWork = (path: string, en: string, fr?: string): Work => {
-	const parsed = unified().use(parse).use(frontmatter);
-	const htmlProcessor = parsed().use(rehype).use(stringify);
+const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
+	const { pictures } = options;
+
+	const cdn = "https://res.cloudinary.com/mxdvl/image/upload";
+	return (tree) => {
+		visit(tree, "element", (node, index, parent) => {
+			const {
+				tagName,
+				properties: { src, alt },
+			} = node;
+
+			if (parent && tagName === "img") {
+				const { properties } = node;
+
+				const child = {
+					type: "element",
+					tagName: "img",
+					properties: {
+						alt: properties.alt,
+						srcset: [300, 600, 1200, 1800, 2400, 3000]
+							.map((width) => `${cdn}/w_${width}/${properties.src} ${width}w`)
+							.join(", "),
+						src: `${cdn}/w_300/${properties.src}`,
+					},
+				};
+
+				const picture = pictures.find((picture) => picture.path.endsWith(properties.src));
+
+				node.tagName = "picture";
+				node.properties = {
+					style: `aspect-ratio: ${picture.ratio}`,
+				};
+				node.children = [child];
+
+				return [SKIP];
+			}
+		});
+	};
+};
+
+const getWork = (path: string, en: string, fr?: string, pictures): Work => {
+	const parsed = unified().use(parse).use(frontmatter).use(unwrap);
+	const htmlProcessor = parsed()
+		.use(rehype)
+		.use(cloudinary, {
+			pictures,
+		})
+		.use(stringify);
+
+	const REPLACER = /(\]\()\.?\/?([\w-]+\.)/gi;
+	const imgPaths = (s: string) => s.replace(REPLACER, `$1${path.slice(1)}/$2`);
 
 	const content: Work["content"] = {
-		en: htmlProcessor.processSync(en).toString(),
-		fr: fr ? htmlProcessor.processSync(fr).toString() : undefined,
+		en: htmlProcessor.processSync(imgPaths(en)).toString(),
+		fr: fr ? htmlProcessor.processSync(imgPaths(fr)).toString() : undefined,
 	};
 
 	const meta: Record<Lang, Meta> = {
@@ -100,5 +161,5 @@ export const getWork = (path: string, en: string, fr?: string): Work => {
 	};
 };
 
-export type { Work };
-export { getUrl, getTitle, cleanDate };
+export type { Work, Picture };
+export { getUrl, getTitle, cleanDate, getWork };

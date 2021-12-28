@@ -1,7 +1,8 @@
 {
-	"name": "mxdvl",
-	"version": "0.0.1",
-	"description": "Max Duval’s web site.",
+	"name": "mxdvl-dotcom",
+	"version": "0.1.0",
+	"description": "Max Duval’s personal website.",
+	"private": true,
 	"type": "module",
 	"scripts": {
 		"dev": "svelte-kit dev",
@@ -13,30 +14,38 @@
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "^1.0.0-next.21",
-		"@sveltejs/kit": "^1.0.0-next.201",
+		"@sveltejs/adapter-static": "^1.0.0-next.23",
+		"@sveltejs/kit": "^1.0.0-next.203",
 		"@types/cookie": "^0.4.1",
-		"@typescript-eslint/eslint-plugin": "^4.31.1",
-		"@typescript-eslint/parser": "^4.31.1",
+		"@types/hast": "^2.3.4",
+		"@types/mdast": "^3.0.10",
+		"@types/node": "^17.0.5",
+		"@types/sharp": "^0.29.5",
+		"@typescript-eslint/eslint-plugin": "^4.33.0",
+		"@typescript-eslint/parser": "^4.33.0",
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
 		"mdsvex": "^0.9.8",
-		"prettier": "^2.4.1",
-		"prettier-plugin-svelte": "^2.4.0",
+		"prettier": "^2.5.1",
+		"prettier-plugin-svelte": "^2.5.1",
 		"rehype-stringify": "^9.0.2",
 		"remark-frontmatter": "^4.0.1",
 		"remark-parse": "^10.0.1",
 		"remark-rehype": "^10.1.0",
 		"remark-stringify": "^10.0.2",
-		"svelte": "^3.44.2",
-		"svelte-check": "^2.2.10",
-		"svelte-preprocess": "^4.9.8",
+		"remark-unwrap-images": "^3.0.1",
+		"sharp": "^0.29.3",
+		"svelte": "^3.44.3",
+		"svelte-check": "^2.2.11",
+		"svelte-preprocess": "^4.10.1",
 		"tslib": "^2.3.1",
-		"typescript": "^4.5.2",
-		"unified": "^10.1.1"
+		"typescript": "^4.5.4",
+		"unified": "^10.1.1",
+		"unist-util-visit": "^4.1.0",
+		"vite": "^2.7.8"
 	},
 	"dependencies": {
-		"@ibm/plex": "^6"
+		"@ibm/plex": "^6.0.0"
 	}
 }
