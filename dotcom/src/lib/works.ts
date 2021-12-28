@@ -7,7 +7,8 @@ import stringify from "rehype-stringify";
 import rehype from "remark-rehype";
 import unwrap from "remark-unwrap-images";
 import { SKIP, visit } from "unist-util-visit";
-import type { HastRoot, MdastRoot } from "remark-rehype/lib";
+import type { Root as HastRoot } from "@types/hast";
+import type { Root as MdastRoot } from "@types/mdast";
 
 type Work = {
 	urls: {
@@ -27,6 +28,14 @@ type Work = {
 		fr?: string;
 	};
 	hast: any;
+};
+
+type Picture = {
+	path: string;
+	width: number;
+	height: number;
+	ratio: number;
+	format: string;
 };
 
 const getUrl = (work: Work, lang: Lang) => {
@@ -70,7 +79,9 @@ type Meta = {
 	at?: string;
 };
 
-const cloudinary: Plugin<void[], HastRoot> = () => {
+const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
+	const { pictures } = options;
+
 	const cdn = "https://res.cloudinary.com/mxdvl/image/upload";
 	return (tree) => {
 		visit(tree, "element", (node, index, parent) => {
@@ -95,21 +106,13 @@ const cloudinary: Plugin<void[], HastRoot> = () => {
 					},
 				};
 
+				const picture = pictures.find((picture) => picture.path.endsWith(properties.src));
+
+				console.log(picture);
+
 				node.tagName = "picture";
 				node.properties = {
-					style: [
-						`display: block`,
-						"box-sizing: border-box",
-						`width: calc(9 * var(--grid-double) + 2px)`,
-						`height: calc(6 * var(--grid-double) + 2px)`,
-						"position: relative",
-						"border: 2px solid var(--skies)",
-						"border-radius: 2px",
-						"position: relative",
-						"top: -1px",
-						"left: -1px",
-						"margin-bottom: -2px",
-					].join(";"),
+					style: [`aspect-ratio: ${picture.ratio}`].join(";"),
 				};
 				node.children = [child];
 
@@ -119,9 +122,14 @@ const cloudinary: Plugin<void[], HastRoot> = () => {
 	};
 };
 
-const getWork = (path: string, en: string, fr?: string): Work => {
+const getWork = (path: string, en: string, fr?: string, pictures): Work => {
 	const parsed = unified().use(parse).use(frontmatter).use(unwrap);
-	const htmlProcessor = parsed().use(rehype).use(cloudinary).use(stringify);
+	const htmlProcessor = parsed()
+		.use(rehype)
+		.use(cloudinary, {
+			pictures,
+		})
+		.use(stringify);
 
 	const REPLACER = /(\]\()\.?\/?([\w-]+\.)/gi;
 	const imgPaths = (s: string) => s.replace(REPLACER, `$1${path.slice(1)}/$2`);
@@ -154,9 +162,8 @@ const getWork = (path: string, en: string, fr?: string): Work => {
 		urls,
 		metadata,
 		content,
-		hast: parsed().use(rehype),
 	};
 };
 
-export type { Work };
+export type { Work, Picture };
 export { getUrl, getTitle, cleanDate, getWork };
