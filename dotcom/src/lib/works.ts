@@ -27,7 +27,6 @@ type Work = {
 		en: string;
 		fr?: string;
 	};
-	hast: any;
 };
 
 type Picture = {
@@ -107,8 +106,6 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 				};
 
 				const picture = pictures.find((picture) => picture.path.endsWith(properties.src));
-
-				console.log(picture);
 
 				node.tagName = "picture";
 				node.properties = {

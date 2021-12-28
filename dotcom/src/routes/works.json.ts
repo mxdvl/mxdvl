@@ -40,8 +40,6 @@ const getWorks = async (): Promise<Work[]> =>
 					}),
 			);
 
-			// console.log(pictures);
-
 			return getWork(
 				path.replace("../", "/"),
 				readFileSync(`${path}/${en}`, "utf8"),
