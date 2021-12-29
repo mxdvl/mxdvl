@@ -15,11 +15,25 @@
 <script lang="ts">
 	import Header from "$lib/Header.svelte";
 	import Footer from "$lib/Footer.svelte";
+	import { onMount } from "svelte";
+	import { browser } from "$app/env";
+	import { page } from "$app/stores";
+	import { load as loadFathom, trackPageview } from "fathom-client";
 
 	import "../app.css";
 	import "../ibm-plex-var.css";
 
 	export let lang: Lang;
+
+	onMount(() => {
+		loadFathom("MDDFSRVF", {
+			includedDomains: ["www.mxdvl.com"],
+			url: "https://earthworm.mxdvl.com/script.js",
+		});
+	});
+
+	// track a page view when the URL path changes
+	$: $page.path, browser && trackPageview();
 </script>
 
 <Header {lang} />
