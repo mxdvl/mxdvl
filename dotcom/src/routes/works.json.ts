@@ -56,7 +56,7 @@ export const get: RequestHandler = async ({ params }) => {
 
 	return {
 		body: {
-			works,
+			works: works.splice().sort((a,b) => new Date(a.metadata.date).getTime() - new Date(b.metadata.date).getTime()),
 		},
 	};
 };
