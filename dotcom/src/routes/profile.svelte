@@ -2,9 +2,9 @@
 
 <p>
 	As a software engineer and designer, I transform complex ideas into refined products. Working with both client and
-	user in mind, I create robust systems that are fast and accessible. Understanding what makes the world tick and
-	improving workflows has lead me to work across cultures and industries, including: the UK, Japan & Canada, designing
-	for non-profits, bespoke projects, hospitality, government bodies and property developers. Have a look at my work.
+	user in mind, I create robust systems that are fast and accessible. Understanding what makes the world tick has led
+	me to work across cultures and industries. I have lived and worked in the UK, Japan &amp; Canada, designing for
+	non-profits, bespoke projects, hospitality, government bodies and property developers. Have a look at my work.
 </p>
 
 <section id="cv">
@@ -13,9 +13,9 @@
 			<h2>The Guardian</h2>
 			<h3>2010-now</h3>
 			<p>
-				Assuming a senior software engineering role I work on the web platform,
-				<a href="https://www.theguardian.com/">TheGuardian.com</a>. Initially within the commercial development
-				team, then as part of the Dotcom team, who oversees the web platform in its entirety.
+				I work on <a href="https://www.theguardian.com/">TheGuardian.com</a> web platform, as a Senior Software Engineer.
+				Starting out on the Commercial Development team, I played a key role in modernising the codebase. 2022 will
+				see me joining the Dotcom team which oversees the web platform in its entirety.
 			</p>
 			<p>
 				My main focus has been: modernisation JavaScript code, moving from Flow to TypeScript; optimisation of
@@ -29,7 +29,7 @@
 			<p>
 				With over 10 years of experience building for the web, I have offered services ranging from fully
 				managed websites to transitioning away from legacy platforms. In the last 5 years, I have focussed on
-				bringing a single source of truth and 2D and 3D visualisation.
+				bringing a single source of truth to 2D and 3D visualisation.
 			</p>
 			<p>
 				Designed and built entire websites with news, portfolio and forms. Improved Google page speed insight by
@@ -45,7 +45,7 @@
 			<h2>Allies and Morrison LLP</h2>
 			<h3>2018-2020</h3>
 			<p>
-				Assuming a role of building information modelling lead (BIM), I developed internal tooling workflow,
+				Assuming a role of building information modelling lead (BIM), I developed internal workflows and tools,
 				oversaw data exchange with consultants and advised on technical improvements to the <a
 					href="https://www.alliesandmorrison.com">company website</a
 				>.
@@ -62,8 +62,8 @@
 			<h2>Florian Busch Architects</h2>
 			<h3>2016-2018</h3>
 			<p>
-				Assuming a role of technical lead, I helped defined and implement data-driven design within the
-				practice, an internal wiki and the <a href="https://www.florianbusch.com">public website</a>.
+				Assuming a role of technical lead, I helped define and implement data-driven design within the practice,
+				an internal wiki and the <a href="https://www.florianbusch.com">public website</a>.
 			</p>
 			<p>
 				Developed GIS analysis tools for development of a ski resort in Hokkaido. Produced pictures of an
