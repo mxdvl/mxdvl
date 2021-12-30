@@ -99,6 +99,10 @@ a:hover {
 	/* background-color: var(--border); */
 }
 
+a:active {
+	color: var(--glint);
+}
+
 p {
 	margin: 0;
 	padding: var(--grid) 0;

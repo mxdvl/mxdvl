@@ -54,6 +54,10 @@
 		border-color: currentColor;
 	}
 
+	li a:active {
+		border-color: var(--glint);
+	}
+
 	@media screen and (min-width: 700px) {
 		ul {
 			--columns: 2;
