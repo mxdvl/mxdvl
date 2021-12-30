@@ -85,7 +85,7 @@
 		transition: font-weight 300ms;
 	}
 
-	:not(.home) a {
+	a:not(.branding) {
 		position: relative;
 		top: 0.125rem;
 	}
