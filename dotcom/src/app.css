@@ -36,7 +36,8 @@ body {
 	--grid: 1.125rem;
 	--grid-double: calc(2 * var(--grid));
 
-	margin: 0;
+	width: calc(16 * var(--grid));
+	margin: 0 auto;
 	padding: calc(0.5 * var(--grid));
 	font-family: "IBM Plex Sans Variable", sans-serif;
 
@@ -55,7 +56,7 @@ body {
 	color: var(--earth);
 
 	background-image: radial-gradient(circle at center, var(--skies) 1px, transparent 1px);
-	background-position: top left;
+	background-position: top center;
 	background-size: var(--grid) var(--grid);
 }
 
@@ -135,20 +136,52 @@ picture img {
 }
 
 @media screen and (min-width: 360px) {
+	body {
+		width: calc(18 * var(--grid));
+	}
+
 	picture {
 		--width: 18;
 	}
 }
 
+@media screen and (min-width: 620px) {
+	body {
+		width: calc(30 * var(--grid));
+	}
+
+	picture {
+		--width: 30;
+	}
+}
+
 @media screen and (min-width: 740px) {
+	body {
+		width: calc(40 * var(--grid));
+	}
+
 	picture {
 		--width: 36;
 	}
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 960px) {
+	body {
+		width: calc(50 * var(--grid));
+	}
+
 	picture {
-		--width: 60;
+		--width: 50;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	body {
+		width: calc(66 * var(--grid));
+	}
+
+	picture {
+		--width: 66;
 	}
 }
 
