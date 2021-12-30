@@ -1,5 +1,5 @@
 export type Lang = "en" | "fr";
 
-const frenchPages = ["/allo", "/profil", "/travaux"];
+const frenchPages = ["allo", "profil", "travaux"];
 
-export const pathLang = (path: string): Lang => (frenchPages.find((page) => path.startsWith(page)) ? "fr" : "en");
+export const pathLang = (path: string): Lang => (frenchPages.find((page) => path.split("/").includes(page)) ? "fr" : "en");
