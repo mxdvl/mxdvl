@@ -3,7 +3,6 @@
 	import Logo from "$lib/CMPS.svelte";
 
 	export let lang: Lang;
-
 	export let path: string;
 </script>
 
@@ -11,35 +10,35 @@
 	<nav>
 		<ul>
 			<li class="home">
-				<a class="branding" href={lang == "fr" ? "/allo" : "/hi"} rel="home">
+				<a
+					class={`branding ${["allo", "hi"].includes(path) ? "active" : ""}`}
+					href={lang == "fr" ? "/allo" : "/hi"}
+					rel="home"
+				>
 					<Logo />
 				</a>
 			</li>
 
-			<li class={`menu-item ${["works", "travaux"].includes(path) && "active"}`}>
-				{#if lang == "en"}
-					<a href="/works">Works</a>
-				{:else if lang == "fr"}
+			<li class={`menu-item ${["works", "travaux"].includes(path) ? "active" : ""}`}>
+				{#if lang == "fr"}
 					<a href="/travaux">Travaux</a>
 				{:else}
-					No dice
+					<a href="/works">Works</a>
 				{/if}
 			</li>
 
-			<li class={`menu-item ${["profile", "profil"].includes(path) && "active"}`}>
-				{#if lang == "en"}
-					<a href="/profile">Profile</a>
-				{:else if lang == "fr"}
+			<li class={`menu-item ${["profile", "profil"].includes(path) ? "active" : ""}`}>
+				{#if lang == "fr"}
 					<a href="/profil">Profil</a>
 				{:else}
-					waddup/error
+					<a href="/profile">Profile</a>
 				{/if}
 			</li>
 
 			<li class="menu-item desktop" lang="fr">
-				<a class={path === "allo" && "active"} href="/allo">allô</a>
+				<a class={path === "allo" ? "active" : ""} href="/allo">allô</a>
 				<span class="padded">&mdash;</span>
-				<a class={path === "hi" && "active"} href="/hi">hi</a>
+				<a class={path === "hi" ? "active" : ""} href="/hi">hi</a>
 			</li>
 		</ul>
 	</nav>
@@ -83,6 +82,7 @@
 
 	a {
 		background: none;
+		transition: font-weight 300ms;
 	}
 
 	:not(.home) a {
@@ -95,7 +95,8 @@
 	}
 
 	.active {
-		color: var(--glint);
+		stroke-width: 4px;
+		font-weight: 540;
 	}
 
 	@media screen and (min-width: 740px) {
