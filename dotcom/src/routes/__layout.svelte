@@ -34,9 +34,15 @@
 
 	// track a page view when the URL path changes
 	$: $page.path, browser && trackPageview();
+
+	$: path = $page.path.split("/").filter(Boolean)[0];
 </script>
 
-<Header {lang} />
+<svelte:head>
+	<html {lang} />
+</svelte:head>
+
+<Header {lang} {path} />
 
 <main>
 	<slot />

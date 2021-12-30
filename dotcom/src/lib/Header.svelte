@@ -3,22 +3,20 @@
 	import Logo from "$lib/CMPS.svelte";
 
 	export let lang: Lang;
-</script>
 
-<svelte:head>
-	<html {lang} />
-</svelte:head>
+	export let path: string;
+</script>
 
 <header class="header wrap wide" role="banner">
 	<nav>
 		<ul>
-			<li class="home active">
+			<li class="home">
 				<a class="branding" href={lang == "fr" ? "/allo" : "/hi"} rel="home">
 					<Logo />
 				</a>
 			</li>
 
-			<li class="menu-item ">
+			<li class={`menu-item ${["works", "travaux"].includes(path) && "active"}`}>
 				{#if lang == "en"}
 					<a href="/works">Works</a>
 				{:else if lang == "fr"}
@@ -28,7 +26,7 @@
 				{/if}
 			</li>
 
-			<li class="menu-item ">
+			<li class={`menu-item ${["profile", "profil"].includes(path) && "active"}`}>
 				{#if lang == "en"}
 					<a href="/profile">Profile</a>
 				{:else if lang == "fr"}
@@ -39,9 +37,9 @@
 			</li>
 
 			<li class="menu-item desktop" lang="fr">
-				<a href="/allo">allô</a>
-				<span class="padded">–</span>
-				<a href="/hi">hi</a>
+				<a class={path === "allo" && "active"} href="/allo">allô</a>
+				<span class="padded">&mdash;</span>
+				<a class={path === "hi" && "active"} href="/hi">hi</a>
 			</li>
 		</ul>
 	</nav>
@@ -87,13 +85,17 @@
 		background: none;
 	}
 
-	.menu-item a {
+	:not(.home) a {
 		position: relative;
 		top: 0.125rem;
 	}
 
 	.desktop {
 		display: none;
+	}
+
+	.active {
+		color: var(--glint);
 	}
 
 	@media screen and (min-width: 740px) {
