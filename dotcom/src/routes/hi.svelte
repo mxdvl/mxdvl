@@ -1,3 +1,3 @@
-<h1>In English</h1>
+<h1>Hi, there!</h1>
 
-<p>This is the english “hi” page</p>
+<p>This relaunch is still a work-in-progress. Expect frequent updates in January 2022.</p>
