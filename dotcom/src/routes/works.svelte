@@ -26,6 +26,6 @@
 	export let lang: Lang;
 </script>
 
-## worky works
+## Selected works
 
 <Works {lang} {works} />
