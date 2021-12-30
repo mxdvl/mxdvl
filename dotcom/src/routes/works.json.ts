@@ -21,7 +21,7 @@ const getPicture = async (path: string): Promise<Picture> => {
 		ratio,
 		format,
 	};
-};;
+};
 
 const getWorks = async (): Promise<Work[]> =>
 	await Promise.all(
@@ -50,9 +50,13 @@ const getWorks = async (): Promise<Work[]> =>
 	);
 
 export const get: RequestHandler = async ({ params }) => {
-	const works = await getWorks();
+	const maybeWorks = await getWorks();
 
-	if (!works) return;
+	if (!maybeWorks) return;
+
+	const works = maybeWorks
+		.splice(0)
+		.sort((a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime());
 
 	return {
 		body: {
