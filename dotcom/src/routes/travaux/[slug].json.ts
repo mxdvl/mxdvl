@@ -1,4 +1,5 @@
-import { Lang, pathLang } from "$lib/lang";
+import type { Lang } from "$lib/lang";
+import { pathLang } from "$lib/lang";
 import type { RequestHandler } from "@sveltejs/kit";
 import { getWorks } from "../works.json";
 import { findWork } from "../works/[slug].json";

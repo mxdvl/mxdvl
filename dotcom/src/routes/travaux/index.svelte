@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import { Lang, pathLang } from "$lib/lang";
+	import type { Lang } from "$lib/lang";
+	import { pathLang } from "$lib/lang";
 	import type { Work } from "$lib/works";
 
 	export const load: Load = async ({ page, fetch }) => {
