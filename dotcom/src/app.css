@@ -186,6 +186,10 @@ picture img {
 }
 
 @media screen and (min-width: 1400px) {
+	body {
+		width: calc(72 * var(--grid));
+	}
+
 	picture {
 		--width: 72;
 	}

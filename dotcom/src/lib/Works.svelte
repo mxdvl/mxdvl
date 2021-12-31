@@ -26,10 +26,11 @@
 <style>
 	ul {
 		--columns: 1;
+		--width: 100%;
 		display: grid;
 		padding: 0;
 		margin: 0;
-		grid-template-columns: repeat(var(--columns), calc(18 * var(--grid)));
+		grid-template-columns: repeat(var(--columns), calc(var(--width) * var(--grid)));
 		gap: var(--grid);
 	}
 
@@ -50,6 +51,10 @@
 		border: 2px solid var(--skies);
 	}
 
+	li h3 {
+		line-height: var(--grid);
+	}
+
 	li a:hover {
 		border-color: currentColor;
 	}
@@ -58,21 +63,42 @@
 		border-color: var(--glint);
 	}
 
-	@media screen and (min-width: 700px) {
+	@media screen and (min-width: 620px) {
 		ul {
 			--columns: 2;
+			--width: 14;
+			gap: var(--grid-double);
 		}
 	}
 
-	@media screen and (min-width: 1020px) {
+	@media screen and (min-width: 740px) {
+		ul {
+			--columns: 2;
+			--width: 19;
+			gap: var(--grid-double);
+		}
+	}
+
+	@media screen and (min-width: 960px) {
 		ul {
 			--columns: 3;
+			--width: 16;
 		}
 	}
 
-	@media screen and (min-width: 1360px) {
+	@media screen and (min-width: 1200px) {
+		ul {
+			--columns: 3;
+			--width: 20;
+			gap: calc(3 * var(--grid))
+		}
+	}
+
+	@media screen and (min-width: 1400px) {
 		ul {
 			--columns: 4;
+			--width: 15;
+			gap: calc(4 * var(--grid))
 		}
 	}
 </style>
