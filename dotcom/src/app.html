@@ -7,16 +7,19 @@
 		<link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
 
 		<script>
+			const html = document.querySelector("html");
 			try {
 				const { theme } = localStorage;
-				if (theme) document.querySelector("html").classList.add(theme);
+				if (theme) html.classList.add(theme);
+				else html.classList.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 			} catch (error) {
+				html.classList.add("light");
 				console.log(error);
 			}
 		</script>
 
 		<link rel="icon" href="/cmps.svg" />
-		<link rel="mask-icon" href="/mask-icon.svg" color="hsl(190, 89%, 6%)">
+		<link rel="mask-icon" href="/mask-icon.svg" color="hsl(190, 89%, 6%)" />
 
 		%svelte.head%
 	</head>

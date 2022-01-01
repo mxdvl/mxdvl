@@ -2,68 +2,77 @@
 	import { onMount } from "svelte";
 	import type { Lang } from "./lang";
 
-	type Theme = "light" | "dark" | "default";
-	let theme: Theme = "default";
-	let override: Theme = "default";
+	type Theme = "light" | "dark";
+	let themePreference: Theme | undefined;
+	let currentTheme: Theme = "dark";
 
-	const setTheme = (newTheme: Theme): void => {
+	const opposite = (theme: Theme) => (theme === "dark" ? "light" : "dark");
+
+	const systemTheme = (): Theme => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+	const setTheme = (newTheme: Theme | "default"): void => {
 		document.body.classList.add("themed");
 		const { classList } = document.querySelector("html");
 		classList.remove("light", "dark", "default");
 		switch (newTheme) {
 			case "light":
-				theme = "light";
-				classList.add("light");
+				currentTheme = "light";
 				localStorage.setItem("theme", "light");
 				break;
 			case "dark":
-				theme = "dark";
-				classList.add("dark");
+				currentTheme = "dark";
 				localStorage.setItem("theme", "dark");
 				break;
 			case "default":
-				theme = "default";
-				classList.add("default");
+				currentTheme = systemTheme();
 				localStorage.removeItem("theme");
 				break;
 		}
+
+		themePreference = localStorage.theme;
+		classList.add(currentTheme);
 	};
 
 	onMount(() => {
-		override = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
-		theme = localStorage.theme ? localStorage.theme : "default";
+		themePreference = localStorage.theme;
+		currentTheme = themePreference ? themePreference : systemTheme();
 	});
 
 	export let lang: Lang;
 </script>
 
 {#if lang === "fr"}
-<p>
-	Vous n’aimez pas le <span class={theme !== "default" && "active"} on:click={() => setTheme("default")}
-		>thème système</span
-	>?
-	<span class={theme === "default" && "active"} on:click={() => setTheme(override)}>Changez-le</span>!
-</p>
+	<p>
+		Vous n’aimez pas le <button disabled={!themePreference} on:click={() => setTheme("default")}
+			>thème système</button
+		>?
+		<button disabled={!!themePreference} on:click={() => setTheme(opposite(currentTheme))}>Changez-le</button>!
+	</p>
 {:else}
 	<p>
-		Don’t like your <span class={theme !== "default" && "active"} on:click={() => setTheme("default")}
-			>system theme</span
-		>?
-		<span class={theme === "default" && "active"} on:click={() => setTheme(override)}>Override it!</span>
+		Don’t like your <button disabled={!themePreference} on:click={() => setTheme("default")}>system theme</button>?
+		<button disabled={!!themePreference} on:click={() => setTheme(opposite(currentTheme))}>Override it!</button>
 	</p>
 {/if}
 
 <style>
-	span {
+	button {
+		display: inline-block;
 		--border: var(--ocean);
+		border: none;
+		padding: 0;
 		color: inherit;
-		text-decoration: none;
+		font-family: inherit;
+		font-size: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+		line-height: inherit;
 		background-size: 1rem 1rem;
 		background-repeat: repeat-x;
 		background-position: bottom center;
+		background-color: transparent;
 	}
-	span.active {
+	button:enabled {
 		background-image: linear-gradient(to top, var(--border), var(--border) 0.125rem, transparent 0.0625rem);
-		cursor: pointer;
 	}
 </style>
