@@ -29,7 +29,7 @@ html {
 	.light {
 		--earth: lch(12% 60 192);
 		--clouds: lch(96% 12 204);
-		--skies: lch(90% 21 216);
+		--skies: lch(90% 21 228);
 	}
 
 	.dark {
