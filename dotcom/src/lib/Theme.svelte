@@ -61,6 +61,7 @@
 		--border: var(--ocean);
 		border: none;
 		padding: 0;
+		margin: 0;
 		color: inherit;
 		font-family: inherit;
 		font-size: inherit;
