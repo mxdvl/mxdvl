@@ -10,7 +10,7 @@ html {
 
 .light {
 	--earth: rgb(0% 14.37% 13.78%);
-	--clouds: rgb(84.92% 98.16% 98.99%);
+	--clouds: rgb(88.13% 97.22% 100%);
 	--skies: rgb(70.02% 92.85% 97.72%);
 }
 
@@ -20,7 +20,7 @@ html {
 	--skies: rgb(0% 11.53% 13.59%);
 }
 
-@supports (lch(66% 120 54)) {
+@supports (color: lch(66% 120 54)) {
 	html {
 		--ocean: lch(60% 72 204);
 		--glint: lch(66% 120 54);
@@ -28,7 +28,7 @@ html {
 
 	.light {
 		--earth: lch(12% 60 192);
-		--clouds: lch(96% 12 204);
+		--clouds: lch(96% 12 222);
 		--skies: lch(90% 21 216);
 	}
 
