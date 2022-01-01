@@ -1,32 +1,42 @@
-html,
-.light {
-	--earth: lch(12% 60 192);
-	--clouds: lch(96% 12 204);
-	--skies: lch(90% 21 216);
-
-	--ocean: lch(60% 72 204);
-	--glint: lch(72% 120 54);
-}
-
-@media (prefers-color-scheme: dark) {
-	html {
-		--earth: lch(96% 12 192);
-		--clouds: lch(18% 24 216);
-		--skies: lch(9% 24 216);
-	}
-}
-
-.dark {
-	--earth: lch(96% 12 192);
-	--clouds: lch(18% 24 216);
-	--skies: lch(9% 24 216);
-}
-
 html {
+	--ocean: rgb(0% 63.29% 66.65%);
+	--glint: rgb(100% 46.32% 10.17%);
+
 	-webkit-text-size-adjust: 100%;
 	-moz-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
 	text-size-adjust: 100%;
+}
+
+.light {
+	--earth: rgb(0% 14.37% 13.78%);
+	--clouds: rgb(84.92% 98.16% 98.99%);
+	--skies: rgb(70.02% 92.85% 97.72%);
+}
+
+.dark {
+	--earth: rgb(85% 98.29% 97.16%);
+	--clouds: rgb(0% 19.5% 22.66%);
+	--skies: rgb(0% 11.53% 13.59%);
+}
+
+@supports (lch(66% 120 54)) {
+	html {
+		--ocean: lch(60% 72 204);
+		--glint: lch(66% 120 54);
+	}
+
+	.light {
+		--earth: lch(12% 60 192);
+		--clouds: lch(96% 12 204);
+		--skies: lch(90% 21 216);
+	}
+
+	.dark {
+		--earth: lch(96% 12 192);
+		--clouds: lch(18% 24 216);
+		--skies: lch(9% 24 216);
+	}
 }
 
 body {
