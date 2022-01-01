@@ -1,28 +1,25 @@
 html,
 .light {
-	--earth: hsl(190, 89%, 6%);
-	--ocean: hsl(192, 84%, 30%);
-	--glint: hsl(18, 96%, 60%);
-	--cloud: hsl(192, 36%, 78%);
-	--skies: hsl(200, 48%, 92%);
+	--earth: lch(12% 60 192);
+	--clouds: lch(96% 12 204);
+	--skies: lch(90% 21 216);
+
+	--ocean: lch(60% 72 204);
+	--glint: lch(72% 120 54);
 }
 
 @media (prefers-color-scheme: dark) {
 	html {
-		--earth: hsl(200, 48%, 92%);
-		--ocean: hsl(200, 36%, 60%);
-		--glint: hsl(18, 96%, 60%);
-		--cloud: hsl(190, 89%, 12%);
-		--skies: hsl(200, 96%, 6%);
+		--earth: lch(96% 12 192);
+		--clouds: lch(18% 24 216);
+		--skies: lch(9% 24 216);
 	}
 }
 
 .dark {
-	--earth: hsl(200, 48%, 92%);
-	--ocean: hsl(200, 36%, 60%);
-	--glint: hsl(18, 96%, 60%);
-	--cloud: hsl(190, 89%, 12%);
-	--skies: hsl(200, 96%, 6%);
+	--earth: lch(96% 12 192);
+	--clouds: lch(18% 24 216);
+	--skies: lch(9% 24 216);
 }
 
 html {
@@ -52,7 +49,7 @@ body {
 
 	font-size: 16px;
 	line-height: 18px;
-	background-color: var(--cloud);
+	background-color: var(--clouds);
 	color: var(--earth);
 
 	background-image: radial-gradient(circle at center, var(--skies) 1px, transparent 1px);
