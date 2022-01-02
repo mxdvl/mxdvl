@@ -52,7 +52,7 @@
 
 		<Theme {lang} />
 	{/if}
-	<p>&copy; MXDVL 2021</p>
+	<p>&copy; MXDVL 2022</p>
 </footer>
 
 <style>
