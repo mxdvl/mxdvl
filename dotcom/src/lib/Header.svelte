@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { Lang } from "./lang";
+	import { page } from "$app/stores";
 	import Logo from "$lib/CMPS.svelte";
 
 	export let lang: Lang;
-	export let path: string;
+
+	let path: string;
+	$: path = $page.path.split("/").filter(Boolean)[0];
 </script>
 
 <header class="header wrap wide" role="banner">
