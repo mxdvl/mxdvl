@@ -8,10 +8,19 @@
 
 		<script>
 			const html = document.querySelector("html");
+			const mq = window.matchMedia("(prefers-color-scheme: dark)");
+			const change = (ev) => {
+				const dark = ev.matches;
+				html.classList.toggle("dark", dark);
+				html.classList.toggle("light", !dark);
+			};
 			try {
 				const { theme } = localStorage;
 				if (theme) html.classList.add(theme);
-				else html.classList.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+				else {
+					html.classList.add(mq.matches ? "dark" : "light");
+					mq.addEventListener("change", change);
+				}
 			} catch (error) {
 				html.classList.add("light");
 				console.log(error);
