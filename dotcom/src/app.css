@@ -10,12 +10,12 @@ html {
 
 .light {
 	--earth: rgb(0% 14.37% 13.78%);
-	--clouds: rgb(88.13% 97.22% 100%);
-	--skies: rgb(70.02% 92.85% 97.72%);
+	--clouds: rgb(93.44% 98.82% 100%);
+	--skies: rgb(78.7% 91.16% 93.87%);
 }
 
 .dark {
-	--earth: rgb(85% 98.29% 97.16%);
+	--earth: rgb(93.44% 98.82% 100%);
 	--clouds: rgb(0% 19.5% 22.66%);
 	--skies: rgb(0% 11.53% 13.59%);
 }
@@ -28,12 +28,12 @@ html {
 
 	.light {
 		--earth: lch(12% 60 192);
-		--clouds: lch(96% 12 222);
-		--skies: lch(90% 21 216);
+		--clouds: lch(98% 6 216);
+		--skies: lch(90% 12 216);
 	}
 
 	.dark {
-		--earth: lch(96% 12 192);
+		--earth: lch(98% 6 216);
 		--clouds: lch(18% 24 216);
 		--skies: lch(9% 24 216);
 	}
