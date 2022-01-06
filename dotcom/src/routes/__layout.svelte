@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
-	import { Lang, pathLang } from "$lib/lang";
+	import type { Lang } from "$lib/lang";
+	import { pathLang } from "$lib/lang";
 	import type { Load } from "@sveltejs/kit";
 
 	export const load: Load = async ({ page }) => {
@@ -35,6 +36,10 @@
 	// track a page view when the URL path changes
 	$: $page.path, browser && trackPageview();
 </script>
+
+<svelte:head>
+	<html {lang} />
+</svelte:head>
 
 <Header {lang} />
 

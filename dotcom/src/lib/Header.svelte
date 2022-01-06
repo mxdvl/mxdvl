@@ -1,47 +1,47 @@
 <script lang="ts">
 	import type { Lang } from "./lang";
+	import { page } from "$app/stores";
 	import Logo from "$lib/CMPS.svelte";
 
 	export let lang: Lang;
-</script>
 
-<svelte:head>
-	<html {lang} />
-</svelte:head>
+	let path: string;
+	$: path = $page.path.split("/").filter(Boolean)[0];
+</script>
 
 <header class="header wrap wide" role="banner">
 	<nav>
 		<ul>
-			<li class="home active">
-				<a class="branding" href={lang == "fr" ? "/allo" : "/hi"} rel="home">
+			<li class="home">
+				<a
+					class={`branding ${["allo", "hi"].includes(path) ? "active" : ""}`}
+					href={lang == "fr" ? "/allo" : "/hi"}
+					rel="home"
+				>
 					<Logo />
 				</a>
 			</li>
 
-			<li class="menu-item ">
-				{#if lang == "en"}
-					<a href="/works">Works</a>
-				{:else if lang == "fr"}
+			<li class={`menu-item ${["works", "travaux"].includes(path) ? "active" : ""}`}>
+				{#if lang == "fr"}
 					<a href="/travaux">Travaux</a>
 				{:else}
-					No dice
+					<a href="/works">Works</a>
 				{/if}
 			</li>
 
-			<li class="menu-item ">
-				{#if lang == "en"}
-					<a href="/profile">Profile</a>
-				{:else if lang == "fr"}
+			<li class={`menu-item ${["profile", "profil"].includes(path) ? "active" : ""}`}>
+				{#if lang == "fr"}
 					<a href="/profil">Profil</a>
 				{:else}
-					waddup/error
+					<a href="/profile">Profile</a>
 				{/if}
 			</li>
 
 			<li class="menu-item desktop" lang="fr">
-				<a href="/allo">allô</a>
-				<span class="padded">–</span>
-				<a href="/hi">hi</a>
+				<a class={path === "allo" ? "active" : ""} href="/allo">allô</a>
+				<span class="padded">&mdash;</span>
+				<a class={path === "hi" ? "active" : ""} href="/hi">hi</a>
 			</li>
 		</ul>
 	</nav>
@@ -85,15 +85,21 @@
 
 	a {
 		background: none;
+		transition: font-weight 300ms;
 	}
 
-	.menu-item a {
+	a:not(.branding) {
 		position: relative;
 		top: 0.125rem;
 	}
 
 	.desktop {
 		display: none;
+	}
+
+	.active {
+		stroke-width: 4px;
+		font-weight: 540;
 	}
 
 	@media screen and (min-width: 740px) {

@@ -1,32 +1,80 @@
 <script lang="ts">
-	const setTheme = (theme: "light" | "dark" | "default") => {
+	import { onMount } from "svelte";
+	import type { Lang } from "./lang";
+
+	type Theme = "light" | "dark";
+	let themePreference: Theme | undefined;
+	let currentTheme: Theme | undefined;
+
+	const systemTheme = (): Theme => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+	const setTheme = (theme: Theme): void => {
+		const newTheme = theme === systemTheme() ? "default" : theme;
 		document.body.classList.add("themed");
 		const { classList } = document.querySelector("html");
 		classList.remove("light", "dark", "default");
-		switch (theme) {
+		switch (newTheme) {
 			case "light":
-				classList.add("light");
+				currentTheme = "light";
 				localStorage.setItem("theme", "light");
 				break;
 			case "dark":
-				classList.add("dark");
+				currentTheme = "dark";
 				localStorage.setItem("theme", "dark");
 				break;
 			case "default":
-				classList.add("default");
+				currentTheme = systemTheme();
 				localStorage.removeItem("theme");
 				break;
 		}
-		return theme;
+
+		themePreference = localStorage.theme;
+		classList.add(currentTheme);
 	};
+
+	onMount(() => {
+		themePreference = localStorage.theme;
+		currentTheme = themePreference ? themePreference : systemTheme();
+	});
+
+	export let lang: Lang;
 </script>
 
-<button on:click={() => setTheme("light")}>light</button>
-<button on:click={() => setTheme("dark")}>dark</button>
-<button on:click={() => setTheme("default")}>reset</button>
+{#if lang === "fr"}
+	<p>
+		Changer de thème? Vous pouvez choisir
+		<button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>clair</button>
+		ou
+		<button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>sombre</button>.
+	</p>
+{:else}
+	<p>
+		Change the theme? You can choose
+		<button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>light</button>
+		ou
+		<button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>dark</button>.
+	</p>
+{/if}
 
 <style>
 	button {
-		height: var(--grid);
+		display: inline-block;
+		--border: var(--ocean);
+		border: none;
+		padding: 0;
+		margin: 0;
+		color: inherit;
+		font-family: inherit;
+		font-size: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+		line-height: inherit;
+		background-size: 1rem 1rem;
+		background-repeat: repeat-x;
+		background-position: bottom center;
+		background-color: transparent;
+	}
+	button:enabled {
+		background-image: linear-gradient(to top, var(--border), var(--border) 0.125rem, transparent 0.0625rem);
 	}
 </style>

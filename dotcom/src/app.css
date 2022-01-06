@@ -1,42 +1,50 @@
-html,
-.light {
-	--earth: hsl(190, 89%, 6%);
-	--ocean: hsl(192, 84%, 30%);
-	--glint: hsl(18, 96%, 60%);
-	--cloud: hsl(192, 18%, 84%);
-	--skies: hsl(200, 48%, 92%);
-}
-
-@media (prefers-color-scheme: dark) {
-	html {
-		--earth: hsl(200, 48%, 92%);
-		--ocean: hsl(200, 36%, 60%);
-		--glint: hsl(18, 96%, 60%);
-		--cloud: hsl(190, 89%, 12%);
-		--skies: hsl(200, 96%, 6%);
-	}
-}
-
-.dark {
-	--earth: hsl(200, 48%, 92%);
-	--ocean: hsl(200, 36%, 60%);
-	--glint: hsl(18, 96%, 60%);
-	--cloud: hsl(190, 89%, 12%);
-	--skies: hsl(200, 96%, 6%);
-}
-
 html {
+	--ocean: rgb(0% 63.29% 66.65%);
+	--glint: rgb(100% 46.32% 10.17%);
+
 	-webkit-text-size-adjust: 100%;
 	-moz-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
 	text-size-adjust: 100%;
-  }
+}
+
+.light {
+	--earth: rgb(0% 14.37% 13.78%);
+	--clouds: rgb(93.44% 98.82% 100%);
+	--skies: rgb(78.7% 91.16% 93.87%);
+}
+
+.dark {
+	--earth: rgb(93.44% 98.82% 100%);
+	--clouds: rgb(0% 19.5% 22.66%);
+	--skies: rgb(0% 11.53% 13.59%);
+}
+
+@supports (color: lch(66% 120 54)) {
+	html {
+		--ocean: lch(60% 72 204);
+		--glint: lch(66% 120 54);
+	}
+
+	.light {
+		--earth: lch(12% 60 192);
+		--clouds: lch(98% 6 216);
+		--skies: lch(90% 12 216);
+	}
+
+	.dark {
+		--earth: lch(98% 6 216);
+		--clouds: lch(18% 24 216);
+		--skies: lch(9% 24 216);
+	}
+}
 
 body {
 	--grid: 1.125rem;
 	--grid-double: calc(2 * var(--grid));
 
-	margin: 0;
+	width: calc(16 * var(--grid));
+	margin: 0 auto;
 	padding: calc(0.5 * var(--grid));
 	font-family: "IBM Plex Sans Variable", sans-serif;
 
@@ -51,22 +59,27 @@ body {
 
 	font-size: 16px;
 	line-height: 18px;
-	background-color: var(--cloud);
+	background-color: var(--clouds);
 	color: var(--earth);
 
 	background-image: radial-gradient(circle at center, var(--skies) 1px, transparent 1px);
-	background-position: top left;
+	background-position: top center;
 	background-size: var(--grid) var(--grid);
 }
 
 body.themed {
-	transition: background-color 0.6s;
+	transition: all 0.5s;
 }
 
 @media (prefers-reduced-motion: reduce) {
 	body {
 		transition: none;
 	}
+}
+
+button:focus {
+	outline: var(--glint) solid 2px;
+	outline-offset: 2px;
 }
 
 h1,
@@ -87,16 +100,21 @@ a {
 	--border: var(--ocean);
 	color: inherit;
 	text-decoration: none;
-	background-size: 1rem 1rem;
+	padding-bottom: 1px;
+	background-size: var(--grid) var(--grid);
 	background-repeat: repeat-x;
 	background-position: bottom center;
-	background-image: linear-gradient(to top, var(--border), var(--border) 0.125rem, transparent 0.0625rem);
+	background-image: linear-gradient(to top, var(--border), var(--border) 2px, transparent 2px);
 }
 
 a:hover {
 	color: var(--border);
 	/* text-shadow: 0px 0px 0.0625rem var(--border); */
 	/* background-color: var(--border); */
+}
+
+a:active {
+	color: var(--glint);
 }
 
 p {
@@ -131,24 +149,60 @@ picture img {
 }
 
 @media screen and (min-width: 360px) {
+	body {
+		width: calc(18 * var(--grid));
+	}
+
 	picture {
 		--width: 18;
 	}
 }
 
+@media screen and (min-width: 620px) {
+	body {
+		width: calc(30 * var(--grid));
+	}
+
+	picture {
+		--width: 30;
+	}
+}
+
 @media screen and (min-width: 740px) {
+	body {
+		width: calc(40 * var(--grid));
+	}
+
 	picture {
 		--width: 36;
 	}
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 960px) {
+	body {
+		width: calc(50 * var(--grid));
+	}
+
 	picture {
-		--width: 60;
+		--width: 50;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	body {
+		width: calc(66 * var(--grid));
+	}
+
+	picture {
+		--width: 66;
 	}
 }
 
 @media screen and (min-width: 1400px) {
+	body {
+		width: calc(72 * var(--grid));
+	}
+
 	picture {
 		--width: 72;
 	}

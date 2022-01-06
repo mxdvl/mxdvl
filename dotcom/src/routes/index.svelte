@@ -19,10 +19,6 @@
 	onMount(() => {
 		window?.navigator?.language.startsWith("fr") ? goto("/allo") : goto("/hi");
 	});
-
-	export let lang: Lang;
 </script>
 
-<h1>Allô, c’est Max | Hi, it’s Max</h1>
-
-<h2>{lang}</h2>
+<h1>This page is never to be seen</h1>
