@@ -35,10 +35,10 @@
 	onMount(() => {
 		themePreference = localStorage.theme;
 		currentTheme = themePreference ? themePreference : systemTheme();
-	});
 
-	window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (ev) => {
-		if (!themePreference) currentTheme = ev.matches ? "dark" : "light";
+		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (ev) => {
+			if (!themePreference) currentTheme = ev.matches ? "dark" : "light";
+		});
 	});
 
 	export let lang: Lang;
