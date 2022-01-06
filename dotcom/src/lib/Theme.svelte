@@ -4,13 +4,12 @@
 
 	type Theme = "light" | "dark";
 	let themePreference: Theme | undefined;
-	let currentTheme: Theme = "dark";
-
-	const opposite = (theme: Theme) => (theme === "dark" ? "light" : "dark");
+	let currentTheme: Theme | undefined;
 
 	const systemTheme = (): Theme => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
-	const setTheme = (newTheme: Theme | "default"): void => {
+	const setTheme = (theme: Theme): void => {
+		const newTheme = theme === systemTheme() ? "default" : theme;
 		document.body.classList.add("themed");
 		const { classList } = document.querySelector("html");
 		classList.remove("light", "dark", "default");
@@ -43,15 +42,17 @@
 
 {#if lang === "fr"}
 	<p>
-		Vous n’aimez pas le <button disabled={!themePreference} on:click={() => setTheme("default")}
-			>thème système</button
-		>?
-		<button disabled={!!themePreference} on:click={() => setTheme(opposite(currentTheme))}>Changez-le</button>!
+		Changer de thème? Vous pouvez choisir
+		<button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>clair</button>
+		ou
+		<button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>sombre</button>.
 	</p>
 {:else}
 	<p>
-		Don’t like your <button disabled={!themePreference} on:click={() => setTheme("default")}>system theme</button>?
-		<button disabled={!!themePreference} on:click={() => setTheme(opposite(currentTheme))}>Override it!</button>
+		Change the theme? You can choose
+		<button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>light</button>
+		ou
+		<button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>dark</button>.
 	</p>
 {/if}
 

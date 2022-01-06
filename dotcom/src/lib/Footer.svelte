@@ -16,8 +16,6 @@
 			or <a href="https://t.me/mxdvl">telegram</a>.<br />
 			Pronouns: he/him.
 		</p>
-
-		<Theme {lang} />
 	{:else}
 		<p>
 			En ligne depuis 2007.<br />
@@ -25,9 +23,9 @@
 			<a href="https://t.me/mxdvl">telegram</a>.<br />
 			Pronoms: il/lui.
 		</p>
-
-		<Theme {lang} />
 	{/if}
+
+	<Theme {lang} />
 
 	<p>Typo? <a href={`https://github.com/mxdvl/mxdvl/blob/main/content${path}/project.en.md`}>Edit content</a>.</p>
 
