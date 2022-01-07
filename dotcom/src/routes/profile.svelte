@@ -4,7 +4,13 @@
 	As a software engineer and designer, I transform complex ideas into refined products. Working with both client and
 	user in mind, I create robust systems that are fast and accessible. Understanding what makes the world tick has led
 	me to work across cultures and industries. I have lived and worked in the UK, Japan &amp; Canada, designing for
-	non-profits, bespoke projects, hospitality, government bodies and property developers. Have a look at my work.
+	non-profits, bespoke projects, hospitality, government bodies and property developers.
+</p>
+
+<p>
+	I’ve done <a href="https://www.theguardian.com/info/2021/jun/25/a-day-in-the-life"
+		>an interview for The Guardian’s engineering blog</a
+	>.
 </p>
 
 <section id="cv">

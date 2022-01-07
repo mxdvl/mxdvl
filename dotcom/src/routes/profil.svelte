@@ -7,6 +7,12 @@
 	géométrie et la simplicité.
 </p>
 
+<p>
+	J’ai fait <a href="https://www.theguardian.com/info/2021/jun/25/a-day-in-the-life"
+		>une entrevue en anglais pour le blog d’ingénierie du Guardian</a
+	>.
+</p>
+
 <section id="cv">
 	<ul>
 		<li>
