@@ -8,19 +8,21 @@
 
 	const systemTheme = (): Theme => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
+	const toggleClass = (theme: Theme, html: HTMLHtmlElement) => {
+		const { classList } = html;
+		classList.remove("light", "dark");
+		classList.add(theme);
+	};
+
 	const setTheme = (theme: Theme): void => {
-		const newTheme = theme === systemTheme() ? "default" : theme;
+		currentTheme = theme;
 		document.body.classList.add("themed");
-		const { classList } = document.querySelector("html");
-		classList.remove("light", "dark", "default");
+
+		const newTheme = theme === systemTheme() ? "default" : theme;
 		switch (newTheme) {
 			case "light":
-				currentTheme = "light";
-				localStorage.setItem("theme", "light");
-				break;
 			case "dark":
-				currentTheme = "dark";
-				localStorage.setItem("theme", "dark");
+				localStorage.setItem("theme", newTheme);
 				break;
 			case "default":
 				currentTheme = systemTheme();
@@ -29,15 +31,16 @@
 		}
 
 		themePreference = localStorage.theme;
-		classList.add(currentTheme);
+		toggleClass(theme, document.querySelector("html"));
 	};
 
 	onMount(() => {
 		themePreference = localStorage.theme;
-		currentTheme = themePreference ? themePreference : systemTheme();
+		currentTheme = themePreference ?? systemTheme();
 
 		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (ev) => {
 			if (!themePreference) currentTheme = ev.matches ? "dark" : "light";
+			toggleClass(currentTheme, document.querySelector("html"));
 		});
 	});
 
@@ -55,7 +58,7 @@
 	<p>
 		Change the theme? You can choose
 		<button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>light</button>
-		ou
+		or
 		<button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>dark</button>.
 	</p>
 {/if}
