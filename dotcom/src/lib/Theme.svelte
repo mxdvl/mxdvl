@@ -12,6 +12,7 @@
 		const { classList } = html;
 		classList.remove("light", "dark");
 		classList.add(theme);
+		document.querySelector("link[rel=icon]").setAttribute("href", `/cmps-${theme}.svg`);
 	};
 
 	const setTheme = (theme: Theme): void => {

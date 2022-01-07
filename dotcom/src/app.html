@@ -11,8 +11,10 @@
 			const mq = window.matchMedia("(prefers-color-scheme: dark)");
 			try {
 				const { theme } = localStorage;
-				if (theme) html.classList.add(theme);
-				else {
+				if (theme) {
+					html.classList.add(theme);
+					document.querySelector("link[rel=icon]").setAttribute("href", `/cmps-${theme}.svg`)
+				} else {
 					html.classList.toggle("dark", mq.matches);
 					html.classList.toggle("light", !mq.matches);
 				}
