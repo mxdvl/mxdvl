@@ -4,11 +4,11 @@
 	import type { Lang } from "$lib/lang";
 	import { pathLang } from "$lib/lang";
 
-	export const load: Load = async ({ page, fetch }) => {
+	export const load: Load = async ({ fetch, url }) => {
 		const res = await fetch("/works.json");
 		const { works } = await res.json();
 
-		const lang: Lang = pathLang(page.path);
+		const lang: Lang = pathLang(url.pathname);
 
 		return {
 			props: {

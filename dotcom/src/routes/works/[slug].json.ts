@@ -8,7 +8,7 @@ const findWork = async (slug: string): Promise<Work | void> => {
 	return works.find((work) => langs.some((lang) => work.urls[lang]?.endsWith("/" + slug)));
 };
 
-export const get: RequestHandler = async ({ params, path }) => {
+export const get: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 	const work = await findWork(slug);
 

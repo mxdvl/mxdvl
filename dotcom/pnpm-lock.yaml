@@ -2,8 +2,8 @@ lockfileVersion: 5.3
 
 specifiers:
   '@ibm/plex': ^6.0.0
-  '@sveltejs/adapter-static': ^1.0.0-next.23
-  '@sveltejs/kit': ^1.0.0-next.203
+  '@sveltejs/adapter-static': ^1.0.0-next.24
+  '@sveltejs/kit': ^1.0.0-next.218
   '@types/cookie': ^0.4.1
   '@types/hast': ^2.3.4
   '@types/mdast': ^3.0.10
@@ -38,8 +38,8 @@ dependencies:
   '@ibm/plex': 6.0.0
 
 devDependencies:
-  '@sveltejs/adapter-static': 1.0.0-next.23
-  '@sveltejs/kit': 1.0.0-next.203_svelte@3.44.3
+  '@sveltejs/adapter-static': 1.0.0-next.24
+  '@sveltejs/kit': 1.0.0-next.218_svelte@3.44.3
   '@types/cookie': 0.4.1
   '@types/hast': 2.3.4
   '@types/mdast': 3.0.10
@@ -137,21 +137,20 @@ packages:
       picomatch: 2.3.0
     dev: true
 
-  /@sveltejs/adapter-static/1.0.0-next.23:
-    resolution: {integrity: sha512-7fp+tVjh/Fi5PQxTBQAdwbOgBqtJYtNNVaa6Gb7nf7ETClojrZWFZq9ZtRfIkrrNyRNGPOl81IMO5tIHNkVfxw==}
+  /@sveltejs/adapter-static/1.0.0-next.24:
+    resolution: {integrity: sha512-lMiwZrZumWRrTQxaj9pFs5oW0h/97spyDl1QjmnkNaA006WeqornoETt31WpU0Lz2/2uYNXvUBBcL1LGc9Vylg==}
     dependencies:
       tiny-glob: 0.2.9
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.203_svelte@3.44.3:
-    resolution: {integrity: sha512-+bhfmkzquWMSCCFIJoh36U9D6IKC0p/NrIr4CBHMAdRpqzL9lMP0AYQm1fUDH20F/6b2tWvGxmEg+gAmHikRfA==}
+  /@sveltejs/kit/1.0.0-next.218_svelte@3.44.3:
+    resolution: {integrity: sha512-reimVgWaFq0qIvxkKnWE4nq35JFd6yQ6Lkge+o3WkX3hV8CAtrLbSAzFaEIUu5Ph09gJkl2PnqQa32WVDaeBZg==}
     engines: {node: '>=14.13'}
     hasBin: true
     peerDependencies:
       svelte: ^3.44.0
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 1.0.0-next.32_svelte@3.44.3+vite@2.7.8
-      cheap-watch: 1.0.4
+      '@sveltejs/vite-plugin-svelte': 1.0.0-next.34_svelte@3.44.3+vite@2.7.8
       sade: 1.7.4
       svelte: 3.44.3
       vite: 2.7.8
@@ -163,8 +162,8 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/vite-plugin-svelte/1.0.0-next.32_svelte@3.44.3+vite@2.7.8:
-    resolution: {integrity: sha512-Lhf5BxVylosHIW6U2s6WDQA39ycd+bXivC8gHsXCJeLzxoHj7Pv7XAOk25xRSXT4wHg9DWFMBQh2DFU0DxHZ2g==}
+  /@sveltejs/vite-plugin-svelte/1.0.0-next.34_svelte@3.44.3+vite@2.7.8:
+    resolution: {integrity: sha512-qZH2jndijrdkvevgbO7OH3iQsviM5Kz7h5APiNP4yEMZTrwq9bifzYvco6BprwtPvLb5wYlRVFZUOdusY6AovQ==}
     engines: {node: ^14.13.1 || >= 16}
     peerDependencies:
       diff-match-patch: ^1.0.5
@@ -520,11 +519,6 @@ packages:
 
   /character-entities/2.0.1:
     resolution: {integrity: sha512-OzmutCf2Kmc+6DrFrrPS8/tDh2+DpnrfzdICHWhcVC9eOd0N1PXmQEE1a8iM4IziIAG+8tmTq3K+oo0ubH6RRQ==}
-    dev: true
-
-  /cheap-watch/1.0.4:
-    resolution: {integrity: sha512-QR/9FrtRL5fjfUJBhAKCdi0lSRQ3rVRRum3GF9wDKp2TJbEIMGhUEr2yU8lORzm9Isdjx7/k9S0DFDx+z5VGtw==}
-    engines: {node: '>=8'}
     dev: true
 
   /chokidar/3.5.2:

@@ -5,7 +5,7 @@
 
 	export let lang: Lang;
 	let path: string;
-	$: path = $page.path.replace("/travaux", "/works");
+	$: path = $page.url.pathname.replace("/travaux", "/works");
 </script>
 
 <footer class="footer cf" role="contentinfo">

@@ -3,8 +3,8 @@
 	import { pathLang } from "$lib/lang";
 	import type { Load } from "@sveltejs/kit";
 
-	export const load: Load = async ({ page }) => {
-		const lang: Lang = pathLang(page.path);
+	export const load: Load = async ({ url }) => {
+		const lang: Lang = pathLang(url.pathname);
 		return {
 			props: {
 				lang,
@@ -34,7 +34,7 @@
 	});
 
 	// track a page view when the URL path changes
-	$: $page.path, browser && trackPageview();
+	$: $page.url.pathname, browser && trackPageview();
 </script>
 
 <svelte:head>

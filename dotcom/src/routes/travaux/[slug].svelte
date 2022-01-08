@@ -2,8 +2,8 @@
 	import type { Load } from "@sveltejs/kit";
 	import type { Work } from "$lib/works";
 
-	export const load: Load = async ({ fetch, page }) => {
-		const { slug } = page.params;
+	export const load: Load = async ({ fetch, params }) => {
+		const { slug } = params;
 		const { work } = await fetch(`/works/${slug}.json`).then((r) => r.json());
 
 		return {
@@ -20,4 +20,4 @@
 	export let work: Work;
 </script>
 
-<WorkComponent {work} lang="fr" />
+<WorkComponent {work} lang="en" />

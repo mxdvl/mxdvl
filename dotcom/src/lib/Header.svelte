@@ -6,7 +6,7 @@
 	export let lang: Lang;
 
 	let path: string;
-	$: path = $page.path.split("/").filter(Boolean)[0];
+	$: path = $page.url.pathname.split("/").filter(Boolean)[0];
 </script>
 
 <header class="header wrap wide" role="banner">
