@@ -90,7 +90,7 @@
 		ul {
 			--columns: 3;
 			--width: 20;
-			gap: calc(3 * var(--grid))
+			gap: calc(3 * var(--grid));
 		}
 	}
 
@@ -98,7 +98,7 @@
 		ul {
 			--columns: 4;
 			--width: 15;
-			gap: calc(4 * var(--grid))
+			gap: calc(4 * var(--grid));
 		}
 	}
 </style>

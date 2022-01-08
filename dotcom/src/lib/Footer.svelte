@@ -27,7 +27,12 @@
 
 	<Theme {lang} />
 
-	<p>Typo? <a href={`https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte+${path}`}>Edit content</a>.</p>
+	<p>
+		Typo? <a
+			href={`https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte+${path}`}
+			>Edit content</a
+		>.
+	</p>
 
 	<p>&copy; MXDVL 2022</p>
 </footer>
