@@ -5,4 +5,5 @@
 	src: local("IBM Plex Sans Var"), local("IBMPlexSansVar-Roman"),
 		url("../node_modules/@ibm/plex/IBM-Plex-Sans-Variable/fonts/complete/woff2/IBMPlexSansVar-Roman.woff2")
 			format("woff2-variations");
+	font-display: swap;
 }
