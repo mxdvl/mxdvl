@@ -7,6 +7,8 @@
 
 	let path: string;
 	$: path = $page.url.pathname.replace("/travaux", "/works");
+
+	const search = "https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte";
 </script>
 
 <footer class="footer cf" role="contentinfo">
@@ -39,10 +41,7 @@
 	{/if}
 
 	<p>
-		Typo? <a
-			href={`https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte+${path}`}
-			>Edit content</a
-		>.
+		Typo? <a href={`${search}+${path}`}>Edit content</a>.
 	</p>
 
 	<p>&copy; MXDVL 2022</p>
