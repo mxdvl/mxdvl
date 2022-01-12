@@ -84,10 +84,7 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 	const cdn = "https://res.cloudinary.com/mxdvl/image/upload";
 	return (tree) => {
 		visit(tree, "element", (node, index, parent) => {
-			const {
-				tagName,
-				properties: { src, alt },
-			} = node;
+			const { tagName } = node;
 
 			if (parent && tagName === "img") {
 				const { properties } = node;
