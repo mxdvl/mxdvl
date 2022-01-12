@@ -1,4 +1,5 @@
 import type { Lang } from "$lib/lang";
+import type { Work } from "$lib/works";
 import type { RequestHandler } from "@sveltejs/kit";
 import { getWorks } from "./index.json";
 

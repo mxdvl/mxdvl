@@ -49,7 +49,7 @@ const getWorks = async (): Promise<Work[]> =>
 		}),
 	);
 
-export const get: RequestHandler = async ({ params }) => {
+export const get: RequestHandler = async () => {
 	const maybeWorks = await getWorks();
 
 	if (!maybeWorks) return;
