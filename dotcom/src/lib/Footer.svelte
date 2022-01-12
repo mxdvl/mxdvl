@@ -49,9 +49,17 @@
 
 <style>
 	footer {
-		border-top: 2px solid var(--skies);
-		margin-top: -2px;
+		position: relative;
+		margin: 0;
 		padding-top: var(--grid);
+	}
+
+	footer::before {
+		content: "";
+		position: absolute;
+		top: -1px;
+		width: 100%;
+		border-top: 2px solid var(--skies);
 	}
 
 	p {
