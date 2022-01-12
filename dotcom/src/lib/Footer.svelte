@@ -4,8 +4,11 @@
 	import Theme from "./Theme.svelte";
 
 	export let lang: Lang;
+
 	let path: string;
 	$: path = $page.url.pathname.replace("/travaux", "/works");
+
+	const search = "https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte";
 </script>
 
 <footer class="footer cf" role="contentinfo">
@@ -27,11 +30,18 @@
 
 	<Theme {lang} />
 
+	{#if lang == "fr"}
+		<p>
+			Inquiet pour votre <a href="/confidentialité">confidentialité</a>?
+		</p>
+	{:else}
+		<p>
+			Concerned about <a href="/privacy">privacy</a>?
+		</p>
+	{/if}
+
 	<p>
-		Typo? <a
-			href={`https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte+${path}`}
-			>Edit content</a
-		>.
+		Typo? <a href={`${search}+${path}`}>Edit content</a>.
 	</p>
 
 	<p>&copy; MXDVL 2022</p>
@@ -39,9 +49,17 @@
 
 <style>
 	footer {
-		border-top: 2px solid var(--skies);
-		margin-top: -2px;
+		position: relative;
+		margin: 0;
 		padding-top: var(--grid);
+	}
+
+	footer::before {
+		content: "";
+		position: absolute;
+		top: -1px;
+		width: 100%;
+		border-top: 2px solid var(--skies);
 	}
 
 	p {

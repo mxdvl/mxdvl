@@ -44,7 +44,7 @@
 	li a {
 		display: block;
 		box-sizing: border-box;
-		background-image: none;
+		text-decoration: none;
 		height: 100%;
 		padding: 0.5rem;
 		border-radius: 1px;

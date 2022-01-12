@@ -99,12 +99,11 @@ h1 {
 a {
 	--border: var(--ocean);
 	color: inherit;
-	text-decoration: none;
-	padding-bottom: 1px;
-	background-size: var(--grid) var(--grid);
-	background-repeat: repeat-x;
-	background-position: bottom center;
-	background-image: linear-gradient(to top, var(--border), var(--border) 2px, transparent 2px);
+	text-decoration-style: solid;
+	text-decoration-color: var(--border);
+	text-decoration-line: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
 }
 
 a:hover {

@@ -84,7 +84,7 @@
 	}
 
 	a {
-		background: none;
+		text-decoration: none;
 		transition: font-weight 300ms;
 	}
 
