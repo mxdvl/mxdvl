@@ -8,6 +8,17 @@
 	onMount(() => {
 		tracking = localStorage.blockFathomTracking ? false : true;
 	});
+
+	const block = () => {
+		// @ts-expect-error -- this is missing from the type definition
+		window.fathom.blockTrackingForMe();
+		tracking = false;
+	};
+	const unblock = () => {
+		// @ts-expect-error -- this is missing from the type definition
+		window.fathom.enableTrackingForMe();
+		tracking = true;
+	};
 </script>
 
 {#if lang === "fr"}
@@ -17,9 +28,9 @@
 	</p>
 	<p>
 		{#if tracking}
-			Suivi anonyme <strong>actif</strong>. <button on:click={() => window.fathom.blockTrackingForMe()} />
+			Suivi anonyme <strong>actif</strong>. <button on:click={block}>Désactiver complètement</button>.
 		{:else}
-			Aucun suivi.
+			Aucun suivi. <button on:click={unblock}>Réactiver</button>.
 		{/if}
 	</p>
 {:else}
@@ -29,9 +40,30 @@
 	</p>
 	<p>
 		{#if tracking}
-			Anonymous tracking <strong>active</strong>.
+			Anonymous tracking <strong>active</strong>. <button on:click={block}>Completely disable</button>.
 		{:else}
-			No tracking whatsoever.
+			No tracking whatsoever. <button on:click={unblock}>Reactivate</button>.
 		{/if}
 	</p>
 {/if}
+
+<style>
+	button {
+		display: inline-block;
+		--border: var(--ocean);
+		border: none;
+		padding: 0;
+		margin: 0;
+		color: inherit;
+		font-family: inherit;
+		font-size: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+		line-height: inherit;
+		background-size: 1rem 1rem;
+		background-repeat: repeat-x;
+		background-position: bottom center;
+		background-color: transparent;
+		background-image: linear-gradient(to top, var(--border), var(--border) 0.125rem, transparent 0.0625rem);
+	}
+</style>
