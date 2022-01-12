@@ -4,6 +4,7 @@
 	import Theme from "./Theme.svelte";
 
 	export let lang: Lang;
+
 	let path: string;
 	$: path = $page.url.pathname.replace("/travaux", "/works");
 </script>
@@ -26,6 +27,16 @@
 	{/if}
 
 	<Theme {lang} />
+
+	{#if lang == "fr"}
+		<p>
+			Inquiet pour votre <a href="/confidentialité">confidentialité</a>?
+		</p>
+	{:else}
+		<p>
+			Concerned about <a href="/privacy">privacy</a>?
+		</p>
+	{/if}
 
 	<p>
 		Typo? <a
