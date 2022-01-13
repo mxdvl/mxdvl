@@ -46,30 +46,3 @@
 		{/if}
 	</p>
 {/if}
-
-<style>
-	button {
-		display: inline-block;
-		--border: var(--ocean);
-		border: none;
-		padding: 0;
-		padding-bottom: 1px;
-		margin: 0;
-		color: inherit;
-		font-family: inherit;
-		font-size: inherit;
-		font-style: inherit;
-		font-weight: inherit;
-		line-height: inherit;
-		background-size: 2px 2px;
-		background-repeat: repeat-x;
-		background-position: bottom center;
-		background-color: transparent;
-		background-image: linear-gradient(to top, var(--border), var(--border) 100%);
-	}
-
-	button:hover {
-		cursor: pointer;
-		color: var(--border);
-	}
-</style>

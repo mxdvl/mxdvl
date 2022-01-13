@@ -63,26 +63,3 @@
 		<button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>dark</button>.
 	</p>
 {/if}
-
-<style>
-	button {
-		display: inline-block;
-		--border: var(--ocean);
-		border: none;
-		padding: 0;
-		margin: 0;
-		color: inherit;
-		font-family: inherit;
-		font-size: inherit;
-		font-style: inherit;
-		font-weight: inherit;
-		line-height: inherit;
-		background-size: 1rem 1rem;
-		background-repeat: repeat-x;
-		background-position: bottom center;
-		background-color: transparent;
-	}
-	button:enabled {
-		background-image: linear-gradient(to top, var(--border), var(--border) 0.125rem, transparent 0.0625rem);
-	}
-</style>
