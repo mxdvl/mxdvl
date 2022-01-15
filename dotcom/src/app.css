@@ -189,6 +189,10 @@ picture img {
 	object-fit: cover;
 }
 
+picture + picture {
+	padding-top: var(--grid);
+}
+
 @media screen and (min-width: 360px) {
 	body {
 		width: calc(18 * var(--grid));
