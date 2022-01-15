@@ -190,7 +190,7 @@ picture img {
 }
 
 picture + picture {
-	padding-top: var(--grid);
+	margin-top: var(--grid);
 }
 
 @media screen and (min-width: 360px) {
