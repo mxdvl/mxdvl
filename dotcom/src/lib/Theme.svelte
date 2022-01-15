@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import Button from "./Button.svelte";
 	import type { Lang } from "./lang";
 
 	type Theme = "light" | "dark";
@@ -51,15 +52,15 @@
 {#if lang === "fr"}
 	<p>
 		Changer de thème? Vous pouvez choisir
-		<button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>clair</button>
+		<Button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>clair</Button>
 		ou
-		<button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>sombre</button>.
+		<Button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>sombre</Button>.
 	</p>
 {:else}
 	<p>
 		Change the theme? You can choose
-		<button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>light</button>
+		<Button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>light</Button>
 		or
-		<button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>dark</button>.
+		<Button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>dark</Button>.
 	</p>
 {/if}

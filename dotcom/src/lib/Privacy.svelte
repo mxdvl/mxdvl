@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import Button from "./Button.svelte";
 	import type { Lang } from "./lang";
 
 	export let lang: Lang;
@@ -28,9 +29,9 @@
 	</p>
 	<p>
 		{#if tracking}
-			Suivi anonyme <strong>actif</strong>. <button on:click={block}>Désactiver complètement</button>.
+			Suivi anonyme <strong>actif</strong>. <Button on:click={block}>Désactiver complètement</Button>.
 		{:else}
-			Aucun suivi. <button on:click={unblock}>Réactiver</button>.
+			Aucun suivi. <Button on:click={unblock}>Réactiver</Button>.
 		{/if}
 	</p>
 {:else}
@@ -40,9 +41,9 @@
 	</p>
 	<p>
 		{#if tracking}
-			Anonymous tracking <strong>active</strong>. <button on:click={block}>Completely disable</button>.
+			Anonymous tracking <strong>active</strong>. <Button on:click={block}>Completely disable</Button>.
 		{:else}
-			No tracking whatsoever. <button on:click={unblock}>Reactivate</button>.
+			No tracking whatsoever. <Button on:click={unblock}>Reactivate</Button>.
 		{/if}
 	</p>
 {/if}
