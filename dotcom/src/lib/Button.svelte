@@ -1,4 +1,8 @@
-<button on:click>
+<script lang="ts">
+	export let disabled = null;
+</script>
+
+<button on:click {disabled}>
 	<slot />
 </button>
 
@@ -45,5 +49,10 @@
 
 	button:active {
 		--border: var(--glint);
+	}
+
+	button:focus {
+		outline: var(--glint) solid 2px;
+		outline-offset: 2px;
 	}
 </style>

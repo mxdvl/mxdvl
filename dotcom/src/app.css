@@ -77,11 +77,6 @@ body.themed {
 	}
 }
 
-button:focus {
-	outline: var(--glint) solid 2px;
-	outline-offset: 2px;
-}
-
 h1,
 h2,
 h3,
