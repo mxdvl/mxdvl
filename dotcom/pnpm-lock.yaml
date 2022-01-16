@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@ibm/plex': 6.0.0
   '@sveltejs/adapter-static': 1.0.0-next.26
-  '@sveltejs/kit': 1.0.0-next.231
+  '@sveltejs/kit': 1.0.0-next.232
   '@types/cookie': 0.4.1
   '@types/hast': 2.3.4
   '@types/mdast': 3.0.10
@@ -39,7 +39,7 @@ dependencies:
 
 devDependencies:
   '@sveltejs/adapter-static': 1.0.0-next.26
-  '@sveltejs/kit': 1.0.0-next.231_svelte@3.46.2
+  '@sveltejs/kit': 1.0.0-next.232_svelte@3.46.2
   '@types/cookie': 0.4.1
   '@types/hast': 2.3.4
   '@types/mdast': 3.0.10
@@ -143,8 +143,8 @@ packages:
       tiny-glob: 0.2.9
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.231_svelte@3.46.2:
-    resolution: {integrity: sha512-utG2cfgweIIwFA1IcDDzDTa7cz+UiJX03ELG9cvpwkGIlHypzbGr0AnUzRAX60HUsBQLNhtjNCU2BUUy8IQLPw==}
+  /@sveltejs/kit/1.0.0-next.232_svelte@3.46.2:
+    resolution: {integrity: sha512-STQ0hnJozIop8k9I313nwVasBIQ45Z2K1pUOkDVjCSOGijgsj+De5q0prQBtL1ZlqqisfkYlOf8W9gvDSyTLEA==}
     engines: {node: '>=14.13'}
     hasBin: true
     peerDependencies:
