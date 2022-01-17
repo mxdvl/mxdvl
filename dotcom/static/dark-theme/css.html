@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dark Theme : With JavaScript</title>
+
+		<style>
+			html {
+				transition: all 1s;
+			}
+
+			@media (prefers-color-scheme: dark) {
+				html {
+					background-color: #111;
+					color: #eee;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Performance Comparison: with JavaScript</h1>
+
+		<p>This page supports dark mode, and allows users to set their preferred theme.</p>
+
+		<p>Compare <a href="javascript.html">with Javascript</a>.</p>
+	</body>
+</html>
