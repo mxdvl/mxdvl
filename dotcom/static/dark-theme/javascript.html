@@ -7,6 +7,7 @@
 		<title>Dark Theme : With JavaScript</title>
 
 		<script>
+			const { startTime: start } = window.performance.mark("duration");
 			const { classList } = document.documentElement;
 			const mq = window.matchMedia("(prefers-color-scheme: dark)");
 			const toggle = (theme) => {
@@ -24,6 +25,8 @@
 			} catch (error) {
 				console.log(error);
 			}
+
+			const perf = window.performance.measure("duration", { start });
 		</script>
 
 		<style>
@@ -49,6 +52,8 @@
 			<li><button onclick="setTheme('light')">set light theme preference</button></li>
 			<li><button onclick="setTheme('dark')">set dark theme preference</button></li>
 		</ul>
+
+		<div id="measure">How long?</div>
 	</body>
 
 	<script>
@@ -60,5 +65,9 @@
 			const newTheme = localStorage.theme ?? (mq.matches ? "dark" : "light");
 			toggle(newTheme);
 		};
+
+		const measure = document.querySelector("#measure");
+		measure.innerText = `JS took ${perf.duration.toFixed(2)}ms to run`;
+		console.log(measure);
 	</script>
 </html>
