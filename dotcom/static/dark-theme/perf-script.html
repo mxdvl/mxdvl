@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dark Theme : With JavaScript</title>
+
+		<script>
+			const { classList } = document.documentElement;
+			const mq = window.matchMedia("(prefers-color-scheme: dark)");
+			const toggle = (theme) => {
+				classList.toggle("light", theme === "light");
+				classList.toggle("dark", theme === "dark");
+			};
+
+			try {
+				const { theme } = localStorage;
+				if (theme === "light" || theme === "dark") {
+					toggle(theme);
+				} else {
+					toggle(mq.matches ? "dark" : "light");
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		</script>
+
+		<style>
+			html {
+				transition: all 1s;
+			}
+
+			.dark {
+				background-color: #111;
+				color: #eee;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Performance Comparison: with JavaScript</h1>
+
+		<p>This page support dark mode, and allows users to set their preferred theme.</p>
+
+		<ul>
+			<li><button onclick="setTheme('system')">use system default</button></li>
+			<li><button onclick="setTheme('light')">set light theme preference</button></li>
+			<li><button onclick="setTheme('dark')">set dark theme preference</button></li>
+		</ul>
+	</body>
+
+	<script>
+		const setTheme = (theme) => {
+			if (theme === "system") localStorage.removeItem("theme");
+			if (theme === "light") localStorage.setItem("theme", "light");
+			if (theme === "dark") localStorage.setItem("theme", "dark");
+
+			const newTheme = localStorage.theme ?? (mq.matches ? "dark" : "light");
+			toggle(newTheme);
+		};
+	</script>
+</html>
