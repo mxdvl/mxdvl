@@ -16,13 +16,13 @@ export default (request: VercelRequest, response: VercelResponse) => {
 	const { name } = request.query;
 
 	const key = `${name}`;
-	if ((cache[key].timestamp ?? 0) + SERVER_EXPIRE < now) delete cache[key];
-	if (!cache[key])
+	if (cache[key]?.timestamp ?? 0 + SERVER_EXPIRE < now) delete cache[key];
+	if (!cache[key]) {
 		cache[key] = {
 			timestamp: now,
 			data: Math.random() * 1200,
 		};
-
+	}
 	const { data } = cache[key];
 
 	response.setHeader("Cache-Control", `public, maxage=${CLIENT_EXPIRE}, s-maxage=${SERVER_EXPIRE}`);
