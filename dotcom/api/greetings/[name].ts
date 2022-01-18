@@ -16,7 +16,7 @@ export default (request: VercelRequest, response: VercelResponse) => {
 	const { name } = request.query;
 
 	const key = `${name}`;
-	if (cache[key].timestamp + SERVER_EXPIRE > now) delete cache[key];
+	if ((cache[key].timestamp ?? 0) + SERVER_EXPIRE < now) delete cache[key];
 	if (!cache[key])
 		cache[key] = {
 			timestamp: now,
