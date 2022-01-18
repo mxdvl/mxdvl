@@ -1,5 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
+let count = 0;
+
 export default (request: VercelRequest, response: VercelResponse) => {
 	const { name } = request.query;
 
@@ -9,6 +11,8 @@ export default (request: VercelRequest, response: VercelResponse) => {
 
 	const body = {
 		greeting: `Hello ${name}! Comment allez-vous?`,
+		date: new Date().toISOString(),
+		count: count++,
 	};
 
 	response.status(200).json(body);
