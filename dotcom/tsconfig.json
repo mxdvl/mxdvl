@@ -29,5 +29,5 @@
 		"strict": true,
 		"noUncheckedIndexedAccess": true
 	},
-	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
+	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "api/**/*.ts", "src/**/*.svelte"]
 }

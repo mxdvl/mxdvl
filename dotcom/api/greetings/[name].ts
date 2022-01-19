@@ -26,7 +26,7 @@ export default (request: VercelRequest, response: VercelResponse) => {
 			data: Math.round(Math.random() * 1200),
 		};
 	}
-	const { data } = cache[key];
+	const { data } = cache[key] ?? { data: undefined };
 
 	response.setHeader("Cache-Control", `public, maxage=${CLIENT_EXPIRE}, s-maxage=${SERVER_EXPIRE}`);
 	
