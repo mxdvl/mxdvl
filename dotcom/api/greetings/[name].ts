@@ -3,24 +3,26 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 const cache: Record<
 	string,
 	{
-		timestamp: number;
+		expire: number;
 		data: unknown;
 	}
 > = {};
+
+let count = 0;
 
 const SERVER_EXPIRE = 15 * 60;
 const CLIENT_EXPIRE = 3 * 60;
 
 export default (request: VercelRequest, response: VercelResponse) => {
-	const now = new Date().getTime();
+	const now = Math.round(new Date().getTime() / 1_000);
 	const { name } = request.query;
 
 	const key = `${name}`;
-	if (cache[key]?.timestamp ?? 0 + SERVER_EXPIRE < now) delete cache[key];
-	if (!cache[key]) {
+
+	if (cache[key].expire ?? 0 < now) {
 		cache[key] = {
-			timestamp: now,
-			data: Math.random() * 1200,
+			expire: now + SERVER_EXPIRE,
+			data: Math.round(Math.random() * 1200),
 		};
 	}
 	const { data } = cache[key];
@@ -31,8 +33,12 @@ export default (request: VercelRequest, response: VercelResponse) => {
 		greeting: `Hello ${name}! Comment allez-vous?`,
 		data,
 		date: new Date().toISOString(),
-		key,
+		expire: now + SERVER_EXPIRE,
+		count,
+		cache,
 	};
+
+	count++;
 
 	response.status(200).json(body);
 };
