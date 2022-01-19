@@ -19,7 +19,7 @@ export default (request: VercelRequest, response: VercelResponse) => {
 
 	const key = `${name}`;
 
-	if (cache[key].expire ?? 0 < now) {
+	if (cache[key]?.expire ?? 0 < now) {
 		cache[key] = {
 			expire: now + SERVER_EXPIRE,
 			data: Math.round(Math.random() * 1200),
