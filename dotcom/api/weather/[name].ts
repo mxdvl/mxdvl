@@ -23,7 +23,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 	if(!cities.includes(name)) response.status(404).json({error: `I never lived in ${name}`})
 
 	if (cache[name]?.expire ?? 0 < now) {
-	   const api = await fetch("api.openweathermap.org/data/2.5/weather?q=London,UK&appid=${process.env.WEATHER_API}").then(r=> r.json())
+	   const api = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${process.env.WEATHER_API}`).then(r=> r.json())
 
 		cache[name] = {
 			expire: now + SERVER_EXPIRE,
