@@ -1,8 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { fetch } from "node-fetch";
 
+const cities = ["london", "montreal", "tokyo", "paris", "berlin"] as const;
+
 const cache: Record<
-	string,
+	typeof cities[number],
 	{
 		expire: number;
 		data: unknown;
@@ -17,29 +19,25 @@ const CLIENT_EXPIRE = 36;
 export default (request: VercelRequest, response: VercelResponse) => {
 	const now = Math.round(new Date().getTime() / 1_000);
 	const { name } = request.query;
+	
+	if(!cities.include(name)) response.status(404).json({error: `I never lived in ${name}`})
 
-	const key = `${name}`;
-
-	if (cache[key]?.expire ?? 0 < now) {
-		cache[key] = {
+	if (cache[name]?.expire ?? 0 < now) {
+	   const api = await fetch("api.openweathermap.org/data/2.5/weather?q=London,UK&appid=${process.env.WEATHER_API}").then(r=> r.json())
+	
+		cache[name] = {
 			expire: now + SERVER_EXPIRE,
 			data: Math.round(Math.random() * 1200),
 		};
 	}
-	const { data } = cache[key] ?? { data: undefined };
+	const { data } = cache[name] ?? { data: undefined };
 
 	response.setHeader("Cache-Control", `public, maxage=${CLIENT_EXPIRE}, s-maxage=${SERVER_EXPIRE}`);
-	
-	const api = await fetch("api.openweathermap.org/data/2.5/weather?q=London,UK&appid=${process.env.WEATHER_API}").then(r=> r.json())
 
 	const body = {
-		greeting: `Hello ${name}! Comment allez-vous?`,
-		data,
+	    name,
 		date: new Date().toISOString(),
-		expire: now + SERVER_EXPIRE,
-		count,
-		cache,
-		api
+		data,
 	};
 
 	count++;
