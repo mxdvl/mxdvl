@@ -20,7 +20,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 	const now = Math.round(new Date().getTime() / 1_000);
 	const { name } = request.query;
 
-	if(!cities.include(name)) response.status(404).json({error: `I never lived in ${name}`})
+	if(!cities.includes(name)) response.status(404).json({error: `I never lived in ${name}`})
 
 	if (cache[name]?.expire ?? 0 < now) {
 	   const api = await fetch("api.openweathermap.org/data/2.5/weather?q=London,UK&appid=${process.env.WEATHER_API}").then(r=> r.json())
