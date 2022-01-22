@@ -27,7 +27,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 
 		cache[name] = {
 			expire: now + SERVER_EXPIRE,
-			data: Math.round(Math.random() * 1200),
+			data: api,
 		};
 	}
 	const { data } = cache[name] ?? { data: undefined };
