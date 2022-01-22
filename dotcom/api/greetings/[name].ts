@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { fetch } from "node-fetch";
 
 const cache: Record<
 	string,
@@ -10,8 +11,8 @@ const cache: Record<
 
 let count = 0;
 
-const SERVER_EXPIRE = 15 * 60;
-const CLIENT_EXPIRE = 3 * 60;
+const SERVER_EXPIRE = 1 * 60;
+const CLIENT_EXPIRE = 36;
 
 export default (request: VercelRequest, response: VercelResponse) => {
 	const now = Math.round(new Date().getTime() / 1_000);
@@ -28,6 +29,8 @@ export default (request: VercelRequest, response: VercelResponse) => {
 	const { data } = cache[key];
 
 	response.setHeader("Cache-Control", `public, maxage=${CLIENT_EXPIRE}, s-maxage=${SERVER_EXPIRE}`);
+	
+	const api = await fetch("api.openweathermap.org/data/2.5/weather?q=London,UK&appid=${process.env.WEATHER_API}").then(r=> r.json())
 
 	const body = {
 		greeting: `Hello ${name}! Comment allez-vous?`,
@@ -36,6 +39,7 @@ export default (request: VercelRequest, response: VercelResponse) => {
 		expire: now + SERVER_EXPIRE,
 		count,
 		cache,
+		api
 	};
 
 	count++;
