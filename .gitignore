@@ -5,3 +5,5 @@ node_modules
 dotcom/.svelte-kit
 dotcom/build
 dotcom/functions
+
+.vercel

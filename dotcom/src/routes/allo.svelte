@@ -1,10 +1,30 @@
+<script context="module" lang="ts">
+	import type { Load } from "@sveltejs/kit";
+	import type { WeatherAPIRespone } from "src/routes/weather/[city].json";
+
+	export const load: Load = async ({ fetch }) => {
+		const response = await fetch("/weather/london.json");
+		const weather = await response.json();
+
+		return {
+			props: {
+				weather,
+			},
+		};
+	};
+</script>
+
+<script lang="ts">
+	export let weather: WeatherAPIRespone;
+</script>
+
 <h1>Allô!</h1>
 
 <p>Allô, c’est Max.</p>
 
 <p>
 	Un dévelopeur & designer <a href="/hi">bilingue</a> à Londres
-	<em>nuageuse</em>. Je travaille actuellement chez The Guardian.
+	<em data-id={weather.weather[0]?.id}>nuageuse</em>. Je travaille actuellement chez The Guardian.
 </p>
 
 <p>

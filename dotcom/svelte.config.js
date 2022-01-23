@@ -1,5 +1,5 @@
 import preprocess from "svelte-preprocess";
-import adapter from "@sveltejs/adapter-static";
+import adapter from "@sveltejs/adapter-auto";
 import { mdsvex } from "mdsvex";
 
 const extensions = [".svelte", ".md"];
@@ -13,10 +13,6 @@ const config = {
 		// hydrate the <div id="svelte"> element in src/app.html
 		adapter: adapter(),
 		target: "#svelte",
-		headers: {
-			host: "X-Forwarded-Host",
-			protocol: "X-Forwarded-Proto",
-		},
 		prerender: {
 			entries: ["/hi", "/allo", "/error", "/erreur"],
 		},
