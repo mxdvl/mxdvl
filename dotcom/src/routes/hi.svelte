@@ -1,3 +1,25 @@
+<script context="module" lang="ts">
+	import type { Load } from "@sveltejs/kit";
+	import type { WeatherData } from "api/weather/[city]";
+
+	export const load: Load = async ({ fetch }) => {
+		const response = await fetch("/api/weather/london");
+		const { data } = await response.json();
+
+		console.log({ response });
+
+		return {
+			props: {
+				weather: data,
+			},
+		};
+	};
+</script>
+
+<script lang="ts">
+	export let weather: WeatherData["data"];
+</script>
+
 <h1>Hi, there!</h1>
 
 <p>Hello, it’s Max.</p>
@@ -14,6 +36,8 @@
 </p>
 
 <p class="warn">This relaunch is still a work-in-progress. Expect frequent updates in January 2022.</p>
+
+<p>{weather}</p>
 
 <style>
 	.warn {
