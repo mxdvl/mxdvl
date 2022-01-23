@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@ibm/plex': 6.0.0
-  '@sveltejs/adapter-static': 1.0.0-next.26
+  '@sveltejs/adapter-auto': ^1.0.0-next.14
   '@sveltejs/kit': 1.0.0-next.232
   '@types/cookie': 0.4.1
   '@types/hast': 2.3.4
@@ -17,7 +17,6 @@ specifiers:
   eslint-plugin-svelte3: 3.4.0
   fathom-client: 3.3.1
   mdsvex: 0.9.8
-  node-fetch: '2'
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0
   rehype-stringify: 9.0.2
@@ -40,7 +39,7 @@ dependencies:
   '@ibm/plex': 6.0.0
 
 devDependencies:
-  '@sveltejs/adapter-static': 1.0.0-next.26
+  '@sveltejs/adapter-auto': 1.0.0-next.14
   '@sveltejs/kit': 1.0.0-next.232_svelte@3.46.2
   '@types/cookie': 0.4.1
   '@types/hast': 2.3.4
@@ -55,7 +54,6 @@ devDependencies:
   eslint-plugin-svelte3: 3.4.0_eslint@8.7.0+svelte@3.46.2
   fathom-client: 3.3.1
   mdsvex: 0.9.8_svelte@3.46.2
-  node-fetch: 2.6.7
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0_prettier@2.5.1+svelte@3.46.2
   rehype-stringify: 9.0.2
@@ -108,6 +106,10 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
+  /@iarna/toml/2.2.5:
+    resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
+    dev: true
+
   /@ibm/plex/6.0.0:
     resolution: {integrity: sha512-KJv808kiPfyolO1fd2xHwhltHy2MlvpwRcGca+tOul+hbLf8r/Xx+8Xz5/KyKl/vvDJR8YXQCq09vGBAmrNDZw==}
     dev: false
@@ -141,10 +143,32 @@ packages:
       picomatch: 2.3.0
     dev: true
 
-  /@sveltejs/adapter-static/1.0.0-next.26:
-    resolution: {integrity: sha512-LXR0HkPygZ+m9wJhFqbYWbJ0jquhgUK6vL/8AwnqbAZGGtQFloMpf49WOANk7MiLBeY6L97W5jPLSxHiDW3T0Q==}
+  /@sveltejs/adapter-auto/1.0.0-next.14:
+    resolution: {integrity: sha512-W69ooD5G5uurEkrL3RDTr6cKnWm5pgVu4UUUHS456nn2P5Qmm+/mTK5IXErupLTosxWGk/Wz79KEwEFNjVOMvQ==}
     dependencies:
+      '@sveltejs/adapter-cloudflare': 1.0.0-next.8
+      '@sveltejs/adapter-netlify': 1.0.0-next.42
+      '@sveltejs/adapter-vercel': 1.0.0-next.39
+    dev: true
+
+  /@sveltejs/adapter-cloudflare/1.0.0-next.8:
+    resolution: {integrity: sha512-uje8eUfP1xrMEdKczvjl0rpu7WTZZrZCBTgH2sTSYYiAqpCevsmJNZ9Lgh5U5a4BYBYGVvAcYdh8nzoddxOZkw==}
+    dependencies:
+      esbuild: 0.13.15
+    dev: true
+
+  /@sveltejs/adapter-netlify/1.0.0-next.42:
+    resolution: {integrity: sha512-C7KV4Nkgpbgrxuw5q2asr3uTHo0HIkHrWTkJCRWECJPwoD3r/OhKjiY3tER9FopVDDAUyAfIUj7nNFCzTMpW1g==}
+    dependencies:
+      '@iarna/toml': 2.2.5
+      esbuild: 0.13.15
       tiny-glob: 0.2.9
+    dev: true
+
+  /@sveltejs/adapter-vercel/1.0.0-next.39:
+    resolution: {integrity: sha512-YOPGKIILm26h22GN4/iliXce61aTG3Dq5hX8xpDx0cNuCocv0OoLfIqiGpdyJ9NIMpjwXmpVoL4+nV+yh2wcSA==}
+    dependencies:
+      esbuild: 0.13.15
     dev: true
 
   /@sveltejs/kit/1.0.0-next.232_svelte@3.46.2:
@@ -1723,18 +1747,6 @@ packages:
     resolution: {integrity: sha512-eazsqzwG2lskuzBqCGPi7Ac2UgOoMz8JVOXVhTvvPDYhthvNpefx8jWD8Np7Gv+2Sz0FlPWZk0nJV0z598Wn8Q==}
     dev: true
 
-  /node-fetch/2.6.7:
-    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
-    engines: {node: 4.x || >=6.0.0}
-    peerDependencies:
-      encoding: ^0.1.0
-    peerDependenciesMeta:
-      encoding:
-        optional: true
-    dependencies:
-      whatwg-url: 5.0.0
-    dev: true
-
   /normalize-path/3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
@@ -2371,10 +2383,6 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /tr46/0.0.3:
-    resolution: {integrity: sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=}
-    dev: true
-
   /trough/2.0.2:
     resolution: {integrity: sha512-FnHq5sTMxC0sk957wHDzRnemFnNBvt/gSY99HzK8F7UP5WAbvP70yX5bd7CjEQkN+TjdxwI7g7lJ6podqrG2/w==}
     dev: true
@@ -2428,6 +2436,12 @@ packages:
   /type-fest/0.20.2:
     resolution: {integrity: sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==}
     engines: {node: '>=10'}
+    dev: true
+
+  /typescript/4.3.4:
+    resolution: {integrity: sha512-uauPG7XZn9F/mo+7MrsRjyvbxFpzemRjKEZXS4AK83oP2KKOJPvb+9cO/gmnv8arWZvhnjVOXz7B49m1l0e9Ew==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: true
 
   /typescript/4.5.5:
@@ -2579,17 +2593,6 @@ packages:
       rollup: 2.62.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
-
-  /webidl-conversions/3.0.1:
-    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
-    dev: true
-
-  /whatwg-url/5.0.0:
-    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
-    dependencies:
-      tr46: 0.0.3
-      webidl-conversions: 3.0.1
     dev: true
 
   /which/2.0.2:

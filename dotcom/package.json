@@ -15,7 +15,7 @@
 		"format:write": "prettier --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "1.0.0-next.26",
+		"@sveltejs/adapter-auto": "^1.0.0-next.14",
 		"@sveltejs/kit": "1.0.0-next.232",
 		"@types/cookie": "0.4.1",
 		"@types/hast": "2.3.4",
@@ -30,7 +30,6 @@
 		"eslint-plugin-svelte3": "3.4.0",
 		"fathom-client": "3.3.1",
 		"mdsvex": "0.9.8",
-		"node-fetch": "2",
 		"prettier": "2.5.1",
 		"prettier-plugin-svelte": "2.6.0",
 		"rehype-stringify": "9.0.2",

@@ -1,5 +1,4 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import fetch from "node-fetch";
+import type { RequestHandler } from "@sveltejs/kit";
 
 const cities = ["london", "montreal", "tokyo", "paris", "berlin"] as const;
 type City = typeof cities[number];
@@ -9,12 +8,12 @@ type WeatherAPIRespone = {
 		lat: number;
 		lon: number;
 	};
-	weather: {
+	weather: Array<{
 		id: number;
 		main: string;
 		description: string;
 		icon: string;
-	};
+	}>;
 	main: {
 		temp: number;
 		feels_like: number;
@@ -57,13 +56,12 @@ const CLIENT_EXPIRE = 36;
 
 const isValidCity = (city: unknown): city is City => typeof city === "string" && cities.includes(city as City);
 
-export default async (request: VercelRequest, response: VercelResponse) => {
+export const get: RequestHandler = async ({ params }) => {
 	const now = Math.round(new Date().getTime() / 1_000);
-	const { city } = request.query;
+	const { city } = params;
 
 	if (!isValidCity(city)) {
-		response.status(404).json({ error: `I never lived in ${city}` });
-		return;
+		return { status: 404, body: { message: `I never lived in ${city}` } };
 	}
 
 	if (cache[city]?.expire ?? 0 < now) {
@@ -71,7 +69,6 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 		url.searchParams.set("q", city);
 		url.searchParams.set("appid", String(process.env.WEATHER_API));
 
-		// @ts-expect-error -- let’s assume the API works ;)
 		const data: WeatherAPIRespone = await fetch(url.toString()).then((r) => r.json());
 
 		cache[city] = {
@@ -79,17 +76,12 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 			data,
 		};
 	}
-	const { data } = cache[city] ?? { data: undefined };
+	const { data } = cache[city] ?? { status: 500, body: { message: `An error occured` } };
 
-	response.setHeader("Cache-Control", `public, maxage=${CLIENT_EXPIRE}, s-maxage=${SERVER_EXPIRE}`);
-
-	const body = {
-		name: city,
-		date: new Date().toISOString(),
-		data,
+	return {
+		headers: { "Cache-Control": `public, maxage=${CLIENT_EXPIRE}, s-maxage=${SERVER_EXPIRE}` },
+		body: data,
 	};
-
-	response.status(200).json(body);
 };
 
-export type { City, WeatherData };
+export type { City, WeatherAPIRespone };

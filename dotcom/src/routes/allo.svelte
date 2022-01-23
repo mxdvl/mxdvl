@@ -1,23 +1,21 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import type { WeatherData } from "api/weather/[city]";
+	import type { WeatherAPIRespone } from "src/routes/weather/[city].json";
 
 	export const load: Load = async ({ fetch }) => {
-		const response = await fetch("/api/weather/london");
-		const { data } = await response.json();
-
-		console.log({ response });
+		const response = await fetch("/weather/london.json");
+		const weather = await response.json();
 
 		return {
 			props: {
-				weather: data,
+				weather,
 			},
 		};
 	};
 </script>
 
 <script lang="ts">
-	export let weather: WeatherData["data"];
+	export let weather: WeatherAPIRespone;
 </script>
 
 <h1>Allô!</h1>
@@ -26,7 +24,7 @@
 
 <p>
 	Un dévelopeur & designer <a href="/hi">bilingue</a> à Londres
-	<em>{weather.weather.main}</em>. Je travaille actuellement chez The Guardian.
+	<em data-id={weather.weather[0]?.id}>nuageuse</em>. Je travaille actuellement chez The Guardian.
 </p>
 
 <p>
