@@ -35,7 +35,7 @@
 
 <p class="warn">This relaunch is still a work-in-progress. Expect frequent updates in January 2022.</p>
 
-<p>{weather}</p>
+<p>Feels like {weather.main.feels_like}K</p>
 
 <style>
 	.warn {

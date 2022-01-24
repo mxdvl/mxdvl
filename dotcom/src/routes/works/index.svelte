@@ -1,19 +1,15 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import type { Work } from "$lib/works";
-	import type { Lang } from "$lib/lang";
-	import { pathLang } from "$lib/lang";
+	import type { Work } from "../../../../content/src/lib/works";
+
+	export const base = "https://content.mxdvl.com/";
 
 	export const load: Load = async ({ url, fetch }) => {
-		const res = await fetch("/works.json");
-		const { works } = await res.json();
-
-		const lang: Lang = pathLang(url.pathname);
+		const works = await fetch(new URL("/works.json", base).toString()).then((r) => r.json());
 
 		return {
 			props: {
 				works,
-				lang,
 			},
 		};
 	};
@@ -23,9 +19,8 @@
 	import Works from "$lib/Works.svelte";
 
 	export let works: Work[];
-	export let lang: Lang;
 </script>
 
 ## Selected works
 
-<Works {lang} {works} />
+<Works lang="en" {works} />

@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
-	import type { Work } from "$lib/works";
+	import type { Work } from "../../../content/src/lib/works";
 	import type { Lang } from "$lib/lang";
 </script>
 
 <script lang="ts">
-	import { cleanDate } from "$lib/works";
+	import { cleanDate } from "$lib/Works.svelte";
 
 	export let work: Work;
 	export let lang: Lang;

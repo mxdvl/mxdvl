@@ -1,9 +1,22 @@
+<script context="module" lang="ts">
+	import type { Work } from "../../../content/src/lib/works";
+	import type { Lang } from "$lib/lang";
+
+	const getUrl = (work: Work, lang: Lang) => {
+		const url = work.urls[lang] ?? work.urls["en"];
+		const slug = url.split("/").slice(-1)?.[0]?.replace(".json", "");
+		return lang === "fr" ? `/travaux/${slug}` : `/works/${slug}`;
+	};
+
+	const getTitle = (titles: Work["metadata"]["titles"], lang: Lang) => {
+		const title = titles[lang] ?? titles["en"];
+		return title;
+	};
+
+	export const cleanDate = (date: string) => new Date(date).toISOString().slice(0, 7);
+</script>
+
 <script lang="ts">
-	import type { Work } from "$lib/works";
-	import type { Lang } from "./lang";
-
-	import { getUrl, cleanDate, getTitle } from "$lib/works";
-
 	export let works: Work[];
 	export let lang: Lang;
 </script>
