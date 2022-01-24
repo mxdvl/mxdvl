@@ -104,7 +104,7 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 	};
 };
 
-const getWork = (path: string, en: string, fr?: string, pictures): Work => {
+const getWork = (path: string, en: string, fr?: string, pictures: Picture[]): Work => {
 	const parsed = unified().use(parse).use(frontmatter).use(unwrap);
 	const htmlProcessor = parsed()
 		.use(rehype)
@@ -114,7 +114,7 @@ const getWork = (path: string, en: string, fr?: string, pictures): Work => {
 		.use(stringify);
 
 	const REPLACER = /(\]\()\.?\/?([\w-]+\.)/gi;
-	const imgPaths = (s: string) => s.replace(REPLACER, `$1${path.slice(1)}/$2`);
+	const imgPaths = (s: string) => s.replace(REPLACER, `$1${path}/$2`);
 
 	const content: Work['content'] = {
 		en: htmlProcessor.processSync(imgPaths(en)).toString(),
