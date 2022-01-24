@@ -70,13 +70,17 @@ type Meta = {
 const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 	const { pictures } = options;
 
-	const cdn = 'https://res.cloudinary.com/mxdvl/image/upload';
+	const cdn = 'https://res.cloudinary.com/';
+	const account = 'mxdvl/image/upload';
+
 	return (tree) => {
 		visit(tree, 'element', (node, index, parent) => {
 			const { tagName } = node;
 
 			if (parent && tagName === 'img') {
 				const { properties } = node;
+
+				const src = properties.src.replace('static/', 'content/');
 
 				const child = {
 					type: 'element',
@@ -85,11 +89,10 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 						alt: properties.alt,
 						srcset: [300, 600, 1200, 1800, 2400, 3000]
 							.map((width) => {
-								const src = properties.src.replace('static/', 'content/');
-								return `${new URL(`/w_${width}/${src}`, cdn)} ${width}w`;
+								return `${new URL(`/${account}/w_${width}/${src}`, cdn)} ${width}w`;
 							})
 							.join(', '),
-						src: new URL(`/w_300/${properties.src}`, cdn)
+						src: new URL(`/${account}/w_${300}/${src}`, cdn)
 					}
 				};
 
