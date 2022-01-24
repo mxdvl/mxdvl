@@ -10,7 +10,7 @@ import { SKIP, visit } from 'unist-util-visit';
 import type { Root as HastRoot } from '@types/hast';
 import type { Root as MdastRoot } from '@types/mdast';
 
-const endpoint = process.env.PRODUCTION ? 'https://content.mxdvl.com' : '';
+const base = 'https://content.mxdvl.com';
 
 type Work = {
 	urls: {
@@ -142,8 +142,10 @@ const getWork = (path: string, en: string, fr?: string, pictures: Picture[]): Wo
 	};
 
 	const urls: Work['urls'] = {
-		en: `${endpoint}/works/${getSlug(path)}.json`,
-		fr: fr ? `${endpoint}/travaux/${getSlug(path, meta.fr.slug)}.json` : undefined
+		en: new URL(`/works/${getSlug(path, meta.en.slug)}.json`, base).toString(),
+		fr: fr
+			? new URL(`/travaux/${getSlug(path, meta.fr.slug)}.json`, base).toString()
+			: undefined
 	};
 
 	return {
