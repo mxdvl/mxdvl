@@ -4,7 +4,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { readdirSync, readFileSync } from 'fs';
 import sharp from 'sharp';
 
-const dirs = readdirSync('works').filter((dir) => !dir.includes('.'));
+const dirs = readdirSync('static/works').filter((dir) => !dir.includes('.'));
 
 const getPicture = async (path: string): Promise<Picture> => {
 	const image = readFileSync(path);
@@ -26,7 +26,7 @@ const getPicture = async (path: string): Promise<Picture> => {
 const getWorks = async (): Promise<Work[]> =>
 	await Promise.all(
 		dirs.map(async (dir) => {
-			const path = `works/${dir}`;
+			const path = `static/works/${dir}`;
 
 			const files = readdirSync(path);
 			const en = files?.find((file) => file.endsWith('.en.md'));
