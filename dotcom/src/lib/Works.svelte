@@ -5,7 +5,6 @@
 	const getUrl = (work: Work, lang: Lang) => {
 		const url = work.urls[lang] ?? work.urls["en"];
 		const slug = url.split("/").slice(-1)?.[0]?.replace(".json", "");
-		console.log({slug});
 		return lang === "fr" ? `/travaux/${slug}`: `/work/${slug}`;
 	};
 
