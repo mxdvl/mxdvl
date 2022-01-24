@@ -10,6 +10,8 @@
 			}
 		};
 	};
+
+	export const hydrate = false;
 </script>
 
 <script lang="ts">
@@ -24,9 +26,9 @@
 
 <ul>
 	{#each works as work}
-		<li><a href={work.urls.en} rel="external">{work.metadata.titles.en}</a> (en)</li>
+		<li><a href={work.urls.en}>{work.metadata.titles.en}</a> (en)</li>
 		{#if work.urls.fr}
-			<li><a href={work.urls.fr} rel="external">{work.metadata.titles.fr}</a> (fr)</li>
+			<li><a href={work.urls.fr}>{work.metadata.titles.fr}</a> (fr)</li>
 		{/if}
 	{/each}
 </ul>
