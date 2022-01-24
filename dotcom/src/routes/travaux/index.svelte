@@ -1,19 +1,14 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
 	import type { Work } from "../../../../content/src/lib/works";
-	import type { Lang } from "$lib/lang";
-	import { pathLang } from "$lib/lang";
+	import { base } from "../works/index.svelte";
 
 	export const load: Load = async ({ fetch, url }) => {
-		const res = await fetch("/works.json");
-		const { works } = await res.json();
-
-		const lang: Lang = pathLang(url.pathname);
+		const works = await fetch(new URL(`/works.json`, base).toString()).then((r) => r.json());
 
 		return {
 			props: {
 				works,
-				lang,
 			},
 		};
 	};

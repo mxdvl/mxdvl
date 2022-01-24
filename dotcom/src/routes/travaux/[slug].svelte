@@ -4,7 +4,7 @@
 
 	export const load: Load = async ({ fetch, params }) => {
 		const { slug } = params;
-		const { work } = await fetch(`/works/${slug}.json`).then((r) => r.json());
+		const work = await fetch(new URL(`/works/${slug}.json`, base).toString()).then((r) => r.json());
 
 		return {
 			props: {
@@ -16,6 +16,7 @@
 
 <script lang="ts">
 	import WorkComponent from "$lib/Work.svelte";
+import { base } from "../works/index.svelte";
 
 	export let work: Work;
 </script>
