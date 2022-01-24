@@ -5,7 +5,7 @@
 	const getUrl = (work: Work, lang: Lang) => {
 		const url = work.urls[lang] ?? work.urls["en"];
 		const slug = url.split("/").slice(-1)?.[0]?.replace(".json", "");
-		return lang === "fr" ? `/travaux/${slug}`: `/work/${slug}`;
+		return lang === "fr" ? `/travaux/${slug}`: `/works/${slug}`;
 	};
 
 	const getTitle = (titles: Work["metadata"]["titles"], lang: Lang) => {

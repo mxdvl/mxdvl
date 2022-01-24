@@ -31,6 +31,11 @@
 		<li><a href={work.urls.en}>{work.metadata.titles.en}</a> (en)</li>
 		{#if work.urls.fr}
 			<li><a href={work.urls.fr}>{work.metadata.titles.fr}</a> (fr)</li>
+		{:else}
+			<li>
+				<a href={work.urls.en.replace('/works/', '/travaux/')}>{work.metadata.titles.en}</a>
+				(fr manquant)
+			</li>
 		{/if}
 	{/each}
 </ul>

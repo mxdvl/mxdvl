@@ -4,7 +4,7 @@
 
 	export const load: Load = async ({ fetch, params }) => {
 		const { slug } = params;
-		const work = await fetch(new URL(`/works/${slug}.json`, base).toString()).then((r) => r.json());
+		const work = await fetch(new URL(`/travaux/${slug}.json`, base).toString()).then((r) => r.json());
 
 		return {
 			props: {
