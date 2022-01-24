@@ -1,10 +1,10 @@
-import type { Work, Picture } from "$lib/works";
-import { getWork } from "$lib/works";
-import type { RequestHandler } from "@sveltejs/kit";
-import { readdirSync, readFileSync } from "fs";
-import sharp from "sharp";
+import type { Work, Picture } from '$lib/works';
+import { getWork } from '$lib/works';
+import type { RequestHandler } from '@sveltejs/kit';
+import { readdirSync, readFileSync } from 'fs';
+import sharp from 'sharp';
 
-const dirs = readdirSync("../content/works").filter((dir) => !dir.includes("."));
+const dirs = readdirSync('works').filter((dir) => !dir.includes('.'));
 
 const getPicture = async (path: string): Promise<Picture> => {
 	const image = readFileSync(path);
@@ -19,34 +19,36 @@ const getPicture = async (path: string): Promise<Picture> => {
 		width,
 		height,
 		ratio,
-		format,
+		format
 	};
 };
 
 const getWorks = async (): Promise<Work[]> =>
 	await Promise.all(
 		dirs.map(async (dir) => {
-			const path = `../content/works/${dir}`;
+			const path = `works/${dir}`;
 
 			const files = readdirSync(path);
-			const en = files?.find((file) => file.endsWith(".en.md"));
-			const fr = files?.find((file) => file.endsWith(".fr.md"));
+			const en = files?.find((file) => file.endsWith('.en.md'));
+			const fr = files?.find((file) => file.endsWith('.fr.md'));
 
 			const pictures = await Promise.all(
 				files
-					?.filter((file) => ["png", "jpg", "svg"].some((ext) => file.toLowerCase().endsWith(`.${ext}`)))
+					?.filter((file) =>
+						['png', 'jpg', 'svg'].some((ext) => file.toLowerCase().endsWith(`.${ext}`))
+					)
 					.map((filename) => {
 						return getPicture(`${path}/${filename}`);
-					}),
+					})
 			);
 
 			return getWork(
-				path.replace("../", "/"),
-				readFileSync(`${path}/${en}`, "utf8"),
-				fr ? readFileSync(`${path}/${fr}`, "utf8") : undefined,
-				pictures,
+				path,
+				readFileSync(`${path}/${en}`, 'utf8'),
+				fr ? readFileSync(`${path}/${fr}`, 'utf8') : undefined,
+				pictures
 			);
-		}),
+		})
 	);
 
 export const get: RequestHandler = async () => {
@@ -59,9 +61,7 @@ export const get: RequestHandler = async () => {
 		.sort((a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime());
 
 	return {
-		body: {
-			works,
-		},
+		body: works
 	};
 };
 

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import type { Work } from "$lib/works";
+	import type { Work } from "../../../../content/src/lib/works";
 
 	export const load: Load = async ({ fetch, params }) => {
 		const { slug } = params;
