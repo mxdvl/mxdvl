@@ -16,7 +16,7 @@ specifiers:
   eslint: 8.7.0
   eslint-config-prettier: 8.3.0
   eslint-plugin-svelte3: 3.4.0
-  fathom-client: 3.3.1
+  fathom-client: 3.4.0
   mdsvex: 0.9.8
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0
@@ -54,7 +54,7 @@ devDependencies:
   eslint: 8.7.0
   eslint-config-prettier: 8.3.0_eslint@8.7.0
   eslint-plugin-svelte3: 3.4.0_eslint@8.7.0+svelte@3.46.3
-  fathom-client: 3.3.1
+  fathom-client: 3.4.0
   mdsvex: 0.9.8_svelte@3.46.3
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0_prettier@2.5.1+svelte@3.46.3
@@ -1073,8 +1073,8 @@ packages:
       reusify: 1.0.4
     dev: true
 
-  /fathom-client/3.3.1:
-    resolution: {integrity: sha512-eDRVKZ6JTs/IY7cRAYhj7tfnQTKk8HIFBxdlyzbg9m5Pmz6lNLJ7BfSfA1i2LEMbOx2yHUudu0ux4sOiWz1O0A==}
+  /fathom-client/3.4.0:
+    resolution: {integrity: sha512-9ZgVLSP5GLXrIOLqY2ipar2Pw2/Dw6YNsqix9SbbrK9XpFA318VYf0GeKUBqZQQM+z7fbyDTWkBjl+UMe+eQwA==}
     dev: true
 
   /fault/2.0.1:
