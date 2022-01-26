@@ -6,7 +6,7 @@
 	export let lang: Lang;
 
 	let path: string;
-	$: path = $page.url.pathname.split("/").filter(Boolean)[0];
+	$: path = $page.url.pathname.split("/").filter(Boolean)[0] ?? "";
 </script>
 
 <header class="header wrap wide" role="banner">
@@ -36,6 +36,16 @@
 				{:else}
 					<a href="/profile">Profile</a>
 				{/if}
+			</li>
+
+			<li class={`menu-item ${["tools", "outils"].includes(path) ? "active" : ""}`}>
+				<a href="/tools">
+					{#if lang == "fr"}
+						Outils
+					{:else}
+						Tools
+					{/if}
+				</a>
 			</li>
 
 			<li class="menu-item desktop" lang="fr">
