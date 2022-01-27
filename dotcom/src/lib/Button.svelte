@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let disabled = null;
+	export let disabled: boolean;
 </script>
 
 <button on:click {disabled}>
@@ -29,10 +29,7 @@
 	button::before {
 		content: "";
 		position: absolute;
-		top: -1px;
-		left: -1px;
-		right: -1px;
-		bottom: -1px;
+		inset: -1px;
 
 		border-radius: 2px;
 		border: 2px solid var(--border);
