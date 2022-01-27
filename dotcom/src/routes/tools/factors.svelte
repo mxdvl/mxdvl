@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Number from "$lib/Number.svelte";
+
 	const max = 100_000_000_003;
 
 	let number = 12_000;
@@ -16,21 +18,29 @@
 
 		return factors.sort((a, b) => a - b);
 	};
+
+	$: factors = getFactors(number);
 </script>
 
-<input type="number" min="1" {max} bind:value={number} />
+<p>
+	<Number min={1} {max} bind:value={number} />
+</p>
 
 <ul>
-	{#each getFactors(number) as factor}
-		<li>{factor}</li>
-	{/each}
+	{#if factors.length === 1}
+		<li>{factors[0]} is prime!</li>
+	{:else}
+		{#each factors as factor}
+			<li>{factor}</li>
+		{/each}
+	{/if}
 </ul>
 
 <style>
 	ul {
 		display: flex;
 		list-style-type: none;
-		padding: var(--grid);
+		padding: var(--grid) 0;
 		margin: 0;
 		gap: var(--grid);
 		flex-wrap: wrap;
@@ -38,6 +48,10 @@
 	}
 
 	li {
+		border-radius: 1px;
 		background-color: var(--skies);
+		outline: 2px solid var(--skies);
+		outline-offset: -1px;
+		padding: calc(var(--grid) / 2);
 	}
 </style>
