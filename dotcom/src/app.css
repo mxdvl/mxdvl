@@ -166,7 +166,7 @@ picture + picture {
 
 @media screen and (min-width: 740px) {
 	body {
-		width: calc(40 * var(--grid));
+		width: calc(36 * var(--grid));
 	}
 
 	picture {
@@ -176,11 +176,11 @@ picture + picture {
 
 @media screen and (min-width: 960px) {
 	body {
-		width: calc(50 * var(--grid));
+		width: calc(48 * var(--grid));
 	}
 
 	picture {
-		--width: 50;
+		--width: 48;
 	}
 }
 

@@ -1,15 +1,38 @@
-<script lang="ts">
+<script context="module" lang="ts">
 	import type { Lang } from "./lang";
+	const pages: Array<Record<Lang, string> & Record<"width", number>> = [
+		{
+			en: "works",
+			fr: "travaux",
+			width: 4,
+		},
+		{
+			en: "profile",
+			fr: "profil",
+			width: 4,
+		},
+		{
+			en: "tools",
+			fr: "outils",
+			width: 3,
+		},
+	];
+
+	const capitalise = <T extends string>(s: T): Capitalize<T> =>
+		(s.slice(0, 1).toUpperCase() + s.slice(1)) as Capitalize<T>;
+</script>
+
+<script lang="ts">
 	import { page } from "$app/stores";
 	import Logo from "$lib/CMPS.svelte";
 
 	export let lang: Lang;
 
 	let path: string;
-	$: path = $page.url.pathname.split("/").filter(Boolean)[0];
+	$: path = $page.url.pathname.split("/").filter(Boolean)[0] ?? "";
 </script>
 
-<header class="header wrap wide" role="banner">
+<header>
 	<nav>
 		<ul>
 			<li class="home">
@@ -22,61 +45,51 @@
 				</a>
 			</li>
 
-			<li class={`menu-item ${["works", "travaux"].includes(path) ? "active" : ""}`}>
-				{#if lang == "fr"}
-					<a href="/travaux">Travaux</a>
-				{:else}
-					<a href="/works">Works</a>
-				{/if}
-			</li>
-
-			<li class={`menu-item ${["profile", "profil"].includes(path) ? "active" : ""}`}>
-				{#if lang == "fr"}
-					<a href="/profil">Profil</a>
-				{:else}
-					<a href="/profile">Profile</a>
-				{/if}
-			</li>
-
-			<li class="menu-item desktop" lang="fr">
-				<a class={path === "allo" ? "active" : ""} href="/allo">allô</a>
-				<span class="padded">&mdash;</span>
-				<a class={path === "hi" ? "active" : ""} href="/hi">hi</a>
-			</li>
+			{#each pages as page}
+				<li class={`page ${[page.fr, page.en].includes(path) ? "active" : ""}`} style="--width: {page.width}">
+					<a href={`/${page[lang]}`}>{capitalise(page[lang])}</a>
+				</li>
+			{/each}
 		</ul>
 	</nav>
 </header>
 
 <style>
 	header {
-		height: calc(var(--grid) * 2);
 		padding-bottom: var(--grid);
+		position: relative;
+		margin: 0;
+	}
+
+	header::after {
+		content: "";
+		position: absolute;
+		width: 100%;
+		bottom: -1px;
 		border-bottom: 2px solid var(--skies);
-		margin-bottom: -1px;
 	}
 
 	ul {
+		--size: var(--grid-double);
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
-		align-items: stretch;
 		height: 100%;
-		margin: -1px 0;
+		margin: 0;
 		padding: 0;
+		gap: 0;
 
 		font-weight: 480;
 	}
 
 	li {
-		display: flex;
+		display: block;
+		flex: 0 0 calc(var(--size) * var(--width));
 		text-transform: uppercase;
-		align-items: center;
+		text-align: center;
 		font-weight: 320;
 		font-size: 1.75rem;
 		line-height: calc(2 * var(--grid));
-	}
-
-	li * {
-		display: block;
 	}
 
 	.padded {
@@ -84,27 +97,31 @@
 	}
 
 	a {
+		display: block;
 		text-decoration: none;
 		transition: font-weight 300ms;
 	}
 
 	a:not(.branding) {
 		position: relative;
-		top: 0.125rem;
-	}
-
-	.desktop {
-		display: none;
 	}
 
 	.active {
 		stroke-width: 4px;
 		font-weight: 540;
+		position: relative;
+		--frame: var(--skies);
 	}
 
-	@media screen and (min-width: 740px) {
-		.desktop {
-			display: flex;
-		}
+	.page a:hover {
+		--frame: var(--border);
+	}
+
+	.page a::before {
+		content: "";
+		position: absolute;
+		inset: -1px;
+		border: 2px solid var(--frame);
+		pointer-events: none;
 	}
 </style>
