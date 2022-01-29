@@ -33,7 +33,7 @@
 		"mdsvex": "0.9.8",
 		"prettier": "2.5.1",
 		"prettier-plugin-svelte": "2.6.0",
-		"rehype-stringify": "9.0.2",
+		"rehype-stringify": "9.0.3",
 		"remark-frontmatter": "4.0.1",
 		"remark-parse": "10.0.1",
 		"remark-rehype": "10.1.0",

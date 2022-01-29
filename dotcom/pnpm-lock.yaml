@@ -20,7 +20,7 @@ specifiers:
   mdsvex: 0.9.8
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0
-  rehype-stringify: 9.0.2
+  rehype-stringify: 9.0.3
   remark-frontmatter: 4.0.1
   remark-parse: 10.0.1
   remark-rehype: 10.1.0
@@ -58,7 +58,7 @@ devDependencies:
   mdsvex: 0.9.8_svelte@3.46.3
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0_prettier@2.5.1+svelte@3.46.3
-  rehype-stringify: 9.0.2
+  rehype-stringify: 9.0.3
   remark-frontmatter: 4.0.1
   remark-parse: 10.0.1
   remark-rehype: 10.1.0
@@ -1955,8 +1955,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /rehype-stringify/9.0.2:
-    resolution: {integrity: sha512-BuVA6lAEYtOpXO2xuHLohAzz8UNoQAxAqYRqh4QEEtU39Co+P1JBZhw6wXA9hMWp+JLcmrxWH8+UKcNSr443Fw==}
+  /rehype-stringify/9.0.3:
+    resolution: {integrity: sha512-kWiZ1bgyWlgOxpqD5HnxShKAdXtb2IUljn3hQAhySeak6IOQPPt6DeGnsIh4ixm7yKJWzm8TXFuC/lPfcWHJqw==}
     dependencies:
       '@types/hast': 2.3.4
       hast-util-to-html: 8.0.3
