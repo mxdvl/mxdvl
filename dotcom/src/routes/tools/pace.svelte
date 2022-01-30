@@ -2,8 +2,8 @@
 	const initial = 4.25;
 	const mile = 1.609344;
 	const step = 5 / 60;
-	const min = 2;
-	const max = 24;
+	const min = 3;
+	const max = 12;
 
 	let perKilometre = initial / 1;
 	let perMile = initial / mile;
