@@ -28,7 +28,7 @@ specifiers:
   remark-unwrap-images: 3.0.1
   sharp: 0.29.3
   svelte: 3.46.3
-  svelte-check: 2.4.0
+  svelte-check: 2.4.1
   svelte-preprocess: 4.10.2
   tslib: 2.3.1
   typescript: 4.5.5
@@ -66,7 +66,7 @@ devDependencies:
   remark-unwrap-images: 3.0.1
   sharp: 0.29.3
   svelte: 3.46.3
-  svelte-check: 2.4.0_svelte@3.46.3
+  svelte-check: 2.4.1_svelte@3.46.3
   svelte-preprocess: 4.10.2_svelte@3.46.3+typescript@4.5.5
   tslib: 2.3.1
   typescript: 4.5.5
@@ -2253,8 +2253,8 @@ packages:
       has-flag: 4.0.0
     dev: true
 
-  /svelte-check/2.4.0_svelte@3.46.3:
-    resolution: {integrity: sha512-IBPK3MJPNEYoDGE1GF12JgvL2+5hzFtEF79jjwFDaBE6LMiKCyDn69NBXoVaNlTBfnfZb3ZkgUAG6U+QtAkVYQ==}
+  /svelte-check/2.4.1_svelte@3.46.3:
+    resolution: {integrity: sha512-xhf3ShP5rnRwBokrgTBJ/0cO9QIc1DAVu1NWNRTfCDsDBNjGmkS3HgitgUadRuoMKj1+irZR/yHJ+Uqobnkbrw==}
     hasBin: true
     peerDependencies:
       svelte: ^3.24.0
