@@ -1,6 +1,7 @@
 {
 	"extends": ["config:base"],
 	"labels": ["dependencies"],
+	"schedule": ["after 10am and before 6pm every weekday"],
 	"packageRules": [
 		{
 			"matchUpdateTypes": ["minor", "patch"],
