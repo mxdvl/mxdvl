@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter(),
 		target: "#svelte",
 		prerender: {
-			entries: ["/hi", "/allo", "/error", "/erreur"],
+			entries: ["/hi", "/allô", "/error", "/erreur"],
 		},
 	},
 };

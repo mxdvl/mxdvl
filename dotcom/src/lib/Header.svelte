@@ -37,8 +37,8 @@
 		<ul>
 			<li class="home">
 				<a
-					class={`branding ${["allo", "hi"].includes(path) ? "active" : ""}`}
-					href={lang == "fr" ? "/allo" : "/hi"}
+					class={`branding ${["allô", "hi"].includes(path) ? "active" : ""}`}
+					href={lang == "fr" ? "/allô" : "/hi"}
 					rel="home"
 				>
 					<Logo />

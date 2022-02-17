@@ -36,7 +36,7 @@
 <p>Hello, it’s Max.</p>
 
 <p>
-	A <a href="/allo">bilingual</a> developer &amp, designer in
+	A <a href="/allô">bilingual</a> developer &amp, designer in
 	<em data-id={weather.weather[0]?.id}>cloudy</em>
 	London. Currently working at The Guardian.
 </p>
