@@ -117,6 +117,10 @@
 		--frame: var(--border);
 	}
 
+	.page a:active {
+		--border: var(--glint);
+	}
+
 	.page a::before {
 		content: "";
 		position: absolute;

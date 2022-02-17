@@ -24,22 +24,24 @@
 	$: setPace(perMile, "m");
 </script>
 
-<p>Running a</p>
+<input type="range" bind:value={perKilometre} {min} {max} {step} />
 
-<p>
-	<input type="range" bind:value={perKilometre} {min} {max} {step} />
-</p>
+<p>A running pace of {toMinuteSeconds(perKilometre)} min / km…</p>
 
-<p>
-	{toMinuteSeconds(perKilometre)} min / km
-</p>
+<p>Is equivalent to {toMinuteSeconds(perMile)} min / mile!</p>
 
-<p>is the same as a</p>
+<input type="range" bind:value={perMile} {min} {max} {step} />
 
-<p>
-	<input type="range" bind:value={perMile} {min} {max} {step} />
-</p>
+<style>
+	p {
+		text-align: center;
+	}
+	input {
+		width: 100%;
+		accent-color: var(--ocean);
+	}
 
-<p>
-	{toMinuteSeconds(perMile)} min / mile
-</p>
+	input:hover {
+		accent-color: var(--glint);
+	}
+</style>
