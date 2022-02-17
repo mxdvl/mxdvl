@@ -3,8 +3,21 @@
 	import type { WeatherAPIRespone } from "src/routes/weather/[city].json";
 
 	export const load: Load = async ({ fetch }) => {
-		const response = await fetch("/weather/london.json");
-		const weather = await response.json();
+		const response: WeatherAPIRespone = await fetch("/weather/london.json").then((r) => r.json());
+		const weather: Partial<WeatherAPIRespone> =
+			response.cod === 200
+				? response
+				: {
+						weather: [{ id: 800, main: "cloudy", description: "failed API call", icon: "--" }],
+						main: {
+							temp: 270,
+							feels_like: 270,
+							temp_min: 240,
+							temp_max: 300,
+							pressure: 1200,
+							humidity: 60,
+						},
+				  };
 
 		return {
 			props: {
