@@ -1,11 +1,12 @@
 export type Lang = "en" | "fr";
 
 const frenchPages = [
-	// Keep each on its own line
+	// Keep as multi-line array
 	"allô",
 	"erreur",
 	"profil",
 	"travaux",
+	"outils",
 ];
 
 export const pathLang = (path: string): Lang =>

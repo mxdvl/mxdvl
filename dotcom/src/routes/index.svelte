@@ -17,7 +17,7 @@
 	import { goto } from "$app/navigation";
 
 	onMount(() => {
-		window?.navigator?.language.startsWith("fr") ? goto("/allo") : goto("/hi");
+		window?.navigator?.language.startsWith("fr") ? goto("/allô") : goto("/hi");
 	});
 </script>
 

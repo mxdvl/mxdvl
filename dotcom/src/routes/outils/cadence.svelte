@@ -26,9 +26,9 @@
 
 <input type="range" bind:value={perKilometre} {min} {max} {step} />
 
-<p>A running pace of {toMinuteSeconds(perKilometre)} min / km…</p>
+<p>Une cadence de {toMinuteSeconds(perKilometre)} min / km…</p>
 
-<p>Is equivalent to {toMinuteSeconds(perMile)} min / mile!</p>
+<p>Équivaut {toMinuteSeconds(perMile)} min / mile!</p>
 
 <input type="range" bind:value={perMile} {min} {max} {step} />
 

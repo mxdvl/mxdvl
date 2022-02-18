@@ -3,13 +3,18 @@
 		{
 			"source": "/",
 			"has": [{ "type": "header", "key": "Accept-Language", "value": "fr.+" }],
-			"destination": "/allo",
+			"destination": "/allô",
 			"permanent": false
 		},
 		{
 			"source": "/",
 			"destination": "/hi",
 			"permanent": false
+		},
+		{
+			"source": "/allo",
+			"destination": "/allô",
+			"permanent": true
 		}
 	]
 }

@@ -3,6 +3,9 @@ import type { RequestHandler } from "@sveltejs/kit";
 const cities = ["london", "montreal", "tokyo", "paris", "berlin"] as const;
 type City = typeof cities[number];
 
+/**
+ * From https://openweathermap.org/current#current_JSON
+ */
 type WeatherAPIRespone = {
 	coord: {
 		lat: number;
