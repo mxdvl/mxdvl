@@ -7,6 +7,7 @@ const frenchPages = [
 	"profil",
 	"travaux",
 	"outils",
+	"confidentialité",
 ];
 
 export const pathLang = (path: string): Lang =>

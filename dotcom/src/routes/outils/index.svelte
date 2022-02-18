@@ -6,7 +6,7 @@
 
 <ul>
 	{#each tools as tool}
-		<li><a href={`/tools/${tool}`}>{tool}</a></li>
+		<li><a href={`/outils/${tool}`}>{tool}</a></li>
 	{/each}
 </ul>
 
