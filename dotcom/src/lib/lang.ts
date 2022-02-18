@@ -2,7 +2,7 @@ export type Lang = "en" | "fr";
 
 const frenchPages = [
 	// Keep each on its own line
-	"allo",
+	"allô",
 	"erreur",
 	"profil",
 	"travaux",
