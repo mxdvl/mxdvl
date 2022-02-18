@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	const tools = ["pace", "factors"] as const;
+	const tools = ["cadence", "facteurs"] as const;
 </script>
 
 <h2>Some tools!</h2>
