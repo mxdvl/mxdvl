@@ -7,7 +7,8 @@ const frenchPages = [
 	"profil",
 	"travaux",
 	"outils",
+	"confidentialité",
 ];
 
 export const pathLang = (path: string): Lang =>
-	frenchPages.find((page) => path.split("/").includes(page)) ? "fr" : "en";
+	frenchPages.find((page) => path.split("/").includes(encodeURIComponent(page))) ? "fr" : "en";
