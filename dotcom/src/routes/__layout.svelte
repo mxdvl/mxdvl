@@ -49,8 +49,6 @@
 
 <Footer {lang} />
 
-{$page.url.pathname}
-
 <style>
 	main {
 		padding: var(--grid-double) 0;
