@@ -18,8 +18,6 @@ const getUrls = (): Array<WorkUrls> =>
 		const en = files.find((file) => file.endsWith('.en.md'))?.slice(0, -6);
 		const fr = files.find((file) => file.endsWith('.fr.md'))?.slice(0, -6);
 
-		const title = en ? readFileSync()
-
 		const urls = {
 			en: `/works/${en}.json`,
 			fr: fr ? `/travaux/${fr}.json` : undefined,
