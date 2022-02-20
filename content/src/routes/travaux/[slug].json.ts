@@ -4,7 +4,7 @@ import { findWork } from '../works/[slug].json';
 export const get: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 
-	const work = await findWork(encodeURIComponent(slug));
+	const work = await findWork(slug);
 
 	if (!work) return { status: 404, body: `Rien trouvé: ${slug}` };
 
