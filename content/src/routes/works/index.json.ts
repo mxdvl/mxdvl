@@ -36,7 +36,7 @@ export const get: RequestHandler = async () => {
 	if (!works) return;
 
 	return {
-		body: works
+		body: works.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 	};
 };
 
