@@ -5,9 +5,6 @@ import { readdirSync, readFileSync } from 'fs';
 
 const dirs = readdirSync('static/works').filter((dir) => !dir.includes('.'));
 
-const PROD = process.env.NODE_ENV === 'production';
-const base = PROD ? 'https://content.mxdvl.com' : 'http:/localhost:3000/';
-
 type Urls = {
 	en: string;
 	fr?: string;
@@ -22,8 +19,8 @@ const getUrls = (): Array<Urls> =>
 		const fr = files.find((file) => file.endsWith('.fr.md'))?.slice(0, -6);
 
 		const urls = {
-			en: new URL(`/works/${en}.json`, base).toString(),
-			fr: fr ? new URL(`/travaux/${fr}.json`, base).toString() : undefined,
+			en: `/works/${en}.json`,
+			fr: fr ? `/travaux/${fr}.json` : undefined,
 			date: dir
 		};
 
