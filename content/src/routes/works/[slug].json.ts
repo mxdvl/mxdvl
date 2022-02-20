@@ -1,7 +1,8 @@
 import type { Work } from '$lib/works';
 import type { RequestHandler } from '@sveltejs/kit';
+import type { Lang } from '../../../../dotcom/src/lib/lang';
 import { getWork } from '$lib/works';
-import { getWorks, getUrls } from './index.json';
+import { getUrls } from './index.json';
 
 const findWork = async (slug: string, lang: Lang): Promise<Work | undefined> => {
 	const works = await getUrls();

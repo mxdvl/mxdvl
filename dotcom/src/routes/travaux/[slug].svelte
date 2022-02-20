@@ -21,4 +21,4 @@
 	export let work: Work;
 </script>
 
-<WorkComponent {work} lang="en" />
+<WorkComponent {work} />

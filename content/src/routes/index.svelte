@@ -17,9 +17,9 @@
 </script>
 
 <script lang="ts">
-	import type { Urls } from './works/index.json';
+	import type { WorkUrls } from './works/index.json';
 
-	export let urls: Urls[];
+	export let urls: WorkUrls[];
 
 	const getSlug = (path: string) =>
 		decodeURIComponent(path.split('/').slice(-1)[0].replace('.json', ''));

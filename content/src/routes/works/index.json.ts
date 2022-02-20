@@ -5,18 +5,20 @@ import { readdirSync, readFileSync } from 'fs';
 
 const dirs = readdirSync('static/works').filter((dir) => !dir.includes('.'));
 
-type Urls = {
+type WorkUrls = {
 	en: string;
 	fr?: string;
 	date: string;
 };
-const getUrls = (): Array<Urls> =>
+const getUrls = (): Array<WorkUrls> =>
 	dirs.map((dir) => {
 		const path = `static/works/${dir}`;
 		const files = readdirSync(path).filter((file) => file.endsWith('.md'));
 
 		const en = files.find((file) => file.endsWith('.en.md'))?.slice(0, -6);
 		const fr = files.find((file) => file.endsWith('.fr.md'))?.slice(0, -6);
+
+		const title = en ? readFileSync()
 
 		const urls = {
 			en: `/works/${en}.json`,
@@ -37,5 +39,5 @@ export const get: RequestHandler = async () => {
 	};
 };
 
-export { getWorks, getUrls };
-export type { Urls };
+export { getUrls };
+export type { WorkUrls };
