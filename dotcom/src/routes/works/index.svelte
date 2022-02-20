@@ -2,10 +2,9 @@
 	import type { Load } from "@sveltejs/kit";
 	import type { WorkUrls } from "../../../../content/src/routes/works/index.json";
 
-	// export const base = "https://content.mxdvl.com/";
-	export const base = "http://content-git-add-content-mxdvl.vercel.app";
+	export const base = "https://content.mxdvl.com/";
 
-	export const load: Load = async ({ url, fetch }) => {
+	export const load: Load = async ({ fetch }) => {
 		const works = await fetch(new URL("/works.json", base).toString()).then((r) => r.json());
 
 		return {
