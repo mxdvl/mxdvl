@@ -2,67 +2,40 @@ import type { Work, Picture } from '$lib/works';
 import { getWork } from '$lib/works';
 import type { RequestHandler } from '@sveltejs/kit';
 import { readdirSync, readFileSync } from 'fs';
-import sharp from 'sharp';
 
 const dirs = readdirSync('static/works').filter((dir) => !dir.includes('.'));
 
-const getPicture = async (path: string): Promise<Picture> => {
-	const image = readFileSync(path);
-	const metadata = await sharp(image).metadata();
-	const { width, height, format } = metadata;
-
-	const basis = 6;
-	const ratio = Math.round((height / width) * basis) / basis;
-
-	return {
-		path,
-		width,
-		height,
-		ratio,
-		format
-	};
+type WorkUrls = {
+	en: string;
+	fr?: string;
+	date: string;
 };
+const getUrls = (): Array<WorkUrls> =>
+	dirs.map((dir) => {
+		const path = `static/works/${dir}`;
+		const files = readdirSync(path).filter((file) => file.endsWith('.md'));
 
-const getWorks = async (): Promise<Work[]> =>
-	await Promise.all(
-		dirs.map(async (dir) => {
-			const path = `static/works/${dir}`;
+		const en = files.find((file) => file.endsWith('.en.md'))?.slice(0, -6);
+		const fr = files.find((file) => file.endsWith('.fr.md'))?.slice(0, -6);
 
-			const files = readdirSync(path);
-			const en = files?.find((file) => file.endsWith('.en.md'));
-			const fr = files?.find((file) => file.endsWith('.fr.md'));
+		const urls = {
+			en: `/works/${en}.json`,
+			fr: fr ? `/travaux/${fr}.json` : undefined,
+			date: dir
+		};
 
-			const pictures = await Promise.all(
-				files
-					?.filter((file) =>
-						['png', 'jpg', 'svg'].some((ext) => file.toLowerCase().endsWith(`.${ext}`))
-					)
-					.map((filename) => {
-						return getPicture(`${path}/${filename}`);
-					})
-			);
-
-			return getWork(
-				path,
-				readFileSync(`${path}/${en}`, 'utf8'),
-				fr ? readFileSync(`${path}/${fr}`, 'utf8') : undefined,
-				pictures
-			);
-		})
-	);
+		return urls;
+	});
 
 export const get: RequestHandler = async () => {
-	const maybeWorks = await getWorks();
+	const works = getUrls();
 
-	if (!maybeWorks) return;
-
-	const works = maybeWorks
-		.splice(0)
-		.sort((a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime());
+	if (!works) return;
 
 	return {
-		body: works
+		body: works.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 	};
 };
 
-export { getWorks };
+export { getUrls };
+export type { WorkUrls };

@@ -1,42 +1,26 @@
-import type { Lang } from '$lib/lang';
-import type { Plugin } from 'unified';
+import { readdirSync, readFileSync } from 'fs';
+import { SKIP, visit } from 'unist-util-visit';
 import { unified } from 'unified';
 import frontmatter from 'remark-frontmatter';
 import parse from 'remark-parse';
-import stringify from 'rehype-stringify';
 import rehype from 'remark-rehype';
+import stringify from 'rehype-stringify';
 import unwrap from 'remark-unwrap-images';
-import { SKIP, visit } from 'unist-util-visit';
+import sharp from 'sharp';
+import type { Lang } from '$lib/lang';
+import type { Plugin } from 'unified';
 import type { Root as HastRoot } from '@types/hast';
 import type { Root as MdastRoot } from '@types/mdast';
 
-const endpoint = process.env.PRODUCTION ? 'https://content.mxdvl.com' : '';
-
 type Work = {
-	urls: {
-		en: `/works/${string}`;
-		fr?: `/travaux/${string}`;
-	};
+	alt: string;
 	metadata: {
-		titles: {
-			en: string;
-			fr?: string;
-		};
+		lang: Lang;
+		title: string;
 		date: string;
 		at?: string;
 	};
-	content: {
-		en: string;
-		fr?: string;
-	};
-};
-
-type Picture = {
-	path: string;
-	width: number;
-	height: number;
-	ratio: number;
-	format: string;
+	content: string;
 };
 
 const isString = (value): value is string => typeof value === 'string' && value !== '';
@@ -44,6 +28,12 @@ const isString = (value): value is string => typeof value === 'string' && value 
 const getSlug = (path: string, slug?: unknown) =>
 	isString(slug) ? slug : path.split('/').filter(Boolean).slice(-1)[0];
 
+type Meta = {
+	title?: string;
+	date?: string;
+	slug?: string;
+	at?: string;
+};
 const getMeta = (root: MdastRoot): Meta => {
 	// @ts-expect-error -- there is a value. Maybe MdastRoot is not the right type
 	const matter: string | undefined = root.children.find((child) => child.type === 'yaml')?.value;
@@ -58,13 +48,6 @@ const getMeta = (root: MdastRoot): Meta => {
 			return [key, value];
 		})
 	);
-};
-
-type Meta = {
-	title?: string;
-	date?: string;
-	slug?: string;
-	at?: string;
 };
 
 const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
@@ -110,7 +93,53 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 	};
 };
 
-const getWork = (path: string, en: string, fr?: string, pictures: Picture[]): Work => {
+type Picture = {
+	path: string;
+	width: number;
+	height: number;
+	ratio: number;
+	format: string;
+};
+
+const getPicture = async (path: string): Promise<Picture> => {
+	const image = readFileSync(path);
+	const metadata = await sharp(image).metadata();
+	const { width, height, format } = metadata;
+
+	const basis = 6;
+	const ratio = Math.round((height / width) * basis) / basis;
+
+	return {
+		path,
+		width,
+		height,
+		ratio,
+		format
+	};
+};
+
+const getPictures = async (path: string) =>
+	Promise.all(
+		readdirSync(path)
+			.filter((file) =>
+				['png', 'jpg', 'svg'].some((ext) => file.toLowerCase().endsWith(`.${ext}`))
+			)
+			.map((filename) => {
+				return getPicture(`${path}/${filename}`);
+			})
+	);
+
+type WorkData = {
+	lang: Lang;
+	path: string;
+	alt?: string;
+};
+const getWork = async ({ lang, path, alt }: WorkData): Work => {
+	const fileContent = readFileSync(path, 'utf8');
+	const dir = path.split('/').slice(0, -1).join('/');
+
+	const pictures = await getPictures(dir);
+
 	const parsed = unified().use(parse).use(frontmatter).use(unwrap);
 	const htmlProcessor = parsed()
 		.use(rehype)
@@ -120,34 +149,20 @@ const getWork = (path: string, en: string, fr?: string, pictures: Picture[]): Wo
 		.use(stringify);
 
 	const REPLACER = /(\]\()\.?\/?([\w-]+\.)/gi;
-	const imgPaths = (s: string) => s.replace(REPLACER, `$1${path}/$2`);
+	const imgPaths = (s: string) => s.replace(REPLACER, `$1${dir}/$2`);
 
-	const content: Work['content'] = {
-		en: htmlProcessor.processSync(imgPaths(en)).toString(),
-		fr: fr ? htmlProcessor.processSync(imgPaths(fr)).toString() : undefined
-	};
-
-	const meta: Record<Lang, Meta> = {
-		en: getMeta(parsed.parse(en)),
-		fr: getMeta(parsed.parse(fr))
-	};
+	const content: Work['content'] = htmlProcessor.processSync(imgPaths(fileContent)).toString();
+	const meta: Meta = getMeta(parsed.parse(fileContent));
 
 	const metadata: Work['metadata'] = {
-		titles: {
-			en: isString(meta.en.title) ? meta.en.title : '⚠️ MISSING TITLE',
-			fr: meta.fr?.title
-		},
-		date: isString(meta.en.date) ? new Date(meta.en.date).toISOString() : '** MISSING DATE **',
-		at: isString(meta.en.at) ? meta.en.at : undefined
-	};
-
-	const urls: Work['urls'] = {
-		en: `${endpoint}/works/${getSlug(path)}.json`,
-		fr: fr ? `${endpoint}/travaux/${getSlug(path, meta.fr.slug)}.json` : undefined
+		lang,
+		title: meta.title ?? '⚠️ MISSING TITLE',
+		date: dir.split('/').slice(-1)[0],
+		at: isString(meta.at) ? meta.at : undefined
 	};
 
 	return {
-		urls,
+		alt,
 		metadata,
 		content
 	};

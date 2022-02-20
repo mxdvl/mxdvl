@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import type { Work } from "../../../../content/src/lib/works";
+	import type { WorkUrls } from "../../../../content/src/routes/works/index.json";
+
 	import { base } from "../works/index.svelte";
 
 	export const load: Load = async ({ fetch, url }) => {
@@ -17,7 +18,7 @@
 <script lang="ts">
 	import Works from "$lib/Works.svelte";
 
-	export let works: Work[];
+	export let works: WorkUrls[];
 </script>
 
 ## Selection de travaux

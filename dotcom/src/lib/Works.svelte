@@ -1,15 +1,9 @@
 <script context="module" lang="ts">
-	import type { Work } from "../../../content/src/lib/works";
+	import type { WorkUrls } from "../../../content/src/routes/works/index.json";
 	import type { Lang } from "$lib/lang";
 
-	const getUrl = (work: Work, lang: Lang) => {
-		const url = work.urls[lang] ?? work.urls["en"];
-		const slug = url.split("/").slice(-1)?.[0]?.replace(".json", "");
-		return lang === "fr" ? `/travaux/${slug}` : `/works/${slug}`;
-	};
-
-	const getTitle = (titles: Work["metadata"]["titles"], lang: Lang) => {
-		const title = titles[lang] ?? titles["en"];
+	const getTitle = (url?: string) => {
+		const title = `TODO: ${url ?? "missing"}`;
 		return title;
 	};
 
@@ -17,19 +11,19 @@
 </script>
 
 <script lang="ts">
-	export let works: Work[];
+	export let works: WorkUrls[];
 	export let lang: Lang;
 </script>
 
 <ul>
 	{#each works as work}
 		<li>
-			<a href={getUrl(work, lang)}>
+			<a href={work[lang] ?? work.en}>
 				<h3>
-					{getTitle(work.metadata.titles, lang)}
+					{getTitle(work[lang])}
 				</h3>
 				<h4>
-					{cleanDate(work.metadata.date)}
+					{cleanDate(work.date)}
 				</h4>
 			</a>
 		</li>
