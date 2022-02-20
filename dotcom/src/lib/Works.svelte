@@ -3,8 +3,16 @@
 	import type { Lang } from "$lib/lang";
 
 	const getTitle = (url?: string) => {
-		const title = `TODO: ${url ?? "missing"}`;
-		return title;
+		// TODO: make it nice
+		return (
+			url
+				?.replace(".json", "")
+				.split("/")
+				.slice(-1)[0]
+				?.split("-")
+				.map((word) => word.slice(0, 1).toLocaleUpperCase() + word.slice(1))
+				.join(" ") ?? "(titre manquant)"
+		);
 	};
 
 	export const cleanDate = (date: string) => new Date(date).toISOString().slice(0, 7);
@@ -18,7 +26,7 @@
 <ul>
 	{#each works as work}
 		<li>
-			<a href={work[lang] ?? work.en}>
+			<a href={work[lang]?.replace(".json", "") ?? work.en.replace(".json", "")}>
 				<h3>
 					{getTitle(work[lang])}
 				</h3>
