@@ -3,7 +3,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { getWork } from '$lib/works';
 import { getWorks, getUrls } from './index.json';
 
-const findWork = async (slug): Promise<Work | undefined> => {
+const findWork = async (slug: string, lang: Lang): Promise<Work | undefined> => {
 	const works = await getUrls();
 	const langs: Lang[] = ['en', 'fr'];
 
@@ -11,22 +11,19 @@ const findWork = async (slug): Promise<Work | undefined> => {
 
 	if (!work) return;
 
-	const url: string = work.fr?.endsWith(`/${slug}.json`) ? work.fr : work.en;
-	const lang: Lang = url === work.fr ? 'fr' : 'en';
-	const path: string =
-		lang === 'fr'
-			? `static/works/${work.date}/${decodeURIComponent(slug)}.fr.md`
-			: `static/works/${work.date}/${slug}.en.md`;
+	const url: string = work[lang]?.endsWith(`/${slug}.json`) ? work[lang] : work.en;
+	const validLang = url === work[lang] ? lang : 'en';
+	const path: string = `static/works/${work.date}/${decodeURIComponent(slug)}.${validLang}.md`;
 
-	const alt = lang === 'fr' ? work.en : work.fr;
+	const alt = validLang === 'fr' ? work.en : work.fr;
 
-	return getWork({ lang, path, alt });
+	return getWork({ lang: validLang, path, alt });
 };
 
 export const get: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 
-	const work = await findWork(slug);
+	const work = await findWork(slug, 'en');
 
 	if (!work) return { status: 404, body: `Not Found: ${slug}` };
 
