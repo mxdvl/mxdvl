@@ -42,23 +42,41 @@ const getWorks = async (): Promise<Work[]> =>
 					})
 			);
 
-			return getWork(
-				path,
-				readFileSync(`${path}/${en}`, 'utf8'),
-				fr ? readFileSync(`${path}/${fr}`, 'utf8') : undefined,
-				pictures
-			);
+			const slug: string = en.split('.')[0];
+
+			return getWork({
+				slug,
+				path: `${path}/${en}`,
+				pictures,
+				lang: 'en'
+			});
 		})
 	);
 
+const PROD = process.env.NODE_ENV === 'production';
+const base = PROD ? 'https://content.mxdvl.com' : 'http:/localhost:3000/';
+
+const getUrls = (): Array<Work['urls']> =>
+	dirs.map((dir) => {
+		const path = `static/works/${dir}`;
+		const files = readdirSync(path).filter((file) => file.endsWith('.md'));
+
+		const en = files.find((file) => file.endsWith('.en.md'))?.slice(0, -6);
+		const fr = files.find((file) => file.endsWith('.fr.md'))?.slice(0, -6);
+
+		const urls = {
+			en: new URL(`/works/${en}.json`, base).toString(),
+			fr: fr ? new URL(`/travaux/${fr}.json`, base).toString() : undefined,
+			date: dir
+		};
+
+		return urls;
+	});
+
 export const get: RequestHandler = async () => {
-	const maybeWorks = await getWorks();
+	const works = getUrls();
 
-	if (!maybeWorks) return;
-
-	const works = maybeWorks
-		.splice(0)
-		.sort((a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime());
+	if (!works) return;
 
 	return {
 		body: works

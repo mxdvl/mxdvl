@@ -1,6 +1,5 @@
 ---
 title: Daily Doodles in Japan
-date: 2016-04
 at: mgill
 ---
 

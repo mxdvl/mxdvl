@@ -1,6 +1,5 @@
 ---
 title: 1:X Multidisciplinary Exploration
-date: 2016-01
 type: design
 at: provencher_roy
 ---

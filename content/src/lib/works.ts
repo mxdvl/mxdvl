@@ -1,34 +1,29 @@
-import type { Lang } from '$lib/lang';
-import type { Plugin } from 'unified';
+import { readDirSync, readFileSync } from 'fs';
+import { SKIP, visit } from 'unist-util-visit';
 import { unified } from 'unified';
 import frontmatter from 'remark-frontmatter';
 import parse from 'remark-parse';
-import stringify from 'rehype-stringify';
 import rehype from 'remark-rehype';
+import stringify from 'rehype-stringify';
 import unwrap from 'remark-unwrap-images';
-import { SKIP, visit } from 'unist-util-visit';
+import type { Lang } from '$lib/lang';
+import type { Plugin } from 'unified';
 import type { Root as HastRoot } from '@types/hast';
 import type { Root as MdastRoot } from '@types/mdast';
 
-const base = 'https://content.mxdvl.com';
-
 type Work = {
 	urls: {
-		en: `/works/${string}`;
-		fr?: `/travaux/${string}`;
+		en: string;
+		fr?: string;
+		date: string;
 	};
 	metadata: {
-		titles: {
-			en: string;
-			fr?: string;
-		};
+		lang: Lang;
+		title: string;
 		date: string;
 		at?: string;
 	};
-	content: {
-		en: string;
-		fr?: string;
-	};
+	content: string;
 };
 
 type Picture = {
@@ -110,7 +105,15 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 	};
 };
 
-const getWork = (path: string, en: string, fr?: string, pictures: Picture[]): Work => {
+type WorkData = {
+	slug: string;
+	lang: Lang;
+	pictures: Picture[];
+	path: string;
+};
+const getWork = ({ slug, lang, pictures, path }: WorkData): Work => {
+	const fileContent = readFileSync(path, 'utf8');
+
 	const parsed = unified().use(parse).use(frontmatter).use(unwrap);
 	const htmlProcessor = parsed()
 		.use(rehype)
@@ -122,31 +125,19 @@ const getWork = (path: string, en: string, fr?: string, pictures: Picture[]): Wo
 	const REPLACER = /(\]\()\.?\/?([\w-]+\.)/gi;
 	const imgPaths = (s: string) => s.replace(REPLACER, `$1${path}/$2`);
 
-	const content: Work['content'] = {
-		en: htmlProcessor.processSync(imgPaths(en)).toString(),
-		fr: fr ? htmlProcessor.processSync(imgPaths(fr)).toString() : undefined
-	};
+	const content: Work['content'] = htmlProcessor.processSync(imgPaths(fileContent)).toString();
+	const meta: Meta = getMeta(parsed.parse(fileContent));
 
-	const meta: Record<Lang, Meta> = {
-		en: getMeta(parsed.parse(en)),
-		fr: getMeta(parsed.parse(fr))
-	};
+	console.warn(meta);
 
 	const metadata: Work['metadata'] = {
-		titles: {
-			en: isString(meta.en.title) ? meta.en.title : '⚠️ MISSING TITLE',
-			fr: meta.fr?.title
-		},
-		date: isString(meta.en.date) ? new Date(meta.en.date).toISOString() : '** MISSING DATE **',
-		at: isString(meta.en.at) ? meta.en.at : undefined
+		lang,
+		title: meta.title ?? '⚠️ MISSING TITLE',
+		date: isString(meta.date) ? new Date(meta.date).toISOString() : '** MISSING DATE **',
+		at: isString(meta.at) ? meta.at : undefined
 	};
 
-	const urls: Work['urls'] = {
-		en: new URL(`/works/${getSlug(path, meta.en.slug)}.json`, base).toString(),
-		fr: fr
-			? new URL(`/travaux/${getSlug(path, meta.fr.slug)}.json`, base).toString()
-			: undefined
-	};
+	const urls = getUrls(path);
 
 	return {
 		urls,
@@ -156,4 +147,4 @@ const getWork = (path: string, en: string, fr?: string, pictures: Picture[]): Wo
 };
 
 export type { Work, Picture };
-export { getUrl, getTitle, cleanDate, getWork };
+export { getUrl, getTitle, cleanDate, getWork, getUrls };

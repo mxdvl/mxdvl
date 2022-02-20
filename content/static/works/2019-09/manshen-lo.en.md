@@ -1,6 +1,5 @@
 ---
 title: Manshen Lo
-date: 2019-09
 at: mxdvl
 ---
 

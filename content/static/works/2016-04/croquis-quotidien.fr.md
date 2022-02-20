@@ -1,6 +1,5 @@
 ---
 title: Croquis quotidiens au Japon
-slug: croquis-quotidiens
 ---
 
 Scènes de vie du pays du Soleil-Levant. Archive complète [sur tumblr][].

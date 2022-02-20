@@ -3,6 +3,7 @@
 
 	export const load: Load = async ({ fetch }) => {
 		const works = await fetch('/works.json').then((r) => r.clone().json());
+		const travaux = await fetch('/travaux.json').then((r) => r.clone().json());
 
 		return {
 			props: {
@@ -28,12 +29,12 @@
 
 <ul>
 	{#each works as work}
-		<li><a href={work.urls.en}>{work.metadata.titles.en}</a> (en)</li>
+		<li><a href={work.urls.en}>{work.metadata.title}</a> (en)</li>
 		{#if work.urls.fr}
-			<li><a href={work.urls.fr}>{work.metadata.titles.fr}</a> (fr)</li>
+			<li><a href={work.urls.fr}>{work.metadata.title}</a> (fr)</li>
 		{:else}
 			<li>
-				<a href={work.urls.en.replace('/works/', '/travaux/')}>{work.metadata.titles.en}</a>
+				<a href={work.urls.en.replace('/works/', '/travaux/')}>{work.metadata.title}</a>
 				(fr manquant)
 			</li>
 		{/if}

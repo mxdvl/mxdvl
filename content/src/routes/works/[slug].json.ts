@@ -5,7 +5,7 @@ import { getWorks } from './index.json';
 const findWork = async (slug?: string): Promise<Work | undefined> => {
 	if (!slug) return;
 
-	const works = await getWorks();
+	const works = await getUrls();
 	const langs = ['en', 'fr'];
 
 	return works.find((work) => langs.some((lang) => work.urls[lang]?.endsWith(`/${slug}.json`)));
