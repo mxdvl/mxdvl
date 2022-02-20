@@ -1,4 +1,4 @@
-import { readDirSync, readFileSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { SKIP, visit } from 'unist-util-visit';
 import { unified } from 'unified';
 import frontmatter from 'remark-frontmatter';
@@ -6,17 +6,14 @@ import parse from 'remark-parse';
 import rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';
 import unwrap from 'remark-unwrap-images';
+import sharp from 'sharp';
 import type { Lang } from '$lib/lang';
 import type { Plugin } from 'unified';
 import type { Root as HastRoot } from '@types/hast';
 import type { Root as MdastRoot } from '@types/mdast';
 
 type Work = {
-	urls: {
-		en: string;
-		fr?: string;
-		date: string;
-	};
+	alt: string;
 	metadata: {
 		lang: Lang;
 		title: string;
@@ -26,19 +23,17 @@ type Work = {
 	content: string;
 };
 
-type Picture = {
-	path: string;
-	width: number;
-	height: number;
-	ratio: number;
-	format: string;
-};
-
 const isString = (value): value is string => typeof value === 'string' && value !== '';
 
 const getSlug = (path: string, slug?: unknown) =>
 	isString(slug) ? slug : path.split('/').filter(Boolean).slice(-1)[0];
 
+type Meta = {
+	title?: string;
+	date?: string;
+	slug?: string;
+	at?: string;
+};
 const getMeta = (root: MdastRoot): Meta => {
 	// @ts-expect-error -- there is a value. Maybe MdastRoot is not the right type
 	const matter: string | undefined = root.children.find((child) => child.type === 'yaml')?.value;
@@ -53,13 +48,6 @@ const getMeta = (root: MdastRoot): Meta => {
 			return [key, value];
 		})
 	);
-};
-
-type Meta = {
-	title?: string;
-	date?: string;
-	slug?: string;
-	at?: string;
 };
 
 const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
@@ -105,14 +93,52 @@ const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
 	};
 };
 
-type WorkData = {
-	slug: string;
-	lang: Lang;
-	pictures: Picture[];
+type Picture = {
 	path: string;
+	width: number;
+	height: number;
+	ratio: number;
+	format: string;
 };
-const getWork = ({ slug, lang, pictures, path }: WorkData): Work => {
+
+const getPicture = async (path: string): Promise<Picture> => {
+	const image = readFileSync(path);
+	const metadata = await sharp(image).metadata();
+	const { width, height, format } = metadata;
+
+	const basis = 6;
+	const ratio = Math.round((height / width) * basis) / basis;
+
+	return {
+		path,
+		width,
+		height,
+		ratio,
+		format
+	};
+};
+
+const getPictures = async (path: string) =>
+	Promise.all(
+		readdirSync(path)
+			.filter((file) =>
+				['png', 'jpg', 'svg'].some((ext) => file.toLowerCase().endsWith(`.${ext}`))
+			)
+			.map((filename) => {
+				return getPicture(`${path}/${filename}`);
+			})
+	);
+
+type WorkData = {
+	lang: Lang;
+	path: string;
+	alt?: string;
+};
+const getWork = async ({ lang, path, alt }: WorkData): Work => {
 	const fileContent = readFileSync(path, 'utf8');
+	const dir = path.split('/').slice(0, -1).join('/');
+
+	const pictures = await getPictures(dir);
 
 	const parsed = unified().use(parse).use(frontmatter).use(unwrap);
 	const htmlProcessor = parsed()
@@ -123,28 +149,24 @@ const getWork = ({ slug, lang, pictures, path }: WorkData): Work => {
 		.use(stringify);
 
 	const REPLACER = /(\]\()\.?\/?([\w-]+\.)/gi;
-	const imgPaths = (s: string) => s.replace(REPLACER, `$1${path}/$2`);
+	const imgPaths = (s: string) => s.replace(REPLACER, `$1${dir}/$2`);
 
 	const content: Work['content'] = htmlProcessor.processSync(imgPaths(fileContent)).toString();
 	const meta: Meta = getMeta(parsed.parse(fileContent));
 
-	console.warn(meta);
-
 	const metadata: Work['metadata'] = {
 		lang,
 		title: meta.title ?? '⚠️ MISSING TITLE',
-		date: isString(meta.date) ? new Date(meta.date).toISOString() : '** MISSING DATE **',
+		date: dir.split('/').slice(-1)[0],
 		at: isString(meta.at) ? meta.at : undefined
 	};
 
-	const urls = getUrls(path);
-
 	return {
-		urls,
+		alt,
 		metadata,
 		content
 	};
 };
 
 export type { Work, Picture };
-export { getUrl, getTitle, cleanDate, getWork, getUrls };
+export { getUrl, getTitle, cleanDate, getWork };

@@ -1,14 +1,26 @@
 import type { Work } from '$lib/works';
 import type { RequestHandler } from '@sveltejs/kit';
-import { getWorks } from './index.json';
+import { getWork } from '$lib/works';
+import { getWorks, getUrls } from './index.json';
 
-const findWork = async (slug?: string): Promise<Work | undefined> => {
-	if (!slug) return;
-
+const findWork = async (slug): Promise<Work | undefined> => {
 	const works = await getUrls();
-	const langs = ['en', 'fr'];
+	const langs: Lang[] = ['en', 'fr'];
 
-	return works.find((work) => langs.some((lang) => work.urls[lang]?.endsWith(`/${slug}.json`)));
+	const work = works.find((work) => langs.some((lang) => work[lang]?.endsWith(`/${slug}.json`)));
+
+	if (!work) return;
+
+	const url: string = work.fr?.endsWith(`/${slug}.json`) ? work.fr : work.en;
+	const lang: Lang = url === work.fr ? 'fr' : 'en';
+	const path: string =
+		lang === 'fr'
+			? `static/works/${work.date}/${decodeURIComponent(slug)}.fr.md`
+			: `static/works/${work.date}/${slug}.en.md`;
+
+	const alt = lang === 'fr' ? work.en : work.fr;
+
+	return getWork({ lang, path, alt });
 };
 
 export const get: RequestHandler = async ({ params }) => {

@@ -2,12 +2,11 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ fetch }) => {
-		const works = await fetch('/works.json').then((r) => r.clone().json());
-		const travaux = await fetch('/travaux.json').then((r) => r.clone().json());
+		const urls = await fetch('/works.json').then((r) => r.clone().json());
 
 		return {
 			props: {
-				works
+				urls
 			}
 		};
 	};
@@ -18,9 +17,12 @@
 </script>
 
 <script lang="ts">
-	import type { Work } from '$lib/works';
+	import type { Urls } from './works/index.json';
 
-	export let works: Work[];
+	export let urls: Urls[];
+
+	const getSlug = (path: string) =>
+		decodeURIComponent(path.split('/').slice(-1)[0].replace('.json', ''));
 </script>
 
 <h1>Content API for MXDVL</h1>
@@ -28,13 +30,14 @@
 <p>Is this over-engineered? Yes, probably. ¯\_(ツ)_/¯</p>
 
 <ul>
-	{#each works as work}
-		<li><a href={work.urls.en}>{work.metadata.title}</a> (en)</li>
-		{#if work.urls.fr}
-			<li><a href={work.urls.fr}>{work.metadata.title}</a> (fr)</li>
+	{#each urls as url}
+		<li>{url.date}: <a href={url.en}>{getSlug(url.en)}</a> (en)</li>
+		{#if url.fr}
+			<li>{url.date}: <a href={url.fr}>{getSlug(url.fr)}</a> (fr)</li>
 		{:else}
 			<li>
-				<a href={work.urls.en.replace('/works/', '/travaux/')}>{work.metadata.title}</a>
+				{url.date}:
+				<a href={url.en.replace('/works/', '/travaux/')}>{getSlug(url.en)}</a>
 				(fr manquant)
 			</li>
 		{/if}
