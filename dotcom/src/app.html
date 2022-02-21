@@ -14,6 +14,9 @@
 				if (theme) {
 					html.classList.add(theme);
 					document.querySelector("link[rel=icon]").setAttribute("href", `/cmps-${theme}.svg`);
+					document
+						.querySelector("link[rel=apple-touch-icon]")
+						.setAttribute("href", `/cmps-icon-${theme}.png`);
 				} else {
 					html.classList.toggle("dark", mq.matches);
 					html.classList.toggle("light", !mq.matches);
@@ -25,7 +28,8 @@
 		</script>
 
 		<link rel="icon" href="/cmps.svg" />
-		<link rel="mask-icon" href="/mask-icon.svg" color="stroke: rgb(0% 14.37% 13.78%)" />
+		<link rel="apple-touch-icon" href="/cmps-icon-light.png" />
+		<link rel="mask-icon" href="/mask-icon.svg" color="rgb(0% 14.37% 13.78%)" />
 
 		%svelte.head%
 	</head>
