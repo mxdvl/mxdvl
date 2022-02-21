@@ -12,7 +12,7 @@ specifiers:
   eslint-config-prettier: 8.3.0
   eslint-plugin-svelte3: 3.4.0
   fathom-client: 3.4.1
-  mdsvex: 0.9.8
+  mdsvex: 0.10.5
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0
   svelte: 3.46.3
@@ -35,7 +35,7 @@ devDependencies:
   eslint-config-prettier: 8.3.0_eslint@8.8.0
   eslint-plugin-svelte3: 3.4.0_eslint@8.8.0+svelte@3.46.3
   fathom-client: 3.4.1
-  mdsvex: 0.9.8_svelte@3.46.3
+  mdsvex: 0.10.5_svelte@3.46.3
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0_prettier@2.5.1+svelte@3.46.3
   svelte: 3.46.3
@@ -1137,8 +1137,8 @@ packages:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
     dev: true
 
-  /mdsvex/0.9.8_svelte@3.46.3:
-    resolution: {integrity: sha512-5QvThjRKoKkGH00qdHxLZ5ROd80RgGiJvM2B9opeFreaiGFTLoKKFUgEBCslLrwM24cVGJLmIM3rR83OFDf3tQ==}
+  /mdsvex/0.10.5_svelte@3.46.3:
+    resolution: {integrity: sha512-/B23WZn5Vjrjh7Qp2YsOXLkU9YFm59IEylKNXC10o05ZaCP4LNv32tGXKP6aEssss6hk/LdISJuneELHFIS2pQ==}
     peerDependencies:
       svelte: 3.x
     dependencies:

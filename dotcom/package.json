@@ -25,7 +25,7 @@
 		"eslint-config-prettier": "8.3.0",
 		"eslint-plugin-svelte3": "3.4.0",
 		"fathom-client": "3.4.1",
-		"mdsvex": "0.9.8",
+		"mdsvex": "0.10.5",
 		"prettier": "2.5.1",
 		"prettier-plugin-svelte": "2.6.0",
 		"svelte": "3.46.3",
