@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { WorkUrls } from "../../../content/src/routes/works/index.json";
+	import type { WorkUrls } from "$content/routes/works/index.json";
 	import type { Lang } from "$lib/lang";
 
 	const getTitle = (url?: string) => {
@@ -15,6 +15,14 @@
 		);
 	};
 
+	const getUrl = (work: WorkUrls, lang: Lang): string => {
+		const url = (work[lang] ?? work.en).split("/").slice(-1)[0]?.replace(".json", "") ?? "404";
+
+		const base = lang === "fr" ? "/travaux/" : "/works/";
+
+		return base + url;
+	};
+
 	export const cleanDate = (date: string) => new Date(date).toISOString().slice(0, 7);
 </script>
 
@@ -26,7 +34,7 @@
 <ul>
 	{#each works as work}
 		<li>
-			<a href={work[lang]?.replace(".json", "") ?? work.en.replace(".json", "")}>
+			<a href={getUrl(work, lang)}>
 				<h3>
 					{getTitle(work[lang])}
 				</h3>

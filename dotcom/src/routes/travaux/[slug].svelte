@@ -1,21 +1,5 @@
-<script context="module" lang="ts">
-	import type { Load } from "@sveltejs/kit";
-	import type { Work } from "../../../../content/src/lib/works";
-	import { base } from "../works/index.svelte";
-
-	export const load: Load = async ({ fetch, params }) => {
-		const { slug } = params;
-		const work = await fetch(new URL(`/travaux/${slug}.json`, base).toString()).then((r) => r.json());
-
-		return {
-			props: {
-				work,
-			},
-		};
-	};
-</script>
-
 <script lang="ts">
+	import type { Work } from "$content/lib/works";
 	import WorkComponent from "$lib/Work.svelte";
 
 	export let work: Work;
