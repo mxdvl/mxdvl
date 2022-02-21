@@ -10,7 +10,6 @@ const config = {
 	preprocess: [preprocess(), mdsvex({ extensions })],
 
 	kit: {
-		// hydrate the <div id="svelte"> element in src/app.html
 		adapter: adapter(),
 		prerender: {
 			entries: ["/hi", "/allô", "/error", "/erreur"],
