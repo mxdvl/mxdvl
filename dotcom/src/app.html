@@ -14,7 +14,9 @@
 				if (theme) {
 					html.classList.add(theme);
 					document.querySelector("link[rel=icon]").setAttribute("href", `/cmps-${theme}.svg`);
-					document.querySelector("link[rel=apple-touch-icon]").setAttribute("href", `/cmps-icon-${theme}.png`);
+					document
+						.querySelector("link[rel=apple-touch-icon]")
+						.setAttribute("href", `/cmps-icon-${theme}.png`);
 				} else {
 					html.classList.toggle("dark", mq.matches);
 					html.classList.toggle("light", !mq.matches);
