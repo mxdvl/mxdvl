@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@sveltejs/adapter-auto': next
-  '@sveltejs/adapter-static': 1.0.0-next.26
+  '@sveltejs/adapter-static': 1.0.0-next.28
   '@sveltejs/kit': ^1.0.0-next.278
   '@sveltejs/vite-plugin-svelte': ^1.0.0-next.37
   '@types/hast': 2.3.4
@@ -35,7 +35,7 @@ specifiers:
 
 devDependencies:
   '@sveltejs/adapter-auto': 1.0.0-next.17
-  '@sveltejs/adapter-static': 1.0.0-next.26
+  '@sveltejs/adapter-static': 1.0.0-next.28
   '@sveltejs/kit': 1.0.0-next.278_svelte@3.46.3
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.37_svelte@3.46.3+vite@2.8.4
   '@types/hast': 2.3.4
@@ -155,8 +155,8 @@ packages:
       tiny-glob: 0.2.9
     dev: true
 
-  /@sveltejs/adapter-static/1.0.0-next.26:
-    resolution: {integrity: sha512-LXR0HkPygZ+m9wJhFqbYWbJ0jquhgUK6vL/8AwnqbAZGGtQFloMpf49WOANk7MiLBeY6L97W5jPLSxHiDW3T0Q==}
+  /@sveltejs/adapter-static/1.0.0-next.28:
+    resolution: {integrity: sha512-c4xLyeSwnbGQxe4f1SLpHTbxZDm3TEr43scR3tOlVgQN+mnAL9aDdl3nTtdzWmrUDmDEmY4GriAwLyFLZuINLw==}
     dependencies:
       tiny-glob: 0.2.9
     dev: true
