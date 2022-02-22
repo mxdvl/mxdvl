@@ -19,7 +19,7 @@ specifiers:
   svelte: 3.46.4
   svelte-check: 2.4.5
   svelte-hmr: ^0.14.9
-  svelte-preprocess: 4.10.2
+  svelte-preprocess: 4.10.3
   typescript: 4.5.5
   vite: 2.8.4
 
@@ -44,7 +44,7 @@ devDependencies:
   svelte: 3.46.4
   svelte-check: 2.4.5_svelte@3.46.4
   svelte-hmr: 0.14.9_svelte@3.46.4
-  svelte-preprocess: 4.10.2_svelte@3.46.4+typescript@4.5.5
+  svelte-preprocess: 4.10.3_svelte@3.46.4+typescript@4.5.5
   typescript: 4.5.5
   vite: 2.8.4
 
@@ -1492,7 +1492,7 @@ packages:
       sade: 1.7.4
       source-map: 0.7.3
       svelte: 3.46.4
-      svelte-preprocess: 4.10.2_svelte@3.46.4+typescript@4.5.5
+      svelte-preprocess: 4.10.3_svelte@3.46.4+typescript@4.5.5
       typescript: 4.5.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -1515,8 +1515,8 @@ packages:
       svelte: 3.46.4
     dev: true
 
-  /svelte-preprocess/4.10.2_svelte@3.46.4+typescript@4.5.5:
-    resolution: {integrity: sha512-aPpkCreSo8EL/y8kJSa1trhiX0oyAtTjlNNM7BNjRAsMJ8Yy2LtqHt0zyd4pQPXt+D4PzbO3qTjjio3kwOxDlA==}
+  /svelte-preprocess/4.10.3_svelte@3.46.4+typescript@4.5.5:
+    resolution: {integrity: sha512-ttw17lJfb/dx2ZJT9sesaXT5l7mPQ9Apx1H496Kli3Hkk7orIRGpOw6rCPkRNzr6ueVPqb4vzodS5x7sBFhKHw==}
     engines: {node: '>= 9.11.2'}
     requiresBuild: true
     peerDependencies:
@@ -1531,7 +1531,7 @@ packages:
       stylus: ^0.55.0
       sugarss: ^2.0.0
       svelte: ^3.23.0
-      typescript: ^4.5.2
+      typescript: ^3.9.5 || ^4.0.0
     peerDependenciesMeta:
       '@babel/core':
         optional: true
