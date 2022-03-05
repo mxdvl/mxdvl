@@ -4,16 +4,16 @@
 	import type { Lang } from "./lang";
 
 	type Theme = "light" | "dark";
-	let themePreference: Theme | undefined;
-	let currentTheme: Theme | undefined;
+	let themePreference: Theme;
+	let currentTheme: Theme;
 
 	const systemTheme = (): Theme => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
-	const toggleClass = (theme: Theme, html: HTMLHtmlElement) => {
-		const { classList } = html;
+	const toggleClass = (theme: Theme, element: HTMLElement) => {
+		const { classList } = element;
 		classList.remove("light", "dark");
 		classList.add(theme);
-		document.querySelector("link[rel=icon]").setAttribute("href", `/cmps-${theme}.svg`);
+		document.querySelector("link[rel=icon]")?.setAttribute("href", `/cmps-${theme}.svg`);
 	};
 
 	const setTheme = (theme: Theme): void => {
@@ -33,7 +33,7 @@
 		}
 
 		themePreference = localStorage.theme;
-		toggleClass(theme, document.querySelector("html"));
+		toggleClass(theme, document.documentElement);
 	};
 
 	onMount(() => {
@@ -42,7 +42,7 @@
 
 		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (ev) => {
 			if (!themePreference) currentTheme = ev.matches ? "dark" : "light";
-			toggleClass(currentTheme, document.querySelector("html"));
+			toggleClass(currentTheme, document.documentElement);
 		});
 	});
 
