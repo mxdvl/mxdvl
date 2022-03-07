@@ -121,6 +121,14 @@ picture {
 	--ratio: 9;
 	width: calc(var(--width) * var(--grid));
 	height: calc(var(--width) * var(--ratio) * var(--grid));
+	background: radial-gradient(
+			var(--clouds),
+			var(--clouds) calc(var(--grid) - 1px),
+			var(--skies) calc(var(--grid) - 1px),
+			var(--skies) calc(var(--grid) + 1px),
+			var(--clouds) calc(var(--grid) + 1px)
+		) repeat;
+	background-size: var(--grid-double) var(--grid-double);
 }
 
 picture::after {
