@@ -8,7 +8,7 @@ specifiers:
   '@types/hast': 2.3.4
   '@types/mdast': 3.0.10
   '@types/node': 17.0.10
-  '@types/sharp': 0.29.5
+  '@types/sharp': 0.30.0
   '@typescript-eslint/eslint-plugin': 5.14.0
   '@typescript-eslint/parser': 5.14.0
   eslint: 8.10.0
@@ -41,7 +41,7 @@ devDependencies:
   '@types/hast': 2.3.4
   '@types/mdast': 3.0.10
   '@types/node': 17.0.10
-  '@types/sharp': 0.29.5
+  '@types/sharp': 0.30.0
   '@typescript-eslint/eslint-plugin': 5.14.0_f4054b8c3cd621db16ae1b9d571bccc0
   '@typescript-eslint/parser': 5.14.0_eslint@8.10.0+typescript@4.6.2
   eslint: 8.10.0
@@ -252,8 +252,8 @@ packages:
       '@types/node': 17.0.10
     dev: true
 
-  /@types/sharp/0.29.5:
-    resolution: {integrity: sha512-3TC+S3H5RwnJmLYMHrcdfNjz/CaApKmujjY9b6PU/pE6n0qfooi99YqXGWoW8frU9EWYj/XTI35Pzxa+ThAZ5Q==}
+  /@types/sharp/0.30.0:
+    resolution: {integrity: sha512-bZ0Y/JVlrOyqwlBMJ2taEgnwFavjLnyZmLOLecmOesuG5kR2Lx9b2fM4osgfVjLJi8UlE+t3R1JzRVMxF6MbfA==}
     dependencies:
       '@types/node': 17.0.10
     dev: true
