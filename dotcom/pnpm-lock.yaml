@@ -4,7 +4,7 @@ specifiers:
   '@ibm/plex': 6.0.0
   '@sveltejs/adapter-auto': 1.0.0-next.23
   '@sveltejs/adapter-vercel': 1.0.0-next.0
-  '@sveltejs/kit': 1.0.0-next.278
+  '@sveltejs/kit': 1.0.0-next.303
   '@sveltejs/vite-plugin-svelte': ^1.0.0-next.37
   '@typescript-eslint/eslint-plugin': 5.16.0
   '@typescript-eslint/parser': 5.16.0
@@ -29,7 +29,7 @@ dependencies:
 devDependencies:
   '@sveltejs/adapter-auto': 1.0.0-next.23
   '@sveltejs/adapter-vercel': 1.0.0-next.0
-  '@sveltejs/kit': 1.0.0-next.278_svelte@3.46.4
+  '@sveltejs/kit': 1.0.0-next.303_svelte@3.46.4
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.37_svelte@3.46.4+vite@2.8.6
   '@typescript-eslint/eslint-plugin': 5.16.0_bc68a9cd5bf604202498b1a9faaf9387
   '@typescript-eslint/parser': 5.16.0_eslint@8.11.0+typescript@4.6.3
@@ -151,8 +151,8 @@ packages:
       esbuild: 0.14.21
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.278_svelte@3.46.4:
-    resolution: {integrity: sha512-WT93Wnu05X9WG9BMMk/dj0gy6R7iXm9aXRDVgmIl9z8jT2ukejgmkhi5IwBYrK0OMIUALRVfukn+iy+srPc91Q==}
+  /@sveltejs/kit/1.0.0-next.303_svelte@3.46.4:
+    resolution: {integrity: sha512-WdxDc8OiF1WEd/bEza7CBdzA+3qIcCi1GKBj/gieKX9I3N8iDJt/Cg2POrLo9wQoJ47nZcAd1eOhfr7XEX1aIQ==}
     engines: {node: '>=14.13'}
     hasBin: true
     peerDependencies:
