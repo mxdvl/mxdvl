@@ -1,35 +1,7 @@
-<script context="module" lang="ts">
-	import type { Load } from "@sveltejs/kit";
-	import type { WeatherAPIRespone } from "src/routes/weather/[city].json";
-
-	export const load: Load = async ({ fetch }) => {
-		const response: WeatherAPIRespone = await fetch("/weather/london.json").then((r) => r.json());
-		const weather: Partial<WeatherAPIRespone> =
-			response.cod === 200
-				? response
-				: {
-						weather: [{ id: 800, main: "cloudy", description: "failed API call", icon: "--" }],
-						main: {
-							temp: 270,
-							feels_like: 270,
-							temp_min: 240,
-							temp_max: 300,
-							pressure: 1200,
-							humidity: 60,
-						},
-				  };
-
-		return {
-			props: {
-				weather,
-			},
-			maxage: 360,
-		};
-	};
-</script>
-
 <script lang="ts">
-	export let weather: WeatherAPIRespone;
+	import type { WeatherAPIResponse } from "$lib/weather";
+
+	export let weather: WeatherAPIResponse;
 </script>
 
 <h1>Allô!</h1>
