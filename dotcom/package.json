@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "svelte-kit dev",
-		"build": "svelte-kit build && cp -R ../content build",
+		"build": "svelte-kit build && cp -R ../content/static build",
 		"preview": "svelte-kit preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
