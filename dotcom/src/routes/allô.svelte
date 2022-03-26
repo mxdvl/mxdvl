@@ -19,6 +19,4 @@
 	<a href="https://github.com/mxdvl">contribuer à du code source ouvert </a>.
 </p>
 
-<p class="warn">Ce nouveau site est en construction. Attendez-vous à beaucoup de changements en janvier 2022.</p>
-
 <p>Température ressentie {weather.main.feels_like}K</p>
