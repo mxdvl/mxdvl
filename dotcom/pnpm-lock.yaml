@@ -18,7 +18,7 @@ specifiers:
   prettier-plugin-svelte: 2.6.0
   svelte: 3.46.4
   svelte-check: 2.4.6
-  svelte-hmr: ^0.14.9
+  svelte-hmr: 0.14.11
   svelte-preprocess: 4.10.4
   typescript: 4.6.3
   vite: 2.8.6
@@ -43,7 +43,7 @@ devDependencies:
   prettier-plugin-svelte: 2.6.0_prettier@2.6.1+svelte@3.46.4
   svelte: 3.46.4
   svelte-check: 2.4.6_svelte@3.46.4
-  svelte-hmr: 0.14.9_svelte@3.46.4
+  svelte-hmr: 0.14.11_svelte@3.46.4
   svelte-preprocess: 4.10.4_svelte@3.46.4+typescript@4.6.3
   typescript: 4.6.3
   vite: 2.8.6
@@ -186,7 +186,7 @@ packages:
       kleur: 4.1.4
       magic-string: 0.25.7
       svelte: 3.46.4
-      svelte-hmr: 0.14.9_svelte@3.46.4
+      svelte-hmr: 0.14.11_svelte@3.46.4
       vite: 2.8.6
     transitivePeerDependencies:
       - supports-color
@@ -1507,8 +1507,9 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-hmr/0.14.9_svelte@3.46.4:
-    resolution: {integrity: sha512-bKE9+4qb4sAnA+TKHiYurUl970rjA0XmlP9TEP7K/ncyWz3m81kA4HOgmlZK/7irGK7gzZlaPDI3cmf8fp/+tg==}
+  /svelte-hmr/0.14.11_svelte@3.46.4:
+    resolution: {integrity: sha512-R9CVfX6DXxW1Kn45Jtmx+yUe+sPhrbYSUp7TkzbW0jI5fVPn6lsNG9NEs5dFg5qRhFNAoVdRw5qQDLALNKhwbQ==}
+    engines: {node: ^12.20 || ^14.13.1 || >= 16}
     peerDependencies:
       svelte: '>=3.19.0'
     dependencies:
