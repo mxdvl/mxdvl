@@ -23,6 +23,7 @@
 			props: {
 				weather,
 			},
+			maxage: 360,
 		};
 	};
 </script>
