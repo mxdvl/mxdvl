@@ -6,4 +6,4 @@ dotcom/.svelte-kit
 dotcom/build
 dotcom/functions
 
-.vercel
+.vercel*
