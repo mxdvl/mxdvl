@@ -28,7 +28,7 @@
 		"fathom-client": "3.4.1",
 		"mdsvex": "0.10.5",
 		"prettier": "2.6.2",
-		"prettier-plugin-svelte": "2.6.0",
+		"prettier-plugin-svelte": "2.7.0",
 		"svelte": "3.46.6",
 		"svelte-check": "2.5.0",
 		"svelte-hmr": "0.14.11",

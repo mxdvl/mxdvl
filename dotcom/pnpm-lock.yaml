@@ -15,7 +15,7 @@ specifiers:
   fathom-client: 3.4.1
   mdsvex: 0.10.5
   prettier: 2.6.2
-  prettier-plugin-svelte: 2.6.0
+  prettier-plugin-svelte: 2.7.0
   svelte: 3.46.6
   svelte-check: 2.5.0
   svelte-hmr: 0.14.11
@@ -40,7 +40,7 @@ devDependencies:
   fathom-client: 3.4.1
   mdsvex: 0.10.5_svelte@3.46.6
   prettier: 2.6.2
-  prettier-plugin-svelte: 2.6.0_prettier@2.6.2+svelte@3.46.6
+  prettier-plugin-svelte: 2.7.0_prettier@2.6.2+svelte@3.46.6
   svelte: 3.46.6
   svelte-check: 2.5.0_svelte@3.46.6
   svelte-hmr: 0.14.11_svelte@3.46.6
@@ -1288,8 +1288,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-svelte/2.6.0_prettier@2.6.2+svelte@3.46.6:
-    resolution: {integrity: sha512-NPSRf6Y5rufRlBleok/pqg4+1FyGsL0zYhkYP6hnueeL1J/uCm3OfOZPsLX4zqD9VAdcXfyEL2PYqGv8ZoOSfA==}
+  /prettier-plugin-svelte/2.7.0_prettier@2.6.2+svelte@3.46.6:
+    resolution: {integrity: sha512-fQhhZICprZot2IqEyoiUYLTRdumULGRvw0o4dzl5jt0jfzVWdGqeYW27QTWAeXhoupEZJULmNoH3ueJwUWFLIA==}
     peerDependencies:
       prettier: ^1.16.4 || ^2.0.0
       svelte: ^3.2.0
