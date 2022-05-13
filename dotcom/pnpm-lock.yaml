@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ibm/plex': 6.0.0
+  '@ibm/plex': 6.0.1
   '@sveltejs/adapter-auto': 1.0.0-next.33
   '@sveltejs/adapter-vercel': 1.0.0-next.0
   '@sveltejs/kit': 1.0.0-next.303
@@ -24,7 +24,7 @@ specifiers:
   vite: 2.9.9
 
 dependencies:
-  '@ibm/plex': 6.0.0
+  '@ibm/plex': 6.0.1
 
 devDependencies:
   '@sveltejs/adapter-auto': 1.0.0-next.33
@@ -86,8 +86,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@ibm/plex/6.0.0:
-    resolution: {integrity: sha512-KJv808kiPfyolO1fd2xHwhltHy2MlvpwRcGca+tOul+hbLf8r/Xx+8Xz5/KyKl/vvDJR8YXQCq09vGBAmrNDZw==}
+  /@ibm/plex/6.0.1:
+    resolution: {integrity: sha512-/GyEoPbUNPx4MhNsKaF7rxqS4CsSLiUiw/u0NPeWIAIJ9K8oVL3vYr7yyNzsaQ9Y1hN2iCN/TEmrdfMCQfaTrQ==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
