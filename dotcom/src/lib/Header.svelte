@@ -4,17 +4,17 @@
 		{
 			en: "works",
 			fr: "travaux",
-			width: 4,
+			width: 3,
 		},
 		{
 			en: "profile",
 			fr: "profil",
-			width: 4,
+			width: 2,
 		},
 		{
 			en: "tools",
 			fr: "outils",
-			width: 3,
+			width: 2,
 		},
 	];
 
@@ -87,8 +87,8 @@
 		flex: 0 0 calc(var(--size) * var(--width));
 		text-transform: uppercase;
 		text-align: center;
-		font-weight: 320;
-		font-size: 1.75rem;
+		font-weight: 420;
+		font-size: 1.111rem;
 		line-height: calc(2 * var(--grid));
 	}
 
@@ -113,6 +113,10 @@
 		--frame: var(--skies);
 	}
 
+	.page a {
+		transform: translateY(1px);
+	}
+
 	.page a:hover {
 		--frame: var(--border);
 	}
@@ -127,5 +131,6 @@
 		inset: -1px;
 		border: 2px solid var(--frame);
 		pointer-events: none;
+		transform: translateY(-1px);
 	}
 </style>
