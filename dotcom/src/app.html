@@ -6,6 +6,10 @@
 
 		<link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
 
+		<link rel="icon" href="/cmps.svg" />
+		<link rel="apple-touch-icon" href="/cmps-icon-light.png" />
+		<link rel="mask-icon" href="/mask-icon.svg" />
+
 		<script>
 			const html = document.querySelector("html");
 			const mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -17,19 +21,22 @@
 					document
 						.querySelector("link[rel=apple-touch-icon]")
 						?.setAttribute("href", `/cmps-icon-${theme}.png`);
+					document
+						.querySelector("link[rel=mask-icon]")
+						?.setAttribute("color", theme === "dark" ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
 				} else {
 					html.classList.toggle("dark", mq.matches);
 					html.classList.toggle("light", !mq.matches);
+					console.log(document.querySelector("link[rel=mask-icon]"));
+					document
+						.querySelector("link[rel=mask-icon]")
+						?.setAttribute("color", mq.matches ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
 				}
 			} catch (error) {
 				html.classList.add("light");
 				console.log(error);
 			}
 		</script>
-
-		<link rel="icon" href="/cmps.svg" />
-		<link rel="apple-touch-icon" href="/cmps-icon-light.png" />
-		<link rel="mask-icon" href="/mask-icon.svg" color="rgb(0% 14.37% 13.78%)" />
 
 		%svelte.head%
 	</head>

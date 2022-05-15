@@ -14,6 +14,9 @@
 		classList.remove("light", "dark");
 		classList.add(theme);
 		document.querySelector("link[rel=icon]")?.setAttribute("href", `/cmps-${theme}.svg`);
+		document
+			.querySelector("link[rel=mask-icon]")
+			?.setAttribute("color", theme === "dark" ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
 	};
 
 	const setTheme = (theme: Theme): void => {
