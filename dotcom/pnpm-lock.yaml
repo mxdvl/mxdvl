@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@ibm/plex': 6.0.1
+  '@ibm/plex': 6.0.2
   '@sveltejs/adapter-auto': 1.0.0-next.33
   '@sveltejs/adapter-vercel': 1.0.0-next.0
   '@sveltejs/kit': 1.0.0-next.303
@@ -24,7 +24,7 @@ specifiers:
   vite: 2.9.9
 
 dependencies:
-  '@ibm/plex': 6.0.1
+  '@ibm/plex': 6.0.2
 
 devDependencies:
   '@sveltejs/adapter-auto': 1.0.0-next.33
@@ -86,8 +86,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@ibm/plex/6.0.1:
-    resolution: {integrity: sha512-/GyEoPbUNPx4MhNsKaF7rxqS4CsSLiUiw/u0NPeWIAIJ9K8oVL3vYr7yyNzsaQ9Y1hN2iCN/TEmrdfMCQfaTrQ==}
+  /@ibm/plex/6.0.2:
+    resolution: {integrity: sha512-0lBo4ju7/6B58cxmACCPVEGt9xjQ8+3lggRrW7pJOWxKAFsQ21whifwES5q3eJ5wDfL3QlsvMF4YXnOQPYaNdQ==}
     dev: false
 
   /@jridgewell/resolve-uri/3.0.7:
