@@ -45,7 +45,7 @@ body {
 
 	width: calc(16 * var(--grid));
 	margin: 0 auto;
-	padding: calc(0.5 * var(--grid));
+	padding: calc(0.25 * var(--grid)) calc(0.5 * var(--grid));
 	font-family: "IBM Plex Sans Variable", sans-serif;
 
 	font-weight: 400;
@@ -62,13 +62,14 @@ body {
 	background-color: var(--clouds);
 	color: var(--earth);
 
-	background-image: radial-gradient(circle at center, var(--skies) 1px, transparent 1px);
+	background-image: radial-gradient(circle at 25% 75%, var(--skies) 1px, transparent 1px),
+		radial-gradient(circle at 75% 25%, var(--skies) 1px, transparent 1px);
 	background-position: top center;
-	background-size: var(--grid) var(--grid);
+	background-size: var(--grid-double) var(--grid);
 }
 
 body.themed {
-	transition: all 0.5s;
+	transition: all 1.2s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -121,14 +122,11 @@ picture {
 	--ratio: 9;
 	width: calc(var(--width) * var(--grid));
 	height: calc(var(--width) * var(--ratio) * var(--grid));
-	background: radial-gradient(
-			var(--clouds),
+	background: radial-gradient(var(--clouds),
 			var(--clouds) calc(var(--grid) - 1px),
 			var(--skies) calc(var(--grid) - 1px),
 			var(--skies) calc(var(--grid) + 1px),
-			var(--clouds) calc(var(--grid) + 1px)
-		)
-		repeat;
+			var(--clouds) calc(var(--grid) + 1px)) repeat;
 	background-size: var(--grid-double) var(--grid-double);
 }
 
@@ -149,7 +147,7 @@ picture img {
 	object-fit: cover;
 }
 
-picture + picture {
+picture+picture {
 	margin-top: var(--grid);
 }
 
