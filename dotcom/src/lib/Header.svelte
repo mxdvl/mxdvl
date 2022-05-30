@@ -9,7 +9,7 @@
 		{
 			en: "profile",
 			fr: "profil",
-			width: 2,
+			width: 3,
 		},
 		{
 			en: "tools",
@@ -70,9 +70,9 @@
 	}
 
 	ul {
-		--size: var(--grid-double);
+		--size: var(--grid-x);
 		display: flex;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		justify-content: space-between;
 		height: 100%;
 		margin: 0;
@@ -84,7 +84,7 @@
 
 	li {
 		display: block;
-		flex: 0 0 calc(var(--size) * var(--width));
+		flex: 0 1 calc(var(--size) * var(--width));
 		text-transform: uppercase;
 		text-align: center;
 		font-weight: 420;

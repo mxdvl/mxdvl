@@ -40,12 +40,6 @@ html {
 }
 
 body {
-	--grid: 1.125rem;
-	--grid-double: calc(2 * var(--grid));
-
-	width: calc(16 * var(--grid));
-	margin: 0 auto;
-	padding: calc(0.5 * var(--grid));
 	font-family: "IBM Plex Sans Variable", sans-serif;
 
 	font-weight: 400;
@@ -58,17 +52,12 @@ body {
 	/* font-variation-settings: "wght" var(--weight), "wdth" var(--weight); */
 
 	font-size: 16px;
-	line-height: var(--grid);
 	background-color: var(--clouds);
 	color: var(--earth);
-
-	background-image: radial-gradient(circle at center, var(--skies) 1px, transparent 1px);
-	background-position: top center;
-	background-size: var(--grid) var(--grid);
 }
 
 body.themed {
-	transition: all 0.5s;
+	transition: all 1.2s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -153,8 +142,29 @@ picture + picture {
 	margin-top: var(--grid);
 }
 
+/* -- GRID --------------------------- */
+
+#grid {
+	--grid: 1.125rem;
+	--grid-double: calc(2 * var(--grid));
+	--grid-x: calc(2 * var(--grid));
+	--grid-y: calc(1 * var(--grid));
+
+	width: calc(16 * var(--grid));
+	margin: 0 auto;
+	padding-block: calc(0.25 * var(--grid-y));
+	padding-inline: calc(0.25 * var(--grid-x));
+	line-height: var(--grid);
+
+	background-image: radial-gradient(circle at 25% 75%, var(--skies) 1px, transparent 1px),
+		radial-gradient(circle at 75% 25%, var(--skies) 1px, transparent 1px);
+	background-position: top left;
+	background-size: var(--grid-x) var(--grid-y);
+	background-clip: padding-box;
+}
+
 @media screen and (min-width: 360px) {
-	body {
+	#grid {
 		width: calc(18 * var(--grid));
 	}
 
@@ -164,7 +174,7 @@ picture + picture {
 }
 
 @media screen and (min-width: 620px) {
-	body {
+	#grid {
 		width: calc(30 * var(--grid));
 	}
 
@@ -174,7 +184,7 @@ picture + picture {
 }
 
 @media screen and (min-width: 740px) {
-	body {
+	#grid {
 		width: calc(36 * var(--grid));
 	}
 
@@ -184,7 +194,7 @@ picture + picture {
 }
 
 @media screen and (min-width: 960px) {
-	body {
+	#grid {
 		width: calc(48 * var(--grid));
 	}
 
@@ -194,7 +204,7 @@ picture + picture {
 }
 
 @media screen and (min-width: 1200px) {
-	body {
+	#grid {
 		width: calc(66 * var(--grid));
 	}
 
@@ -204,7 +214,7 @@ picture + picture {
 }
 
 @media screen and (min-width: 1400px) {
-	body {
+	#grid {
 		width: calc(72 * var(--grid));
 	}
 
