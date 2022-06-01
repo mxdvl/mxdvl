@@ -1,7 +1,5 @@
-import type { Work, Picture } from "$lib/works";
-import { getWork } from "$lib/works";
 import type { RequestHandler } from "@sveltejs/kit";
-import { readdirSync, readFileSync } from "fs";
+import { readdirSync } from "fs";
 
 const dirs = readdirSync("static/works").filter((dir) => !dir.includes("."));
 
@@ -30,7 +28,7 @@ const getUrls = (): Array<WorkUrls> =>
 export const get: RequestHandler = async () => {
 	const works = getUrls();
 
-	if (!works) return;
+	if (!works) return { status: 404 };
 
 	return {
 		body: works.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),

@@ -11,7 +11,7 @@
 	const search = "https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte";
 </script>
 
-<footer class="footer cf" role="contentinfo">
+<footer class="footer cf">
 	{#if lang == "en"}
 		<p>
 			Online since 2007.<br />

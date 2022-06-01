@@ -6,14 +6,15 @@ import parse from "remark-parse";
 import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
 import unwrap from "remark-unwrap-images";
+// @ts-expect-error -- sharp is exported this way
 import sharp from "sharp";
-import type { Lang } from "$lib/lang";
+import type { Lang } from "$dotcom/lib/lang";
 import type { Plugin } from "unified";
-import type { Root as HastRoot } from "@types/hast";
-import type { Root as MdastRoot } from "@types/mdast";
+import type { ElementContent, Root as HastRoot } from "hast";
+import type { Content, Root as MdastRoot, YAML } from "mdast";
 
 type Work = {
-	alt: string;
+	alt?: string;
 	metadata: {
 		lang: Lang;
 		title: string;
@@ -23,10 +24,8 @@ type Work = {
 	content: string;
 };
 
-const isString = (value): value is string => typeof value === "string" && value !== "";
-
-const getSlug = (path: string, slug?: unknown) =>
-	isString(slug) ? slug : path.split("/").filter(Boolean).slice(-1)[0];
+const isNonEmptyString = (value: unknown): value is string => typeof value === "string" && value.trim() !== "";
+const isYaml = (content: Content): content is YAML => content.type === "yaml";
 
 type Meta = {
 	title?: string;
@@ -35,8 +34,7 @@ type Meta = {
 	at?: string;
 };
 const getMeta = (root: MdastRoot): Meta => {
-	// @ts-expect-error -- there is a value. Maybe MdastRoot is not the right type
-	const matter: string | undefined = root.children.find((child) => child.type === "yaml")?.value;
+	const matter = root.children.find(isYaml)?.value;
 
 	if (!matter) return {};
 
@@ -50,36 +48,39 @@ const getMeta = (root: MdastRoot): Meta => {
 	);
 };
 
-const cloudinary: Plugin<Picture[], HastRoot> = (options = {}) => {
-	const { pictures } = options;
-
+const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 	const cdn = "https://res.cloudinary.com/";
 	const account = "mxdvl/image/upload";
 
 	return (tree) => {
-		visit(tree, "element", (node, index, parent) => {
+		visit(tree, "element", (node, _, parent) => {
 			const { tagName } = node;
 
 			if (parent && tagName === "img") {
 				const { properties } = node;
 
-				const src = properties.src.replace("static/", "content/");
+				if (!properties) return [SKIP];
 
-				const child = {
+				const src = String(properties.src).replace("static/", "");
+
+				const child: ElementContent = {
 					type: "element",
 					tagName: "img",
 					properties: {
 						alt: properties.alt,
 						srcset: [300, 600, 1200, 1800, 2400, 3000]
 							.map((width) => {
-								return `${new URL(`/${account}/w_${width}/${src}`, cdn)} ${width}w`;
+								return `${new URL(`/${account}/w_${width}/content/${src}`, cdn)} ${width}w`;
 							})
 							.join(", "),
-						src: new URL(`/${account}/w_${300}/${src}`, cdn),
+						src: new URL(`/${account}/w_${300}/content/${src}`, cdn).toString(),
 					},
+					children: [],
 				};
 
-				const picture = pictures.find((picture) => picture.path.endsWith(properties.src));
+				const picture = pictures.find((picture) => picture.path.endsWith(String(properties.src)));
+
+				if (!picture) return [SKIP];
 
 				node.tagName = "picture";
 				node.properties = {
@@ -128,23 +129,18 @@ const getPictures = async (path: string) =>
 	);
 
 type WorkData = {
-	lang: Lang;
+	alt: Work["alt"];
+	lang: Work["metadata"]["lang"];
 	path: string;
-	alt?: string;
 };
-const getWork = async ({ lang, path, alt }: WorkData): Work => {
+const getWork = async ({ lang, path, alt }: WorkData): Promise<Work> => {
 	const fileContent = readFileSync(path, "utf8");
 	const dir = path.split("/").slice(0, -1).join("/");
 
 	const pictures = await getPictures(dir);
 
 	const parsed = unified().use(parse).use(frontmatter).use(unwrap);
-	const htmlProcessor = parsed()
-		.use(rehype)
-		.use(cloudinary, {
-			pictures,
-		})
-		.use(stringify);
+	const htmlProcessor = parsed().use(rehype).use(cloudinary, pictures).use(stringify);
 
 	const REPLACER = /(\]\()\.?\/?([\w-]+\.)/gi;
 	const imgPaths = (s: string) => s.replace(REPLACER, `$1${dir}/$2`);
@@ -155,8 +151,8 @@ const getWork = async ({ lang, path, alt }: WorkData): Work => {
 	const metadata: Work["metadata"] = {
 		lang,
 		title: meta.title ?? "⚠️ MISSING TITLE",
-		date: dir.split("/").slice(-1)[0],
-		at: isString(meta.at) ? meta.at : undefined,
+		date: dir.split("/").slice(-1)[0] ?? "2007-01-14",
+		at: isNonEmptyString(meta.at) ? meta.at : undefined,
 	};
 
 	return {
@@ -167,4 +163,4 @@ const getWork = async ({ lang, path, alt }: WorkData): Work => {
 };
 
 export type { Work, Picture };
-export { getUrl, getTitle, cleanDate, getWork };
+export { getWork };
