@@ -1,5 +1,5 @@
-import ssg from '@sveltejs/adapter-static';
-import preprocess from 'svelte-preprocess';
+import ssg from "@sveltejs/adapter-static";
+import preprocess from "svelte-preprocess";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -10,9 +10,9 @@ const config = {
 	kit: {
 		adapter: ssg(),
 		prerender: {
-			default: true
-		}
-	}
+			default: true,
+		},
+	},
 };
 
 export default config;
