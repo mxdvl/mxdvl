@@ -24,7 +24,7 @@
 		"@vercel/node": "1.15.3",
 		"eslint": "8.16.0",
 		"eslint-config-prettier": "8.5.0",
-		"eslint-plugin-svelte3": "3.4.1",
+		"eslint-plugin-svelte3": "4.0.0",
 		"fathom-client": "3.4.1",
 		"mdsvex": "0.10.6",
 		"prettier": "2.6.2",
