@@ -21,7 +21,11 @@
 
 	export let urls: WorkUrls[];
 
-	const getSlug = (path: string) => decodeURIComponent(path.split("/").slice(-1)[0].replace(".json", ""));
+	const getSlug = (path: string) => {
+		const slug = path.split("/").slice(-1)?.[0]?.replace(".json", "");
+		// There are accents in some routes, so we need to decode the URI
+		decodeURIComponent(slug ?? "error");
+	};
 </script>
 
 <h1>Content API for MXDVL</h1>

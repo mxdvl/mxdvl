@@ -1,6 +1,6 @@
 import type { RequestHandler } from "@sveltejs/kit";
 
-import type { WorkUrls } from "$content/routes/works/index.json";
+import type { WorkUrls } from "@mxdvl/content/routes/works/index.json";
 
 export const base = "https://content.mxdvl.com/";
 

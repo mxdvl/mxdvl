@@ -94,9 +94,8 @@ importers:
       svelte-preprocess: 4.10.6
       typescript: 4.7.2
       vite: 2.9.9
-    dependencies:
-      '@ibm/plex': 6.0.2
     devDependencies:
+      '@ibm/plex': 6.0.2
       '@sveltejs/adapter-auto': 1.0.0-next.33
       '@sveltejs/adapter-vercel': 1.0.0-next.0
       '@sveltejs/kit': 1.0.0-next.303_svelte@3.48.0
@@ -158,7 +157,7 @@ packages:
 
   /@ibm/plex/6.0.2:
     resolution: {integrity: sha512-0lBo4ju7/6B58cxmACCPVEGt9xjQ8+3lggRrW7pJOWxKAFsQ21whifwES5q3eJ5wDfL3QlsvMF4YXnOQPYaNdQ==}
-    dev: false
+    dev: true
 
   /@jridgewell/resolve-uri/3.0.7:
     resolution: {integrity: sha512-8cXDaBBHOr2pQ7j77Y6Vp5VDT2sIqWyWQ56TjEq4ih/a4iST3dItRe8Q9fp0rrIl9DoKhWQtUQz/YpOxLkXbNA==}
@@ -1468,7 +1467,7 @@ packages:
     dev: true
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
+    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
     dev: true
 
   /glob-parent/5.1.2:
@@ -2307,7 +2306,7 @@ packages:
     dev: true
 
   /path-is-absolute/1.0.1:
-    resolution: {integrity: sha1-F0uSaHNVNP+8es5r9TpanhtcX18=}
+    resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
     dev: true
 

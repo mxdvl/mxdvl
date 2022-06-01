@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { WorkUrls } from "$content/routes/works/index.json";
+	import type { WorkUrls } from "@mxdvl/content/routes/works/index.json";
 	import type { Lang } from "$lib/lang";
 
 	const getTitle = (url?: string) => {
