@@ -1,6 +1,7 @@
-import type { RequestHandler } from "@sveltejs/kit";
+import type { RequestHandler } from "./__types/[slug]";
 import type { Work } from "@mxdvl/content/lib/works";
 import { base } from "../works";
+import { cache } from "$lib/cache";
 
 export const get: RequestHandler = async ({ params }) => {
 	const { slug } = params;
@@ -13,6 +14,7 @@ export const get: RequestHandler = async ({ params }) => {
 	const work: Work = await req.json();
 
 	return {
+		headers: { ...cache },
 		body: {
 			work,
 		},

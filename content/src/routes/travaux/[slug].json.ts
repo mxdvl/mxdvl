@@ -1,4 +1,4 @@
-import type { RequestHandler } from "../../../.svelte-kit/types/src/routes/travaux/__types/[slug].json";
+import type { RequestHandler } from "./__types/[slug].json";
 import { findWork } from "../works/[slug].json";
 
 export const get: RequestHandler = async ({ params }) => {

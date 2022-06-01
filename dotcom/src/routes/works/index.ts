@@ -1,6 +1,6 @@
-import type { RequestHandler } from "@sveltejs/kit";
-
+import type { RequestHandler } from "./__types/";
 import type { WorkUrls } from "@mxdvl/content/routes/works/index.json";
+import { cache } from "$lib/cache";
 
 export const base = "https://content.mxdvl.com/";
 
@@ -9,6 +9,7 @@ export const get: RequestHandler = async () => {
 	const works: WorkUrls[] = await fetch(url).then((r) => r.json());
 
 	return {
+		headers: { ...cache },
 		body: { works },
 	};
 };

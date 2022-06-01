@@ -1,15 +1,22 @@
+import { cache } from "$lib/cache";
 import { getWeather } from "$lib/weather";
-import type { RequestHandler } from "../../.svelte-kit/types/src/routes/hi";
+import type { RequestHandler } from "./__types/hi";
 
 export const get: RequestHandler = async () => {
-	const weather = await getWeather("london");
+	const data = await getWeather("london");
 
-	if (weather?.cod === 200) return { body: { weather } };
+	if (data?.cod === 200) {
+		return {
+			headers: { ...cache },
+			body: { data },
+		};
+	}
 
+	// Failure
 	return {
 		body: {
-			weather: {
-				weather: [{ id: 800, main: "cloudy", description: weather?.message ?? "failed API call", icon: "--" }],
+			data: {
+				weather: [{ id: 800, main: "cloudy", description: data?.message ?? "failed API call", icon: "--" }],
 				main: {
 					temp: 270,
 					feels_like: 270,

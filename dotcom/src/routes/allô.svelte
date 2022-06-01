@@ -1,7 +1,9 @@
 <script lang="ts">
-	import type { WeatherAPIResponse } from "$lib/weather";
+	import { getCondition, type WeatherAPIResponse } from "$lib/weather";
 
-	export let weather: WeatherAPIResponse;
+	export let data: WeatherAPIResponse;
+
+	const id = data.weather[0]?.id ?? 803;
 </script>
 
 <h1>Allô!</h1>
@@ -10,7 +12,7 @@
 
 <p>
 	Un dévelopeur & designer <a href="/hi">bilingue</a> à Londres
-	<em data-id={weather.weather[0]?.id}>nuageuse</em>. Je travaille actuellement chez The Guardian.
+	<span data-id={id}>{getCondition(id, "fr")}</span>. Je travaille actuellement chez The Guardian.
 </p>
 
 <p>
@@ -19,4 +21,4 @@
 	<a href="https://github.com/mxdvl">contribuer à du code source ouvert </a>.
 </p>
 
-<p>Température ressentie {weather.main.feels_like}K</p>
+<p>Température ressentie {data.main.feels_like}K</p>
