@@ -1,3 +1,4 @@
+import { cache } from "$lib/cache";
 import { getWeather } from "$lib/weather";
 import type { RequestHandler } from "./__types/hi";
 
@@ -6,9 +7,7 @@ export const get: RequestHandler = async () => {
 
 	if (data?.cod === 200) {
 		return {
-			headers: {
-				"Cache-control": "max-age=360, public",
-			},
+			headers: { ...cache },
 			body: { data },
 		};
 	}
