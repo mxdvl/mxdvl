@@ -1,5 +1,5 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import type { Work } from "$content/lib/works";
+import type { Work } from "@mxdvl/content/lib/works";
 import { base } from "./index";
 
 export const get: RequestHandler = async ({ params }) => {

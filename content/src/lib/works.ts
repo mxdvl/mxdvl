@@ -6,9 +6,8 @@ import parse from "remark-parse";
 import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
 import unwrap from "remark-unwrap-images";
-// @ts-expect-error -- sharp is exported this way
 import sharp from "sharp";
-import type { Lang } from "$dotcom/lib/lang";
+import type { Lang } from "@mxdvl/dotcom/lib/lang";
 import type { Plugin } from "unified";
 import type { ElementContent, Root as HastRoot } from "hast";
 import type { Content, Root as MdastRoot, YAML } from "mdast";
@@ -94,18 +93,24 @@ const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 	};
 };
 
+const formats = ["png", "jpg", "svg"] as const;
+type Format = typeof formats[number];
+const isFormat = (format: string | undefined): format is Format =>
+	// @ts-expect-error -- we’re using a type predicate
+	formats?.includes(format);
+
 type Picture = {
 	path: string;
 	width: number;
 	height: number;
 	ratio: number;
-	format: string;
+	format: Format | "error";
 };
 
 const getPicture = async (path: string): Promise<Picture> => {
 	const image = readFileSync(path);
 	const metadata = await sharp(image).metadata();
-	const { width, height, format } = metadata;
+	const { width = -1, height = -1, format } = metadata;
 
 	const basis = 6;
 	const ratio = Math.round((height / width) * basis) / basis;
@@ -115,17 +120,15 @@ const getPicture = async (path: string): Promise<Picture> => {
 		width,
 		height,
 		ratio,
-		format,
+		format: isFormat(format) ? format : "error",
 	};
 };
 
 const getPictures = async (path: string) =>
 	Promise.all(
 		readdirSync(path)
-			.filter((file) => ["png", "jpg", "svg"].some((ext) => file.toLowerCase().endsWith(`.${ext}`)))
-			.map((filename) => {
-				return getPicture(`${path}/${filename}`);
-			}),
+			.filter((file) => formats.some((ext) => file.toLowerCase().endsWith(`.${ext}`)))
+			.map((filename) => getPicture(`${path}/${filename}`)),
 	);
 
 type WorkData = {
