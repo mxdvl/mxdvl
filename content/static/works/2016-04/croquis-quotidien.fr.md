@@ -8,7 +8,6 @@ Scènes de vie du pays du Soleil-Levant. Archive complète [sur tumblr][].
 
 ![La veille à Shibuya](d12.jpg)
 
-
 Si vous voulez des impressions, veuillez [me contacter][] pour plus de details.
 
 ![Ochanimizu](img_2692.jpg)
