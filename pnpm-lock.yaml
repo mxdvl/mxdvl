@@ -30,7 +30,7 @@ importers:
       remark-unwrap-images: 3.0.1
       sharp: 0.30.6
       svelte: 3.48.0
-      svelte-check: 2.7.2
+      svelte-check: 2.8.0
       svelte-hmr: 0.14.12
       svelte-preprocess: 4.10.7
       tslib: 2.4.0
@@ -62,7 +62,7 @@ importers:
       remark-unwrap-images: 3.0.1
       sharp: 0.30.6
       svelte: 3.48.0
-      svelte-check: 2.7.2_svelte@3.48.0
+      svelte-check: 2.8.0_svelte@3.48.0
       svelte-hmr: 0.14.12_svelte@3.48.0
       svelte-preprocess: 4.10.7_lvfi2wesz6u4l5rfbnetbucfmm
       tslib: 2.4.0
@@ -89,7 +89,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-svelte: 2.7.0
       svelte: 3.48.0
-      svelte-check: 2.7.2
+      svelte-check: 2.8.0
       svelte-hmr: 0.14.12
       svelte-preprocess: 4.10.7
       typescript: 4.7.4
@@ -111,7 +111,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-svelte: 2.7.0_nakrehnrzdf7fdea5k3a4dfy4m
       svelte: 3.48.0
-      svelte-check: 2.7.2_svelte@3.48.0
+      svelte-check: 2.8.0_svelte@3.48.0
       svelte-hmr: 0.14.12_svelte@3.48.0
       svelte-preprocess: 4.10.7_lvfi2wesz6u4l5rfbnetbucfmm
       typescript: 4.7.4
@@ -2751,8 +2751,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svelte-check/2.7.2_svelte@3.48.0:
-    resolution: {integrity: sha512-TuVX4YtXHbRM8sVuK5Jk+mKWdm3f0d6hvAC6qCTp8yUszGZewpEBCo2V5fRWZCiz+0J4OCiDHOS+DFMxv39rJA==}
+  /svelte-check/2.8.0_svelte@3.48.0:
+    resolution: {integrity: sha512-HRL66BxffMAZusqe5I5k26mRWQ+BobGd9Rxm3onh7ZVu0nTk8YTKJ9vu3LVPjUGLU9IX7zS+jmwPVhJYdXJ8vg==}
     hasBin: true
     peerDependencies:
       svelte: ^3.24.0
