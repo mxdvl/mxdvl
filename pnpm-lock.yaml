@@ -9,7 +9,7 @@ importers:
     specifiers:
       '@sveltejs/adapter-auto': next
       '@sveltejs/adapter-static': 1.0.0-next.34
-      '@sveltejs/kit': 1.0.0-next.354
+      '@sveltejs/kit': 1.0.0-next.355
       '@sveltejs/vite-plugin-svelte': 1.0.0-next.49
       '@types/hast': 2.3.4
       '@types/mdast': 3.0.10
@@ -41,7 +41,7 @@ importers:
     devDependencies:
       '@sveltejs/adapter-auto': 1.0.0-next.52
       '@sveltejs/adapter-static': 1.0.0-next.34
-      '@sveltejs/kit': 1.0.0-next.354_svelte@3.48.0
+      '@sveltejs/kit': 1.0.0-next.355_svelte@3.48.0
       '@sveltejs/vite-plugin-svelte': 1.0.0-next.49_svelte@3.48.0+vite@2.9.13
       '@types/hast': 2.3.4
       '@types/mdast': 3.0.10
@@ -76,7 +76,7 @@ importers:
       '@ibm/plex': 6.0.2
       '@sveltejs/adapter-auto': 1.0.0-next.52
       '@sveltejs/adapter-vercel': 1.0.0-next.59
-      '@sveltejs/kit': 1.0.0-next.354
+      '@sveltejs/kit': 1.0.0-next.355
       '@sveltejs/vite-plugin-svelte': 1.0.0-next.49
       '@typescript-eslint/eslint-plugin': 5.29.0
       '@typescript-eslint/parser': 5.29.0
@@ -98,7 +98,7 @@ importers:
       '@ibm/plex': 6.0.2
       '@sveltejs/adapter-auto': 1.0.0-next.52
       '@sveltejs/adapter-vercel': 1.0.0-next.59
-      '@sveltejs/kit': 1.0.0-next.354_svelte@3.48.0
+      '@sveltejs/kit': 1.0.0-next.355_svelte@3.48.0
       '@sveltejs/vite-plugin-svelte': 1.0.0-next.49_svelte@3.48.0+vite@2.9.13
       '@typescript-eslint/eslint-plugin': 5.29.0_qqmbkyiaixvppdwswpytuf2hgm
       '@typescript-eslint/parser': 5.29.0_b5e7v2qnwxfo6hmiq56u52mz3e
@@ -265,8 +265,8 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.354_svelte@3.48.0:
-    resolution: {integrity: sha512-dTfFT0c3sxztFpiw6H4bQnPd+PtHgEZG6j6ssT9sWLONfzUgWRX0S7H/WoPEjr7u65o2HNazoj8jmEq3ZTwb9g==}
+  /@sveltejs/kit/1.0.0-next.355_svelte@3.48.0:
+    resolution: {integrity: sha512-4M+BZL/kKgw5tMRkAYcpg38hxMX80iz6H9+nv2v6VzvKhD4Pw6zatzMs2D6PCT2uBHnrKGrUCheBBcK8kZdWKg==}
     engines: {node: '>=16.7'}
     hasBin: true
     peerDependencies:
