@@ -85,7 +85,7 @@ const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 					properties: {
 						alt: properties.alt,
 						srcset: sizes
-							.map(([, g]) => g * GRID_SIZE)
+							.flatMap(([, width]) => [1, 2].map((dpr) => dpr * width * GRID_SIZE))
 							.map((width) => {
 								return `${new URL(`/${account}/${transforms(width)}/content/${src}`, cdn)} ${width}w`;
 							})
