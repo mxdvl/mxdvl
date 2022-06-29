@@ -49,6 +49,21 @@ const getMeta = (root: MdastRoot): Meta => {
 
 const transforms = (width: number) => ["c_scale", "f_auto", "q_auto:best", `w_${width}`].join(",");
 
+const GRID_SIZE = 18;
+
+/**
+ * Keep in sync with app.css
+ * @link dotcom/src/app.css
+ */
+const sizes = [
+	[360, 18],
+	[620, 30],
+	[740, 36],
+	[960, 48],
+	[1200, 66],
+	[1400, 72],
+] as const;
+
 const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 	const cdn = "https://res.cloudinary.com/";
 	const account = "mxdvl/image/upload";
@@ -69,14 +84,19 @@ const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 					tagName: "img",
 					properties: {
 						alt: properties.alt,
-						srcset: [12, 18, 24, 30, 36, 42, 48, 60, 66, 72]
-							.map((g) => g * 18)
+						srcset: sizes
+							.map(([, g]) => g * GRID_SIZE)
 							.map((width) => {
 								return `${new URL(`/${account}/${transforms(width)}/content/${src}`, cdn)} ${width}w`;
 							})
 							.join(", "),
 						src: new URL(`/${account}/${transforms(300)}/content/${src}`, cdn).toString(),
-						sizes: "(min-width: 1400px) 1296px, (min-width: 1200px) 1188px, 100vw",
+						sizes: sizes
+							.slice()
+							.sort(([a], [b]) => b - a)
+							.map(([width, size]) => `(min-width: ${width}px) ${size * GRID_SIZE}px`)
+							.concat("96vw")
+							.join(", "),
 					},
 					children: [],
 				};
