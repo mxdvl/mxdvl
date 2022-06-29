@@ -39,6 +39,15 @@
 
 <svelte:head>
 	<html {lang} />
+
+	<title
+		>MXDVL – {$page.url.pathname
+			.split("/")
+			.filter((frag) => frag.length)
+			.slice(0, 1) // TODO: handle deeper navigations
+			.map((frag) => decodeURIComponent(frag))
+			.map((frag) => frag.charAt(0).toLocaleUpperCase() + frag.slice(1))}</title
+	>
 </svelte:head>
 
 <Header {lang} />
