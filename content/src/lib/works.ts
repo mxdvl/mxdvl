@@ -47,6 +47,8 @@ const getMeta = (root: MdastRoot): Meta => {
 	);
 };
 
+const transforms = (width: number) => ["c_scale", "f_auto", "q_auto:best", `w_${width}`].join(",");
+
 const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 	const cdn = "https://res.cloudinary.com/";
 	const account = "mxdvl/image/upload";
@@ -67,12 +69,14 @@ const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 					tagName: "img",
 					properties: {
 						alt: properties.alt,
-						srcset: [300, 600, 1200, 1800, 2400, 3000]
+						srcset: [12, 18, 24, 30, 36, 42, 48, 60, 66, 72]
+							.map((g) => g * 18)
 							.map((width) => {
-								return `${new URL(`/${account}/w_${width}/content/${src}`, cdn)} ${width}w`;
+								return `${new URL(`/${account}/${transforms(width)}/content/${src}`, cdn)} ${width}w`;
 							})
 							.join(", "),
-						src: new URL(`/${account}/w_${300}/content/${src}`, cdn).toString(),
+						src: new URL(`/${account}/${transforms(300)}/content/${src}`, cdn).toString(),
+						sizes: "(min-width: 1400px) 1296px, (min-width: 1200px) 1188px, 100vw",
 					},
 					children: [],
 				};
