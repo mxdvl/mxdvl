@@ -35,7 +35,7 @@
 		"svelte-hmr": "0.14.12",
 		"svelte-preprocess": "4.10.7",
 		"typescript": "4.7.4",
-		"vite": "2.9.13",
+		"vite": "2.9.14",
 		"@ibm/plex": "6.0.2"
 	}
 }
