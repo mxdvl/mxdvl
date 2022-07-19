@@ -3,7 +3,12 @@
 
 	export let data: WeatherAPIResponse;
 
-	const id = data.weather[0]?.id ?? 803;
+	const {
+		weather,
+		main: { feels_like },
+	} = data;
+
+	const id = weather[0]?.id ?? 803;
 </script>
 
 <h1>Hi, there!</h1>
@@ -12,7 +17,7 @@
 
 <p>
 	A <a href="/allô">bilingual</a> developer &amp, designer in
-	<span data-id={id}>{getCondition(id, "en")}</span>
+	<span data-id={id}>{feels_like > 300 ? "boiling" : getCondition(id, "en")}</span>
 	London. Currently working at The Guardian.
 </p>
 
