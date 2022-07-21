@@ -17,7 +17,8 @@
 
 <p>
 	Un dévelopeur & designer <a href="/hi">bilingue</a> à Londres
-	<span data-id={id}>{feels_like > 300 ? "bouillante" : getCondition(id, "fr")}</span>. Je travaille actuellement chez The Guardian.
+	<span data-id={id}>{feels_like > 300 ? "bouillante" : getCondition(id, "fr")}</span>. Je travaille actuellement chez
+	The Guardian.
 </p>
 
 <p>
