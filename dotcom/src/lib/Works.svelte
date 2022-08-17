@@ -71,7 +71,8 @@
 		height: 100%;
 		padding: 0.5rem;
 		border-radius: 1px;
-		border: 2px solid var(--skies);
+		border: 2px solid;
+		border-color: var(--skies);
 	}
 
 	li h3 {

@@ -59,7 +59,9 @@
 		position: absolute;
 		top: -1px;
 		width: 100%;
-		border-top: 2px solid var(--skies);
+		border-top: 2px solid currentColor;
+		color: var(--skies);
+		transition: color 1.2s;
 	}
 
 	p {
