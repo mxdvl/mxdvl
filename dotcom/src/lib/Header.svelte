@@ -66,7 +66,9 @@
 		position: absolute;
 		width: 100%;
 		bottom: -1px;
-		border-bottom: 2px solid var(--skies);
+		border-bottom: 2px solid currentColor;
+		color: var(--skies);
+		transition: color 1.2s;
 	}
 
 	ul {
@@ -129,7 +131,8 @@
 		content: "";
 		position: absolute;
 		inset: -1px;
-		border: 2px solid var(--frame);
+		border: 2px solid;
+		border-color: var(--frame, transparent);
 		pointer-events: none;
 		transform: translateY(-1px);
 	}
