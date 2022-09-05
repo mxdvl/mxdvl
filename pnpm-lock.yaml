@@ -73,7 +73,7 @@ importers:
 
   dotcom:
     specifiers:
-      '@ibm/plex': 6.0.2
+      '@ibm/plex': 6.1.0
       '@sveltejs/adapter-auto': 1.0.0-next.53
       '@sveltejs/adapter-vercel': 1.0.0-next.59
       '@sveltejs/kit': 1.0.0-next.357
@@ -95,7 +95,7 @@ importers:
       typescript: 4.7.4
       vite: 2.9.15
     devDependencies:
-      '@ibm/plex': 6.0.2
+      '@ibm/plex': 6.1.0
       '@sveltejs/adapter-auto': 1.0.0-next.53
       '@sveltejs/adapter-vercel': 1.0.0-next.59
       '@sveltejs/kit': 1.0.0-next.357_svelte@3.49.0
@@ -177,8 +177,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@ibm/plex/6.0.2:
-    resolution: {integrity: sha512-0lBo4ju7/6B58cxmACCPVEGt9xjQ8+3lggRrW7pJOWxKAFsQ21whifwES5q3eJ5wDfL3QlsvMF4YXnOQPYaNdQ==}
+  /@ibm/plex/6.1.0:
+    resolution: {integrity: sha512-vpas+icVWspK+++ecDT5sUYZ759Ex+37/mTgZYUguZUYM/1Vn6KvDJQJStuCTa0Xv5tMZLGhNSeuR2ZFrIb26w==}
     dev: true
 
   /@jridgewell/resolve-uri/3.0.7:
