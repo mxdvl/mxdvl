@@ -14,7 +14,7 @@ importers:
       '@types/hast': 2.3.4
       '@types/mdast': 3.0.10
       '@types/node': 17.0.10
-      '@types/sharp': 0.30.4
+      '@types/sharp': 0.30.5
       '@typescript-eslint/eslint-plugin': 5.32.0
       '@typescript-eslint/parser': 5.32.0
       eslint: 8.23.0
@@ -28,7 +28,7 @@ importers:
       remark-rehype: 10.1.0
       remark-stringify: 10.0.2
       remark-unwrap-images: 3.0.1
-      sharp: 0.30.7
+      sharp: 0.31.0
       svelte: 3.49.0
       svelte-check: 2.8.0
       svelte-hmr: 0.14.12
@@ -46,7 +46,7 @@ importers:
       '@types/hast': 2.3.4
       '@types/mdast': 3.0.10
       '@types/node': 17.0.10
-      '@types/sharp': 0.30.4
+      '@types/sharp': 0.30.5
       '@typescript-eslint/eslint-plugin': 5.32.0_qxm5rz6zb6oghkem52fn3sq3ka
       '@typescript-eslint/parser': 5.32.0_sorwav4hsh5vncerguqybud76i
       eslint: 8.23.0
@@ -60,7 +60,7 @@ importers:
       remark-rehype: 10.1.0
       remark-stringify: 10.0.2
       remark-unwrap-images: 3.0.1
-      sharp: 0.30.7
+      sharp: 0.31.0
       svelte: 3.49.0
       svelte-check: 2.8.0_svelte@3.49.0
       svelte-hmr: 0.14.12_svelte@3.49.0
@@ -430,8 +430,8 @@ packages:
       '@types/node': 17.0.36
     dev: true
 
-  /@types/sharp/0.30.4:
-    resolution: {integrity: sha512-6oJEzKt7wZeS7e+6x9QFEOWGs0T/6of00+0onZGN1zSmcSjcTDZKgIGZ6YWJnHowpaKUCFBPH52mYljWqU32Eg==}
+  /@types/sharp/0.30.5:
+    resolution: {integrity: sha512-EhO29617AIBqxoVtpd1qdBanWpspk/kD2B6qTFRJ31Q23Rdf+DNU1xlHSwtqvwq1vgOqBwq1i38SX+HGCymIQg==}
     dependencies:
       '@types/node': 17.0.36
     dev: true
@@ -3238,9 +3238,9 @@ packages:
     resolution: {integrity: sha512-edRH8mBKEWNVIVMKejNnuJxleqYE/ZSdcT8/Nem9/mmosx12pctd80s2Oy00KNZzrogMZS5mauK2/ymL1bvlvg==}
     dev: true
 
-  /sharp/0.30.7:
-    resolution: {integrity: sha512-G+MY2YW33jgflKPTXXptVO28HvNOo9G3j0MybYAHeEmby+QuD2U98dT6ueht9cv/XDqZspSpIhoSW+BAKJ7Hig==}
-    engines: {node: '>=12.13.0'}
+  /sharp/0.31.0:
+    resolution: {integrity: sha512-ft96f8WzGxavg0rkLpMw90MTPMUZDyf0tHjPPh8Ob59xt6KzX8EqtotcqZGUm7kwqpX2pmYiyYX2LL0IZ/FDEw==}
+    engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
       color: 4.2.3
