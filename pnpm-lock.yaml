@@ -36,7 +36,7 @@ importers:
       tslib: 2.4.0
       typescript: 4.7.4
       unified: 10.1.2
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.1.1
       vite: 2.9.15
     devDependencies:
       '@sveltejs/adapter-auto': 1.0.0-next.71
@@ -68,7 +68,7 @@ importers:
       tslib: 2.4.0
       typescript: 4.7.4
       unified: 10.1.2
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.1.1
       vite: 2.9.15
 
   dotcom:
@@ -575,7 +575,7 @@ packages:
     hasBin: true
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.9
-      acorn: 8.7.1
+      acorn: 8.8.0
       bindings: 1.5.0
       estree-walker: 2.0.2
       glob: 7.2.3
@@ -650,12 +650,6 @@ packages:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
       acorn: 8.8.0
-    dev: true
-
-  /acorn/8.7.1:
-    resolution: {integrity: sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
     dev: true
 
   /acorn/8.8.0:
@@ -2375,7 +2369,7 @@ packages:
       unist-builder: 3.0.0
       unist-util-generated: 2.0.0
       unist-util-position: 4.0.3
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.1.1
     dev: true
 
   /mdast-util-to-markdown/1.3.0:
@@ -2386,7 +2380,7 @@ packages:
       longest-streak: 3.0.1
       mdast-util-to-string: 3.1.0
       micromark-util-decode-string: 1.0.2
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.1.1
       zwitch: 2.0.2
     dev: true
 
@@ -3120,7 +3114,7 @@ packages:
       '@types/mdast': 3.0.10
       hast-util-whitespace: 2.0.0
       unified: 10.1.2
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.1.1
     dev: true
 
   /require-from-string/2.0.2:
@@ -3237,7 +3231,7 @@ packages:
     dev: true
 
   /set-blocking/2.0.0:
-    resolution: {integrity: sha1-BF+XgtARrppoA93TgrJDkrPYkPc=}
+    resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
     dev: true
 
   /set-cookie-parser/2.4.8:
@@ -3334,7 +3328,7 @@ packages:
     dev: true
 
   /string-width/1.0.2:
-    resolution: {integrity: sha1-EYvfW4zcUaKn5w0hHgfisLmxB9M=}
+    resolution: {integrity: sha512-0XsVpQLnVCXHJfyEs8tC0zpTVIr5PKKsQtkT29IwupnPTjtPmQ3xT/4yCREF9hYkV/3M3kzcUTSAZT6a6h81tw==}
     engines: {node: '>=0.10.0'}
     dependencies:
       code-point-at: 1.1.0
@@ -3709,8 +3703,8 @@ packages:
       unist-util-is: 5.1.1
     dev: true
 
-  /unist-util-visit-parents/5.1.0:
-    resolution: {integrity: sha512-y+QVLcY5eR/YVpqDsLf/xh9R3Q2Y4HxkZTp7ViLDU6WtJCEcPmRzW1gpdWDCDIqIlhuPDXOgttqPlykrHYDekg==}
+  /unist-util-visit-parents/5.1.1:
+    resolution: {integrity: sha512-gks4baapT/kNRaWxuGkl5BIhoanZo7sC/cUT/JToSRNL1dYoXRFl75d++NkjYk4TAu2uv2Px+l8guMajogeuiw==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
@@ -3724,12 +3718,12 @@ packages:
       unist-util-visit-parents: 4.1.1
     dev: true
 
-  /unist-util-visit/4.1.0:
-    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
+  /unist-util-visit/4.1.1:
+    resolution: {integrity: sha512-n9KN3WV9k4h1DxYR1LoajgN93wpEi/7ZplVe02IoB4gH5ctI1AaF2670BLHQYbwj+pY83gFtyeySFiyMHJklrg==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
-      unist-util-visit-parents: 5.1.0
+      unist-util-visit-parents: 5.1.1
     dev: true
 
   /uri-js/4.4.1:
