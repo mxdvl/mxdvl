@@ -1,11 +1,8 @@
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
 import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
+import "./generate_favicons.ts";
 
 const port = 8080;
-
-Deno.run({
-	cmd: ["cmps/generate-favicon.sh"],
-});
 
 const getHtml = async (path: string) => {
 	try {

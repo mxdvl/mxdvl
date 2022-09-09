@@ -1,3 +1,5 @@
+console.log("Generating all favicons")
+
 const cmps = new URL("../cmps", import.meta.url);
 
 const cwd = await Deno.realPath(cmps);
