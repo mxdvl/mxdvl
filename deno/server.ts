@@ -1,6 +1,5 @@
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
 import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
-import "./generate_favicons.ts";
 
 const port = 8080;
 
@@ -75,7 +74,7 @@ const getMimeType = (filename: string) => {
 const getStaticFile = async (pathname: string) => {
 	try {
 		const file = await Deno.readFile(
-			new URL(`build/${pathname}`, import.meta.url)
+			new URL(`static/${pathname}`, import.meta.url)
 		);
 
 		return new Response(file, {
