@@ -24,4 +24,3 @@ cp *.(svg|png|ico) build
 # Copy to dotcom, content & deno
 cp -R build/ ../dotcom/static
 cp -R build/ ../content/static
-cp -R build/ ../deno/static
