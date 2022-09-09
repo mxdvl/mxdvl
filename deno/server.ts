@@ -3,8 +3,22 @@ import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
 
 const port = 8080;
 
-const getHtml = (path: string) =>
-	Deno.readTextFile(new URL(path, import.meta.url));
+const getHtml = async (path: string) => {
+	try {
+		const html = await Deno.readTextFile(new URL(path, import.meta.url));
+		performance.mark("Got HTML from file");
+		return html;
+	} catch (error) {
+		if (error instanceof Deno.errors.NotFound) {
+			performance.mark("Got HTML from file");
+			return await Deno.readTextFile(
+				new URL(`pages/404.html`, import.meta.url)
+			);
+		}
+
+		throw error;
+	}
+};
 
 const parser = new DOMParser();
 
@@ -16,18 +30,35 @@ const getDocument = (html: string) => {
 
 const layout = getDocument(await getHtml("./template.html"));
 
-const handler: Handler = async () => {
+const handler: Handler = async (req) => {
+	performance.clearMarks();
 	const { startTime: reqStartTime } = performance.mark("start");
 
-	const html = await getHtml("./hi.html");
-	performance.mark("Got HTML from file");
+	const { pathname, origin } = new URL(req.url);
+
+	if (pathname === "/") {
+		const lang =
+			req.headers
+				.get("Accept-Language")
+				?.split(",")
+				.find((s) => s.startsWith("en") || s.startsWith("fr"))
+				?.slice(0, 2) ?? "en";
+
+		switch (lang) {
+			case "fr":
+				return Response.redirect(new URL(`allô`, origin));
+			case "en":
+			default:
+				return Response.redirect(new URL(`hi`, origin));
+		}
+	}
 
 	const main = layout.querySelector("main");
 	if (main) {
-		main.innerHTML = html;
+		main.innerHTML = await getHtml(`pages${pathname}.html`);
 	}
 
-	performance.mark("Parsed DOM");
+	performance.mark("Injected into DOM");
 
 	const renderTime = layout.createElement("ul");
 	layout.querySelector("footer ul")?.replaceWith(renderTime);
@@ -40,10 +71,9 @@ const handler: Handler = async () => {
 		renderTime.appendChild(li);
 	}
 
-	performance.clearMarks();
-
 	return new Response(layout.documentElement?.outerHTML, {
-		status: 200,
+		status:
+			main?.querySelector("#error")?.getAttribute("data-error") ?? 200,
 		headers: {
 			"Content-Type": "text/html",
 			"X-Render-Time": `${Math.ceil(performance.now() - reqStartTime)}ms`,
