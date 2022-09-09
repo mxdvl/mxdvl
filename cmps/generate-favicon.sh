@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
 
 # VIPS for SVG to PNG
 
@@ -17,8 +20,7 @@ vips copy cmps-icon-dark.svg cmps-icon-dark.png
 cp cmps-icon-dark.png apple-touch-icon.png
 
 
-# Copy to content
-cp apple-touch-icon.png ../../content/static
-cp favicon.ico ../../content/static
-cp favicon.png ../../content/static
-cp mask-icon.svg ../../content/static
+# Copy to dotcom, content & deno
+cp *.(svg|png|ico) ../content/static
+cp *.(svg|png|ico) ../dotcom/static
+cp *.(svg|png|ico) ../deno/static
