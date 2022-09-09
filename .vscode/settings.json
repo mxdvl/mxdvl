@@ -5,8 +5,6 @@
 	"[typescript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"cSpell.words": [
-		"allô",
-		"cloudinary"
-	]
+	"cSpell.words": ["allô", "cloudinary"],
+	"deno.enablePaths": ["deno"]
 }
