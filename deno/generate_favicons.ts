@@ -1,4 +1,6 @@
-console.log("Generating all favicons")
+import { copy } from "https://deno.land/std@0.154.0/fs/copy.ts";
+
+console.log("Generating all favicons");
 
 const cmps = new URL("../cmps", import.meta.url);
 
@@ -51,3 +53,7 @@ for await (const { name, isFile } of Deno.readDir(cwd)) {
 		Deno.copyFile(`${cwd}/${name}`, `${cwd}/build/${name}`);
 	}
 }
+
+await copy(`${cwd}/build`, new URL("build/", import.meta.url), {
+	overwrite: true,
+});

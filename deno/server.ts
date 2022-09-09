@@ -63,6 +63,32 @@ const generateBody = async (pathname: string) => {
 	};
 };
 
+const getMimeType = (filename: string) => {
+	if (filename.endsWith(".svg")) return "image/svg+xml";
+	if (filename.endsWith(".png")) return "image/png";
+	if (filename.endsWith(".jpg")) return "image/jpeg";
+	if (filename.endsWith(".ico")) return "image/x-icon";
+
+	return "text/plain";
+};
+
+const getStaticFile = async (pathname: string) => {
+	try {
+		const file = await Deno.readFile(
+			new URL(`build/${pathname}`, import.meta.url)
+		);
+
+		return new Response(file, {
+			headers: { "Content-Type": getMimeType(pathname) },
+		});
+	} catch (error) {
+		if (error instanceof Deno.errors.NotFound) {
+			return null;
+		}
+		throw error;
+	}
+};
+
 const handler: Handler = async (req) => {
 	performance.clearMarks();
 	const { startTime: reqStartTime } = performance.mark("start");
@@ -84,6 +110,11 @@ const handler: Handler = async (req) => {
 			default:
 				return Response.redirect(new URL(`hi`, origin));
 		}
+	}
+
+	const staticFile = await getStaticFile(pathname);
+	if (staticFile) {
+		return staticFile;
 	}
 
 	const { body, status } = await generateBody(pathname);
