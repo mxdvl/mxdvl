@@ -68,6 +68,8 @@ const getMimeType = (filename: string) => {
 	if (filename.endsWith(".jpg")) return "image/jpeg";
 	if (filename.endsWith(".ico")) return "image/x-icon";
 
+	if (filename.endsWith(".css")) return "text/css";
+
 	return "text/plain";
 };
 

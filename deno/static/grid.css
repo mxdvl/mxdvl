@@ -1,0 +1,54 @@
+@media screen and (min-width: 360px) {
+	#grid {
+		width: calc(18 * var(--grid));
+	}
+
+	picture {
+		--width: 18;
+	}
+}
+@media screen and (min-width: 620px) {
+	#grid {
+		width: calc(30 * var(--grid));
+	}
+
+	picture {
+		--width: 30;
+	}
+}
+@media screen and (min-width: 740px) {
+	#grid {
+		width: calc(36 * var(--grid));
+	}
+
+	picture {
+		--width: 36;
+	}
+}
+@media screen and (min-width: 960px) {
+	#grid {
+		width: calc(48 * var(--grid));
+	}
+
+	picture {
+		--width: 48;
+	}
+}
+@media screen and (min-width: 1200px) {
+	#grid {
+		width: calc(66 * var(--grid));
+	}
+
+	picture {
+		--width: 66;
+	}
+}
+@media screen and (min-width: 1400px) {
+	#grid {
+		width: calc(72 * var(--grid));
+	}
+
+	picture {
+		--width: 72;
+	}
+}
