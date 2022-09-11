@@ -1,192 +1,250 @@
-html {
-	--ocean: rgb(0% 63.29% 66.65%);
-	--glint: rgb(100% 46.32% 10.17%);
+:root {
+  --ocean: #009fa7;
+  --glint: #ff763d;
+}
 
-	-webkit-text-size-adjust: 100%;
-	-moz-text-size-adjust: 100%;
-	-ms-text-size-adjust: 100%;
-	text-size-adjust: 100%;
+@supports (color: lab(0% 0 0)) {
+  :root {
+    --ocean: lab(60% -65.7753 -29.2851);
+    --glint: lab(66% 70.5342 97.082);
+  }
 }
 
 .light {
-	--earth: rgb(0% 14.37% 13.78%);
-	--clouds: rgb(93.44% 98.82% 100%);
-	--skies: rgb(78.7% 91.16% 93.87%);
+  --earth: #00323b;
+  --clouds: #edfcff;
+  --skies: #c9e8ef;
+}
+
+@supports (color: lab(0% 0 0)) {
+  .light {
+    --earth: lab(18% -19.4164 -14.1068);
+    --clouds: lab(98% -4.8541 -3.52671);
+    --skies: lab(90% -9.7082 -7.05342);
+  }
 }
 
 .dark {
-	--earth: rgb(93.44% 98.82% 100%);
-	--clouds: rgb(0% 19.5% 22.66%);
-	--skies: rgb(0% 11.53% 13.59%);
+  --earth: #edfcff;
+  --clouds: #00323b;
+  --skies: #001e22;
 }
 
-@supports (color: lch(66% 120 54)) {
-	html {
-		--ocean: lch(60% 72 204);
-		--glint: lch(66% 120 54);
-	}
+@supports (color: lab(0% 0 0)) {
+  .dark {
+    --earth: lab(98% -4.8541 -3.52671);
+    --clouds: lab(18% -19.4164 -14.1068);
+    --skies: lab(9% -19.4164 -14.1068);
+  }
+}
 
-	.light {
-		--earth: lch(12% 60 192);
-		--clouds: lch(98% 6 216);
-		--skies: lch(90% 12 216);
-	}
-
-	.dark {
-		--earth: lch(98% 6 216);
-		--clouds: lch(18% 24 216);
-		--skies: lch(9% 24 216);
-	}
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
-	font-family: "IBM Plex Sans Variable", sans-serif;
-
-	font-weight: 400;
-
-	/*
-	Weight axis: 100 – 700
-	Width axis: 85 – 100
-	*/
-
-	/* font-variation-settings: "wght" var(--weight), "wdth" var(--weight); */
-
-	font-size: 16px;
-	background-color: var(--clouds);
+  background-color: var(--clouds);
+  font-family: IBM Plex Sans Variable, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 body.themed {
-	transition: background-color 1.2s;
+  transition: background-color 1.2s;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	body {
-		transition: none;
-	}
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 var(--grid) 0;
-	line-height: calc(2 * var(--grid));
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 var(--grid) 0;
+  line-height: calc(2 * var(--grid));
 }
 
 h1 {
-	font-size: 2rem;
+  font-size: 2rem;
 }
 
 a {
-	--border: var(--ocean);
-	color: inherit;
-	text-decoration-style: solid;
-	text-decoration-color: var(--border);
-	text-decoration-line: underline;
-	text-decoration-thickness: 2px;
-	text-underline-offset: 4px;
+  --border: var(--ocean);
+  color: inherit;
+  text-decoration-style: solid;
+  text-decoration-color: var(--border);
+  text-underline-offset: 4px;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
 }
 
 a:hover {
-	color: var(--border);
+  color: var(--border);
 }
 
 a:active {
-	color: var(--glint);
+  color: var(--glint);
 }
 
 p {
-	margin: 0;
-	padding: var(--grid) 0;
+  padding: var(--grid) 0;
+  margin: 0;
 }
 
 picture {
-	display: block;
-	position: relative;
-	--width: 12;
-	--ratio: 9;
-	width: calc(var(--width) * var(--grid));
-	height: calc(var(--width) * var(--ratio) * var(--grid));
-	color: var(--skies);
-	background-image: linear-gradient(
-			to bottom right,
-			transparent calc(50% - 1px),
-			currentColor calc(50% - 1px),
-			currentColor calc(50% + 1px),
-			transparent calc(50% + 1px)
-		),
-		linear-gradient(
-			to top right,
-			transparent calc(50% - 1px),
-			currentColor calc(50% - 1px),
-			currentColor calc(50% + 1px),
-			transparent calc(50% + 1px)
-		);
-	background-position: calc(0.5 * var(--grid-x)) var(--grid-y);
-	background-size: var(--grid-x) var(--grid-y);
-
-	transition: color 1.2s;
+  --width: 12;
+  --ratio: 9;
+  width: calc(var(--width) * var(--grid));
+  height: calc(var(--width) * var(--ratio) * var(--grid));
+  color: var(--skies);
+  background-image: linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor calc(50% - 1px) calc(50% + 1px), #0000 calc(50% + 1px)), linear-gradient(to top right, #0000 calc(50% - 1px), currentColor calc(50% - 1px) calc(50% + 1px), #0000 calc(50% + 1px));
+  background-position: calc(.5 * var(--grid-x)) var(--grid-y);
+  background-size: var(--grid-x) var(--grid-y);
+  transition: color 1.2s;
+  display: block;
+  position: relative;
 }
 
-picture::after {
-	content: "";
-	position: absolute;
-	top: -1px;
-	left: -1px;
-	right: -1px;
-	bottom: -1px;
-	border: 2px solid currentColor;
+picture:after {
+  content: "";
+  border: 2px solid;
+  position: absolute;
+  inset: -1px;
 }
 
 picture img {
-	display: block;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 picture + picture {
-	margin-top: var(--grid);
+  margin-top: var(--grid);
 }
-
-/* -- GRID --------------------------- */
 
 #grid {
-	--grid: 1.125rem;
-	--grid-double: calc(2 * var(--grid));
-	--grid-x: calc(2 * var(--grid));
-	--grid-y: calc(1 * var(--grid));
-
-	width: calc(16 * var(--grid));
-	margin: 0 auto;
-	padding-block: calc(0.25 * var(--grid-y));
-	padding-inline: calc(0.25 * var(--grid-x));
-	line-height: var(--grid);
-	color: var(--earth);
-
-	position: relative;
+  --grid: 1.125rem;
+  --grid-double: calc(2 * var(--grid));
+  --grid-x: calc(2 * var(--grid));
+  --grid-y: calc(1 * var(--grid));
+  width: calc(16 * var(--grid));
+  padding-block: calc(.25 * var(--grid-y));
+  padding-inline: calc(.25 * var(--grid-x));
+  line-height: var(--grid);
+  color: var(--earth);
+  margin: 0 auto;
+  position: relative;
 }
 
-#grid::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	z-index: -1;
-	color: var(--skies);
-
-	background-image: radial-gradient(
-			circle at 25% 75%,
-			currentColor 1px,
-			transparent 1px
-		),
-		radial-gradient(circle at 75% 25%, currentColor 1px, transparent 1px);
-	background-position: top left;
-	background-size: var(--grid-x) var(--grid-y);
+#grid:before {
+  content: "";
+  z-index: -1;
+  color: var(--skies);
+  background-image: radial-gradient(circle at 25% 75%, currentColor 1px, #0000 1px), radial-gradient(circle at 75% 25%, currentColor 1px, #0000 1px);
+  background-position: 0 0;
+  background-size: var(--grid-x) var(--grid-y);
+  position: absolute;
+  inset: 0;
 }
 
-.themed #grid,
-.themed #grid::before {
-	transition: color 1.2s;
+.themed #grid, .themed #grid:before {
+  transition: color 1.2s;
+}
+
+@media screen and (min-width: 340px) {
+  #grid {
+    width: calc(18 * var(--grid));
+  }
+
+  picture {
+    --width: 18;
+  }
+}
+
+@media screen and (min-width: 440px) {
+  #grid {
+    width: calc(24 * var(--grid));
+  }
+
+  picture {
+    --width: 24;
+  }
+}
+
+@media screen and (min-width: 540px) {
+  #grid {
+    width: calc(30 * var(--grid));
+  }
+
+  picture {
+    --width: 30;
+  }
+}
+
+@media screen and (min-width: 660px) {
+  #grid {
+    width: calc(36 * var(--grid));
+  }
+
+  picture {
+    --width: 36;
+  }
+}
+
+@media screen and (min-width: 760px) {
+  #grid {
+    width: calc(42 * var(--grid));
+  }
+
+  picture {
+    --width: 42;
+  }
+}
+
+@media screen and (min-width: 880px) {
+  #grid {
+    width: calc(48 * var(--grid));
+  }
+
+  picture {
+    --width: 48;
+  }
+}
+
+@media screen and (min-width: 980px) {
+  #grid {
+    width: calc(54 * var(--grid));
+  }
+
+  picture {
+    --width: 54;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  #grid {
+    width: calc(60 * var(--grid));
+  }
+
+  picture {
+    --width: 60;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #grid {
+    width: calc(66 * var(--grid));
+  }
+
+  picture {
+    --width: 66;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  #grid {
+    width: calc(72 * var(--grid));
+  }
+
+  picture {
+    --width: 72;
+  }
 }

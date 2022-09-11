@@ -31,6 +31,15 @@ const getDocument = (html: string) => {
 const generateBody = async (pathname: string) => {
 	const layout = getDocument(await getHtml("layout.html"));
 	performance.mark("Parsed layout");
+	const head = layout.querySelector("head");
+	if (head) {
+		const styles = layout.createElement("style");
+		styles.innerHTML = await Deno.readTextFile(
+			new URL("./static/styles.css", import.meta.url)
+		);
+		head.appendChild(styles);
+	}
+
 	const main = layout.querySelector("main");
 	if (main) {
 		main.innerHTML = await getHtml(`pages${pathname}.html`);
@@ -46,9 +55,12 @@ const generateBody = async (pathname: string) => {
 	const [start = { startTime: 0 }] = performance.getEntriesByName("start");
 	for (const { startTime, name } of performance.getEntriesByType("mark")) {
 		const li = layout.createElement("li");
-		li.innerText = [(startTime - start.startTime).toFixed(1), name].join(
-			": "
-		);
+		li.innerHTML = [
+			"<pre style='display: inline-block; margin: 0;'>",
+			(startTime - start.startTime).toFixed(0).padStart(3, " "),
+			"</pre> – ",
+			name,
+		].join("");
 		renderTime.appendChild(li);
 	}
 	const status = parseInt(
