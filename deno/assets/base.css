@@ -28,9 +28,6 @@ body {
 
 	font-size: 16px;
 	background-color: var(--clouds);
-}
-
-body.themed {
 	transition: background-color 1.2s;
 }
 
@@ -136,6 +133,8 @@ picture + picture {
 	color: var(--earth);
 
 	position: relative;
+
+	transition: color 1.2s;
 }
 
 #grid::before {

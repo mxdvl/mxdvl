@@ -22,6 +22,7 @@ const colours = {
 	darkestGreen: "lch(9% 24 216)",
 } as const;
 
+const theme_names = ["light", "dark"] as const;
 const colour_themes = {
 	light: {
 		"--earth": colours.darkGreen,
@@ -35,32 +36,36 @@ const colour_themes = {
 	},
 };
 
+const getVariables = (theme: keyof typeof colour_themes) =>
+	Object.entries(colour_themes[theme])
+		.map(([key, value]) => `${key}: ${value};`)
+		.join("\n");
+
 const themes = `:root {
 	--ocean: ${colours.teal};
 	--glint: ${colours.orange};
 }
 
-${(["light", "dark"] as const)
+${theme_names
 	.map((theme) => {
-		const variables = Object.entries(colour_themes[theme])
-			.map(([key, value]) => `${key}: ${value};`)
-			.join("\n");
-
 		return `@media (prefers-color-scheme: ${theme}) {
 			:root {
-				${variables}
+				${getVariables(theme)}
 			}
 		}
+	`;
+	})
+	.join("\n")}
 
-		.${theme} {
-			${variables}
+${theme_names
+	.map((theme) => {
+		return `.${theme} {
+			${getVariables(theme)}
 		}
 	`;
 	})
 	.join("\n")}
 `;
-
-console.log(themes);
 
 const grid = Array.from({ length: 10 }, (_, i) => (i + 3) * BASE)
 	.map((size) => {

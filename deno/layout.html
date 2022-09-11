@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 
 <head>
 	<meta charset="utf-8" />
@@ -8,6 +8,19 @@
 	<link rel="icon" href="/cmps.svg" />
 
 	<title>MXDVL – Hi</title>
+
+	<script>
+		const html = document.documentElement;
+		const mq = window.matchMedia("(prefers-color-scheme: dark)");
+		try {
+			const { theme } = localStorage;
+			if (theme) {
+				document.documentElement.classList.add(theme);
+			}
+		} catch (error) {
+			console.warn("Failed to apply theme: ", error);
+		}
+	</script>
 </head>
 
 <body>
@@ -46,10 +59,25 @@
 			</p>
 			<p>
 				Change the theme? You can choose
-				<button disabled>light</button>
+				<button id="light" disabled>light</button>
 				or
-				<button disabled>dark</button>.
+				<button id="dark" disabled>dark</button>.
 			</p>
+			<script type="module">
+				import { setTheme } from "./theme.js"
+
+				for (const theme of ["light", "dark"]) {
+					const button = document.querySelector(`button#${theme}`);
+
+					console.log(button);
+
+					button.removeAttribute("disabled");
+					button.addEventListener("click", () => {
+						setTheme(theme)
+					})
+				}
+
+			</script>
 			<p>
 				Concerned about <a href="/privacy">privacy</a>?
 			</p>
@@ -65,7 +93,7 @@
 	</div>
 
 	<!-- Fathom - simple website analytics -->
-	<script src="https://earthworm.mxdvl.com/script.js" data-spa="auto" data-site="MDDFSRVF" defer></script>
+	<!-- <script src="https://earthworm.mxdvl.com/script.js" data-spa="auto" data-site="MDDFSRVF" defer></script> -->
 </body>
 
 </html>

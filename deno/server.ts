@@ -82,6 +82,8 @@ const getMimeType = (filename: string) => {
 
 	if (filename.endsWith(".css")) return "text/css";
 
+	if (filename.endsWith(".js")) return "application/javascript";
+
 	return "text/plain";
 };
 

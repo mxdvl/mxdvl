@@ -26,20 +26,6 @@
   }
 }
 
-.light {
-  --earth: #00323b;
-  --clouds: #edfcff;
-  --skies: #c9e8ef;
-}
-
-@supports (color: lab(0% 0 0)) {
-  .light {
-    --earth: lab(18% -19.4164 -14.1068);
-    --clouds: lab(98% -4.8541 -3.52671);
-    --skies: lab(90% -9.7082 -7.05342);
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --earth: #edfcff;
@@ -53,6 +39,20 @@
       --clouds: lab(18% -19.4164 -14.1068);
       --skies: lab(9% -19.4164 -14.1068);
     }
+  }
+}
+
+.light {
+  --earth: #00323b;
+  --clouds: #edfcff;
+  --skies: #c9e8ef;
+}
+
+@supports (color: lab(0% 0 0)) {
+  .light {
+    --earth: lab(18% -19.4164 -14.1068);
+    --clouds: lab(98% -4.8541 -3.52671);
+    --skies: lab(90% -9.7082 -7.05342);
   }
 }
 
@@ -171,6 +171,7 @@ picture + picture {
   line-height: var(--grid);
   color: var(--earth);
   margin: 0 auto;
+  transition: color 1.2s;
   position: relative;
 }
 
