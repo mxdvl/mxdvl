@@ -10,6 +10,22 @@
   }
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --earth: #00323b;
+    --clouds: #edfcff;
+    --skies: #c9e8ef;
+  }
+
+  @supports (color: lab(0% 0 0)) {
+    :root {
+      --earth: lab(18% -19.4164 -14.1068);
+      --clouds: lab(98% -4.8541 -3.52671);
+      --skies: lab(90% -9.7082 -7.05342);
+    }
+  }
+}
+
 .light {
   --earth: #00323b;
   --clouds: #edfcff;
@@ -21,6 +37,22 @@
     --earth: lab(18% -19.4164 -14.1068);
     --clouds: lab(98% -4.8541 -3.52671);
     --skies: lab(90% -9.7082 -7.05342);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --earth: #edfcff;
+    --clouds: #00323b;
+    --skies: #001e22;
+  }
+
+  @supports (color: lab(0% 0 0)) {
+    :root {
+      --earth: lab(98% -4.8541 -3.52671);
+      --clouds: lab(18% -19.4164 -14.1068);
+      --skies: lab(9% -19.4164 -14.1068);
+    }
   }
 }
 

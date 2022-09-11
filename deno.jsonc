@@ -1,7 +1,7 @@
 {
 	"tasks": {
 		"dev": "deno run --watch --allow-read=deno --allow-net deno/server.ts",
-		"build": "deno run --allow-read=deno/static --allow-write=deno/static deno/styles.ts"
+		"build": "deno run --allow-read=deno/assets --allow-write=deno/static --allow-net=unpkg.com deno/styles.ts"
 	},
 	"compilerOptions": {
 		"noUncheckedIndexedAccess": true

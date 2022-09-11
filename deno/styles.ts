@@ -6,13 +6,11 @@ const { startTime } = performance.mark("start");
 
 await init();
 
-const breakpoints = [360, 620, 740, 960, 1200, 1400];
-
 const HORIZONTAL_GRID = 18;
 const BASE = 6;
 
 const base = await Deno.readTextFile(
-	new URL("./static/base.css", import.meta.url)
+	new URL("./assets/base.css", import.meta.url)
 );
 
 const colours = {
@@ -22,6 +20,19 @@ const colours = {
 	lightGreen: "lch(90% 12 216)",
 	darkGreen: "lch(18% 24 216)",
 	darkestGreen: "lch(9% 24 216)",
+} as const;
+
+const colour_themes = {
+	light: {
+		"--earth": colours.darkGreen,
+		"--clouds": colours.lightestGreen,
+		"--skies": colours.lightGreen,
+	},
+	dark: {
+		"--earth": colours.lightestGreen,
+		"--clouds": colours.darkGreen,
+		"--skies": colours.darkestGreen,
+	},
 };
 
 const themes = `:root {
@@ -29,18 +40,27 @@ const themes = `:root {
 	--glint: ${colours.orange};
 }
 
-.light {
-	--earth: ${colours.darkGreen};
-	--clouds: ${colours.lightestGreen};
-	--skies: ${colours.lightGreen};
-}
+${(["light", "dark"] as const)
+	.map((theme) => {
+		const variables = Object.entries(colour_themes[theme])
+			.map(([key, value]) => `${key}: ${value};`)
+			.join("\n");
 
-.dark {
-	--earth: ${colours.lightestGreen};
-	--clouds: ${colours.darkGreen};
-	--skies: ${colours.darkestGreen};
-}
+		return `@media (prefers-color-scheme: ${theme}) {
+			:root {
+				${variables}
+			}
+		}
+
+		.${theme} {
+			${variables}
+		}
+	`;
+	})
+	.join("\n")}
 `;
+
+console.log(themes);
 
 const grid = Array.from({ length: 10 }, (_, i) => (i + 3) * BASE)
 	.map((size) => {
