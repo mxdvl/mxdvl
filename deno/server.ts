@@ -35,7 +35,7 @@ const generateBody = async (pathname: string) => {
 	const head = layout.querySelector("head");
 	if (head) {
 		const styles = layout.createElement("style");
-		styles.innerHTML = manifest["/styles.css"];
+		styles.innerHTML = await manifest["/styles.css"]();
 		head.appendChild(styles);
 	}
 
@@ -104,10 +104,10 @@ const getStaticFile = async (pathname: string) => {
 	}
 };
 
-const getDynamicFile = (pathname: string) => {
+const getDynamicFile = async (pathname: string) => {
 	if (!isDynamic(pathname)) return null;
 
-	const body = manifest[pathname];
+	const body = await manifest[pathname]();
 	return new Response(body, {
 		headers: { "Content-Type": getMimeType(pathname) },
 	});
@@ -136,7 +136,7 @@ const handler: Handler = async (req) => {
 		}
 	}
 
-	const dynamicFile = getDynamicFile(pathname);
+	const dynamicFile = await getDynamicFile(pathname);
 	if (dynamicFile) return dynamicFile;
 
 	const staticFile = await getStaticFile(pathname);

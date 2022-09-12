@@ -76,7 +76,7 @@ const grid = Array.from({ length: 10 }, (_, i) => (i + 3) * BASE)
 const version = (major: number, minor = 0, patch = 0) =>
 	(major << 16) | (minor << 8) | (patch << 4);
 
-const build = async () => {
+export const build = async () => {
 	const start = performance.now();
 
 	const base = await Deno.readTextFile(
@@ -94,11 +94,9 @@ const build = async () => {
 
 	const css = new TextDecoder().decode(code);
 
-	console.info(
-		`\rGenerated styles.css in ${Math.ceil(performance.now() - start)}ms`
-	);
-
-	return css;
+	return `/** Generated in ${Math.ceil(
+		performance.now() - start
+	)}ms @ ${new Date().toISOString()} */\n\n${css}`;
 };
 
 if (Deno.args[0] === "dev") {
@@ -120,5 +118,3 @@ if (Deno.args[0] === "dev") {
 	const css = await build();
 	Deno.writeTextFile(new URL("./static/styles.css", import.meta.url), css);
 }
-
-export default await build();
