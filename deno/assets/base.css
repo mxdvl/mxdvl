@@ -111,6 +111,7 @@ li {
 li::before {
 	content: " ";
 	display: block;
+	z-index: -1;
 	position: absolute;
 	border: 2px solid var(--skies);
 	border-left: none;

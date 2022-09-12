@@ -1,6 +1,8 @@
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
 import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
 import { isDynamic, manifest } from "./assets/manifest.ts";
+import { getTheme, Theme } from "./assets/themes.ts";
+import { fr } from "./pages/lang.ts";
 
 const port = 8080;
 
@@ -29,9 +31,14 @@ const getDocument = (html: string) => {
 	return doc;
 };
 
-const generateBody = async (pathname: string) => {
+type Settings = {
+	lang: "fr" | "en";
+	theme: Theme | "default";
+};
+const generateBody = async (pathname: string, { lang, theme }: Settings) => {
 	const layout = getDocument(await getHtml("layout.html"));
 	performance.mark("Parsed layout");
+
 	const head = layout.querySelector("head");
 	if (head) {
 		const styles = layout.createElement("style");
@@ -42,6 +49,11 @@ const generateBody = async (pathname: string) => {
 	const main = layout.querySelector("main");
 	if (main) {
 		main.innerHTML = await getHtml(`pages${pathname}.html`);
+	}
+
+	if (layout.documentElement) {
+		layout.documentElement.setAttribute("class", theme ?? "default");
+		layout.documentElement.setAttribute("lang", lang);
 	}
 
 	performance.mark("Injected into DOM");
@@ -117,7 +129,7 @@ const handler: Handler = async (req) => {
 	performance.clearMarks();
 	const { startTime: reqStartTime } = performance.mark("start");
 
-	const { pathname, origin } = new URL(req.url);
+	const { pathname, origin, searchParams } = new URL(req.url);
 
 	if (pathname === "/") {
 		const lang =
@@ -142,7 +154,10 @@ const handler: Handler = async (req) => {
 	const staticFile = await getStaticFile(pathname);
 	if (staticFile) return staticFile;
 
-	const { body, status } = await generateBody(pathname);
+	const { body, status } = await generateBody(pathname, {
+		lang: fr.includes(decodeURI(pathname)) ? "fr" : "en",
+		theme: getTheme(searchParams.get("theme") ?? "default"),
+	});
 
 	return new Response(body, {
 		status,
