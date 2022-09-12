@@ -1,4 +1,8 @@
-import { transform } from "https://unpkg.com/lightningcss-wasm@1.14.0/index.js";
+import init, {
+	transform,
+} from "https://unpkg.com/lightningcss-wasm@1.14.0/index.js";
+
+await init();
 
 const HORIZONTAL_GRID = 18;
 const BASE = 6;

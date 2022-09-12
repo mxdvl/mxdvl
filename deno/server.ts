@@ -1,6 +1,6 @@
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
 import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
-import initLightningCss from "https://unpkg.com/lightningcss-wasm@1.14.0/lightningcss_node.js";
+import { isDynamic, manifest } from "./assets/manifest.ts";
 
 const port = 8080;
 
@@ -35,10 +35,7 @@ const generateBody = async (pathname: string) => {
 	const head = layout.querySelector("head");
 	if (head) {
 		const styles = layout.createElement("style");
-		const { default: css } = await import(
-			import.meta.resolve("./assets/styles.css.ts")
-		);
-		styles.innerHTML = css;
+		styles.innerHTML = manifest["/styles.css"];
 		head.appendChild(styles);
 	}
 
@@ -107,22 +104,13 @@ const getStaticFile = async (pathname: string) => {
 	}
 };
 
-const getDynamicFile = async (pathname: string) => {
-	try {
-		const { default: body } = await import(
-			import.meta.resolve(`./assets/${pathname}.ts`)
-		);
+const getDynamicFile = (pathname: string) => {
+	if (!isDynamic(pathname)) return null;
 
-		return new Response(body, {
-			headers: { "Content-Type": getMimeType(pathname) },
-		});
-	} catch (error) {
-		if (error instanceof TypeError) {
-			return null;
-		}
-
-		throw error;
-	}
+	const body = manifest[pathname];
+	return new Response(body, {
+		headers: { "Content-Type": getMimeType(pathname) },
+	});
 };
 
 const handler: Handler = async (req) => {
@@ -148,7 +136,7 @@ const handler: Handler = async (req) => {
 		}
 	}
 
-	const dynamicFile = await getDynamicFile(pathname);
+	const dynamicFile = getDynamicFile(pathname);
 	if (dynamicFile) return dynamicFile;
 
 	const staticFile = await getStaticFile(pathname);
@@ -164,7 +152,5 @@ const handler: Handler = async (req) => {
 		},
 	});
 };
-
-await initLightningCss();
 
 await serve(handler, { port });
