@@ -1,14 +1,4 @@
-import init, {
-	transform,
-} from "https://unpkg.com/lightningcss-wasm@1.14.0/index.js";
-
-const { startTime } = performance.mark("start");
-
-await init();
-
-const { startTime: initStatTime } = performance.mark("init");
-
-console.info(`Initialisation took ${Math.ceil(initStatTime - startTime)}ms`);
+import { transform } from "https://unpkg.com/lightningcss-wasm@1.14.0/index.js";
 
 const HORIZONTAL_GRID = 18;
 const BASE = 6;
@@ -86,7 +76,7 @@ const build = async () => {
 	const start = performance.now();
 
 	const base = await Deno.readTextFile(
-		new URL("./assets/base.css", import.meta.url)
+		new URL("./base.css", import.meta.url)
 	);
 
 	const { code } = transform({
@@ -100,20 +90,31 @@ const build = async () => {
 
 	const css = new TextDecoder().decode(code);
 
-	Deno.writeTextFile(new URL("./static/styles.css", import.meta.url), css);
 	console.info(
 		`\rGenerated styles.css in ${Math.ceil(performance.now() - start)}ms`
 	);
+
+	return css;
 };
 
 if (Deno.args[0] === "dev") {
-	let timeout = setTimeout(build, 1);
+	const build_and_write = async () => {
+		const css = await build();
+		Deno.writeTextFile(
+			new URL("./static/styles.css", import.meta.url),
+			css
+		);
+	};
+	let timeout = setTimeout(build_and_write, 1);
 	for await (const event of Deno.watchFs("./deno/assets")) {
 		if (event.paths.some((path) => path.endsWith("/base.css"))) {
 			clearTimeout(timeout);
-			timeout = setTimeout(build, 24);
+			timeout = setTimeout(build_and_write, 24);
 		}
 	}
-} else {
-	await build();
+} else if (import.meta.main) {
+	const css = await build();
+	Deno.writeTextFile(new URL("./static/styles.css", import.meta.url), css);
 }
+
+export default await build();
