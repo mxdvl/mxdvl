@@ -6,7 +6,18 @@ const cmps = new URL("../cmps", import.meta.url);
 
 const cwd = await Deno.realPath(cmps);
 
-const commands = [
+const deps = ["vips", "convert"] as const;
+
+for (const dep of deps) {
+	const process = Deno.run({ cwd, cmd: ["which", dep] });
+	const { code } = await process.status();
+	if (code !== 0) Deno.exit(code);
+}
+
+const commands: Array<{
+	name: string;
+	cmd: [typeof deps[number], ...string[]];
+}> = [
 	{
 		name: "Vips – for SVG to PNG",
 		cmd: ["vips", "copy", "cmps.svg", "build/favicon.png"],
@@ -36,12 +47,12 @@ const commands = [
 		name: "Vips – convert apple-touch-icons to PNG (dark)",
 		cmd: ["vips", "copy", "cmps-icon-dark.svg", "build/cmps-icon-dark.png"],
 	},
-] as const;
+];
 
 await Deno.mkdir(`${cwd}/build`, { recursive: true });
 
 for (const { name, cmd } of commands) {
-	console.info(`${name}`);
+	console.info(name);
 	const process = Deno.run({ cwd, cmd });
 	const { code } = await process.status();
 	if (code !== 0) Deno.exit(code);

@@ -29,6 +29,7 @@ body {
 	font-size: 16px;
 	background-color: var(--clouds);
 	transition: background-color 1.2s;
+	margin: 0;
 }
 
 h1,
@@ -71,7 +72,6 @@ p {
 picture {
 	display: block;
 	position: relative;
-	--width: 12;
 	--ratio: 9;
 	width: calc(var(--width) * var(--grid));
 	height: calc(var(--width) * var(--ratio) * var(--grid));
@@ -94,6 +94,74 @@ picture {
 	background-size: var(--grid-x) var(--grid-y);
 
 	transition: color 1.2s;
+}
+
+ul {
+	margin: 0;
+	padding: calc(0.5 * var(--grid)) 0;
+	list-style-type: none;
+}
+
+li {
+	height: var(--grid-y);
+	padding: calc(0.5 * var(--grid-y)) 0;
+	position: relative;
+}
+
+li::before {
+	content: " ";
+	display: block;
+	position: absolute;
+	border: 2px solid var(--skies);
+	border-left: none;
+	border-right: none;
+	inset: -1px;
+}
+
+button {
+	--border: var(--ocean);
+
+	position: relative;
+
+	display: inline;
+	border: none;
+	padding: 0 3px;
+	margin: 0;
+	height: var(--grid);
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	background: transparent;
+}
+
+button::before {
+	content: "";
+	position: absolute;
+	inset: -1px;
+
+	border-radius: 2px;
+	border: 2px solid var(--border);
+}
+
+button:disabled::before {
+	border-color: var(--skies);
+}
+
+button:enabled:hover {
+	cursor: pointer;
+	color: var(--border);
+}
+
+button:active {
+	--border: var(--glint);
+}
+
+button:focus {
+	outline: var(--glint) solid 2px;
+	outline-offset: 2px;
 }
 
 picture::after {
@@ -125,7 +193,8 @@ picture + picture {
 	--grid-x: calc(2 * var(--grid));
 	--grid-y: calc(1 * var(--grid));
 
-	width: calc(16 * var(--grid));
+	--width: 12;
+	width: calc(var(--width) * var(--grid));
 	margin: 0 auto;
 	padding-block: calc(0.25 * var(--grid-y));
 	padding-inline: calc(0.25 * var(--grid-x));

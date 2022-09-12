@@ -87,12 +87,10 @@ html {
 
 body {
   background-color: var(--clouds);
+  margin: 0;
   font-family: IBM Plex Sans Variable, sans-serif;
   font-size: 16px;
   font-weight: 400;
-}
-
-body.themed {
   transition: background-color 1.2s;
 }
 
@@ -129,7 +127,6 @@ p {
 }
 
 picture {
-  --width: 12;
   --ratio: 9;
   width: calc(var(--width) * var(--grid));
   height: calc(var(--width) * var(--ratio) * var(--grid));
@@ -140,6 +137,71 @@ picture {
   transition: color 1.2s;
   display: block;
   position: relative;
+}
+
+ul {
+  padding: calc(.5 * var(--grid)) 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+li {
+  height: var(--grid-y);
+  padding: calc(.5 * var(--grid-y)) 0;
+  position: relative;
+}
+
+li:before {
+  content: " ";
+  border: 2px solid var(--skies);
+  border-left: none;
+  border-right: none;
+  display: block;
+  position: absolute;
+  inset: -1px;
+}
+
+button {
+  --border: var(--ocean);
+  height: var(--grid);
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0 3px;
+  display: inline;
+  position: relative;
+}
+
+button:before {
+  content: "";
+  border: 2px solid var(--border);
+  border-radius: 2px;
+  position: absolute;
+  inset: -1px;
+}
+
+button:disabled:before {
+  border-color: var(--skies);
+}
+
+button:enabled:hover {
+  cursor: pointer;
+  color: var(--border);
+}
+
+button:active {
+  --border: var(--glint);
+}
+
+button:focus {
+  outline: var(--glint) solid 2px;
+  outline-offset: 2px;
 }
 
 picture:after {
@@ -165,7 +227,8 @@ picture + picture {
   --grid-double: calc(2 * var(--grid));
   --grid-x: calc(2 * var(--grid));
   --grid-y: calc(1 * var(--grid));
-  width: calc(16 * var(--grid));
+  --width: 12;
+  width: calc(var(--width) * var(--grid));
   padding-block: calc(.25 * var(--grid-y));
   padding-inline: calc(.25 * var(--grid-x));
   line-height: var(--grid);
@@ -190,102 +253,62 @@ picture + picture {
   transition: color 1.2s;
 }
 
-@media screen and (min-width: 340px) {
+@media screen and (min-width: 22em) {
   #grid {
-    width: calc(18 * var(--grid));
-  }
-
-  picture {
     --width: 18;
   }
 }
 
-@media screen and (min-width: 440px) {
+@media screen and (min-width: 29em) {
   #grid {
-    width: calc(24 * var(--grid));
-  }
-
-  picture {
     --width: 24;
   }
 }
 
-@media screen and (min-width: 540px) {
+@media screen and (min-width: 35em) {
   #grid {
-    width: calc(30 * var(--grid));
-  }
-
-  picture {
     --width: 30;
   }
 }
 
-@media screen and (min-width: 660px) {
+@media screen and (min-width: 42em) {
   #grid {
-    width: calc(36 * var(--grid));
-  }
-
-  picture {
     --width: 36;
   }
 }
 
-@media screen and (min-width: 760px) {
+@media screen and (min-width: 49em) {
   #grid {
-    width: calc(42 * var(--grid));
-  }
-
-  picture {
     --width: 42;
   }
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 56em) {
   #grid {
-    width: calc(48 * var(--grid));
-  }
-
-  picture {
     --width: 48;
   }
 }
 
-@media screen and (min-width: 980px) {
+@media screen and (min-width: 62em) {
   #grid {
-    width: calc(54 * var(--grid));
-  }
-
-  picture {
     --width: 54;
   }
 }
 
-@media screen and (min-width: 1080px) {
+@media screen and (min-width: 69em) {
   #grid {
-    width: calc(60 * var(--grid));
-  }
-
-  picture {
     --width: 60;
   }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 76em) {
   #grid {
-    width: calc(66 * var(--grid));
-  }
-
-  picture {
     --width: 66;
   }
 }
 
-@media screen and (min-width: 1300px) {
+@media screen and (min-width: 83em) {
   #grid {
-    width: calc(72 * var(--grid));
-  }
-
-  picture {
     --width: 72;
   }
 }

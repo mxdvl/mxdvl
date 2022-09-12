@@ -1,9 +1,14 @@
 {
 	"tasks": {
-		"dev": "deno run --watch --allow-read=deno --allow-net deno/server.ts",
-		"build": "deno run --allow-read=deno/assets --allow-write=deno/static --allow-net=unpkg.com deno/styles.ts"
+		"dev": "deno task build:watch & deno task serve:watch",
+		"serve": "deno run --allow-read=deno --allow-net deno/server.ts",
+		"serve:watch": "deno run --watch --allow-read=deno --allow-net deno/server.ts",
+		"build": "deno run --allow-read=deno/assets --allow-write=deno/static --allow-net=unpkg.com deno/styles.ts",
+		"build:watch": "deno run --watch --allow-read=deno/assets --allow-write=deno/static --allow-net=unpkg.com deno/styles.ts dev"
 	},
 	"compilerOptions": {
+		"lib": ["deno.window", "dom"],
+		"checkJs": true,
 		"noUncheckedIndexedAccess": true
 	}
 }

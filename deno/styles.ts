@@ -6,12 +6,12 @@ const { startTime } = performance.mark("start");
 
 await init();
 
+const { startTime: initStatTime } = performance.mark("init");
+
+console.info(`Initialisation took ${Math.ceil(initStatTime - startTime)}ms`);
+
 const HORIZONTAL_GRID = 18;
 const BASE = 6;
-
-const base = await Deno.readTextFile(
-	new URL("./assets/base.css", import.meta.url)
-);
 
 const colours = {
 	orange: "lch(66% 120 54)",
@@ -69,13 +69,10 @@ ${theme_names
 
 const grid = Array.from({ length: 10 }, (_, i) => (i + 3) * BASE)
 	.map((size) => {
-		const screen = Math.ceil((HORIZONTAL_GRID * size) / 20) * 20;
-		return `@media screen and (min-width: ${screen}px) {
+		const px = Math.ceil(HORIZONTAL_GRID * (size + 1));
+		return `
+@media screen and (min-width: ${Math.ceil(px / 16)}em) {
 	#grid {
-		width: calc(${size} * var(--grid));
-	}
-
-	picture {
 		--width: ${size};
 	}
 }`;
@@ -85,19 +82,38 @@ const grid = Array.from({ length: 10 }, (_, i) => (i + 3) * BASE)
 const version = (major: number, minor = 0, patch = 0) =>
 	(major << 16) | (minor << 8) | (patch << 4);
 
-const { code } = transform({
-	filename: "styles.css",
-	code: new TextEncoder().encode([themes, base, grid].join("\n")),
-	minify: false,
-	targets: {
-		chrome: version(91),
-	},
-});
+const build = async () => {
+	const start = performance.now();
 
-const css = new TextDecoder().decode(code);
+	const base = await Deno.readTextFile(
+		new URL("./assets/base.css", import.meta.url)
+	);
 
-Deno.writeTextFile(new URL("./static/styles.css", import.meta.url), css);
+	const { code } = transform({
+		filename: "styles.css",
+		code: new TextEncoder().encode([themes, base, grid].join("\n")),
+		minify: false,
+		targets: {
+			chrome: version(91),
+		},
+	});
 
-console.log(
-	`Generated styles.css in ${Math.ceil(performance.now() - startTime)}ms`
-);
+	const css = new TextDecoder().decode(code);
+
+	Deno.writeTextFile(new URL("./static/styles.css", import.meta.url), css);
+	console.info(
+		`\rGenerated styles.css in ${Math.ceil(performance.now() - start)}ms`
+	);
+};
+
+if (Deno.args[0] === "dev") {
+	let timeout = setTimeout(build, 1);
+	for await (const event of Deno.watchFs("./deno/assets")) {
+		if (event.paths.some((path) => path.endsWith("/base.css"))) {
+			clearTimeout(timeout);
+			timeout = setTimeout(build, 24);
+		}
+	}
+} else {
+	await build();
+}

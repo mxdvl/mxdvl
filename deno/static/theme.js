@@ -1,12 +1,12 @@
 /** @typedef {"light" | "dark"} Theme  */
 
-/** @type {(): Theme} */
+/** @type {() => Theme} */
 const systemTheme = () =>
 	window.matchMedia("(prefers-color-scheme: dark)").matches
 		? "dark"
 		: "light";
 
-/** @type {(theme: Theme): void} */
+/** @type {(theme: Theme) => void} */
 export const setTheme = (theme) => {
 	document.body.classList.add("themed");
 
