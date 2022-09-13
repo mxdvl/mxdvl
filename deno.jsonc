@@ -6,6 +6,7 @@
 	"compilerOptions": {
 		"lib": ["deno.window", "dom"],
 		"checkJs": true,
+		"useUnknownInCatchVariables": true,
 		"noUncheckedIndexedAccess": true
 	}
 }
