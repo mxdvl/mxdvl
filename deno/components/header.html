@@ -1,0 +1,40 @@
+<nav>
+	<ul class="flex">
+		<li style="--width: 1;">
+			<a href="/hi" rel="home">
+				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="24">
+					<g id="cmps" fill="none" stroke="currentColor" stroke-width="2">
+						<line x1="18" y1="0" x2="18" y2="36"></line>
+						<line x1="18" y1="18" x2="36" y2="18"></line>
+						<circle cx="18" cy="18" r="12"></circle>
+					</g>
+				</svg>
+			</a>
+		</li>
+		<li style="--width: 2;"><a href="/works">Works</a></li>
+		<li style="--width: 3;"><a href="/profile">Profile</a></li>
+		<li style="--width: 2;"><a href="/tools">Tools</a></li>
+	</ul>
+</nav>
+
+<style>
+	nav ul {
+		display: flex;
+	}
+
+	nav li {
+		flex-shrink: 0;
+		flex-grow: 1;
+		width: calc(var(--width, 6) * var(--grid-x));
+		text-align: center;
+	}
+
+	nav li::before {
+		left: var(--grid-x);
+		right: var(--grid-x);
+	}
+
+	nav a {
+		text-decoration: none;
+	}
+</style>

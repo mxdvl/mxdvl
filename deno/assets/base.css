@@ -114,6 +114,7 @@ li::before {
 	z-index: -1;
 	position: absolute;
 	border: 2px solid var(--skies);
+	transition: border-color 1.2s;
 	border-left: none;
 	border-right: none;
 	inset: -1px;

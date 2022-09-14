@@ -1,4 +1,8 @@
-import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
+import {
+	DOMParser,
+	Node,
+	Element,
+} from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
 import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
 import { isDynamic, manifest } from "./assets/manifest.ts";
 import { getTheme, Theme } from "./assets/themes.ts";
@@ -9,7 +13,7 @@ const port = 8080;
 const getHtml = async (path: string) => {
 	try {
 		const html = await Deno.readTextFile(new URL(path, import.meta.url));
-		performance.mark(`Got HTML from file: ${path}`);
+		performance.mark(`Got HTML from file: ${decodeURI(path)}`);
 		return html;
 	} catch (error) {
 		if (error instanceof Deno.errors.NotFound) {
@@ -31,12 +35,14 @@ const getDocument = (html: string) => {
 	return doc;
 };
 
+const isElement = (node: Node): node is Element => node instanceof Element;
+
 type Settings = {
 	lang: "fr" | "en";
 	theme: Theme | "default";
 };
 const generateBody = async (pathname: string, { lang, theme }: Settings) => {
-	const layout = getDocument(await getHtml("layout.html"));
+	const layout = getDocument(await getHtml("components/layout.html"));
 	performance.mark("Parsed layout");
 
 	const head = layout.querySelector("head");
@@ -49,6 +55,13 @@ const generateBody = async (pathname: string, { lang, theme }: Settings) => {
 	const main = layout.querySelector("main");
 	if (main) {
 		main.innerHTML = await getHtml(`pages${pathname}.html`);
+	}
+
+	for (const component of layout.querySelectorAll("[is]")) {
+		if (!isElement(component)) continue;
+		const name = component.getAttribute("is");
+		if (!name) continue;
+		component.innerHTML = await getHtml(`components/${name}.html`);
 	}
 
 	if (layout.documentElement) {
