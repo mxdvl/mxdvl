@@ -4,10 +4,10 @@ import {
 	Element,
 } from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
 import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
-import { isDynamic, manifest } from "./assets/manifest.ts";
-import { getTheme, Theme } from "./assets/themes.ts";
+import { isDynamic, manifest } from "./deps/manifest.ts";
+import { getTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
-import { build } from "./assets/styles.css.ts";
+import { build } from "./styles/styles.css.ts";
 
 const port = 8080;
 

@@ -1,4 +1,4 @@
-import { build } from "./styles.css.ts";
+import { build } from "../styles/styles.css.ts";
 
 export const isDynamic = (
 	pathname: string
