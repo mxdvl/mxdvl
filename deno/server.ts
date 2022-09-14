@@ -7,6 +7,7 @@ import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
 import { isDynamic, manifest } from "./assets/manifest.ts";
 import { getTheme, Theme } from "./assets/themes.ts";
 import { fr } from "./pages/lang.ts";
+import { build } from "./assets/styles.css.ts";
 
 const port = 8080;
 
@@ -46,22 +47,22 @@ const generateBody = async (pathname: string, { lang, theme }: Settings) => {
 	performance.mark("Parsed layout");
 
 	const head = layout.querySelector("head");
-	if (head) {
-		const styles = layout.createElement("style");
-		styles.innerHTML = await manifest["/styles.css"]();
-		head.appendChild(styles);
-	}
+	if (!head) throw new Error("no <head>");
 
 	const main = layout.querySelector("main");
 	if (main) {
 		main.innerHTML = await getHtml(`pages${pathname}.html`);
 	}
 
+	const styles = new Map<string, string>();
+
 	for (const component of layout.querySelectorAll("[is]")) {
 		if (!isElement(component)) continue;
 		const name = component.getAttribute("is");
 		if (!name) continue;
 		component.innerHTML = await getHtml(`components/${name}.html`);
+		const style = component.querySelector("style");
+		if (style) styles.set(name, style.innerText);
 	}
 
 	if (layout.documentElement) {
@@ -75,6 +76,12 @@ const generateBody = async (pathname: string, { lang, theme }: Settings) => {
 	layout.querySelector("footer ul")?.replaceWith(renderTime);
 
 	performance.mark("DOM manipulation");
+
+	const style = layout.createElement("style");
+	style.innerHTML = await build([...styles.values()]);
+	head.appendChild(style);
+
+	performance.mark("Injected styles");
 
 	const [start = { startTime: 0 }] = performance.getEntriesByName("start");
 	for (const { startTime, name } of performance.getEntriesByType("mark")) {
