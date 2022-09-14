@@ -27,5 +27,6 @@ export const build = async (extra?: string[]) => {
 
 	const duration = Math.ceil(performance.now() - start);
 
-	return `/** Generated in ${duration}ms @ ${new Date().toISOString()} */\n\n${css}`;
+	console.info(`Compiled CSS in ${duration}ms`);
+	return css;
 };

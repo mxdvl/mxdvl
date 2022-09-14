@@ -4,6 +4,7 @@ import {
 	Element,
 } from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
 import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
+import { crypto } from "https://deno.land/std@0.155.0/crypto/mod.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
 import { getTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
@@ -119,14 +120,34 @@ const getMimeType = (filename: string) => {
 	return "text/plain";
 };
 
-const getStaticFile = async (pathname: string) => {
+const digest = async (message: Uint8Array) => {
+	const hash = await crypto.subtle.digest("SHA-1", message);
+	const hex = [...new Uint8Array(hash)]
+		.map((s) => s.toString(16).padStart(2, "0"))
+		.join("");
+
+	return hex;
+};
+
+const getStaticFile = async (pathname: string, match?: string) => {
 	try {
 		const file = await Deno.readFile(
 			new URL(`static/${pathname}`, import.meta.url)
 		);
 
+		const etag = await digest(file);
+
+		if (match?.includes(etag)) {
+			return new Response(null, {
+				status: 304,
+			});
+		}
+
 		return new Response(file, {
-			headers: { "Content-Type": getMimeType(pathname) },
+			headers: {
+				"Content-Type": getMimeType(pathname),
+				etag,
+			},
 		});
 	} catch (error) {
 		if (error instanceof Deno.errors.NotFound) {
@@ -136,24 +157,39 @@ const getStaticFile = async (pathname: string) => {
 	}
 };
 
-const getDynamicFile = async (pathname: string) => {
+const getDynamicFile = async (pathname: string, match?: string) => {
 	if (!isDynamic(pathname)) return null;
 
 	const body = await manifest[pathname]();
+
+	const etag = await digest(new TextEncoder().encode(body));
+
+	console.log({ etag, match });
+
+	if (match?.includes(etag)) {
+		return new Response(null, {
+			status: 304,
+		});
+	}
+
 	return new Response(body, {
-		headers: { "Content-Type": getMimeType(pathname) },
+		headers: {
+			"Content-Type": getMimeType(pathname),
+			etag,
+			"Cache-Control": "max-age=60, stale-while-revalidate=12",
+		},
 	});
 };
 
-const handler: Handler = async (req) => {
+const handler: Handler = async ({ url, headers }) => {
 	performance.clearMarks();
 	const { startTime: reqStartTime } = performance.mark("start");
 
-	const { pathname, origin, searchParams } = new URL(req.url);
+	const { pathname, origin, searchParams } = new URL(url);
 
 	if (pathname === "/") {
 		const lang =
-			req.headers
+			headers
 				.get("Accept-Language")
 				?.split(",")
 				.find((s) => s.startsWith("en") || s.startsWith("fr"))
@@ -168,10 +204,12 @@ const handler: Handler = async (req) => {
 		}
 	}
 
-	const dynamicFile = await getDynamicFile(pathname);
+	const match = headers.get("If-None-Match") ?? undefined;
+
+	const dynamicFile = await getDynamicFile(pathname, match);
 	if (dynamicFile) return dynamicFile;
 
-	const staticFile = await getStaticFile(pathname);
+	const staticFile = await getStaticFile(pathname, match);
 	if (staticFile) return staticFile;
 
 	const { body, status } = await generateBody(pathname, {
