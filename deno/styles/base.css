@@ -187,6 +187,21 @@ picture + picture {
 	margin-top: var(--grid);
 }
 
+footer {
+	padding-top: var(--grid-y);
+	position: relative;
+}
+
+footer::before {
+	content: " ";
+	display: block;
+	position: absolute;
+	top: calc(0.5 * var(--grid-x) - 1px);
+	height: 2px;
+	width: 100%;
+	background-color: var(--skies);
+}
+
 /* -- GRID --------------------------- */
 
 #grid {
