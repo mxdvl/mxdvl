@@ -9,6 +9,7 @@ import { isDynamic, manifest } from "./deps/manifest.ts";
 import { getTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
 import { build } from "./styles/styles.css.ts";
+import { cache } from "./cache.ts";
 
 const port = 8080;
 
@@ -137,9 +138,12 @@ const getStaticFile = async (pathname: string, match?: string) => {
 
 		const etag = await digest(file);
 
+		const expires = cache(60)
+
 		if (match?.includes(etag)) {
 			return new Response(null, {
 				status: 304,
+				headers: expires,
 			});
 		}
 
@@ -147,6 +151,7 @@ const getStaticFile = async (pathname: string, match?: string) => {
 			headers: {
 				"Content-Type": getMimeType(pathname),
 				etag,
+				...expires,
 			},
 		});
 	} catch (error) {
@@ -176,7 +181,7 @@ const getDynamicFile = async (pathname: string, match?: string) => {
 		headers: {
 			"Content-Type": getMimeType(pathname),
 			etag,
-			"Cache-Control": "max-age=60, stale-while-revalidate=12",
+			...cache(),
 		},
 	});
 };
