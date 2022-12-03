@@ -8,7 +8,7 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: ssg(),
+		adapter: ssg({ strict: false }),
 		prerender: {
 			default: true,
 		},

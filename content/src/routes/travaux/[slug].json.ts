@@ -1,7 +1,7 @@
 import type { RequestHandler } from "./__types/[slug].json";
 import { findWork } from "../works/[slug].json";
 
-export const get: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 
 	const work = await findWork(slug, "fr");

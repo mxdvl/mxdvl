@@ -1,1 +1,1 @@
-export { get } from "../works";
+export { GET } from "../works";

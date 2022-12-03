@@ -25,7 +25,7 @@ const getUrls = (): Array<WorkUrls> =>
 		return urls;
 	});
 
-export const get: RequestHandler = async () => {
+export const GET: RequestHandler = async () => {
 	const works = getUrls();
 
 	if (!works) return { status: 404 };

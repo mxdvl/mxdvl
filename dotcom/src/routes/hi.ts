@@ -2,7 +2,7 @@ import { cache } from "$lib/cache";
 import { getWeather } from "$lib/weather";
 import type { RequestHandler } from "./__types/hi";
 
-export const get: RequestHandler = async () => {
+export const GET: RequestHandler = async () => {
 	const data = await getWeather("london");
 
 	if (data?.cod === 200) {

@@ -21,7 +21,7 @@ const findWork = async (slug: string, lang: Lang): Promise<Work | undefined> => 
 	return getWork({ lang: validLang, path, alt });
 };
 
-export const get: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 
 	if (!slug) return { status: 404 };
