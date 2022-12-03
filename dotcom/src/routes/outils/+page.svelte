@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	const tools = ["cadence", "facteurs"] as const;
 </script>
 

@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { Work } from "@mxdvl/content/lib/works";
 	import WorkComponent from "$lib/Work.svelte";
+	import type { PageData } from "./$types";
 
-	export let work: Work;
+	export let data: PageData;
+	const { work } = data;
 </script>
 
 <WorkComponent {work} />

@@ -1,30 +1,18 @@
-<script context="module" lang="ts">
-	import type { Lang } from "$lib/lang";
-	import { pathLang } from "$lib/lang";
-	import type { Load } from "@sveltejs/kit";
-
-	export const load: Load = async ({ url }) => {
-		const lang: Lang = pathLang(url.pathname);
-		return {
-			props: {
-				lang,
-			},
-		};
-	};
-</script>
-
 <script lang="ts">
 	import Header from "$lib/Header.svelte";
 	import Footer from "$lib/Footer.svelte";
 	import { onMount } from "svelte";
-	import { browser } from "$app/env";
+	import { browser } from "$app/environment";
 	import { page } from "$app/stores";
 	import { load as loadFathom, trackPageview } from "fathom-client";
+	import type { LayoutData } from "./$types";
 
 	import "../app.css";
 	import "../ibm-plex-var.css";
 
-	export let lang: Lang;
+	export let data: LayoutData;
+
+	$: ({ lang } = data);
 
 	onMount(() => {
 		loadFathom("MDDFSRVF", {

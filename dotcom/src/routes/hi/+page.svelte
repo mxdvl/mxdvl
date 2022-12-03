@@ -1,14 +1,10 @@
 <script lang="ts">
-	import { getCondition, type WeatherAPIResponse } from "$lib/weather";
+	import { getCondition } from "$lib/weather";
+	import type { PageData } from "./$types";
 
-	export let data: WeatherAPIResponse;
+	export let data: PageData;
 
-	const {
-		weather,
-		main: { feels_like },
-	} = data;
-
-	const id = weather[0]?.id ?? 803;
+	const { feels_like, id } = data;
 </script>
 
 <h1>Hi, there!</h1>
@@ -26,4 +22,4 @@
 	<a href="https://github.com/mxdvl">open-source contributions</a>.
 </p>
 
-<p>Feels like {data.main.feels_like}K</p>
+<p>Feels like {feels_like}K</p>

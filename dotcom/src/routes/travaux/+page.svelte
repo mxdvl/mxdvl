@@ -1,8 +1,10 @@
 <script lang="ts">
-	import type { WorkUrls } from "@mxdvl/content/routes/works/index.json";
 	import Works from "$lib/Works.svelte";
+	import type { PageData } from "../works/$types";
 
-	export let works: WorkUrls[];
+	export let data: PageData;
+
+	const { works } = data;
 </script>
 
 ## Selection de travaux

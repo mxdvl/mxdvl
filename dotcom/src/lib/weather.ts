@@ -2,10 +2,8 @@ import type { Lang } from "./lang";
 
 const cities = ["london", "montreal", "tokyo", "paris", "berlin"] as const;
 type City = typeof cities[number];
-const isValidCity = (city: unknown): city is City =>
-	typeof city === "string" &&
-	// @ts-expect-error -- this is a type predicate
-	cities.includes(city);
+export const isValidCity = (city: unknown): city is City =>
+	typeof city === "string" && cities.map(String).includes(city);
 
 /**
  * From https://openweathermap.org/current#current_JSON

@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { getCondition, type WeatherAPIResponse } from "$lib/weather";
+	import type { PageData } from "./$types";
 
-	export let data: WeatherAPIResponse;
+	import { getCondition } from "$lib/weather";
+
+	export let data: PageData;
 
 	const {
 		weather,

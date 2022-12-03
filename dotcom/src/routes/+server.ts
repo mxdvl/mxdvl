@@ -9,8 +9,8 @@ export const GET: RequestHandler = ({ request }) => {
 
 	const lang: Lang = maybeLang?.startsWith("fr") ? "fr" : "en";
 
-	return {
+	return new Response(undefined, {
 		status: 301,
 		headers: { Location: lang === "fr" ? `/${encodeURIComponent("allô")}` : "/hi" },
-	};
+	});
 };
