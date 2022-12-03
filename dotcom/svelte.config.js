@@ -1,5 +1,5 @@
 import preprocess from "svelte-preprocess";
-import adapter from "@sveltejs/adapter-auto";
+import vercel from "@sveltejs/adapter-vercel";
 import { mdsvex } from "mdsvex";
 
 const extensions = [".svelte", ".md"];
@@ -10,7 +10,7 @@ const config = {
 	preprocess: [preprocess(), mdsvex({ extensions })],
 
 	kit: {
-		adapter: adapter(),
+		adapter: vercel(),
 		prerender: {
 			entries: ["/hi", "/allô", "/error", "/erreur"],
 		},
