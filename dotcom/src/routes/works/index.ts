@@ -6,7 +6,7 @@ const isDev = process.env.NODE_ENV === "development";
 
 export const base = isDev ? "http://localhost:3002/" : "https://content.mxdvl.com/";
 
-export const get: RequestHandler = async () => {
+export const GET: RequestHandler = async () => {
 	const url = new URL("/works.json", base).toString();
 	const works: WorkUrls[] = await fetch(url).then((r) => r.json());
 

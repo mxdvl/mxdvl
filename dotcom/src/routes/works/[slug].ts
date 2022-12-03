@@ -3,7 +3,7 @@ import type { Work } from "@mxdvl/content/lib/works";
 import { base } from "./index";
 import { cache } from "$lib/cache";
 
-export const get: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 	const url = new URL(`/works/${slug}.json`, base).toString();
 	const req = await fetch(url);

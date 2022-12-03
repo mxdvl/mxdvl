@@ -11,7 +11,7 @@ const cache: Partial<Record<City, WeatherData>> = {};
 const SERVER_EXPIRE = 1 * 60;
 const CLIENT_EXPIRE = 36;
 
-export const get: RequestHandler<{ city: City }> = async ({ params }) => {
+export const GET: RequestHandler<{ city: City }> = async ({ params }) => {
 	const now = Math.round(new Date().getTime() / 1_000);
 	const { city } = params;
 

@@ -1,7 +1,7 @@
 import type { Lang } from "$lib/lang";
 import type { RequestHandler } from "@sveltejs/kit";
 
-export const get: RequestHandler = ({ request }) => {
+export const GET: RequestHandler = ({ request }) => {
 	const maybeLang = request.headers
 		.get("accept-language")
 		?.split(",")
