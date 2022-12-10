@@ -26,7 +26,7 @@
 		"eslint": "8.23.0",
 		"eslint-config-prettier": "8.5.0",
 		"eslint-plugin-svelte3": "4.0.0",
-		"prettier": "2.7.1",
+		"prettier": "2.8.1",
 		"prettier-plugin-svelte": "2.7.0",
 		"rehype-stringify": "9.0.3",
 		"remark-frontmatter": "4.0.1",
