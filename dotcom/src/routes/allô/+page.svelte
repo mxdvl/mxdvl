@@ -5,12 +5,7 @@
 
 	export let data: PageData;
 
-	const {
-		weather,
-		main: { feels_like },
-	} = data;
-
-	const id = weather[0]?.id ?? 803;
+	const { feels_like, id } = data;
 </script>
 
 <h1>Allô!</h1>
@@ -29,4 +24,4 @@
 	<a href="https://github.com/mxdvl">contribuer à du code source ouvert </a>.
 </p>
 
-<p>Température ressentie {data.main.feels_like}K</p>
+<p>Température ressentie {feels_like}K</p>
