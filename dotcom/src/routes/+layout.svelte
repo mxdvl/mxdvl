@@ -7,8 +7,7 @@
 	import { load as loadFathom, trackPageview } from "fathom-client";
 	import type { LayoutData } from "./$types";
 
-	import "../app.css";
-	import "../ibm-plex-var.css";
+	import "./styles.css";
 
 	export let data: LayoutData;
 
@@ -26,8 +25,6 @@
 </script>
 
 <svelte:head>
-	<html {lang} />
-
 	<title
 		>MXDVL – {$page.url.pathname
 			.split("/")
