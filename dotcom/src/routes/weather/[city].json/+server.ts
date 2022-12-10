@@ -1,5 +1,6 @@
-import { getWeather, type City, type WeatherAPIResponse } from "$lib/weather";
-import type { RequestHandler } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
+import { getWeather, isValidCity, type City, type WeatherAPIResponse } from "$lib/weather";
+import type { RequestHandler } from "./$types";
 
 type WeatherData = {
 	expire: number;
@@ -11,9 +12,10 @@ const cache: Partial<Record<City, WeatherData>> = {};
 const SERVER_EXPIRE = 1 * 60;
 const CLIENT_EXPIRE = 36;
 
-export const GET: RequestHandler<{ city: City }> = async ({ params }) => {
+export const load: RequestHandler = async ({ params: { city } }) => {
 	const now = Math.round(new Date().getTime() / 1_000);
-	const { city } = params;
+
+	if (!isValidCity(city)) throw error(404, "Unknown city");
 
 	if (cache[city]?.expire ?? 0 < now) {
 		const data = await getWeather(city);
@@ -27,8 +29,7 @@ export const GET: RequestHandler<{ city: City }> = async ({ params }) => {
 	}
 	const { data } = cache[city] ?? { status: 500, body: { message: `An error occured` } };
 
-	return {
+	return json(data, {
 		headers: { "Cache-Control": `public, maxage=${CLIENT_EXPIRE}, s-maxage=${SERVER_EXPIRE}` },
-		body: data,
-	};
+	});
 };

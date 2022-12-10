@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	const tools = ["pace", "factors"] as const;
 </script>
 
