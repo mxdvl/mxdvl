@@ -1,1 +1,1 @@
-<h3>BROKEN</h3>
+<h3>BROKEN - Something went wrong :(</h3>

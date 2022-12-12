@@ -1,9 +1,7 @@
 <script lang="ts">
-	import type { Lang } from "./lang";
+	import { lang, type Lang } from "./lang";
 	import { page } from "$app/stores";
 	import Theme from "./Theme.svelte";
-
-	export let lang: Lang;
 
 	let path: string;
 	$: path = $page.url.pathname.replace("/travaux", "/works");
@@ -12,7 +10,7 @@
 </script>
 
 <footer class="footer cf">
-	{#if lang == "en"}
+	{#if $lang == "en"}
 		<p>
 			Online since 2007.<br />
 			Get in touch via <a href="mailto:hi@mxdvl.com">email</a>
@@ -28,9 +26,9 @@
 		</p>
 	{/if}
 
-	<Theme {lang} />
+	<Theme />
 
-	{#if lang == "fr"}
+	{#if $lang == "fr"}
 		<p>
 			Inquiet pour votre <a href="/confidentialité">confidentialité</a>?
 		</p>
