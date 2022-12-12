@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Lang } from "./lang";
+	import { lang, type Lang } from "./lang";
 	const pages: Array<Record<Lang, string> & Record<"width", number>> = [
 		{
 			en: "works",
@@ -26,8 +26,6 @@
 	import { page } from "$app/stores";
 	import Logo from "$lib/CMPS.svelte";
 
-	export let lang: Lang;
-
 	let path: string;
 	$: path = $page.url.pathname.split("/").filter(Boolean)[0] ?? "";
 </script>
@@ -38,7 +36,7 @@
 			<li class="home">
 				<a
 					class={`branding ${["allô", "hi"].includes(path) ? "active" : ""}`}
-					href={lang == "fr" ? "/allô" : "/hi"}
+					href={$lang == "fr" ? "/allô" : "/hi"}
 					rel="home"
 				>
 					<Logo />
@@ -47,7 +45,7 @@
 
 			{#each pages as page}
 				<li class={`page ${[page.fr, page.en].includes(path) ? "active" : ""}`} style="--width: {page.width}">
-					<a href={`/${page[lang]}`}>{capitalise(page[lang])}</a>
+					<a href={`/${page[$lang]}`}>{capitalise(page[$lang])}</a>
 				</li>
 			{/each}
 		</ul>

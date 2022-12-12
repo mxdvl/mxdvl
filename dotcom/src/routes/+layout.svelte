@@ -8,16 +8,20 @@
 	import type { LayoutData } from "./$types";
 
 	import "./styles.css";
+	import { lang } from "../lib/lang";
 
 	export let data: LayoutData;
-
-	$: ({ lang } = data);
 
 	onMount(() => {
 		loadFathom("MDDFSRVF", {
 			includedDomains: ["www.mxdvl.com"],
 			url: "https://earthworm.mxdvl.com/script.js",
 		});
+	});
+
+	$: browser && lang.set(data.lang);
+	lang.subscribe(() => {
+		browser && document.documentElement.setAttribute("lang", $lang);
 	});
 
 	// track a page view when the URL path changes
@@ -35,13 +39,13 @@
 	>
 </svelte:head>
 
-<Header {lang} />
+<Header />
 
 <main>
 	<slot />
 </main>
 
-<Footer {lang} />
+<Footer />
 
 <style>
 	main {
