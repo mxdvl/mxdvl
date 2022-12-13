@@ -30,7 +30,7 @@ importers:
       sharp: 0.31.2
       svelte: 3.55.0
       svelte-check: 2.8.0
-      svelte-hmr: 0.14.12
+      svelte-hmr: 0.15.1
       svelte-preprocess: 4.10.7
       tslib: 2.4.1
       typescript: 4.9.4
@@ -61,7 +61,7 @@ importers:
       sharp: 0.31.2
       svelte: 3.55.0
       svelte-check: 2.8.0_svelte@3.55.0
-      svelte-hmr: 0.14.12_svelte@3.55.0
+      svelte-hmr: 0.15.1_svelte@3.55.0
       svelte-preprocess: 4.10.7_niwyv7xychq2ag6arq5eqxbomm
       tslib: 2.4.1
       typescript: 4.9.4
@@ -87,7 +87,7 @@ importers:
       prettier-plugin-svelte: 2.9.0
       svelte: 3.55.0
       svelte-check: 2.8.0
-      svelte-hmr: 0.14.12
+      svelte-hmr: 0.15.1
       svelte-preprocess: 4.10.7
       typescript: 4.9.4
       vite: '4'
@@ -108,7 +108,7 @@ importers:
       prettier-plugin-svelte: 2.9.0_ajxj753sv7dbwexjherrch25ta
       svelte: 3.55.0
       svelte-check: 2.8.0_svelte@3.55.0
-      svelte-hmr: 0.14.12_svelte@3.55.0
+      svelte-hmr: 0.15.1_svelte@3.55.0
       svelte-preprocess: 4.10.7_niwyv7xychq2ag6arq5eqxbomm
       typescript: 4.9.4
       vite: 4.0.1
@@ -2974,15 +2974,6 @@ packages:
       - sass
       - stylus
       - sugarss
-    dev: false
-
-  /svelte-hmr/0.14.12_svelte@3.55.0:
-    resolution: {integrity: sha512-4QSW/VvXuqVcFZ+RhxiR8/newmwOCTlbYIezvkeN6302YFRE8cXy0naamHcjz8Y9Ce3ITTZtrHrIL0AGfyo61w==}
-    engines: {node: ^12.20 || ^14.13.1 || >= 16}
-    peerDependencies:
-      svelte: '>=3.19.0'
-    dependencies:
-      svelte: 3.55.0
     dev: false
 
   /svelte-hmr/0.15.1_svelte@3.55.0:
