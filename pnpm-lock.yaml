@@ -20,7 +20,7 @@ importers:
       eslint-config-prettier: 8.5.0
       eslint-plugin-svelte3: 4.0.0
       prettier: 2.8.1
-      prettier-plugin-svelte: 2.7.0
+      prettier-plugin-svelte: 2.9.0
       rehype-stringify: 9.0.3
       remark-frontmatter: 4.0.1
       remark-parse: 10.0.1
@@ -51,7 +51,7 @@ importers:
       eslint-config-prettier: 8.5.0_eslint@8.23.0
       eslint-plugin-svelte3: 4.0.0_4xveyuhaxw4b4anbpjbkz4r66m
       prettier: 2.8.1
-      prettier-plugin-svelte: 2.7.0_ajxj753sv7dbwexjherrch25ta
+      prettier-plugin-svelte: 2.9.0_ajxj753sv7dbwexjherrch25ta
       rehype-stringify: 9.0.3
       remark-frontmatter: 4.0.1
       remark-parse: 10.0.1
@@ -84,7 +84,7 @@ importers:
       fathom-client: 3.5.0
       mdsvex: 0.10.6
       prettier: 2.8.1
-      prettier-plugin-svelte: 2.7.0
+      prettier-plugin-svelte: 2.9.0
       svelte: 3.55.0
       svelte-check: 2.8.0
       svelte-hmr: 0.14.12
@@ -105,7 +105,7 @@ importers:
       fathom-client: 3.5.0
       mdsvex: 0.10.6_svelte@3.55.0
       prettier: 2.8.1
-      prettier-plugin-svelte: 2.7.0_ajxj753sv7dbwexjherrch25ta
+      prettier-plugin-svelte: 2.9.0_ajxj753sv7dbwexjherrch25ta
       svelte: 3.55.0
       svelte-check: 2.8.0_svelte@3.55.0
       svelte-hmr: 0.14.12_svelte@3.55.0
@@ -2781,8 +2781,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: false
 
-  /prettier-plugin-svelte/2.7.0_ajxj753sv7dbwexjherrch25ta:
-    resolution: {integrity: sha512-fQhhZICprZot2IqEyoiUYLTRdumULGRvw0o4dzl5jt0jfzVWdGqeYW27QTWAeXhoupEZJULmNoH3ueJwUWFLIA==}
+  /prettier-plugin-svelte/2.9.0_ajxj753sv7dbwexjherrch25ta:
+    resolution: {integrity: sha512-3doBi5NO4IVgaNPtwewvrgPpqAcvNv0NwJNflr76PIGgi9nf1oguQV1Hpdm9TI2ALIQVn/9iIwLpBO5UcD2Jiw==}
     peerDependencies:
       prettier: ^1.16.4 || ^2.0.0
       svelte: ^3.2.0
