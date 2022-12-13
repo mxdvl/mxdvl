@@ -5,8 +5,6 @@
 
 	let path: string;
 	$: path = $page.url.pathname.replace("/travaux", "/works");
-
-	const search = "https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte";
 </script>
 
 <footer class="footer cf">
@@ -39,10 +37,18 @@
 	{/if}
 
 	<p>
-		Typo? <a href={`${search}+${path}`}>Edit content</a>.
+		Typo? <a
+			href={new URL(
+				`search?${new URLSearchParams({
+					type: "code",
+					q: ["repo:mxdvl/mxdvl", "path:/\\.(svelte|md)/", `path:${path.split("/").at(-1)}`].join(" "),
+				}).toString()}`,
+				"https://github.com/",
+			).href}>Edit content</a
+		>.
 	</p>
 
-	<p>&copy; MXDVL 2022</p>
+	<p>&copy; MXDVL 2007-{new Date().getFullYear()}</p>
 </footer>
 
 <style>
