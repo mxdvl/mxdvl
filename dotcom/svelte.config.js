@@ -11,9 +11,6 @@ const config = {
 
 	kit: {
 		adapter: vercel(),
-		prerender: {
-			entries: ["/hi", "/allô", "/error", "/erreur"],
-		},
 	},
 };
 
