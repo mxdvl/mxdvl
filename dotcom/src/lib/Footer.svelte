@@ -18,7 +18,7 @@
 	{:else}
 		<p>
 			En ligne depuis 2007.<br />
-			Faites-moi signe par <a href="mailto:allo@mxdvl.com">courriel</a>, ou
+			Faites-moi signe via <a href="mailto:allo@mxdvl.com">courriel</a>, ou
 			<a href="https://t.me/mxdvl">telegram</a>.<br />
 			Pronoms: il/lui.
 		</p>
@@ -44,7 +44,12 @@
 					q: ["repo:mxdvl/mxdvl", "path:/\\.(svelte|md)/", `path:${path.split("/").at(-1)}`].join(" "),
 				}).toString()}`,
 				"https://github.com/",
-			).href}>Edit content</a
+			).href}
+			>{#if $lang == "fr"}
+				Suggérer une modification
+			{:else}
+				Propose an edit
+			{/if}</a
 		>.
 	</p>
 
