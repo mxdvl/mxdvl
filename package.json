@@ -1,0 +1,8 @@
+{
+	"name": "mxdvl",
+	"private": "true",
+	"scripts": {
+		"dotcom": "pnpm --F @mxdvl/dotcom dev",
+		"content": "pnpm --F @mxdvl/content dev"
+	}
+}

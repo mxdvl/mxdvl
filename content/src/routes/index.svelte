@@ -1,13 +1,13 @@
 <script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
+	import type { Load } from "@sveltejs/kit";
 
 	export const load: Load = async ({ fetch }) => {
-		const urls = await fetch('/works.json').then((r) => r.clone().json());
+		const urls = await fetch("/works.json").then((r) => r.clone().json());
 
 		return {
 			props: {
-				urls
-			}
+				urls,
+			},
 		};
 	};
 
@@ -17,12 +17,15 @@
 </script>
 
 <script lang="ts">
-	import type { WorkUrls } from './works/index.json';
+	import type { WorkUrls } from "./works/index.json";
 
 	export let urls: WorkUrls[];
 
-	const getSlug = (path: string) =>
-		decodeURIComponent(path.split('/').slice(-1)[0].replace('.json', ''));
+	const getSlug = (path: string) => {
+		const slug = path.split("/").slice(-1)?.[0]?.replace(".json", "");
+		// There are accents in some routes, so we need to decode the URI
+		decodeURIComponent(slug ?? "error");
+	};
 </script>
 
 <h1>Content API for MXDVL</h1>
@@ -37,7 +40,7 @@
 		{:else}
 			<li>
 				{url.date}:
-				<a href={url.en.replace('/works/', '/travaux/')}>{getSlug(url.en)}</a>
+				<a href={url.en.replace("/works/", "/travaux/")}>{getSlug(url.en)}</a>
 				(fr manquant)
 			</li>
 		{/if}

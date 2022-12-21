@@ -1,18 +1,14 @@
 <script lang="ts">
-	import type { Lang } from "./lang";
+	import { lang, type Lang } from "./lang";
 	import { page } from "$app/stores";
 	import Theme from "./Theme.svelte";
 
-	export let lang: Lang;
-
 	let path: string;
 	$: path = $page.url.pathname.replace("/travaux", "/works");
-
-	const search = "https://github.com/search?q=repo%3Amxdvl%2Fmxdvl+in%3Apath+extension%3Amd+extension%3Asvelte";
 </script>
 
-<footer class="footer cf" role="contentinfo">
-	{#if lang == "en"}
+<footer class="footer cf">
+	{#if $lang == "en"}
 		<p>
 			Online since 2007.<br />
 			Get in touch via <a href="mailto:hi@mxdvl.com">email</a>
@@ -22,15 +18,15 @@
 	{:else}
 		<p>
 			En ligne depuis 2007.<br />
-			Faites-moi signe par <a href="mailto:allo@mxdvl.com">courriel</a>, ou
+			Faites-moi signe via <a href="mailto:allo@mxdvl.com">courriel</a>, ou
 			<a href="https://t.me/mxdvl">telegram</a>.<br />
 			Pronoms: il/lui.
 		</p>
 	{/if}
 
-	<Theme {lang} />
+	<Theme />
 
-	{#if lang == "fr"}
+	{#if $lang == "fr"}
 		<p>
 			Inquiet pour votre <a href="/confidentialité">confidentialité</a>?
 		</p>
@@ -41,10 +37,23 @@
 	{/if}
 
 	<p>
-		Typo? <a href={`${search}+${path}`}>Edit content</a>.
+		Typo? <a
+			href={new URL(
+				`search?${new URLSearchParams({
+					type: "code",
+					q: ["repo:mxdvl/mxdvl", "path:/\\.(svelte|md)/", `path:${path.split("/").at(-1)}`].join(" "),
+				}).toString()}`,
+				"https://github.com/",
+			).href}
+			>{#if $lang == "fr"}
+				Suggérer une modification
+			{:else}
+				Propose an edit
+			{/if}</a
+		>.
 	</p>
 
-	<p>&copy; MXDVL 2022</p>
+	<p>&copy; MXDVL 2007-{new Date().getFullYear()}</p>
 </footer>
 
 <style>
@@ -59,7 +68,9 @@
 		position: absolute;
 		top: -1px;
 		width: 100%;
-		border-top: 2px solid var(--skies);
+		border-top: 2px solid currentColor;
+		color: var(--skies);
+		transition: color 1.2s;
 	}
 
 	p {

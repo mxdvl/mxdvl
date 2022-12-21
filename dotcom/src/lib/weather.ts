@@ -1,5 +1,9 @@
+import type { Lang } from "./lang";
+
 const cities = ["london", "montreal", "tokyo", "paris", "berlin"] as const;
 type City = typeof cities[number];
+export const isValidCity = (city: unknown): city is City =>
+	typeof city === "string" && cities.map(String).includes(city);
 
 /**
  * From https://openweathermap.org/current#current_JSON
@@ -46,9 +50,10 @@ type WeatherAPIResponse = {
 	message?: string;
 };
 
-const isValidCity = (city: unknown): city is City => typeof city === "string" && cities.includes(city as City);
-
-export const getWeather = async (city: City): Promise<WeatherAPIResponse | undefined> => {
+/** Get weather from OpenWeatherMap
+ * @see https://openweathermap.org/current
+ */
+const getWeather = async (city: City): Promise<WeatherAPIResponse | undefined> => {
 	if (!isValidCity(city)) return undefined;
 
 	const url = new URL("https://api.openweathermap.org/data/2.5/weather");
@@ -57,5 +62,33 @@ export const getWeather = async (city: City): Promise<WeatherAPIResponse | undef
 
 	return fetch(url.toString()).then((r) => r.json());
 };
+
+/**
+ * Get condition as adjective. Works in fr
+ *
+ * @see https://openweathermap.org/weather-conditions
+ */
+const getCondition = (id: number, lang: Lang) => {
+	const fr = lang === "fr";
+	switch (`${Math.floor(id / 100)}xx`) {
+		case "2xx": // Thunderstorm
+			return fr ? "orageuse" : "stormy";
+		case "3xx": // Drizzle
+			return fr ? "bruineuse" : "drizzly";
+		case "5xx": // Rain
+			return fr ? "pluvieuse" : "rainy";
+		case "6xx": // Snow
+			return fr ? "enneigée" : "snowy";
+		case "7xx": // Atmosphere
+			return fr ? "embrumée" : "foggy";
+		case "8xx": // Clear / Clouds
+			if (id <= 802) return fr ? "ensoleillée" : "sunny";
+		// fall through
+		default:
+			return fr ? "nuageuse" : "cloudy";
+	}
+};
+
+export { getWeather, getCondition };
 
 export type { City, WeatherAPIResponse };

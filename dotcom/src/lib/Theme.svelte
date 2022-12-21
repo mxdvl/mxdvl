@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import Button from "./Button.svelte";
-	import type { Lang } from "./lang";
+	import { lang, type Lang } from "./lang";
 
 	type Theme = "light" | "dark";
 	let themePreference: Theme;
@@ -48,11 +48,9 @@
 			toggleClass(currentTheme, document.documentElement);
 		});
 	});
-
-	export let lang: Lang;
 </script>
 
-{#if lang === "fr"}
+{#if $lang === "fr"}
 	<p>
 		Changer de thème? Vous pouvez choisir
 		<Button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>clair</Button>

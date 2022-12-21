@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Lang } from "./lang";
+	import { lang, type Lang } from "./lang";
 	const pages: Array<Record<Lang, string> & Record<"width", number>> = [
 		{
 			en: "works",
@@ -9,7 +9,7 @@
 		{
 			en: "profile",
 			fr: "profil",
-			width: 2,
+			width: 3,
 		},
 		{
 			en: "tools",
@@ -26,8 +26,6 @@
 	import { page } from "$app/stores";
 	import Logo from "$lib/CMPS.svelte";
 
-	export let lang: Lang;
-
 	let path: string;
 	$: path = $page.url.pathname.split("/").filter(Boolean)[0] ?? "";
 </script>
@@ -38,7 +36,7 @@
 			<li class="home">
 				<a
 					class={`branding ${["allô", "hi"].includes(path) ? "active" : ""}`}
-					href={lang == "fr" ? "/allô" : "/hi"}
+					href={$lang == "fr" ? "/allô" : "/hi"}
 					rel="home"
 				>
 					<Logo />
@@ -47,7 +45,7 @@
 
 			{#each pages as page}
 				<li class={`page ${[page.fr, page.en].includes(path) ? "active" : ""}`} style="--width: {page.width}">
-					<a href={`/${page[lang]}`}>{capitalise(page[lang])}</a>
+					<a href={`/${page[$lang]}`}>{capitalise(page[$lang])}</a>
 				</li>
 			{/each}
 		</ul>
@@ -66,13 +64,15 @@
 		position: absolute;
 		width: 100%;
 		bottom: -1px;
-		border-bottom: 2px solid var(--skies);
+		border-bottom: 2px solid currentColor;
+		color: var(--skies);
+		transition: color 1.2s;
 	}
 
 	ul {
-		--size: var(--grid-double);
+		--size: var(--grid-x);
 		display: flex;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		justify-content: space-between;
 		height: 100%;
 		margin: 0;
@@ -84,7 +84,7 @@
 
 	li {
 		display: block;
-		flex: 0 0 calc(var(--size) * var(--width));
+		flex: 0 1 calc(var(--size) * var(--width));
 		text-transform: uppercase;
 		text-align: center;
 		font-weight: 420;
@@ -129,7 +129,8 @@
 		content: "";
 		position: absolute;
 		inset: -1px;
-		border: 2px solid var(--frame);
+		border: 2px solid;
+		border-color: var(--frame, transparent);
 		pointer-events: none;
 		transform: translateY(-1px);
 	}

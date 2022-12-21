@@ -3,3 +3,8 @@ function git_remove_gone_branches()  {
   git fetch -p
   git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
 }
+
+# Merge all matching branches into local
+function find_remaining_dependabot_branches() {
+	git branch -r --list "origin/dependabot/*" --no-merged
+}

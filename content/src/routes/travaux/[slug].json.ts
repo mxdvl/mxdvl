@@ -1,7 +1,7 @@
-import type { RequestHandler } from '@sveltejs/kit';
-import { findWork } from '../works/[slug].json';
+import type { RequestHandler } from "./__types/[slug].json";
+import { findWork } from "../works/[slug].json";
 
-export const get: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 
 	const work = await findWork(slug, "fr");
@@ -9,7 +9,7 @@ export const get: RequestHandler = async ({ params }) => {
 	if (!work) return { status: 404, body: `Rien trouvé: ${slug}` };
 
 	return {
-		body: work
+		body: work,
 	};
 };
 
