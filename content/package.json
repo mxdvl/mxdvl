@@ -20,7 +20,7 @@
 		"@sveltejs/vite-plugin-svelte": "2.0.2",
 		"@types/hast": "2.3.4",
 		"@types/mdast": "3.0.10",
-		"@types/node": "18.11.15",
+		"@types/node": "18.11.17",
 		"@types/sharp": "0.31.0",
 		"@typescript-eslint/eslint-plugin": "5.46.1",
 		"@typescript-eslint/parser": "5.46.1",
