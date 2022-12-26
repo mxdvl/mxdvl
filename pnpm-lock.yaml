@@ -27,7 +27,7 @@ importers:
       remark-rehype: 10.1.0
       remark-stringify: 10.0.2
       remark-unwrap-images: 3.0.1
-      sharp: 0.31.2
+      sharp: 0.31.3
       svelte: 3.55.0
       svelte-check: 2.10.3
       svelte-hmr: 0.15.1
@@ -58,7 +58,7 @@ importers:
       remark-rehype: 10.1.0
       remark-stringify: 10.0.2
       remark-unwrap-images: 3.0.1
-      sharp: 0.31.2
+      sharp: 0.31.3
       svelte: 3.55.0
       svelte-check: 2.10.3_svelte@3.55.0
       svelte-hmr: 0.15.1_svelte@3.55.0
@@ -2843,8 +2843,8 @@ packages:
     resolution: {integrity: sha512-1jeBGaKNGdEq4FgIrORu/N570dwoPYio8lSoYLWmX7sQ//0JY08Xh9o5pBcgmHQ/MbsYp/aZnOe1s1lIsbLprQ==}
     dev: false
 
-  /sharp/0.31.2:
-    resolution: {integrity: sha512-DUdNVEXgS5A97cTagSLIIp8dUZ/lZtk78iNVZgHdHbx1qnQR7JAHY0BnXnwwH39Iw+VKhO08CTYhIg0p98vQ5Q==}
+  /sharp/0.31.3:
+    resolution: {integrity: sha512-XcR4+FCLBFKw1bdB+GEhnUNXNXvnt0tDo4WsBsraKymuo/IAuPuCBVAL2wIkUw2r/dwFW5Q5+g66Kwl2dgDFVg==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
