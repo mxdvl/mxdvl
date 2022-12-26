@@ -9,9 +9,6 @@ const config = {
 
 	kit: {
 		adapter: ssg({ strict: false }),
-		prerender: {
-			default: true,
-		},
 	},
 };
 

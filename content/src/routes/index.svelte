@@ -14,6 +14,7 @@
 	// NO JAVASCRIPT!
 	export const hydrate = false;
 	export const router = false;
+	export const prerender = true;
 </script>
 
 <script lang="ts">
