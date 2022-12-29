@@ -14,6 +14,7 @@
 	// NO JAVASCRIPT!
 	export const hydrate = false;
 	export const router = false;
+	export const prerender = true;
 </script>
 
 <script lang="ts">
@@ -22,9 +23,9 @@
 	export let urls: WorkUrls[];
 
 	const getSlug = (path: string) => {
-		const slug = path.split("/").slice(-1)?.[0]?.replace(".json", "");
+		const slug = path.split("/").at(-1)?.replace(".json", "");
 		// There are accents in some routes, so we need to decode the URI
-		decodeURIComponent(slug ?? "error");
+		return decodeURIComponent(slug ?? "error");
 	};
 </script>
 
