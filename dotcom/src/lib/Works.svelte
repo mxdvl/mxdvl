@@ -16,7 +16,7 @@
 	};
 
 	const getUrl = (work: WorkUrls, lang: Lang): string => {
-		const url = (work[lang] ?? work.en).split("/").at(-1) ?? "404";
+		const url = (work[lang] ?? work.en).split("/").at(-1)?.replace(".json", "") ?? "404";
 
 		const base = lang === "fr" ? "/travaux/" : "/works/";
 
