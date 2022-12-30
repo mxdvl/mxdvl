@@ -1,26 +1,9 @@
-<script context="module" lang="ts">
-	import type { Load } from "@sveltejs/kit";
-
-	export const load: Load = async ({ fetch }) => {
-		const urls = await fetch("/works.json").then((r) => r.clone().json());
-
-		return {
-			props: {
-				urls,
-			},
-		};
-	};
-
-	// NO JAVASCRIPT!
-	export const hydrate = false;
-	export const router = false;
-	export const prerender = true;
-</script>
-
 <script lang="ts">
-	import type { WorkUrls } from "./works/index.json";
+	import type { PageData } from "./$types";
 
-	export let urls: WorkUrls[];
+	export let data: PageData;
+
+	const { urls } = data;
 
 	const getSlug = (path: string) => {
 		const slug = path.split("/").at(-1)?.replace(".json", "");

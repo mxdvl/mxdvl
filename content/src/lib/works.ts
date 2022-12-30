@@ -189,5 +189,46 @@ const getWork = async ({ lang, path, alt }: WorkData): Promise<Work> => {
 	};
 };
 
+const dirs = readdirSync("static").filter((dir) => !dir.includes("."));
+
+type WorkUrls = {
+	en: string;
+	fr?: string;
+	date: string;
+};
+const getUrls = (): Array<WorkUrls> =>
+	dirs.map((dir) => {
+		const path = `static/${dir}`;
+		const files = readdirSync(path).filter((file) => file.endsWith(".md"));
+
+		const en = files.find((file) => file.endsWith(".en.md"))?.slice(0, -6);
+		const fr = files.find((file) => file.endsWith(".fr.md"))?.slice(0, -6);
+
+		const urls = {
+			en: `/works/${en}.json`,
+			fr: fr ? `/travaux/${fr}.json` : undefined,
+			date: dir,
+		};
+
+		return urls;
+	});
+
+const findWork = async (slug: string, lang: Lang): Promise<Work | undefined> => {
+	const works = getUrls();
+	const langs: Lang[] = ["en", "fr"];
+
+	const work = works.find((work) => langs.some((lang) => work[lang]?.endsWith(`/${slug}.json`)));
+
+	if (!work) return;
+
+	const url: string = work[lang]?.endsWith(`/${slug}.json`) ? work[lang] ?? "en" : work.en;
+	const validLang = url === work[lang] ? lang : "en";
+	const path = `static/${work.date}/${decodeURIComponent(slug)}.${validLang}.md`;
+
+	const alt = validLang === "fr" ? work.en : work.fr;
+
+	return getWork({ lang: validLang, path, alt });
+};
+
 export type { Work, Picture };
-export { getWork };
+export { getWork, getUrls, findWork };

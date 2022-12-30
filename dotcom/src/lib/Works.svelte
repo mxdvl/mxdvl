@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { WorkUrls } from "@mxdvl/content/routes/works/index.json";
+	import type { WorkUrls } from "@mxdvl/content/routes/works/+server";
 	import type { Lang } from "$lib/lang";
 
 	const getTitle = (url?: string) => {
@@ -16,7 +16,7 @@
 	};
 
 	const getUrl = (work: WorkUrls, lang: Lang): string => {
-		const url = (work[lang] ?? work.en).split("/").slice(-1)[0]?.replace(".json", "") ?? "404";
+		const url = (work[lang] ?? work.en).split("/").at(-1) ?? "404";
 
 		const base = lang === "fr" ? "/travaux/" : "/works/";
 
