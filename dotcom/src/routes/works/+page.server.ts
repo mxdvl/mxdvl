@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import type { WorkUrls } from "@mxdvl/content/routes/works/index.json";
+import type { WorkUrls } from "@mxdvl/content/lib/works";
 import { base } from "$lib/base";
 
 export const load: PageServerLoad = async () => {

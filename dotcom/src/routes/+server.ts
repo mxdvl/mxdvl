@@ -1,5 +1,5 @@
 import type { Lang } from "$lib/lang";
-import type { RequestHandler } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = ({ request }) => {
 	const maybeLang = request.headers
