@@ -230,5 +230,5 @@ const findWork = async (slug: string, lang: Lang): Promise<Work | undefined> => 
 	return getWork({ lang: validLang, path, alt });
 };
 
-export type { Work, Picture };
+export type { Work, WorkUrls, Picture };
 export { getWork, getUrls, findWork };
