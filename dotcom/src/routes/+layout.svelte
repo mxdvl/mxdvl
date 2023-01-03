@@ -9,6 +9,7 @@
 
 	import "./styles.css";
 	import { lang } from "../lib/lang";
+	import { capitalise } from "../lib/capitalise";
 
 	export let data: LayoutData;
 
@@ -32,10 +33,10 @@
 	<title
 		>MXDVL – {$page.url.pathname
 			.split("/")
-			.filter((frag) => frag.length)
+			.filter(({ length }) => length > 0)
 			.slice(0, 1) // TODO: handle deeper navigations
-			.map((frag) => decodeURIComponent(frag))
-			.map((frag) => frag.charAt(0).toLocaleUpperCase() + frag.slice(1))}</title
+			.map(decodeURIComponent)
+			.map(capitalise)}</title
 	>
 </svelte:head>
 
