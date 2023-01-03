@@ -17,14 +17,12 @@
 			width: 2,
 		},
 	];
-
-	const capitalise = <T extends string>(s: T): Capitalize<T> =>
-		(s.slice(0, 1).toUpperCase() + s.slice(1)) as Capitalize<T>;
 </script>
 
 <script lang="ts">
 	import { page } from "$app/stores";
 	import Logo from "$lib/CMPS.svelte";
+	import { capitalise } from "./capitalise";
 
 	let path: string;
 	$: path = $page.url.pathname.split("/").filter(Boolean)[0] ?? "";
