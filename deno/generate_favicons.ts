@@ -1,4 +1,4 @@
-import { copy } from "https://deno.land/std@0.154.0/fs/copy.ts";
+import { copy } from "https://deno.land/std@0.166.0/fs/copy.ts";
 
 console.log("Generating all favicons");
 

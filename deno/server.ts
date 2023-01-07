@@ -1,10 +1,6 @@
-import {
-	DOMParser,
-	Node,
-	Element,
-} from "https://deno.land/x/deno_dom@v0.1.34-alpha/deno-dom-wasm.ts";
-import { Handler, serve } from "https://deno.land/std@0.154.0/http/server.ts";
-import { crypto } from "https://deno.land/std@0.155.0/crypto/mod.ts";
+import { DOMParser, Element } from "https://esm.sh/linkedom@0.14.16";
+import { Handler, serve } from "https://deno.land/std@0.166.0/http/server.ts";
+import { crypto } from "https://deno.land/std@0.166.0/crypto/mod.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
 import { getTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
@@ -138,7 +134,7 @@ const getStaticFile = async (pathname: string, match?: string) => {
 
 		const etag = await digest(file);
 
-		const expires = cache(60)
+		const expires = cache(60);
 
 		if (match?.includes(etag)) {
 			return new Response(null, {
