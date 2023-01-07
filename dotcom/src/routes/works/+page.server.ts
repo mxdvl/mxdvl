@@ -1,10 +1,8 @@
 import type { PageServerLoad } from "./$types";
-import type { WorkUrls } from "@mxdvl/content/lib/works";
-import { base } from "$lib/base";
+import { paths } from "../../lib/paths";
 
 export const load: PageServerLoad = async () => {
-	const url = new URL("/works.json", base).toString();
-	const works: WorkUrls[] = await fetch(url).then((r) => r.json());
-
-	return { works };
+	return {
+		works: paths(import.meta.url).map((path) => ["works", path].join("/")),
+	};
 };

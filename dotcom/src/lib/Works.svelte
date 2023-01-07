@@ -15,32 +15,24 @@
 		);
 	};
 
-	const getUrl = (work: WorkUrls, lang: Lang): string => {
-		const url = (work[lang] ?? work.en).split("/").at(-1)?.replace(".json", "") ?? "404";
-
-		const base = lang === "fr" ? "/travaux/" : "/works/";
-
-		return base + url;
-	};
-
 	export const cleanDate = (date: string) => new Date(date).toISOString().slice(0, 7);
 </script>
 
 <script lang="ts">
-	export let works: WorkUrls[];
+	export let works: string[];
 	export let lang: Lang;
 </script>
 
 <ul>
 	{#each works as work}
 		<li>
-			<a href={getUrl(work, lang)}>
+			<a href={work}>
 				<h3>
-					{getTitle(work[lang])}
+					{getTitle(work)}
 				</h3>
-				<h4>
+				<!-- <h4>
 					{cleanDate(work.date)}
-				</h4>
+				</h4> -->
 			</a>
 		</li>
 	{/each}

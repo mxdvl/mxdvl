@@ -1,1 +1,8 @@
-export { load } from "../works/+page.server";
+import type { PageServerLoad } from "./$types";
+import { paths } from "../../lib/paths";
+
+export const load: PageServerLoad = async () => {
+	return {
+		works: paths(import.meta.url).map((path) => ["travaux", path].join("/")),
+	};
+};
