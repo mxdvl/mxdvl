@@ -7,5 +7,5 @@ export const paths = (file: string) => {
 	return readdirSync(dir, { encoding: "utf-8", withFileTypes: true })
 		.filter((path) => path.isDirectory())
 		.map(({ name }) => name)
-		.filter((path) => !path.startsWith("["));
+		.filter((path) => !path.includes("slug"));
 };
