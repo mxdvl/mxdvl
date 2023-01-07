@@ -16,6 +16,7 @@
 		"format:write": "prettier --write --plugin-search-dir=. ."
 	},
 	"dependencies": {
+		"@cloudinary/url-gen": "^1.8.7",
 		"@ibm/plex": "6.1.1",
 		"@sveltejs/adapter-vercel": "1.0.0",
 		"@sveltejs/kit": "1.0.5",
