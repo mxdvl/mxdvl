@@ -6,6 +6,6 @@
 	const { works } = data;
 </script>
 
-## Selected works
+<h2>Selected works</h2>
 
 <Works lang="en" {works} />
