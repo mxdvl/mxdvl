@@ -1,5 +1,11 @@
 <script context="module" lang="ts">
 	export const date = "2016-04";
+
+	import electricCables from "./dd-electric_cables.jpg";
+	import d12 from "./d12.jpg";
+	import ochanomizu from "./img_2692.jpg";
+
+	export { electricCables, d12, ochanomizu };
 </script>
 
 <script lang="ts">
@@ -20,11 +26,11 @@
 		<a href="https://sktch.mxdvl.com/">on tumblr</a>.
 	</p>
 
-	<Image ratio={8 / 6} src="dd-electric_cables.jpg" alt="Electric cables" />
-	<Image ratio={12 / 6} src="d-12.jpg" alt="Last night in Shibuya" />
+	<Image ratio={8 / 6} picture={electricCables} alt="Electric cables" />
+	<Image ratio={12 / 6} picture={d12} alt="Last night in Shibuya" />
 
 	<p>
 		Prints are available, <a href="mailto:hi+prints@mxdvl.com">drop me a line</a> for details.
 	</p>
-	<Image ratio={3 / 6} src="img_2692.jpg" alt="Ochanimizu" />
+	<Image ratio={3 / 6} picture={ochanomizu} alt="Ochanimizu" />
 </section>

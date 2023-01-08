@@ -1,7 +1,12 @@
 <script context="module" lang="ts">
 	export const date = "2012-07";
 
-	export const projects = ["crête", "plaine", "côte", "ravin"] as const;
+	import crete from "./crête.jpg";
+	import plaine from "./plaine.jpg";
+	import cote from "./côte.jpg";
+	import ravin from "./ravin.jpg";
+
+	export const projects = [crete, plaine, cote, ravin] as const;
 </script>
 
 <script lang="ts">
@@ -19,8 +24,8 @@
 
 	Quatre projets de recherche menés par Börkur Bergmann dans le nord du Québec.
 
-	{#each projects as projet}
-		<Image ratio={2 / 3} src={`${projet}.jpg`} alt={`Photo du projet ${projet}`} />
+	{#each projects as picture}
+		<Image ratio={2 / 3} {picture} alt={`Photo du projet ${picture.fallback.src.split("/").at(-1)}`} />
 	{/each}
 
 	<p>
