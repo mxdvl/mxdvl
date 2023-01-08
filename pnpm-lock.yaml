@@ -92,6 +92,7 @@ importers:
       svelte-preprocess: 5.0.0
       typescript: 4.9.4
       vite: '4'
+      vite-imagetools: ^4.0.13
     dependencies:
       '@cloudinary/url-gen': 1.8.7
       '@ibm/plex': 6.1.1
@@ -114,6 +115,7 @@ importers:
       svelte-preprocess: 5.0.0_niwyv7xychq2ag6arq5eqxbomm
       typescript: 4.9.4
       vite: 4.0.1
+      vite-imagetools: 4.0.13
 
 packages:
 
@@ -455,6 +457,20 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: false
 
+  /@rollup/pluginutils/5.0.2:
+    resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': 1.0.0
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+    dev: false
+
   /@sveltejs/adapter-static/1.0.0_@sveltejs+kit@1.0.5:
     resolution: {integrity: sha512-ZrQhRgSa2TsH+zvrOIKpdVsAhExafpsn+w6Gv1WHzV76RZ2XOYFa8xi6hEzRjeeAL++ac0dsZHzp8M4X7YIabg==}
     peerDependencies:
@@ -603,6 +619,10 @@ packages:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
       '@types/ms': 0.7.31
+    dev: false
+
+  /@types/estree/1.0.0:
+    resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: false
 
   /@types/hast/2.3.4:
@@ -1912,6 +1932,13 @@ packages:
   /ignore/5.2.0:
     resolution: {integrity: sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==}
     engines: {node: '>= 4'}
+    dev: false
+
+  /imagetools-core/3.2.3:
+    resolution: {integrity: sha512-YbZhedg/zja34yV6iRDhfo4cmAYSwxaErkuzc/RpMMAELgszpDKf3MLH6VlsR+QkenPUEGkGAVpJAM2GbUls9Q==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      sharp: 0.31.3
     dev: false
 
   /import-fresh/3.3.0:
@@ -3390,6 +3417,16 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.2
       vfile-message: 3.1.2
+    dev: false
+
+  /vite-imagetools/4.0.13:
+    resolution: {integrity: sha512-DeMAhDwvWATzBa5Qu9Fv6rtOuHZFONrv5Z5a95jd/oBDDCdyTKYVqxIurS5ox9A/sH8bhVF7r++Yww0DKpjKFQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@rollup/pluginutils': 5.0.2
+      imagetools-core: 3.2.3
+    transitivePeerDependencies:
+      - rollup
     dev: false
 
   /vite/4.0.1:
