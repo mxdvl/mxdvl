@@ -13,9 +13,6 @@
 
 	import Image from "$lib/Image.svelte";
 	import Alternates from "../../../lib/Alternates.svelte";
-
-	// create a small placeholder and import its metadata
-	// import { src as placeholder, width, height } from "../example.jpg?width=300&metadata";
 </script>
 
 <Alternates en={$page.url.pathname} fr="/travaux/croquis-quotidien" />
