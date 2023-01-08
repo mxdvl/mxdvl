@@ -2,7 +2,8 @@
 	import type { WorkUrls } from "@mxdvl/content/lib/works";
 	import type { Lang } from "$lib/lang";
 
-	const getTitle = (url?: string) => {
+	const getTitle = (lang: Lang, url?: string) => {
+		const missing = lang === "en" ? "(missing title)" : "(titre manquant)";
 		// TODO: make it nice
 		return (
 			url
@@ -11,7 +12,7 @@
 				.slice(-1)[0]
 				?.split("-")
 				.map((word) => word.slice(0, 1).toLocaleUpperCase() + word.slice(1))
-				.join(" ") ?? "(titre manquant)"
+				.join(" ") ?? missing
 		);
 	};
 
@@ -28,7 +29,7 @@
 		<li>
 			<a href={work}>
 				<h3>
-					{getTitle(work)}
+					{getTitle(lang, work)}
 				</h3>
 				<!-- <h4>
 					{cleanDate(work.date)}

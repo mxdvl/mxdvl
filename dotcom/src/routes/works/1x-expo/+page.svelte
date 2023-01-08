@@ -1,6 +1,11 @@
 <script context="module" lang="ts">
 	export const date = "2016-01";
 	export const title = "1:X Multidisciplinary Exploration";
+
+	import model from "./1x-expo-model.jpg";
+	import modelSide from "./1x-expo-model-side.jpg";
+
+	export { model, modelSide };
 </script>
 
 <script lang="ts">
@@ -8,9 +13,6 @@
 
 	import Image from "$lib/Image.svelte";
 	import Alternates from "../../../lib/Alternates.svelte";
-
-	import model from "./1x-expo-model.jpg";
-	import modelSide from "./1x-expo-model-side.jpg";
 </script>
 
 <Alternates en={$page.url.pathname} fr="/travaux/1x-expo" />
@@ -35,9 +37,9 @@
 
 	<p>
 		<em>
-			_made at
+			made at
 			<a href="http://provencherroy.ca/">Provencher_Roy</a>
-			with Nicolas Demers-Stoddart_
+			with Nicolas Demers-Stoddart
 		</em>
 	</p>
 </section>
