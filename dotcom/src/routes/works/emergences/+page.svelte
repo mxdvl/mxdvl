@@ -16,8 +16,8 @@
 
 	Four research projects lead by Börkur Bergmann in the north of Québec.
 
-	{#each projects as projet}
-		<Image path={fr} ratio={2 / 3} src={`${projet}.jpg`} alt={`Picture of ${projet} project`} />
+	{#each projects as picture}
+		<Image ratio={2 / 3} {picture} alt={`Picture of the exhibition`} />
 	{/each}
 
 	<p>

@@ -1,5 +1,11 @@
 <script context="module" lang="ts">
 	export const date = "2016-04";
+
+	import electricCables from "./dd-electric_cables.jpg";
+	import d12 from "./d12.jpg";
+	import ochanomizu from "./img_2692.jpg";
+
+	export { electricCables, d12, ochanomizu };
 </script>
 
 <script lang="ts">
@@ -7,10 +13,6 @@
 
 	import Image from "$lib/Image.svelte";
 	import Alternates from "../../../lib/Alternates.svelte";
-
-	import electricCables from "./dd-electric_cables.jpg";
-	import d12 from "./d12.jpg";
-	import ochanomizu from "./img_2692.jpg";
 
 	// create a small placeholder and import its metadata
 	// import { src as placeholder, width, height } from "../example.jpg?width=300&metadata";

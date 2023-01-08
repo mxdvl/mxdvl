@@ -1,5 +1,3 @@
-import type { resolveConfigs, Picture } from "vite-imagetools";
-
 /**
  * Keep in sync with app.css
  * @link dotcom/src/app.css
@@ -12,13 +10,6 @@ const sizes = [
 	[1200, 66],
 	[1400, 72],
 ] as const;
-
-export const resolveConfigsMxdvl: typeof resolveConfigs = () =>
-	sizes.map(([width]) => ({
-		width: String(width),
-		format: "webp",
-		picture: "",
-	}));
 
 export const defaultDirectives = new URLSearchParams({
 	width: sizes.map(([width]) => width).join(";"),

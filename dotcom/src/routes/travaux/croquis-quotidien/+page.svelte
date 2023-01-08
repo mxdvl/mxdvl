@@ -7,6 +7,7 @@
 
 	import Image from "$lib/Image.svelte";
 	import Alternates from "../../../lib/Alternates.svelte";
+	import { d12, electricCables, ochanomizu } from "../../works/daily-doodles/+page.svelte";
 
 	const en = "/works/daily-doodle";
 </script>
@@ -22,8 +23,8 @@
 		<a href="https://sktch.mxdvl.com/">sur tumblr</a>.
 	</p>
 
-	<Image path={en} ratio={8 / 6} src="dd-electric_cables.jpg" alt="Câbles électriques" />
-	<Image path={en} ratio={12 / 6} src="d-12.jpg" alt="La veille à Shibuya" />
+	<Image ratio={8 / 6} picture={electricCables} alt="Câbles électriques" />
+	<Image ratio={12 / 6} picture={d12} alt="La veille à Shibuya" />
 
 	<p>
 		Si vous voulez des impressions, veuillez
@@ -31,5 +32,5 @@
 		pour plus de details.
 	</p>
 
-	<Image path={en} ratio={3 / 6} src="img_2692.jpg" alt="Ochanimizu" />
+	<Image ratio={3 / 6} picture={ochanomizu} alt="Ochanimizu" />
 </section>
