@@ -2,17 +2,13 @@
  * Keep in sync with app.css
  * @link dotcom/src/app.css
  */
-const sizes = [
-	[360, 18],
-	[620, 30],
-	[740, 36],
-	[960, 48],
-	[1200, 66],
-	[1400, 72],
-] as const;
+const GRID_SIZE = 18;
+
+const COLUMNS = [18, 24, 30, 36] as const;
 
 export const defaultDirectives = new URLSearchParams({
-	width: sizes.map(([width]) => width).join(";"),
-	format: ["webp", "jpeg", "avif"].join(";"),
+	width: COLUMNS.map((column) => column * GRID_SIZE)
+		.flatMap((width) => [width, width * 2])
+		.join(";"),
 	picture: "",
 });
