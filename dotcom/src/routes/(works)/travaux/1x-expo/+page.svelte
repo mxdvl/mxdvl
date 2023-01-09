@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import Image from "$lib/Image.svelte";
-	import Alternates from "../../../lib/Alternates.svelte";
+	import Alternates from "$lib/Alternates.svelte";
 	import { date, model, modelSide, title } from "../../works/1x-expo/+page.svelte";
 
 	const en = "/works/1x-expo";
