@@ -6,7 +6,7 @@
 	import { page } from "$app/stores";
 
 	import Image from "$lib/Image.svelte";
-	import Alternates from "../../../lib/Alternates.svelte";
+	import Alternates from "$lib/Alternates.svelte";
 	import { d12, electricCables, ochanomizu } from "../../works/daily-doodles/+page.svelte";
 
 	const en = "/works/daily-doodle";

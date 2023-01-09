@@ -38,6 +38,12 @@
 		background-position: calc(0.5 * var(--grid-x)) var(--grid-y);
 		background-size: var(--grid-x) var(--grid-y);
 
+		--width: min(var(--columns, 12), 36);
+		--ratio: 9;
+		width: calc(var(--width) * var(--grid));
+		height: calc(var(--width) * var(--ratio) * var(--grid));
+		margin: var(--grid) 0;
+
 		transition: color 1.2s;
 	}
 

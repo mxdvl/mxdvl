@@ -12,7 +12,7 @@
 	import { page } from "$app/stores";
 
 	import Image from "$lib/Image.svelte";
-	import Alternates from "../../../lib/Alternates.svelte";
+	import Alternates from "$lib/Alternates.svelte";
 </script>
 
 <Alternates en={$page.url.pathname} fr="/travaux/croquis-quotidien" />
