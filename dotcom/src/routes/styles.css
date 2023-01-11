@@ -148,43 +148,66 @@ p {
 	transition: color 1.2s;
 }
 
-@media screen and (min-width: 360px) {
+/*
+See $lib/grid.ts for generating these widths
+deno run dotcom/src/lib/grid.ts | pbcopy
+*/
+
+@media screen and (min-width: 342px) {
 	#grid {
 		--columns: 18;
 	}
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 450px) {
 	#grid {
 		--columns: 24;
 	}
 }
 
-@media screen and (min-width: 620px) {
+@media screen and (min-width: 558px) {
 	#grid {
 		--columns: 30;
 	}
 }
 
-@media screen and (min-width: 740px) {
+@media screen and (min-width: 666px) {
 	#grid {
 		--columns: 36;
 	}
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 774px) {
+	#grid {
+		--columns: 42;
+	}
+}
+
+@media screen and (min-width: 882px) {
 	#grid {
 		--columns: 48;
 	}
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 990px) {
+	#grid {
+		--columns: 54;
+	}
+}
+
+@media screen and (min-width: 1098px) {
+	#grid {
+		--columns: 60;
+	}
+}
+
+@media screen and (min-width: 1206px) {
 	#grid {
 		--columns: 66;
 	}
 }
 
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 1314px) {
 	#grid {
 		--columns: 72;
 	}
