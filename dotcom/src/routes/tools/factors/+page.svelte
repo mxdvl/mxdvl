@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Alternates from "$lib/Alternates.svelte";
 	import Number from "$lib/Number.svelte";
 
 	const max = 100_000_000_003;
@@ -21,6 +22,8 @@
 
 	$: factors = getFactors(number);
 </script>
+
+<Alternates en="/tools/factors" fr="/outils/facteurs" />
 
 <p>
 	<Number min={1} {max} bind:value={number} />

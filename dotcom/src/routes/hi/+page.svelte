@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { getCondition } from "$lib/weather";
+	import Alternates from "$lib/Alternates.svelte";
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
 
 	const { feels_like, id } = data;
 </script>
+
+<Alternates en="/hi" fr="/allô" />
 
 <h1>Hi, there!</h1>
 

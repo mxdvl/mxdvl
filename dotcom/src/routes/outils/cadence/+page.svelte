@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Alternates from "$lib/Alternates.svelte";
+
 	const initial = 4.25;
 	const mile = 1.609344;
 	const step = 5 / 60;
@@ -23,6 +25,8 @@
 	$: setPace(perKilometre, "km");
 	$: setPace(perMile, "m");
 </script>
+
+<Alternates en="/tools/pace" fr="/outils/cadence" />
 
 <input type="range" bind:value={perKilometre} {min} {max} {step} />
 

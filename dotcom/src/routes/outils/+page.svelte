@@ -1,6 +1,10 @@
 <script lang="ts">
+	import Alternates from "$lib/Alternates.svelte";
+
 	const tools = ["cadence", "facteurs"] as const;
 </script>
+
+<Alternates en="/tools" fr="/outils" />
 
 <h2>Some tools!</h2>
 
