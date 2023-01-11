@@ -1,7 +1,7 @@
 import type { Lang } from "./lang";
 
 const cities = ["london", "montreal", "tokyo", "paris", "berlin"] as const;
-type City = typeof cities[number];
+type City = (typeof cities)[number];
 export const isValidCity = (city: unknown): city is City =>
 	typeof city === "string" && cities.map(String).includes(city);
 
