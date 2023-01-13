@@ -11,4 +11,6 @@ export const defaultDirectives = new URLSearchParams({
 		.flatMap((width) => [width, width * 2])
 		.join(";"),
 	picture: "",
+	format: ["webp", "jpeg"].join(";"),
+	progressive: "",
 });
