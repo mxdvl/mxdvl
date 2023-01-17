@@ -15,8 +15,8 @@
 		"format:write": "prettier --write --plugin-search-dir=. ."
 	},
 	"dependencies": {
-		"@sveltejs/adapter-static": "1.0.1",
-		"@sveltejs/kit": "1.0.12",
+		"@sveltejs/adapter-static": "1.0.4",
+		"@sveltejs/kit": "1.1.1",
 		"@sveltejs/vite-plugin-svelte": "2.0.2",
 		"@types/hast": "2.3.4",
 		"@types/mdast": "3.0.10",
