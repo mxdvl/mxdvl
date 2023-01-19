@@ -78,7 +78,7 @@ importers:
       '@sveltejs/vite-plugin-svelte': 2.0.2
       '@typescript-eslint/eslint-plugin': 5.48.2
       '@typescript-eslint/parser': 5.48.2
-      '@vercel/node': 2.8.11
+      '@vercel/node': 2.8.14
       eslint: 8.32.0
       eslint-config-prettier: 8.6.0
       eslint-plugin-svelte3: 4.0.0
@@ -101,7 +101,7 @@ importers:
       '@sveltejs/vite-plugin-svelte': 2.0.2_svelte@3.55.1+vite@4.0.1
       '@typescript-eslint/eslint-plugin': 5.48.2_caon6io6stgpr7lz2rtbhekxqy
       '@typescript-eslint/parser': 5.48.2_7uibuqfxkfaozanbtbziikiqje
-      '@vercel/node': 2.8.11
+      '@vercel/node': 2.8.14
       eslint: 8.32.0
       eslint-config-prettier: 8.6.0_eslint@8.32.0
       eslint-plugin-svelte3: 4.0.0_tmo5zkisvhu6htudosk5k7m6pu
@@ -810,8 +810,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: false
 
-  /@vercel/build-utils/5.8.3:
-    resolution: {integrity: sha512-t9IdZjTh65NnYvVMQfGIVXaYSBkSxuBSJHdrwy8FbSD0WB0OiRLg3sXJpKIl36M5E7IRsx29qgiw3qXEhoObtg==}
+  /@vercel/build-utils/5.9.0:
+    resolution: {integrity: sha512-LJRhd/ritLGHH+YvZ+DC7AW3Jr87UZHFHz2h2ENULDZ8qAo5LJH+y+Cg11uxfXkhQKK2f/AZQJXyKVyu1BBwdQ==}
     dev: false
 
   /@vercel/nft/0.22.1:
@@ -834,17 +834,17 @@ packages:
       - supports-color
     dev: false
 
-  /@vercel/node-bridge/3.1.8:
-    resolution: {integrity: sha512-zF4lUQLq2uqCUl1vm9KITK/rOVPeCCuSle5skqVi4ybQDaXaHpumBT7NovuOD5ls4AJxqVcyiOOheRT4f/le3A==}
+  /@vercel/node-bridge/3.1.10:
+    resolution: {integrity: sha512-0DQzF5pdyP+xd5f1Ss2fAO+9xIvzUhngRAPazwg4XHZE9iLkv2L+A1u3L8NYi4hoUlAAZQ5GF3txlm/oBn4tNw==}
     dev: false
 
-  /@vercel/node/2.8.11:
-    resolution: {integrity: sha512-XYkyNe+C+FIDc2TnlZxyS7cc0PbwGvuK3AFU75KaB898UUnOueEki2i0s8dokG1M9T3dT2QnbozyZ0anxT8jlQ==}
+  /@vercel/node/2.8.14:
+    resolution: {integrity: sha512-ty4/FUgEpfQlqNm3j5HEaMhAHPJipRBzm6WVOs7Lvf5INx6OqLxbLBw3p/xcA18EWL0D8e5V41B7F8iQ3tBkqA==}
     dependencies:
       '@edge-runtime/vm': 2.0.0
       '@types/node': 14.18.33
-      '@vercel/build-utils': 5.8.3
-      '@vercel/node-bridge': 3.1.8
+      '@vercel/build-utils': 5.9.0
+      '@vercel/node-bridge': 3.1.10
       '@vercel/static-config': 2.0.11
       edge-runtime: 2.0.0
       esbuild: 0.14.47
