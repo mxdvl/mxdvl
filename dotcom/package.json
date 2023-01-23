@@ -23,7 +23,7 @@
 		"@sveltejs/vite-plugin-svelte": "2.0.2",
 		"@typescript-eslint/eslint-plugin": "5.48.2",
 		"@typescript-eslint/parser": "5.48.2",
-		"@vercel/node": "2.8.14",
+		"@vercel/node": "2.8.15",
 		"eslint": "8.32.0",
 		"eslint-config-prettier": "8.6.0",
 		"eslint-plugin-svelte3": "4.0.0",
