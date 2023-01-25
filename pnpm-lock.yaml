@@ -35,7 +35,7 @@ importers:
       tslib: 2.4.1
       typescript: 4.9.4
       unified: 10.1.2
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
       vite: 4.0.4
     dependencies:
       '@sveltejs/adapter-static': 1.0.5_@sveltejs+kit@1.2.6
@@ -66,7 +66,7 @@ importers:
       tslib: 2.4.1
       typescript: 4.9.4
       unified: 10.1.2
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
       vite: 4.0.4_@types+node@18.11.18
 
   dotcom:
@@ -2155,7 +2155,7 @@ packages:
       unist-builder: 3.0.0
       unist-util-generated: 2.0.0
       unist-util-position: 4.0.3
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /mdast-util-to-markdown/1.3.0:
@@ -2166,7 +2166,7 @@ packages:
       longest-streak: 3.0.1
       mdast-util-to-string: 3.1.0
       micromark-util-decode-string: 1.0.2
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
       zwitch: 2.0.2
     dev: false
 
@@ -2784,7 +2784,7 @@ packages:
       '@types/mdast': 3.0.10
       hast-util-whitespace: 2.0.0
       unified: 10.1.2
-      unist-util-visit: 4.1.1
+      unist-util-visit: 4.1.2
     dev: false
 
   /require-from-string/2.0.2:
@@ -3358,8 +3358,8 @@ packages:
       unist-util-visit-parents: 4.1.1
     dev: false
 
-  /unist-util-visit/4.1.1:
-    resolution: {integrity: sha512-n9KN3WV9k4h1DxYR1LoajgN93wpEi/7ZplVe02IoB4gH5ctI1AaF2670BLHQYbwj+pY83gFtyeySFiyMHJklrg==}
+  /unist-util-visit/4.1.2:
+    resolution: {integrity: sha512-MSd8OUGISqHdVvfY9TPhyK2VdUrPgxkUtWSuMHF6XAAFuL4LokseigBnZtPnJMu+FbynTkFNnFlyjxpVKujMRg==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
