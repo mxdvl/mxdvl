@@ -78,7 +78,7 @@ importers:
       '@sveltejs/vite-plugin-svelte': 2.0.2
       '@typescript-eslint/eslint-plugin': 5.49.0
       '@typescript-eslint/parser': 5.49.0
-      '@vercel/node': 2.8.15
+      '@vercel/node': 2.8.16
       eslint: 8.32.0
       eslint-config-prettier: 8.6.0
       eslint-plugin-svelte3: 4.0.0
@@ -101,7 +101,7 @@ importers:
       '@sveltejs/vite-plugin-svelte': 2.0.2_svelte@3.55.1+vite@4.0.1
       '@typescript-eslint/eslint-plugin': 5.49.0_iu322prlnwsygkcra5kbpy22si
       '@typescript-eslint/parser': 5.49.0_7uibuqfxkfaozanbtbziikiqje
-      '@vercel/node': 2.8.15
+      '@vercel/node': 2.8.16
       eslint: 8.32.0
       eslint-config-prettier: 8.6.0_eslint@8.32.0
       eslint-plugin-svelte3: 4.0.0_tmo5zkisvhu6htudosk5k7m6pu
@@ -810,8 +810,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: false
 
-  /@vercel/build-utils/5.9.0:
-    resolution: {integrity: sha512-LJRhd/ritLGHH+YvZ+DC7AW3Jr87UZHFHz2h2ENULDZ8qAo5LJH+y+Cg11uxfXkhQKK2f/AZQJXyKVyu1BBwdQ==}
+  /@vercel/build-utils/6.0.0:
+    resolution: {integrity: sha512-2AoVcDUyQCj516KrRNH92NeKI+KZGnVGjHkcb+VcXxGspYpKL/gC+AdFtC05qbgxX1e8U95Yd8ROucTftHErWw==}
     dev: false
 
   /@vercel/nft/0.22.1:
@@ -838,12 +838,12 @@ packages:
     resolution: {integrity: sha512-0DQzF5pdyP+xd5f1Ss2fAO+9xIvzUhngRAPazwg4XHZE9iLkv2L+A1u3L8NYi4hoUlAAZQ5GF3txlm/oBn4tNw==}
     dev: false
 
-  /@vercel/node/2.8.15:
-    resolution: {integrity: sha512-pS445kGQGi4xN2vd/95mp5E86WrVEV7VH/u7f2G0Q5jCbcw590czJv1U+FLlW5OrznuuGT0LbNRKA0TBAUrbfA==}
+  /@vercel/node/2.8.16:
+    resolution: {integrity: sha512-aLuPHOm29cYjCK649/5j/zbYFXxRtNYcnNFdBd2gVg2II54SfByYIx/Tw3A6PeQmR23piBwPZMI5uEuYC0TGmA==}
     dependencies:
       '@edge-runtime/vm': 2.0.0
       '@types/node': 14.18.33
-      '@vercel/build-utils': 5.9.0
+      '@vercel/build-utils': 6.0.0
       '@vercel/node-bridge': 3.1.10
       '@vercel/static-config': 2.0.11
       edge-runtime: 2.0.0
