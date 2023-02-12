@@ -177,7 +177,7 @@ const getDynamicFile = async (pathname: string, match?: string) => {
 		headers: {
 			"Content-Type": getMimeType(pathname),
 			etag,
-			...cache(),
+			...cache(0),
 		},
 	});
 };

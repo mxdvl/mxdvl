@@ -7,6 +7,10 @@
 		"lib": ["deno.window", "dom"],
 		"checkJs": true,
 		"useUnknownInCatchVariables": true,
-		"noUncheckedIndexedAccess": true
+		"noUncheckedIndexedAccess": true,
+		"jsx": "react-jsx",
+		"jsxFactory": "h",
+		"jsxFragmentFactory": "Fragment",
+		"jsxImportSource": "https://esm.sh/preact@10.12.1"
 	}
 }
