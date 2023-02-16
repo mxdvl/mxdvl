@@ -78,7 +78,7 @@ importers:
       '@sveltejs/vite-plugin-svelte': 2.0.2
       '@typescript-eslint/eslint-plugin': 5.52.0
       '@typescript-eslint/parser': 5.52.0
-      '@vercel/node': 2.9.4
+      '@vercel/node': 2.9.6
       eslint: 8.34.0
       eslint-config-prettier: 8.6.0
       eslint-plugin-svelte3: 4.0.0
@@ -101,7 +101,7 @@ importers:
       '@sveltejs/vite-plugin-svelte': 2.0.2_svelte@3.55.1+vite@4.0.1
       '@typescript-eslint/eslint-plugin': 5.52.0_6cfvjsbua5ptj65675bqcn6oza
       '@typescript-eslint/parser': 5.52.0_7kw3g6rralp5ps6mg3uyzz6azm
-      '@vercel/node': 2.9.4
+      '@vercel/node': 2.9.6
       eslint: 8.34.0
       eslint-config-prettier: 8.6.0_eslint@8.34.0
       eslint-plugin-svelte3: 4.0.0_dbthnr4b2bdkhyiebwn7su3hnq
@@ -1009,8 +1009,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: false
 
-  /@vercel/build-utils/6.2.3:
-    resolution: {integrity: sha512-69LN45TIl5vgu0IiuVX6M/un4FiReAgSQR9z6xuDBhLJLiDcnWQ/wx+XemZuVPO62cOYm9jjp8QHWXIsIec/IQ==}
+  /@vercel/build-utils/6.3.0:
+    resolution: {integrity: sha512-Nbu/CIsv8HMp1+KPZ0n2YlHTKPfGRDrwhMgKW9Dx4z2S5sQWkXpe9WQ5ajePgwZVd7V1XiJYx1CCRaupIVgUwA==}
     dev: false
 
   /@vercel/nft/0.22.1:
@@ -1037,14 +1037,14 @@ packages:
     resolution: {integrity: sha512-LGbj+kPGgRnIlKo3949z01mLbHVi4BnRE7V5R6+J4E3f7xpQ12I9Wek10V7ivLB+LyS1+ATdjasdXAF4HOhqQw==}
     dev: false
 
-  /@vercel/node/2.9.4:
-    resolution: {integrity: sha512-O4pPnUUPI6hZGynxbI2fk8GloybZMO5dbGyicuK3WA+73LPxF+Xgaf8U5VmIc3NNwZqnEfJAA2Bhcnr23zpNYg==}
+  /@vercel/node/2.9.6:
+    resolution: {integrity: sha512-A1/1LucW54jUH8YspTTQYeGdhOPK8Z17bt5vrnB4PW5PGnq5Dn2DaC1mly0/Lo4Qlz44xDIiknwGvAitLAs2gQ==}
     dependencies:
       '@edge-runtime/vm': 2.0.0
       '@types/node': 14.18.33
-      '@vercel/build-utils': 6.2.3
+      '@vercel/build-utils': 6.3.0
       '@vercel/node-bridge': 3.1.11
-      '@vercel/static-config': 2.0.12
+      '@vercel/static-config': 2.0.13
       edge-runtime: 2.0.0
       esbuild: 0.14.47
       exit-hook: 2.2.1
@@ -1057,8 +1057,8 @@ packages:
       - encoding
     dev: false
 
-  /@vercel/static-config/2.0.12:
-    resolution: {integrity: sha512-mkTS3t6RV6Fu7G21LpegEuuHl9rwfyNkoBvsNV5BBP0h7/3OzHwHip+t20oKWk3IrWu5ic0nbLNhyARdkeA1hQ==}
+  /@vercel/static-config/2.0.13:
+    resolution: {integrity: sha512-09bVISGyhRMoL6gQTfM7n89SeUmyOlIzVMo2oNOj3thy4AIKGuN0SzEp0qNRw8d9j07rifp9JPD4rOuDRx4+eA==}
     dependencies:
       ajv: 8.6.3
       json-schema-to-ts: 1.6.4
