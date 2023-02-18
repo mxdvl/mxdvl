@@ -4,8 +4,8 @@
 	"scripts": {
 		"dotcom": "pnpm --F @mxdvl/dotcom dev",
 		"content": "pnpm --F @mxdvl/content dev",
-		"check:format": "pnpm -r format:check",
-		"check:lint": "pnpm -r lint:check",
-		"check:svelte": "pnpm -r check"
+		"check:format": "pnpm -r check:format",
+		"check:lint": "pnpm -r check:lint",
+		"check:svelte": "pnpm -r check:svelte"
 	}
 }
