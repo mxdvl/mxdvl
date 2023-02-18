@@ -1,0 +1,32 @@
+<h1>Modules three way down</h1>
+
+<p>
+	This is an experiment with JS modules.
+	The dependency graph looks like below:
+</p>
+
+<pre>
+           modules.html
+         /      |      \
+        /       |       \
+   first.js  second.js  third.js
+                     \ /
+                      |
+                 vendor.js
+</pre>
+
+<ul>
+	<li depth="1"></li>
+	<li depth="2"></li>
+	<li depth="3"></li>
+</ul>
+
+<script type="module">
+	import { depth } from "./0-depth.js"
+
+	depth();
+
+	document.addEventListener("DOMContentLoaded", function () {
+		document.querySelector("footer").remove();
+	});
+</script>

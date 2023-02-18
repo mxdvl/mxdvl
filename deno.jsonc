@@ -1,0 +1,16 @@
+{
+	"tasks": {
+		"dev": "deno run --watch --allow-read=deno --allow-net deno/server.ts",
+		"serve": "deno run --allow-read=deno --allow-net deno/server.ts"
+	},
+	"compilerOptions": {
+		"lib": ["deno.window", "dom"],
+		"checkJs": true,
+		"useUnknownInCatchVariables": true,
+		"noUncheckedIndexedAccess": true,
+		"jsx": "react-jsx",
+		"jsxFactory": "h",
+		"jsxFragmentFactory": "Fragment",
+		"jsxImportSource": "https://esm.sh/preact@10.12.1"
+	}
+}
