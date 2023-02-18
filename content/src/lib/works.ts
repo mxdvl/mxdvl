@@ -70,6 +70,8 @@ const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 
 	return (tree) => {
 		visit(tree, "element", (node, _, parent) => {
+			if (node.type !== "element") throw new Error("Not an element");
+
 			const { tagName } = node;
 
 			if (parent && tagName === "img") {
@@ -118,7 +120,7 @@ const cloudinary: Plugin<[Picture[]], HastRoot> = (pictures) => {
 };
 
 const formats = ["png", "jpg", "svg"] as const;
-type Format = typeof formats[number];
+type Format = (typeof formats)[number];
 const isFormat = (format: string | undefined): format is Format =>
 	// @ts-expect-error -- we’re using a type predicate
 	formats?.includes(format);
