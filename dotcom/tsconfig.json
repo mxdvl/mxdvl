@@ -11,9 +11,9 @@
 		"sourceMap": true,
 		"strict": true,
 		"paths": {
-			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"],
-			"$types/*": [".svelte-kit/types/*"],
+			"$lib": ["./src/lib"],
+			"$lib/*": ["./src/lib/*"],
+			"$types/*": ["./.svelte-kit/types/*"],
 			"@mxdvl/content/*": ["../content/src/*"],
 			"@mxdvl/dotcom/*": ["../dotcom/src/*"],
 			"@mxdvl/config/*": ["../config/src/*"]
