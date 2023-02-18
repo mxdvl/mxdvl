@@ -16,7 +16,7 @@ for (const dep of deps) {
 
 const commands: Array<{
 	name: string;
-	cmd: [typeof deps[number], ...string[]];
+	cmd: [(typeof deps)[number], ...string[]];
 }> = [
 	{
 		name: "Vips – for SVG to PNG",
