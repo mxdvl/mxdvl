@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import type { Work } from "../../../content/src/lib/works";
+	import type { Work } from "$lib/work";
 </script>
 
 <script lang="ts">

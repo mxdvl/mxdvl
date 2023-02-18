@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	import type { WorkUrls } from "@mxdvl/content/lib/works";
 	import type { Lang } from "$lib/lang";
 
 	const getTitle = (lang: Lang, url?: string) => {
