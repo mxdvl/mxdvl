@@ -9,9 +9,6 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./dotcom
     steps:
       - uses: actions/checkout@v3
 
@@ -24,7 +21,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: "./.nvmrc"
-          # cache: "pnpm"
+          cache: "pnpm"
 
       - name: Cache pnpm modules
         uses: actions/cache@v3
@@ -38,10 +35,10 @@ jobs:
         run: pnpm install
 
       - name: Format
-        run: "pnpm format:check"
+        run: "pnpm check:format"
 
       - name: Lint
-        run: "pnpm lint:check"
+        run: "pnpm check:lint"
 
       - name: Svelte
-        run: "pnpm check"
+        run: "pnpm check:svelte"

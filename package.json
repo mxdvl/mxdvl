@@ -3,6 +3,9 @@
 	"private": "true",
 	"scripts": {
 		"dotcom": "pnpm --F @mxdvl/dotcom dev",
-		"content": "pnpm --F @mxdvl/content dev"
+		"content": "pnpm --F @mxdvl/content dev",
+		"check:format": "pnpm -r format:check",
+		"check:lint": "pnpm -r lint:check",
+		"check:svelte": "pnpm -r check"
 	}
 }
