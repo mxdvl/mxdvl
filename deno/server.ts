@@ -1,8 +1,9 @@
 import { DOMParser, Element } from "https://esm.sh/linkedom@0.14.16";
-import { Handler, serve } from "https://deno.land/std@0.166.0/http/server.ts";
-import { crypto } from "https://deno.land/std@0.166.0/crypto/mod.ts";
+import { Handler, serve } from "https://deno.land/std@0.175.0/http/server.ts";
+import { crypto } from "https://deno.land/std@0.175.0/crypto/mod.ts";
+import { typeByExtension } from "https://deno.land/std@0.175.0/media_types/type_by_extension.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
-import { getTheme, Theme } from "./styles/themes.ts";
+import { parseTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
 import { build } from "./styles/styles.css.ts";
 import { cache } from "./cache.ts";
@@ -18,7 +19,7 @@ const getHtml = async (path: string) => {
 		if (error instanceof Deno.errors.NotFound) {
 			performance.mark("Got HTML from file");
 			return await Deno.readTextFile(
-				new URL(`pages/404.html`, import.meta.url)
+				new URL(`pages/404.html`, import.meta.url),
 			);
 		}
 
@@ -94,7 +95,7 @@ const generateBody = async (pathname: string, { lang, theme }: Settings) => {
 	}
 	const status = parseInt(
 		main?.querySelector("#error")?.getAttribute("data-error") ?? "200",
-		10
+		10,
 	);
 
 	return {
@@ -105,16 +106,8 @@ ${layout.documentElement?.outerHTML}`,
 };
 
 const getMimeType = (filename: string) => {
-	if (filename.endsWith(".svg")) return "image/svg+xml";
-	if (filename.endsWith(".png")) return "image/png";
-	if (filename.endsWith(".jpg")) return "image/jpeg";
-	if (filename.endsWith(".ico")) return "image/x-icon";
-
-	if (filename.endsWith(".css")) return "text/css";
-
-	if (filename.endsWith(".js")) return "application/javascript";
-
-	return "text/plain";
+	const extension = filename.match(/\.(.+?)$/)?.[0] ?? ".txt";
+	return typeByExtension(extension) ?? "text/plain";
 };
 
 const digest = async (message: Uint8Array) => {
@@ -129,7 +122,7 @@ const digest = async (message: Uint8Array) => {
 const getStaticFile = async (pathname: string, match?: string) => {
 	try {
 		const file = await Deno.readFile(
-			new URL(`static/${pathname}`, import.meta.url)
+			new URL(`static/${pathname}`, import.meta.url),
 		);
 
 		const etag = await digest(file);
@@ -189,12 +182,11 @@ const handler: Handler = async ({ url, headers }) => {
 	const { pathname, origin, searchParams } = new URL(url);
 
 	if (pathname === "/") {
-		const lang =
-			headers
-				.get("Accept-Language")
-				?.split(",")
-				.find((s) => s.startsWith("en") || s.startsWith("fr"))
-				?.slice(0, 2) ?? "en";
+		const lang = headers
+			.get("Accept-Language")
+			?.split(",")
+			.find((s) => s.startsWith("en") || s.startsWith("fr"))
+			?.slice(0, 2) ?? "en";
 
 		switch (lang) {
 			case "fr":
@@ -215,7 +207,7 @@ const handler: Handler = async ({ url, headers }) => {
 
 	const { body, status } = await generateBody(pathname, {
 		lang: fr.includes(decodeURI(pathname)) ? "fr" : "en",
-		theme: getTheme(searchParams.get("theme") ?? "default"),
+		theme: parseTheme(searchParams.get("theme") ?? "default"),
 	});
 
 	return new Response(body, {

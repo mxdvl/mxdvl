@@ -1,21 +1,14 @@
-import init, {
-	transform as untypedTransform,
-} from "https://unpkg.com/lightningcss-wasm@1.14.0/index.js";
+import init, { transform as untyped_transform } from "https://unpkg.com/lightningcss-wasm@1.14.0/index.js";
 
-import {
-	TransformOptions,
-	TransformResult,
-} from "https://raw.githubusercontent.com/parcel-bundler/lightningcss/v1.14.0/node/index.d.ts";
+import type { transform as transform_function } from "https://esm.sh/lightningcss-wasm@1.19.0";
 
 /**
  * Why are we declaring this here?
  *
  * - esm.sh has d.ts, but no wasm
  * - unpkg has wasm, but no d.ts
- * - skypack has nothing
  */
-const transform = (options: TransformOptions): TransformResult =>
-	untypedTransform(options);
+const transform: typeof transform_function = (options) => untyped_transform(options);
 
 await init();
 

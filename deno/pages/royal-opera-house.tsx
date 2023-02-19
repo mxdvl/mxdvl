@@ -9,14 +9,13 @@ const dotted_arc = (radius: number, count: number) =>
 			[
 				sin((tau * i) / count / 2) * radius,
 				cos((tau * i) / count / 2) * radius,
-			] as const
+			] as const,
 	);
 
 const arc_dots = (count: number) =>
 	Array.from(
 		{ length: count + 1 },
-		(_, i) =>
-			[sin((tau * i) / count / 2), cos((tau * i) / count / 2)] as const
+		(_, i) => [sin((tau * i) / count / 2), cos((tau * i) / count / 2)] as const,
 	);
 
 export const Royal_Opera_House = (
@@ -28,12 +27,16 @@ export const Royal_Opera_House = (
 	>
 		<g stroke="black" stroke-width="0.25" fill="none">
 			<path
-				d="M-20,0 A10,10 1 1 1 20,0 Z
-    M0,0 V-20
-    M0,0 L34,-34
-    M0,0 L-34,-34
-    "
-			></path>
+				d={[
+					// half arc
+					"M-20,0 A10,10 1 1 1 20,0 Z",
+					// rays
+					"M0,0 V-20",
+					"M0,0 L34,-34",
+					"M0,0 L-34,-34",
+				].join("")}
+			>
+			</path>
 
 			{dotted_arc(24, 24).map(([cx, cy]) => (
 				<circle
@@ -46,9 +49,7 @@ export const Royal_Opera_House = (
 				/>
 			))}
 			<g transform="rotate(-90)">
-				{arc_dots(72).map(([cx, cy]) => (
-					<line x1={cx * 48} x2={cx * 50} y1={cy * 48} y2={cy * 50} />
-				))}
+				{arc_dots(72).map(([cx, cy]) => <line x1={cx * 48} x2={cx * 50} y1={cy * 48} y2={cy * 50} />)}
 			</g>
 
 			<path d="M-90,6 H90"></path>
@@ -56,13 +57,13 @@ export const Royal_Opera_House = (
 			<path
 				d={Array.from(
 					{ length: 24 },
-					(_, i) => `M${i * 2 + 50},2v-2`
+					(_, i) => `M${i * 2 + 50},2v-2`,
 				).join("")}
 			/>
 			<path
 				d={Array.from(
 					{ length: 24 },
-					(_, i) => `M${-i * 2 - 50},2v-2`
+					(_, i) => `M${-i * 2 - 50},2v-2`,
 				).join("")}
 			/>
 		</g>

@@ -4,13 +4,26 @@
 		"serve": "deno run --allow-read=deno --allow-net deno/server.ts"
 	},
 	"compilerOptions": {
-		"lib": ["deno.window", "dom"],
+		"lib": ["deno.ns", "dom", "dom.asynciterable"],
 		"checkJs": true,
 		"useUnknownInCatchVariables": true,
 		"noUncheckedIndexedAccess": true,
 		"jsx": "react-jsx",
-		"jsxFactory": "h",
-		"jsxFragmentFactory": "Fragment",
 		"jsxImportSource": "https://esm.sh/preact@10.12.1"
+	},
+	"fmt": {
+		"files": {
+			"include": ["deno"]
+		},
+		"options": {
+			"lineWidth": 120,
+			"indentWidth": 4,
+			"useTabs": true
+		}
+	},
+	"lint": {
+		"files": {
+			"include": ["deno"]
+		}
 	}
 }
