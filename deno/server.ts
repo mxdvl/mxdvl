@@ -1,6 +1,7 @@
 import { DOMParser, Element } from "https://esm.sh/linkedom@0.14.16";
-import { Handler, serve } from "https://deno.land/std@0.166.0/http/server.ts";
-import { crypto } from "https://deno.land/std@0.166.0/crypto/mod.ts";
+import { Handler, serve } from "https://deno.land/std@0.177.0/http/server.ts";
+import { crypto } from "https://deno.land/std@0.177.0/crypto/mod.ts";
+import { typeByExtension } from "https://deno.land/std@0.177.0/media_types/type_by_extension.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
 import { parseTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
@@ -105,16 +106,8 @@ ${layout.documentElement?.outerHTML}`,
 };
 
 const getMimeType = (filename: string) => {
-	if (filename.endsWith(".svg")) return "image/svg+xml";
-	if (filename.endsWith(".png")) return "image/png";
-	if (filename.endsWith(".jpg")) return "image/jpeg";
-	if (filename.endsWith(".ico")) return "image/x-icon";
-
-	if (filename.endsWith(".css")) return "text/css";
-
-	if (filename.endsWith(".js")) return "application/javascript";
-
-	return "text/plain";
+	const extension = filename.match(/\.(.+?)$/)?.[0] ?? ".txt";
+	return typeByExtension(extension) ?? "text/plain";
 };
 
 const digest = async (message: Uint8Array) => {
