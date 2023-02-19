@@ -1,7 +1,7 @@
 import { DOMParser, Element } from "https://esm.sh/linkedom@0.14.16";
-import { Handler, serve } from "https://deno.land/std@0.177.0/http/server.ts";
-import { crypto } from "https://deno.land/std@0.177.0/crypto/mod.ts";
-import { typeByExtension } from "https://deno.land/std@0.177.0/media_types/type_by_extension.ts";
+import { Handler, serve } from "https://deno.land/std@0.175.0/http/server.ts";
+import { crypto } from "https://deno.land/std@0.175.0/crypto/mod.ts";
+import { typeByExtension } from "https://deno.land/std@0.175.0/media_types/type_by_extension.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
 import { parseTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
@@ -19,7 +19,7 @@ const getHtml = async (path: string) => {
 		if (error instanceof Deno.errors.NotFound) {
 			performance.mark("Got HTML from file");
 			return await Deno.readTextFile(
-				new URL(`pages/404.html`, import.meta.url)
+				new URL(`pages/404.html`, import.meta.url),
 			);
 		}
 
@@ -95,7 +95,7 @@ const generateBody = async (pathname: string, { lang, theme }: Settings) => {
 	}
 	const status = parseInt(
 		main?.querySelector("#error")?.getAttribute("data-error") ?? "200",
-		10
+		10,
 	);
 
 	return {
@@ -122,7 +122,7 @@ const digest = async (message: Uint8Array) => {
 const getStaticFile = async (pathname: string, match?: string) => {
 	try {
 		const file = await Deno.readFile(
-			new URL(`static/${pathname}`, import.meta.url)
+			new URL(`static/${pathname}`, import.meta.url),
 		);
 
 		const etag = await digest(file);
@@ -182,12 +182,11 @@ const handler: Handler = async ({ url, headers }) => {
 	const { pathname, origin, searchParams } = new URL(url);
 
 	if (pathname === "/") {
-		const lang =
-			headers
-				.get("Accept-Language")
-				?.split(",")
-				.find((s) => s.startsWith("en") || s.startsWith("fr"))
-				?.slice(0, 2) ?? "en";
+		const lang = headers
+			.get("Accept-Language")
+			?.split(",")
+			.find((s) => s.startsWith("en") || s.startsWith("fr"))
+			?.slice(0, 2) ?? "en";
 
 		switch (lang) {
 			case "fr":

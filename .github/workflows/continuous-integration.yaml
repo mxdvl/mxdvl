@@ -34,3 +34,23 @@ jobs:
 
       - name: Svelte
         run: "pnpm check:svelte"
+
+  deno:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Format
+        run: deno fmt deno
+
+      - name: Format
+        run: deno lint deno
+
+      - name: Type-check
+        run: deno check deno/**.ts
+
+
