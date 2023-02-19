@@ -106,7 +106,7 @@ ${layout.documentElement?.outerHTML}`,
 };
 
 const getMimeType = (filename: string) => {
-	const extension = filename.match(/\.(.+?)$/)?.[0] ?? ".txt";
+	const extension = filename.match(/\.(.+?)$/)?.[0] ?? ".html";
 	return typeByExtension(extension) ?? "text/plain";
 };
 
