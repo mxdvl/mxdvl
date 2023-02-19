@@ -2,7 +2,7 @@ import { DOMParser, Element } from "https://esm.sh/linkedom@0.14.16";
 import { Handler, serve } from "https://deno.land/std@0.166.0/http/server.ts";
 import { crypto } from "https://deno.land/std@0.166.0/crypto/mod.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
-import { getTheme, Theme } from "./styles/themes.ts";
+import { parseTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
 import { build } from "./styles/styles.css.ts";
 import { cache } from "./cache.ts";
@@ -215,7 +215,7 @@ const handler: Handler = async ({ url, headers }) => {
 
 	const { body, status } = await generateBody(pathname, {
 		lang: fr.includes(decodeURI(pathname)) ? "fr" : "en",
-		theme: getTheme(searchParams.get("theme") ?? "default"),
+		theme: parseTheme(searchParams.get("theme") ?? "default"),
 	});
 
 	return new Response(body, {

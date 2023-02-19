@@ -1,15 +1,19 @@
+type Colour<L extends number = number> = `lch(${L}% ${number} ${number})`;
+
 const colours = {
-	orange: "lch(66% 120 54)",
-	teal: "lch(60% 72 204)",
-	lightestGreen: "lch(98% 6 216)",
-	lightGreen: "lch(90% 12 216)",
-	darkGreen: "lch(18% 24 216)",
-	darkestGreen: "lch(9% 24 216)",
-} as const;
+	orange: { 66: "lch(66% 120 54)" },
+	teal: { 60: "lch(60% 72 204)" },
+	green: {
+		98: "lch(98% 6 216)",
+		90: "lch(90% 12 216)",
+		18: "lch(18% 24 216)",
+		9: "lch(9% 24 216)",
+	},
+} as const satisfies Record<string, Record<number, Colour>>;
 
 const theme_names = ["light", "dark"] as const;
-export type Theme = typeof theme_names[number];
-export const getTheme = (theme: string): Theme | "default" => {
+export type Theme = (typeof theme_names)[number];
+export const parseTheme = (theme: string): Theme | "default" => {
 	switch (theme) {
 		case "dark":
 			return "dark";
@@ -22,14 +26,14 @@ export const getTheme = (theme: string): Theme | "default" => {
 
 const colour_themes = {
 	light: {
-		"--earth": colours.darkGreen,
-		"--clouds": colours.lightestGreen,
-		"--skies": colours.lightGreen,
+		"--earth": colours.green[18],
+		"--clouds": colours.green[98],
+		"--skies": colours.green[90],
 	},
 	dark: {
-		"--earth": colours.lightestGreen,
-		"--clouds": colours.darkGreen,
-		"--skies": colours.darkestGreen,
+		"--earth": colours.green[98],
+		"--clouds": colours.green[18],
+		"--skies": colours.green[9],
 	},
 };
 
@@ -39,8 +43,8 @@ const getVariables = (theme: keyof typeof colour_themes) =>
 		.join("\n");
 
 const root = `:root {
-	--ocean: ${colours.teal};
-	--glint: ${colours.orange};
+	--ocean: ${colours.teal[60]};
+	--glint: ${colours.orange[66]};
 }
 `;
 
