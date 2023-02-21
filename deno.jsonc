@@ -1,6 +1,6 @@
 {
 	"tasks": {
-		"dev": "deno run --watch --allow-read=deno --allow-net deno/server.ts",
+		"dev": "deno run --watch --allow-read --allow-net deno/server.ts",
 		"serve": "deno run --allow-read=deno --allow-net deno/server.ts"
 	},
 	"compilerOptions": {
