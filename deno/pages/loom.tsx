@@ -3,10 +3,10 @@ const { cos, sin, PI } = Math;
 const tau = PI * 2;
 
 const styles = `
-.background { fill: white; }
+.background { fill: skyblue; }
 path {
-	stroke: black;
-	fill: rgba(0,0,0, 0.0625);
+	stroke: darkorange;
+	fill: rgba(210, 210, 0, 1.063);
 	stroke-width: 0.5;
 	stroke-linejoin: miter;
 	stroke-miterlimit: 12;
@@ -26,8 +26,8 @@ const spread = (n: number) => (element: JSX.Element) => (
 	</g>
 );
 
-const back_and_forth =
-	([left, right]: [string, string]) => (n: number) => [...Array(n).fill(left), Array(n).fill(right)];
+const back_and_forth = ([left, right]: [string, string]) => (n: number) =>
+	Array.from({ length: n * 2 }, (_, i) => i < n ? left : right);
 
 const loops = back_and_forth([
 	"a24,24 0 0 1 18,0",
@@ -35,7 +35,9 @@ const loops = back_and_forth([
 ]);
 
 const mirror = (...deltas: readonly [number, number][]) =>
-	[...deltas, ...deltas.slice().reverse().map(([x, y]) => [-x, y] as const)].map(([x, y]) => `${x},${y}`);
+	[`M18,-${deltas.reduce((accumulator, [, y]) => accumulator + y, 0)}`].concat(
+		[...deltas, ...deltas.slice().reverse().map(([x, y]) => [-x, y] as const)].map(([x, y]) => `l${x},${y}`),
+	);
 
 const xmlns = "http://www.w3.org/2000/svg";
 
@@ -64,7 +66,7 @@ const polygon = (radius: number, n: number) => {
 };
 
 const rosace = (count: number) => {
-	const points = on_circle()(60)(count);
+	const points = on_circle()(48)(count);
 	const arc = 3;
 	return (
 		<>
@@ -74,7 +76,7 @@ const rosace = (count: number) => {
 					...points.map(([x, y]) => `A${arc},${arc} 0 0 0 ${x},${y}`),
 				].join("\n")}
 			/>
-			{points.map(([x, y], index) => <text x={x} y={y}>{index}</text>)}
+			{/* {points.map(([x, y], index) => <text x={x} y={y}>{index}</text>)} */}
 		</>
 	);
 };
@@ -83,15 +85,43 @@ export const loom = (
 	<svg
 		xmlns={xmlns}
 		viewBox="-120 -120 240 240"
-		width="100%"
-		height="100%"
+		width="900px"
+		height="900px"
 		strokeLinejoin={"miter"}
 	>
 		<style>{styles}</style>
 		<rect class="background" x={-300} y={-300} width="1000%" height="1000%" />
 
-		{polygon(19, 6)}
+		{/* {polygon(19, 6)} */}
 
+		{/* {rosace(3)} */}
+		{/* {rosace(5)} */}
 		{rosace(12)}
+
+		{spread(36)(
+			<path
+				d={[
+					"M48,0",
+					...loops(2),
+					// "Z",
+				].join(" ")}
+			/>,
+		)}
+
+		{spread(18)(
+			<path
+				transform="rotate(0)"
+				d={[
+					// base
+					...mirror(
+						[6, 3],
+						[3, 2],
+						[-2, 1],
+					),
+				].join(" ")}
+			/>,
+		)}
+
+		{polygon(9, 3)}
 	</svg>
 );
