@@ -5,7 +5,6 @@ import { typeByExtension } from "std/media_types/type_by_extension.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
 import { parseTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
-import { build } from "./styles/styles.css.ts";
 import { cache } from "./cache.ts";
 
 const port = 8080;
@@ -34,6 +33,8 @@ const getDocument = (html: string) => {
 	if (!doc) throw new Error("Could not parse HTML");
 	return doc;
 };
+
+const base_styles = await Deno.readTextFile(new URL("static/styles.css", import.meta.url));
 
 const isElement = (node: Node): node is Element => node instanceof Element;
 
@@ -77,7 +78,7 @@ const generateBody = async (pathname: string, { lang, theme }: Settings) => {
 	performance.mark("DOM manipulation");
 
 	const style = layout.createElement("style");
-	style.innerHTML = await build([...styles.values()]);
+	style.innerHTML = [base_styles, ...styles.values()].join("\n");
 	head.appendChild(style);
 
 	performance.mark("Injected styles");
@@ -157,8 +158,6 @@ const getDynamicFile = async (pathname: string, match?: string) => {
 	const body = await manifest[pathname]();
 
 	const etag = await digest(new TextEncoder().encode(body));
-
-	console.log({ etag, match });
 
 	if (match?.includes(etag)) {
 		return new Response(null, {

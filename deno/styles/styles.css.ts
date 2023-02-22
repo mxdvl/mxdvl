@@ -19,6 +19,7 @@ export const build = async (extra?: string[]) => {
 		minify: false,
 		targets: {
 			chrome: version(91),
+			safari: version(13),
 		},
 	});
 
@@ -29,3 +30,8 @@ export const build = async (extra?: string[]) => {
 	console.info(`Compiled CSS in ${duration}ms`);
 	return css;
 };
+
+if (import.meta.main) {
+	const css = await build();
+	await Deno.writeTextFile(new URL("../static/styles.css", import.meta.url), css);
+}

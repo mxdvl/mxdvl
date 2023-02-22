@@ -1,7 +1,8 @@
 {
 	"tasks": {
-		"dev": "deno run --watch --allow-read --allow-net deno/server.ts",
-		"serve": "deno run --allow-read=deno --allow-net deno/server.ts"
+		"dev": "deno task build && deno run --watch --allow-read --allow-net deno/server.ts",
+		"build": "deno run --allow-read=. --allow-write --allow-net deno/styles/styles.css.ts",
+		"serve": "build && deno run --allow-read=deno --allow-net deno/server.ts"
 	},
 	"compilerOptions": {
 		"lib": ["deno.ns", "dom", "dom.asynciterable"],
