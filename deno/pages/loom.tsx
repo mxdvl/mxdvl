@@ -122,6 +122,8 @@ export const loom = (
 			/>,
 		)}
 
-		{polygon(9, 3)}
+		{polygon(12, 3)}
+		{polygon(6, 6)}
+		{spread(2)(polygon(3, 3))}
 	</svg>
 );
