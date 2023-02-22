@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Loop from "./Loop.svelte";
 	import Polygon from "./Polygon.svelte";
 	import Spread from "./Spread.svelte";
 
@@ -11,7 +12,15 @@
 
 <svg viewBox={`-${size / 2},-${size / 2} ${size},${size}`} width={size} height={size}>
 	<Spread count={sides}>
-		<path d="M24,0 h24 v3 h-12 Z" />
+		<g transform="translate(20)">
+			<Spread count={1}>
+				<Loop length={30} count={3} />
+			</Spread>
+		</g>
+
+		<g transform="translate(30,12)">
+			<path d="M30,0 l30,6 v-12 Z" />
+		</g>
 	</Spread>
 
 	<Polygon radius={20} {sides} />
@@ -24,9 +33,6 @@
 <style>
 	svg {
 		display: block;
-	}
-
-	path {
 		stroke-width: 1;
 		stroke: var(--ocean);
 		fill: none;
