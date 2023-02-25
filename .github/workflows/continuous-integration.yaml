@@ -1,4 +1,4 @@
-name: Dotcom / CI
+name: CI
 on:
   pull_request:
     types: [opened, synchronize]
@@ -53,4 +53,22 @@ jobs:
       - name: Type-check
         run: deno check deno/**.ts
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      # This is required to allow the GitHub Action to authenticate with Deno Deploy.
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: mxdvl
+          entrypoint: deno/server.ts
+          root: .
+          import-map: import-map.json
 
