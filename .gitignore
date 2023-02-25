@@ -3,6 +3,7 @@ node_modules
 
 # Build
 build/
+deno/static
 
 # Svelte
 dotcom/.svelte-kit
