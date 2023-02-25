@@ -65,6 +65,6 @@ for await (const { name, isFile } of Deno.readDir(cwd)) {
 	}
 }
 
-await copy(`${cwd}/build`, new URL("static/", import.meta.url), {
+await copy(`${cwd}/build`, new URL("assets/favicons/", import.meta.url), {
 	overwrite: true,
 });

@@ -1,9 +1,10 @@
 {
 	"tasks": {
 		"dev": "deno task build && deno run --watch --allow-read --allow-net deno/server.ts",
-		"build": "mkdir -p deno/static && deno task build:assets & deno task build:favicon & deno task build:styles",
-		"build:assets": "cp -r deno/assets/ deno/static",
-		"build:favicon": "deno run --allow-read --allow-write=cmps/build,deno/static --allow-run deno/generate_favicons.ts",
+		"build": "mkdir -p deno/static && deno task build:assets & deno task build:styles",
+		"build:assets": "cp -r deno/assets/favicons/ deno/static & cp -r deno/assets/fonts/ deno/static & cp -r deno/assets/modules/ deno/static & deno task build:favicons",
+		"build:favicons": "echo needs libvps – should be run locally",
+		"build:favicons:local": "deno run --allow-read --allow-write=cmps/build,deno/assets/favicons --allow-run deno/generate_favicons.ts",
 		"build:styles": "deno run --allow-read=. --allow-write --allow-net deno/styles/styles.css.ts",
 		"serve": "build && deno run --allow-read=deno --allow-net deno/server.ts"
 	},
