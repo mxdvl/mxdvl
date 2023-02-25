@@ -11,6 +11,9 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "https://esm.sh/preact@10.12.1"
 	},
+	"imports": {
+		"std/": "https://deno.land/std@0.178.0/"
+	},
 	"fmt": {
 		"files": {
 			"include": ["deno"]
