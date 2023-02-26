@@ -1,4 +1,6 @@
 import { copy } from "std/fs/copy.ts";
+import { cyan, green, red } from "std/fmt/colors.ts";
+import { render } from "resvg";
 
 console.log("Generating all favicons");
 
@@ -34,19 +36,6 @@ const commands: Array<{
 			"build/favicon.ico",
 		],
 	},
-	{
-		name: "Vips – convert apple-touch-icons to PNG (light)",
-		cmd: [
-			"vips",
-			"copy",
-			"cmps-icon-light.svg",
-			"build/cmps-icon-light.png",
-		],
-	},
-	{
-		name: "Vips – convert apple-touch-icons to PNG (dark)",
-		cmd: ["vips", "copy", "cmps-icon-dark.svg", "build/cmps-icon-dark.png"],
-	},
 ];
 
 await Deno.mkdir(`${cwd}/build`, { recursive: true });
@@ -59,9 +48,16 @@ for (const { name, cmd } of commands) {
 }
 
 for await (const { name, isFile } of Deno.readDir(cwd)) {
-	if (isFile && ["svg", "png"].some((ext) => name.endsWith(`.${ext}`))) {
-		console.info("Copying to build:", name);
-		Deno.copyFile(`${cwd}/${name}`, `${cwd}/build/${name}`);
+	if (isFile && name.endsWith(`.svg`)) {
+		Promise.allSettled([
+			Deno.readTextFile(`${cwd}/${name}`)
+				.then((svg) => render(svg))
+				.then((png) => Deno.writeFile(`${cwd}/build/${name.replace(".svg", ".png")}`, png)),
+			Deno.copyFile(`${cwd}/${name}`, `${cwd}/build/${name}`),
+		]).then((steps) => {
+			const status = steps.every(({ status }) => status === "fulfilled") ? green("○") : red("×");
+			console.info(status, "–", cyan(name));
+		});
 	}
 }
 

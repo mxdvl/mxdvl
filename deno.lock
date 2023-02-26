@@ -239,6 +239,8 @@
     "https://deno.land/x/deno_dom@v0.1.36-alpha/src/dom/utils-types.ts": "96db30e3e4a75b194201bb9fa30988215da7f91b380fca6a5143e51ece2a8436",
     "https://deno.land/x/deno_dom@v0.1.36-alpha/src/dom/utils.ts": "ecd889ba74f3ce282620d8ca1d4d5e0365e6cc86101d2352f3bbf936ae496e2c",
     "https://deno.land/x/deno_dom@v0.1.36-alpha/src/parser.ts": "b65eb7e673fa7ca611de871de109655f0aa9fa35ddc1de73df1a5fc2baafc332",
+    "https://deno.land/x/resvg_wasm@0.2.0/lib/resvg_wasm.generated.js": "29247e1c473c35f302d8c3741d369e2e999df6b3978cf2c975f701d2fb39c63e",
+    "https://deno.land/x/resvg_wasm@0.2.0/mod.ts": "be79306e8e038f6ac8a1151127b7a29d52125e4b4b671bf8c4a248d85c41c7fd",
     "https://esm.sh/lightningcss-wasm@1.19.0": "9a45b58ad6d338e9143433186f26c9472f7644952c190ef6bc51ec73415d07ce",
     "https://esm.sh/linkedom@0.14.16": "f2ee000ef62d30eca78357bb2542a4562f87c657adffddd71a523a087e7f8b42",
     "https://esm.sh/linkedom@0.14.22": "9b62af6d6f726ec2acae31e9b503cd23e224846a27364fdba25c6b3fe99dba61",
