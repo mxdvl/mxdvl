@@ -1,5 +1,6 @@
-import render from "https://esm.sh/preact-render-to-string@5.2.6";
+import render from "preact-render-to-string";
 import { loom } from "../pages/loom.tsx";
+import { boss } from "../components/boss.tsx";
 import { Royal_Opera_House } from "../pages/royal-opera-house.tsx";
 
 export const isDynamic = (
@@ -9,4 +10,5 @@ export const isDynamic = (
 export const manifest = {
 	"/royal-opera-house.svg": () => render(Royal_Opera_House),
 	"/loom": () => Deno.readTextFile("deno/pages/loom.html").then((html) => html.replace("<!--SVG-->", render(loom))),
+	"/boss": () => Deno.readTextFile("deno/pages/boss.html").then((html) => html.replace("<!--SVG-->", render(boss()))),
 } as const satisfies Record<string, () => string | Promise<string>>;

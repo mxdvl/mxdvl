@@ -1,4 +1,4 @@
-import { JSX } from "https://esm.sh/preact@10.12.1/jsx-runtime";
+import type { JSX } from "preact/jsx-runtime";
 const { cos, sin, PI } = Math;
 const tau = PI * 2;
 

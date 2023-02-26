@@ -8,6 +8,9 @@
 	"[jsonc]": {
 		"editor.defaultFormatter": "denoland.vscode-deno"
 	},
+	"[json]": {
+		"editor.defaultFormatter": "denoland.vscode-deno"
+	},
 	"[javascript]": {
 		"editor.defaultFormatter": "denoland.vscode-deno"
 	},
