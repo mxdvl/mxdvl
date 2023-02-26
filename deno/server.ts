@@ -1,4 +1,4 @@
-import { DOMParser, Element } from "https://esm.sh/linkedom@0.14.16";
+import { DOMParser, Element } from "linkedom";
 import { Handler, serve } from "std/http/server.ts";
 import { crypto } from "std/crypto/mod.ts";
 import { typeByExtension } from "std/media_types/type_by_extension.ts";

@@ -1,4 +1,4 @@
-import render from "https://esm.sh/preact-render-to-string@5.2.6";
+import render from "preact-render-to-string";
 import { loom } from "../pages/loom.tsx";
 import { boss } from "../components/boss.tsx";
 import { Royal_Opera_House } from "../pages/royal-opera-house.tsx";
