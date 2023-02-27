@@ -15,7 +15,7 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "preact"
 	},
-	"importMap": "import-map.json",
+	"importMap": "deno/import-map.json",
 	"fmt": {
 		"files": {
 			"include": ["deno"]
