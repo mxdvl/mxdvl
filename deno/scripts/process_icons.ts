@@ -1,11 +1,11 @@
 import { copy } from "std/fs/copy.ts";
 import { cyan, green, red } from "std/fmt/colors.ts";
 import { render } from "resvg";
-import { generate_favicon } from "./scripts/ico.ts";
+import { generate_favicon } from "./ico.ts";
 
 console.log("Generating all favicons");
 
-const cmps = new URL("../cmps", import.meta.url);
+const cmps = new URL("../../cmps", import.meta.url);
 
 const cwd = await Deno.realPath(cmps);
 
@@ -30,6 +30,6 @@ for await (const { name, isFile } of Deno.readDir(cwd)) {
 	}
 }
 
-await copy(`${cwd}/build`, new URL("assets/favicons/", import.meta.url), {
+await copy(`${cwd}/build`, new URL("../static", import.meta.url), {
 	overwrite: true,
 });
