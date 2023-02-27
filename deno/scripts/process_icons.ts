@@ -13,7 +13,8 @@ await Deno.mkdir(`${cwd}/build`, { recursive: true });
 
 for await (const { name, isFile } of Deno.readDir(cwd)) {
 	if (isFile && name.endsWith(`.svg`)) {
-		Promise.allSettled([
+		const start = performance.now();
+		await Promise.allSettled([
 			Deno.readTextFile(`${cwd}/${name}`)
 				.then((svg) => render(svg))
 				.then((png) =>
@@ -25,7 +26,7 @@ for await (const { name, isFile } of Deno.readDir(cwd)) {
 			Deno.copyFile(`${cwd}/${name}`, `${cwd}/build/${name}`),
 		]).then((steps) => {
 			const status = steps.every(({ status }) => status === "fulfilled") ? green("○") : red("×");
-			console.info(status, "–", cyan(name));
+			console.info(status, cyan(name), "\t in", performance.now() - start, "ms");
 		});
 	}
 }
