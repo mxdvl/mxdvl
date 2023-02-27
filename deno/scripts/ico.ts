@@ -1,4 +1,3 @@
-import { Buffer } from "std/io/mod.ts";
 import { render } from "resvg";
 import {
 	ImageMagick,
@@ -10,91 +9,112 @@ import {
 // Heavily inspired by https://github.com/itgalaxy/favicons/blob/3d200b6e8b9f84adc321a7302b9e7bbb2c7c9103/src/ico.ts#L1
 
 const HEADER_SIZE = 6;
+
+/** generate a low-endian array for the value */
+const to_array = (value: number, size: number) => {
+	if (value >= Math.pow(2, 8 * size + 1)) throw RangeError(`The number ${value} does not fit in ${size} bytes`);
+	return Array.from({ length: size }, (_, position) => Math.floor(value / Math.pow(2, 8 * position)));
+};
+
+/** extract a value from a low-endian array */
+const from_array = (array: Uint8Array) => array.reduce((acc, curr, index) => acc + curr * Math.pow(2, index * 8));
+
+const concatenate = (prev: Uint8Array, curr: Uint8Array) => new Uint8Array([...prev, ...curr]);
+
+interface HeaderOptions {
+	type: "icon" | "cursor";
+	number_of_images: number;
+}
 /** https://en.wikipedia.org/wiki/ICO_(file_format)#Header */
-const create_header = (sizes: number[]) =>
-	new Uint8Array(
-		new Uint16Array([
-			0, // Reserved. Must always be 0.
-			1, // Specifies image type: 1 for icon (.ICO) image, 2 for cursor (.CUR) image. Other values are invalid.
-			sizes.length, // Specifies number of images in the file.
-		]).buffer,
-	);
+const create_header = ({ number_of_images, type }: HeaderOptions) =>
+	new Uint8Array([
+		0,
+		type === "cursor" ? 2 : 1,
+		number_of_images,
+	].flatMap((value) => to_array(value, 2)));
 
 const DIRECTORY_SIZE = 16; // 1 + 1 + 1 + 1 + 2 + 2 + 4 + 4;
 /** https://en.wikipedia.org/wiki/ICO_(file_format)#Structure_of_image_directory */
-const create_directory_entries = (icons: Uint8Array[]) =>
-	icons.reduce<{
-		directories: Uint8Array[];
-		offset: number;
-	}>(
-		({ directories, offset }, bitmap) => {
-			const bytes = bitmap.slice(HEADER_SIZE + 8, HEADER_SIZE + 8 + 4)
-				.reduce((acc, curr, index) => acc + curr * Math.pow(2, index * 8));
+const create_directory_entries = (icons: readonly Uint8Array[]) =>
+	icons.reduce(
+		({ directory, offset }, individual_directory) => {
+			const all_but_offset = individual_directory.slice(0, -4);
+			const bytes = from_array(all_but_offset.slice(-4));
 
-			const directory = new Uint8Array([
-				...bitmap.slice(HEADER_SIZE, HEADER_SIZE + DIRECTORY_SIZE - 4),
-				...new Uint8Array(new Uint32Array([offset]).buffer),
-			]);
-
-			return { directories: directories.concat(directory), offset: offset + bytes };
+			return {
+				directory: new Uint8Array([
+					...directory,
+					...all_but_offset,
+					...to_array(offset, 4),
+				]),
+				offset: offset + bytes,
+			};
 		},
-		{ directories: [], offset: HEADER_SIZE + DIRECTORY_SIZE * icons.length },
-	).directories;
+		{
+			directory: new Uint8Array(),
+			offset: HEADER_SIZE + DIRECTORY_SIZE * icons.length,
+		},
+	).directory;
 
 const resize = (image: IMagickImage, size: number) =>
-	new Promise<Uint8Array>((resolve) => {
+	new Promise<readonly [directory: Uint8Array, image: Uint8Array]>((resolve) => {
 		image.clone((cloned) => {
 			cloned.resize(size, size);
 			cloned.format = MagickFormat.Ico;
 			cloned.write((data) => {
-				resolve(new Uint8Array(data));
+				resolve([
+					data.slice(HEADER_SIZE, HEADER_SIZE + DIRECTORY_SIZE),
+					data.slice(HEADER_SIZE + DIRECTORY_SIZE),
+				]);
 			}, MagickFormat.Ico);
 		});
 	});
 
-/** Generate favicon.ico for a given PNG image
+/**
+ * ## Generate favicon.ico for a given PNG image
  *
- * [header] 6
- * [directories] 16 * number of images
- * [bitmaps] as needed
+ * A replacement for `-define icon:auto-resize=64,32,16`
+ *
+ * @example
+ *
+ * deno run -A ./ico.ts input.svg output.ico
  */
 export const generate_favicon = async (path: string, data: Uint8Array) => {
 	await initializeImageMagick();
 
 	ImageMagick.read(data, async (image) => {
-		const sizes = [128, 64, 32, 16];
+		const sizes = [16, 32, 64, 128] as const;
 
-		// Start with the header, 6 bytes long
-		const buffer = new Buffer(create_header(sizes));
+		const header = create_header({ number_of_images: sizes.length, type: "icon" });
 
 		// Generate all the icons individually
 		const icons = await Promise.all(
 			sizes.map((size) => resize(image, size)),
 		);
+		const directories = icons.map(([directory]) => directory);
+		const images = icons.map(([, image]) => image).reduce(concatenate);
 
-		// Turn full icons into a valid list of directory entries
-		const directory_entries = create_directory_entries(icons);
+		const directory = create_directory_entries(directories);
 
-		for (const entry of directory_entries) {
-			buffer.write(entry);
-		}
-
-		for (const icon of icons) {
-			const bitmap = icon.slice(HEADER_SIZE + DIRECTORY_SIZE);
-			buffer.write(bitmap);
-		}
-
-		const bytes = buffer.bytes();
-
-		return Deno.writeFile(path, bytes);
+		return Deno.writeFile(
+			path,
+			new Uint8Array([
+				...header,
+				...directory,
+				...images,
+			]),
+		);
 	});
 };
 
 if (import.meta.main) {
-	const cmps = new URL("../../cmps", import.meta.url);
-	const cwd = await Deno.realPath(cmps);
+	const [input, output] = Deno.args;
+	if (!input || !output) {
+		console.warn("You need to pass an input and output");
+		Deno.exit(1);
+	}
 
-	const svg = await Deno.readTextFile(`${cwd}/cmps.svg`);
+	const svg = await Deno.readTextFile(input);
 	const png = await render(svg);
-	generate_favicon(`${cwd}/build/favicon.ico`, png);
+	generate_favicon(output, png);
 }
