@@ -76,6 +76,6 @@ jobs:
         with:
           project: mxdvl
           entrypoint: deno/server.ts
-          root: .
-          import-map: import-map.json
+          # root: deno
+          import-map: deno/import-map.json
 

@@ -145,6 +145,7 @@ const getStaticFile = async (pathname: string, match?: string) => {
 			},
 		});
 	} catch (error) {
+		console.log(error);
 		if (error instanceof Deno.errors.NotFound) {
 			return null;
 		}
