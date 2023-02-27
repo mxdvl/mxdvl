@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Offline event count</title>
+		<script type="module">
+const list = document.querySelector("ul");
+/** @type {(event: Event) => void} */
+const log_event = (event) => {
+	console.log(event);
+	const item = document.createElement("li");
+	item.innerText = `${event.type} for ${event.target} @ ${event.timeStamp}`;
+	list.appendChild(item);
+};
+for (const type of [
+	"load",
+	"pagehide",
+	"visibilitychange",
+	"offline",
+	"online",
+]) {
+	window.addEventListener(type, log_event);
+}
+		</script>
+
+		<style>
+			head {
+				display: block;
+			}
+			script {
+				display: block;
+				font-family: monospace;
+				border: 1px solid coral;
+				width: 80%;
+				max-width: 60ch;
+				padding: 8px;
+				margin: 8px;
+				white-space: pre-wrap;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Events</h1>
+		<p>
+			navigate <a href="/offline">here</a>, or
+			<a href="https://www.example.com/">away</a>.
+		</p>
+		<ul></ul>
+	</body>
+</html>

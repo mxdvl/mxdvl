@@ -11,4 +11,5 @@ export const manifest = {
 	"/royal-opera-house.svg": () => render(Royal_Opera_House),
 	"/loom": () => Deno.readTextFile("deno/pages/loom.html").then((html) => html.replace("<!--SVG-->", render(loom))),
 	"/boss": () => Deno.readTextFile("deno/pages/boss.html").then((html) => html.replace("<!--SVG-->", render(boss()))),
+	"/offline": () => Deno.readTextFile("deno/pages/offline.html"),
 } as const satisfies Record<string, () => string | Promise<string>>;
