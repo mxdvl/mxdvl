@@ -7,7 +7,8 @@
 		"preact-render-to-string": "https://esm.sh/v107/preact-render-to-string@5.2.6",
 		"preact-render-to-string/": "https://esm.sh/v107/preact-render-to-string@5.2.6/",
 		"preact": "https://esm.sh/v107/preact@10.13.0",
-		"preact/": "https://esm.sh/v107/preact@10.13.0/"
+		"preact/": "https://esm.sh/v107/preact@10.13.0/",
+		"resvg": "https://deno.land/x/resvg_wasm@0.2.0/mod.ts"
 	},
 	"scopes": {
 		"https://esm.sh/v107/": {
