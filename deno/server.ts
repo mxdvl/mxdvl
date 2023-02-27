@@ -146,11 +146,7 @@ const getStaticFile = async (pathname: string, match?: string) => {
 		});
 	} catch (error) {
 		if (error instanceof Deno.errors.NotFound) {
-			const dist = new URL(import.meta.resolve("./static"));
-			console.log({ dist, error, pathname, cwd: Deno.cwd() });
-			for await (const entry of Deno.readDir(dist)) {
-				console.log(entry);
-			}
+			console.warn("Not found:", pathname);
 			return null;
 		}
 		throw error;
