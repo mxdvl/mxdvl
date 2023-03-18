@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { active } from "./store";
 	import { back_and_forth } from "./weaving";
 
 	export let length = 12;
 	export let bulge = 4 / 3;
 	export let count = 1;
+	export let uuid: string | undefined;
 
 	$: loops = (length: number) => (bulge: number) =>
 		[
@@ -15,4 +17,15 @@
 		].join("");
 </script>
 
-<path d={loops(length)(bulge)} />
+<path class:active={$active === uuid} d={loops(length)(bulge)} />
+
+<style>
+	path {
+		fill: transparent;
+	}
+	.active {
+		stroke: var(--glint);
+		fill: var(--skies);
+		cursor: grab;
+	}
+</style>
