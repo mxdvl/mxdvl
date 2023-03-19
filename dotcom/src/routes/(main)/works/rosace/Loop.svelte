@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { active } from "./store";
+	import { selected } from "./store";
 	import { back_and_forth } from "./weaving";
 
 	export let length = 12;
@@ -17,7 +17,7 @@
 		].join("");
 </script>
 
-<path class:active={$active === uuid} d={loops(length)(bulge)} />
+<path class:active={$selected === uuid} d={loops(length)(bulge)} />
 
 <style>
 	path {

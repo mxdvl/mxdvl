@@ -1,54 +1,49 @@
 <script lang="ts">
-	import type { Writable } from "svelte/store";
-	import { active } from "./store";
+	import { readable, type Readable } from "svelte/store";
+	import { selected } from "./store";
 
 	export let d: string;
-	export let uuid: string | undefined;
-	export let position: Writable<{ x: number; y: number }>;
+	export let uuid: string | undefined = undefined;
+	export let position: Readable<{ x: number; y: number }> = readable({ x: 0, y: 0 });
 	export let angle = 0;
+	export let scale = 1;
 
-	let dragging = false;
-
-	const radians = (angle * Math.PI) / 180;
-	const { sin, cos } = Math;
+	$: transform = `scale(${scale} 1) rotate(${angle}) translate(${$position.x} ${$position.y})`;
+	$: active = $selected === uuid;
 </script>
 
-<g
-	transform={`translate(${$position.x} ${$position.y})`}
-	on:mousemove={({ movementX, movementY }) => {
-		if (dragging) {
-			$position.x += movementX * cos(radians) + movementY * sin(radians);
-			$position.y += movementX * -sin(radians) + movementY * cos(radians);
-		}
-	}}
-	on:mousedown={() => {
-		dragging = true;
-	}}
-	on:mouseup={() => {
-		dragging = false;
-	}}
-	on:mouseleave={() => {
-		dragging = false;
-	}}
->
-	<!-- <text>{angle}</text>
-	<text dy="16">{radians}</text> -->
-	<path class:active={$active === uuid} {d} />
-</g>
+<div draggable="true" />
+
+{#if uuid}
+	{#if active}
+		<text {transform}>angle:{Math.floor(angle)} scale:{scale}</text>
+		<line {transform} stroke="var(--ocean)" x2={-$position.x} y2={-$position.y} />
+	{/if}
+	<path {transform} data-uuid={uuid} class:active {d} />
+{:else}
+	<path {transform} {d} />
+{/if}
 
 <style>
 	path {
 		fill: transparent;
 	}
 
-	path:hover {
+	text {
+		stroke: none;
+		fill: var(--skies);
+		pointer-events: none;
+		user-select: none;
+	}
+
+	[data-uuid]:hover {
 		stroke: var(--glint);
 		stroke-width: 2;
+		cursor: grab;
 	}
 
 	.active {
 		stroke: var(--ocean);
 		fill: var(--skies);
-		cursor: grab;
 	}
 </style>

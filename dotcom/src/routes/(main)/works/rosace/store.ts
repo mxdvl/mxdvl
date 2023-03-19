@@ -1,4 +1,3 @@
-import {  writable } from "svelte/store";
+import { writable } from "svelte/store";
 
-export const active = writable<string | undefined>()
-
+export const selected = writable<string | undefined>();

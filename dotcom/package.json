@@ -8,7 +8,6 @@
 		"dev": "vite dev --port=3001",
 		"build": "vite build",
 		"preview": "vite preview",
-		"cert": "rm -rf .cert && mkdir -p .cert && mkcert -key-file ./.cert/key.pem -cert-file ./.cert/cert.pem 'localhost'",
 		"postinstall": "svelte-kit sync",
 		"cert": "rm -rf .cert && mkdir -p .cert && mkcert -key-file ./.cert/key.pem -cert-file ./.cert/cert.pem 'localhost'",
 		"check:svelte": "svelte-check --tsconfig ./tsconfig.json",
