@@ -9,6 +9,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"postinstall": "svelte-kit sync",
+		"cert": "rm -rf .cert && mkdir -p .cert && mkcert -key-file ./.cert/key.pem -cert-file ./.cert/cert.pem 'localhost'",
 		"check:svelte": "svelte-check --tsconfig ./tsconfig.json",
 		"check:lint": "eslint --ignore-path ../.gitignore",
 		"check:format": "prettier --check --plugin-search-dir=. .",

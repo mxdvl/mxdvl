@@ -4,10 +4,10 @@ node_modules
 # Build
 build/
 deno/static
+.cert
+.vercel*
 
 # Svelte
 dotcom/.svelte-kit
 dotcom/build
 dotcom/functions
-
-.vercel*
