@@ -25,7 +25,7 @@ importers:
       svelte: 3.55.1
       svelte-check: 3.0.3
       svelte-hmr: 0.15.1
-      svelte-preprocess: 5.0.1
+      svelte-preprocess: 5.0.3
       typescript: 4.9.5
       vite: '4'
       vite-imagetools: ^4.0.13
@@ -48,7 +48,7 @@ importers:
       svelte: 3.55.1
       svelte-check: 3.0.3_svelte@3.55.1
       svelte-hmr: 0.15.1_svelte@3.55.1
-      svelte-preprocess: 5.0.1_4x7phaipmicbaooxtnresslofa
+      svelte-preprocess: 5.0.3_4x7phaipmicbaooxtnresslofa
       typescript: 4.9.5
       vite: 4.0.1
       vite-imagetools: 4.0.13
@@ -706,18 +706,8 @@ packages:
     resolution: {integrity: sha512-qelS/Ra6sacc4loe/3MSjXNL1dNQ/GjxNHVzuChwMfmk7HuycRLVQN2qNY3XahK+fZc5E2szqQSKUyAF0E+2bg==}
     dev: false
 
-  /@types/node/18.13.0:
-    resolution: {integrity: sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==}
-    dev: false
-
   /@types/pug/2.0.6:
     resolution: {integrity: sha512-SnHmG9wN1UVmagJOnyo/qkk0Z7gejYxOYYmaAwr5u2yFYfsupN3sg10kyzN8Hep/2zbHxCnsumxOoRIRMBwKCg==}
-    dev: false
-
-  /@types/sass/1.43.1:
-    resolution: {integrity: sha512-BPdoIt1lfJ6B7rw35ncdwBZrAssjcwzI5LByIrYs+tpXlj/CAkuVdRsgZDdP4lq5EjyWzwxZCqAoFyHKFwp32g==}
-    dependencies:
-      '@types/node': 18.13.0
     dev: false
 
   /@types/semver/7.3.13:
@@ -2722,7 +2712,7 @@ packages:
       picocolors: 1.0.0
       sade: 1.8.1
       svelte: 3.55.1
-      svelte-preprocess: 5.0.1_4x7phaipmicbaooxtnresslofa
+      svelte-preprocess: 5.0.3_4x7phaipmicbaooxtnresslofa
       typescript: 4.9.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -2745,8 +2735,8 @@ packages:
       svelte: 3.55.1
     dev: false
 
-  /svelte-preprocess/5.0.1_4x7phaipmicbaooxtnresslofa:
-    resolution: {integrity: sha512-0HXyhCoc9rsW4zGOgtInylC6qj259E1hpFnJMJWTf+aIfeqh4O/QHT31KT2hvPEqQfdjmqBR/kO2JDkkciBLrQ==}
+  /svelte-preprocess/5.0.3_4x7phaipmicbaooxtnresslofa:
+    resolution: {integrity: sha512-GrHF1rusdJVbOZOwgPWtpqmaexkydznKzy5qIC2FabgpFyKN57bjMUUUqPRfbBXK5igiEWn1uO/DXsa2vJ5VHA==}
     engines: {node: '>= 14.10.0'}
     requiresBuild: true
     peerDependencies:
@@ -2760,7 +2750,7 @@ packages:
       stylus: ^0.55.0
       sugarss: ^2.0.0 || ^3.0.0 || ^4.0.0
       svelte: ^3.23.0
-      typescript: ^3.9.5 || ^4.0.0
+      typescript: '>=3.9.5 || ^4.0.0 || ^5.0.0'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -2784,7 +2774,6 @@ packages:
         optional: true
     dependencies:
       '@types/pug': 2.0.6
-      '@types/sass': 1.43.1
       detect-indent: 6.1.0
       magic-string: 0.27.0
       sorcery: 0.11.0
