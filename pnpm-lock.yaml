@@ -16,7 +16,7 @@ importers:
       '@typescript-eslint/parser': 5.52.0
       '@vercel/node': 2.9.13
       eslint: 8.36.0
-      eslint-config-prettier: 8.6.0
+      eslint-config-prettier: 8.8.0
       eslint-plugin-svelte3: 4.0.0
       fathom-client: 3.5.0
       mdsvex: 0.10.6
@@ -39,7 +39,7 @@ importers:
       '@typescript-eslint/parser': 5.52.0_vgl77cfdswitgr47lm5swmv43m
       '@vercel/node': 2.9.13
       eslint: 8.36.0
-      eslint-config-prettier: 8.6.0_eslint@8.36.0
+      eslint-config-prettier: 8.8.0_eslint@8.36.0
       eslint-plugin-svelte3: 4.0.0_olp64cif2hdjonnhxvjgq2oc7i
       fathom-client: 3.5.0
       mdsvex: 0.10.6_svelte@3.55.1
@@ -1557,8 +1557,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /eslint-config-prettier/8.6.0_eslint@8.36.0:
-    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
+  /eslint-config-prettier/8.8.0_eslint@8.36.0:
+    resolution: {integrity: sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
