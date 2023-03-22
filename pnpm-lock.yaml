@@ -8,7 +8,7 @@ importers:
   dotcom:
     specifiers:
       '@cloudinary/url-gen': ^1.8.7
-      '@ibm/plex': 6.1.1
+      '@ibm/plex': 6.2.0
       '@sveltejs/adapter-vercel': 2.4.0
       '@sveltejs/kit': 1.13.0
       '@sveltejs/vite-plugin-svelte': 2.0.3
@@ -31,7 +31,7 @@ importers:
       vite-imagetools: ^4.0.13
     dependencies:
       '@cloudinary/url-gen': 1.8.7
-      '@ibm/plex': 6.1.1
+      '@ibm/plex': 6.2.0
       '@sveltejs/adapter-vercel': 2.4.0_@sveltejs+kit@1.13.0
       '@sveltejs/kit': 1.13.0_svelte@3.55.1+vite@4.0.1
       '@sveltejs/vite-plugin-svelte': 2.0.3_svelte@3.55.1+vite@4.0.1
@@ -521,8 +521,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: false
 
-  /@ibm/plex/6.1.1:
-    resolution: {integrity: sha512-b2z/Gsc8KHOVrYo/yPauRvRDNMwF6zhEZZsvogs1rCmmyfVXBTY9uUkf6TyplhQs/L4UcjBus8R/RDp7yASTBA==}
+  /@ibm/plex/6.2.0:
+    resolution: {integrity: sha512-0ddHQTHN2/LqGC9jahnb7+kR7Cq+EmI1Z+SUVmpehilMu0QZ6hNBU/lOM0O2as5pwZt8xMejKZw4qCMRW9vDLg==}
     dev: false
 
   /@jridgewell/resolve-uri/3.1.0:
