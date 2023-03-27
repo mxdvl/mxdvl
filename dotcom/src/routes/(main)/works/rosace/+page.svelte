@@ -1,37 +1,34 @@
 <script lang="ts">
-	import { fade } from "svelte/transition";
-	import { derived, get, writable, type Writable } from "svelte/store";
-	import { v4 } from "uuid";
+	import { derived, writable } from "svelte/store";
 
 	import Shape from "./Shape.svelte";
 	import Polygon from "./Polygon.svelte";
-	import Spread from "./Spread.svelte";
-	import Path from "./Path.svelte";
-	import Mirror from "./Mirror.svelte";
+	import Controls from "./Controls.svelte";
 
-	import { selected } from "./store";
-	import { back_and_forth } from "./weaving";
-	import Number from "../../../../lib/Number.svelte";
+	import { patterns, selected } from "./store";
+	import type { Point } from "./data";
 
 	/** the SVG XML namespace */
 	const xmlns = "http://www.w3.org/2000/svg";
+
+	const debug = typeof window !== "undefined" && window?.location.hostname === "localhost";
 
 	const size = 20 * 18 * 2;
 
 	let sides = 5;
 
-	const loop = (count: number, bulge: number, length: number) =>
-		back_and_forth([
-			`a${length / bulge},${length / bulge} 0 0 1 ${length},0`,
-			`a${length / bulge},${length / bulge} 0 0 1 -${length},0`,
-		])(count);
-
 	let guides = true;
 
 	let dragging = false;
-	let dragStart = { x: 0, y: 0 };
-	let dragEnd = { x: 0, y: 0 };
-	let dragOffset = { x: 0, y: 0 };
+	const initial_point: Point = { x: 0, y: 0 };
+	$: dragStart = initial_point;
+	$: dragEnd = initial_point;
+	$: dragOffset = initial_point;
+	$: dragDelta = initial_point;
+	$: final_position = initial_point;
+
+	const point_from_event = (event: MouseEvent) =>
+		new DOMPointReadOnly(event.offsetX - size / 2, event.offsetY - size / 2);
 
 	const mouse_down = (event: MouseEvent) => {
 		if (event.target instanceof SVGPathElement) {
@@ -40,80 +37,54 @@
 			selected.set(uuid);
 
 			if (uuid) {
-				start_drag(
-					event.target.transform.baseVal.consolidate()?.matrix,
-					new DOMPoint(event.offsetX - size / 2, event.offsetY - size / 2),
-				);
+				current_matrix.set(DOMMatrixReadOnly.fromMatrix(event.target.transform.baseVal.consolidate()?.matrix));
+				start_drag(point_from_event(event));
 			}
 		} else {
 			selected.set(undefined);
 		}
 	};
 
-	const current_matrix = writable<DOMMatrix>();
+	const matrix_to_string = (matrix: DOMMatrixReadOnly) =>
+		["matrix(", matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f, ")"].join(" ");
 
-	const start_drag = (matrix = new DOMMatrix(), point: DOMPoint) => {
-		current_matrix.set(matrix);
+	const current = derived([patterns, selected], ([$patterns, $selected]) =>
+		$selected ? $patterns.get($selected) : undefined,
+	);
 
-		dragStart = point.matrixTransform($current_matrix.inverse());
-		dragEnd = dragStart;
+	const current_matrix = writable<DOMMatrixReadOnly | undefined>();
 
-		const current_pattern = patterns.find(({ id }) => id === $selected);
-		if (current_pattern) {
-			dragOffset = get(current_pattern.position);
-		}
+	current_matrix.subscribe((matrix) => {
+		if (matrix) console.log(matrix_to_string(matrix));
+	});
+
+	const start_drag = (point: DOMPointReadOnly) => {
+		const offset = new DOMPointReadOnly(0, 0).matrixTransform($current_matrix);
+		dragOffset = offset;
+
+		dragStart = point;
+		dragEnd = point;
 		dragging = true;
 	};
 
-	const update_drag = (x: number, y: number) => {
-		dragEnd = new DOMPoint(x, y).matrixTransform($current_matrix.inverse());
-		const { position } = patterns.find(({ id }) => id === $selected) ?? {};
-		position?.set({ x: dragOffset.x + dragEnd.x - dragStart.x, y: dragOffset.y + dragEnd.y - dragStart.y });
+	const update_drag = (point: DOMPointReadOnly) => {
+		dragEnd = point;
+
+		if ($current_matrix) {
+			const delta = new DOMPointReadOnly(dragEnd.x - dragStart.x, dragEnd.y - dragStart.y);
+			dragDelta = delta;
+
+			const position = new DOMPointReadOnly(dragOffset.x + delta.x, dragOffset.y + delta.y).matrixTransform(
+				$current_matrix.inverse().translate(dragOffset.x, dragOffset.y),
+			);
+			final_position = position;
+
+			$current?.update((current) => ({
+				...current,
+				position,
+			}));
+		}
 	};
-
-	interface Point {
-		x: number;
-		y: number;
-	}
-
-	interface Pattern {
-		id: string;
-		count: number;
-		mirror: boolean;
-		position: Writable<Point>;
-		d: string;
-	}
-
-	let patterns: Pattern[] = [
-		{
-			id: v4(),
-			count: sides,
-			mirror: true,
-			position: writable({ x: 0, y: -80 }),
-			d: ["M0,0", ...loop(3, 3 / 2, 19), "Z"].join(" "),
-		},
-		{
-			id: v4(),
-			count: sides,
-			mirror: false,
-			position: writable({ x: 20, y: 0 }),
-			d: ["M0,0", ...loop(3, 4 / 3, 30), "Z"].join(" "),
-		},
-		{
-			id: v4(),
-			count: sides,
-			mirror: true,
-			position: writable({ x: 0, y: -50 }),
-			d: ["M0,0", ...loop(2, 3 / 2, 18), "Z"].join(" "),
-		},
-		{
-			id: v4(),
-			count: sides,
-			mirror: false,
-			position: writable({ x: 0, y: -150 }),
-			d: ["M-12,0", ...loop(1, 2, 24), "Z"].join(" "),
-		},
-	];
 </script>
 
 <div class="workspace">
@@ -122,40 +93,44 @@
 		<svg
 			viewBox={`-${size / 2},-${size / 2} ${size},${size}`}
 			on:mousedown={mouse_down}
-			on:mousemove={({ offsetX, offsetY }) => {
+			on:mousemove={(event) => {
 				if (dragging) {
-					update_drag(offsetX - size / 2, offsetY - size / 2);
+					update_drag(point_from_event(event));
 				}
 			}}
 			on:mouseup={() => {
 				dragging = false;
 			}}
-			on:mouseleave={() => {
-				dragging = false;
-			}}
 		>
-			{#if guides}
-				<g class="guides" transition:fade>
-					<Spread count={sides} let:angle>
-						<Path angle={angle - 90} d={`M0,0H${size}`} />
-					</Spread>
+			{#each [...$patterns.entries()] as [id, pattern] (id)}
+				<Shape {pattern} {guides} />
+			{/each}
 
-					<circle cx={0} cy={0} r={60} />
-					<circle cx={0} cy={0} r={120} />
-					<circle cx={0} cy={0} r={240} />
-					<circle cx={0} cy={0} r={360} />
+			{#if debug}
+				<g style="pointer-event: none;">
+					<circle cx={dragStart.x} cy={dragStart.y} r={3} fill="currentColor" />
+					<line x1={dragStart.x} y1={dragStart.y} x2={dragEnd.x} y2={dragEnd.y} />
+					<line x1={dragStart.x} y1={dragStart.y} x2={dragEnd.x} y2={dragEnd.y} />
+
+					<circle cx={dragOffset.x} cy={dragOffset.y} r={2} fill="var(--glint)" stroke="none" />
+					<line
+						stroke="var(--glint)"
+						x1={dragOffset.x}
+						y1={dragOffset.y}
+						x2={dragOffset.x + dragDelta.x}
+						y2={dragOffset.y + dragDelta.y}
+					/>
+					<line
+						stroke="var(--glint)"
+						x1={0}
+						y1={0}
+						x2={dragOffset.x + dragDelta.x}
+						y2={dragOffset.y + dragDelta.y}
+					/>
+
+					<line stroke="var(--ocean)" x1={0} y1={0} x2={final_position.x} y2={final_position.y} />
 				</g>
 			{/if}
-
-			{#each patterns as { id, mirror, count, position, d } (id)}
-				<Shape>
-					<Spread {count} let:angle>
-						<Mirror scales={mirror ? [-1, 1] : [1]} let:scale>
-							<Path {position} {angle} {scale} uuid={id} {d} />
-						</Mirror>
-					</Spread>
-				</Shape>
-			{/each}
 
 			<Polygon radius={20} {sides} />
 		</svg>
@@ -165,33 +140,24 @@
 	<ul>
 		<li><s>control individual elements + any symmetries</s></li>
 		<li><s>handle each element via UUIDs</s></li>
-		<li>great drag-and-drop</li>
-		<li>individual element repetition control</li>
+		<li><s>great drag-and-drop</s></li>
+		<li><s>individual element repetition control</s></li>
 		<li>handle different symmetries (translation, planar, polar)</li>
 		<li>save previous state</li>
 		<li>create a catalog of shapes (loop, polygon, etc)</li>
 		<li>export resulting SVG</li>
 		<li>Finish by <strong>April 17th</strong></li>
+		{#if $current_matrix}
+			<li>{matrix_to_string($current_matrix)}</li>
+		{/if}
 	</ul>
 
 	<div class="controls">
-		<label>
-			<input type="range" bind:value={sides} min="3" max="12" step="1" />
-			– Number of sides ({sides})
-		</label>
-
-		<label>
-			<input type="checkbox" bind:checked={guides} /> – Show guides
-		</label>
-
-		<div>
-			Selected: – {$selected},
-			<button
-				on:click={() => {
-					patterns = patterns.filter(({ id }) => id !== $selected);
-				}}>delete</button
-			>
-		</div>
+		{#if $current}
+			<Controls current={$current} {patterns} />
+		{:else}
+			<h3>(Select a pattern to control it)</h3>
+		{/if}
 	</div>
 </div>
 
@@ -234,11 +200,6 @@
 		stroke-width: 1;
 		stroke: var(--earth);
 		fill: none;
-	}
-
-	.guides {
-		stroke: var(--skies);
-		stroke-width: 2;
 	}
 
 	.controls {

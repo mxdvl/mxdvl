@@ -1,12 +1,31 @@
 <script lang="ts">
-	import { writable } from "svelte/store";
+	import type { Writable } from "svelte/store";
+	import type { Pattern } from "./data";
+	import Mirror from "./Mirror.svelte";
+	import Path from "./Path.svelte";
+	import Spread from "./Spread.svelte";
+	import { selected } from "./store";
 
-	export const uid = () => Math.random().toString(36).slice(2);
+	export let pattern: Writable<Pattern>;
 
-	const uuid = uid();
-	const position = writable<{ x: number; y: number }>({ x: 0, y: 0 });
+	export let guides = false;
+
+	$: active = $selected === $pattern.id && guides;
+	$: radius = Math.max(-$pattern.position.y, $pattern.position.x);
 </script>
 
-<g data-uuid={uuid}>
-	<slot {uuid} {position} />
+<g data-uuid={$pattern.id}>
+	{#if active}
+		<circle r={120} stroke="var(--skies)" stroke-width={2} />
+		<circle r={240} stroke="var(--skies)" stroke-width={2} />
+	{/if}
+	<Spread count={$pattern.count} let:angle>
+		{#if active}
+			<Path angle={angle - 90} d={`M0,0H600`} colour="var(--skies)" />
+		{/if}
+
+		<Mirror scales={$pattern.mirror ? [-1, 1] : [1]} let:scale>
+			<Path position={$pattern.position} {angle} {scale} uuid={$pattern.id} d={$pattern.d} />
+		</Mirror>
+	</Spread>
 </g>
