@@ -2,8 +2,8 @@
 	"imports": {
 		"std/": "https://deno.land/std@0.180.0/",
 		"lightningcss-wasm": "https://esm.sh/v113/*lightningcss-wasm@1.19.0",
-		"linkedom": "https://esm.sh/v113/*linkedom@0.14.22",
-		"linkedom/": "https://esm.sh/v113/*linkedom@0.14.22/",
+		"linkedom": "https://esm.sh/v113/*linkedom@0.14.25",
+		"linkedom/": "https://esm.sh/v113/*linkedom@0.14.25/",
 		"preact-render-to-string": "https://esm.sh/v113/*preact-render-to-string@6.0.1",
 		"preact-render-to-string/": "https://esm.sh/v113/*preact-render-to-string@6.0.1/",
 		"preact": "https://esm.sh/v113/preact@10.13.2",
@@ -14,7 +14,7 @@
 		"https://esm.sh/v113/": {
 			"css-select": "https://esm.sh/v113/css-select@5.1.0",
 			"cssom": "https://esm.sh/v113/cssom@0.5.0",
-			"canvas": "https://esm.sh/v113/canvas@2.11.0",
+			"canvas": "https://deno.land/x/canvas@v1.4.1/mod.ts",
 			"html-escaper": "https://esm.sh/v113/html-escaper@3.0.3",
 			"htmlparser2": "https://esm.sh/v113/htmlparser2@8.0.2",
 			"napi-wasm": "https://esm.sh/v113/napi-wasm@1.0.1",
