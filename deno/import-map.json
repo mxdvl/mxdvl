@@ -1,13 +1,25 @@
 {
 	"imports": {
 		"std/": "https://deno.land/std@0.180.0/",
-		"lightningcss-wasm": "https://esm.sh/lightningcss-wasm@1.19.0",
-		"linkedom": "https://esm.sh/linkedom@0.14.22",
-		"linkedom/": "https://esm.sh/linkedom@0.14.22/",
-		"preact-render-to-string": "https://esm.sh/preact-render-to-string@5.2.6",
-		"preact-render-to-string/": "https://esm.sh/preact-render-to-string@5.2.6/",
-		"preact": "https://esm.sh/preact@10.13.0",
-		"preact/": "https://esm.sh/preact@10.13.0/",
+		"lightningcss-wasm": "https://esm.sh/v113/*lightningcss-wasm@1.19.0",
+		"linkedom": "https://esm.sh/v113/*linkedom@0.14.22",
+		"linkedom/": "https://esm.sh/v113/*linkedom@0.14.22/",
+		"preact-render-to-string": "https://esm.sh/v113/*preact-render-to-string@6.0.1",
+		"preact-render-to-string/": "https://esm.sh/v113/*preact-render-to-string@6.0.1/",
+		"preact": "https://esm.sh/v113/preact@10.13.2",
+		"preact/": "https://esm.sh/v113/preact@10.13.2/",
 		"resvg": "https://deno.land/x/resvg_wasm@0.2.0/mod.ts"
+	},
+	"scopes": {
+		"https://esm.sh/v113/": {
+			"css-select": "https://esm.sh/v113/css-select@5.1.0",
+			"cssom": "https://esm.sh/v113/cssom@0.5.0",
+			"canvas": "https://esm.sh/v113/canvas@2.11.0",
+			"html-escaper": "https://esm.sh/v113/html-escaper@3.0.3",
+			"htmlparser2": "https://esm.sh/v113/htmlparser2@8.0.2",
+			"napi-wasm": "https://esm.sh/v113/napi-wasm@1.0.1",
+			"pretty-format": "https://esm.sh/v113/pretty-format@3.8.0",
+			"uhyphen": "https://esm.sh/v113/uhyphen@0.2.0"
+		}
 	}
 }
