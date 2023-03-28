@@ -131,7 +131,7 @@ const getStaticFile = async (pathname: string, match?: string) => {
 		const expires = cache(60);
 
 		if (match?.includes(etag)) {
-			return new Response(null, {
+			return new Response(undefined, {
 				status: 304,
 				headers: expires,
 			});
@@ -146,22 +146,21 @@ const getStaticFile = async (pathname: string, match?: string) => {
 		});
 	} catch (error) {
 		if (error instanceof Deno.errors.NotFound) {
-			console.warn("Not found:", pathname);
-			return null;
+			return undefined;
 		}
 		throw error;
 	}
 };
 
 const getDynamicFile = async (pathname: string, match?: string) => {
-	if (!isDynamic(pathname)) return null;
+	if (!isDynamic(pathname)) return undefined;
 
 	const body = await manifest[pathname]();
 
 	const etag = await digest(new TextEncoder().encode(body));
 
 	if (match?.includes(etag)) {
-		return new Response(null, {
+		return new Response(undefined, {
 			status: 304,
 		});
 	}
