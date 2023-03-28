@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { derived, writable } from "svelte/store";
+	import { derived, get, writable } from "svelte/store";
 
 	import Shape from "./Shape.svelte";
 	import Polygon from "./Polygon.svelte";
@@ -12,8 +12,21 @@
 	/** the SVG XML namespace */
 	const xmlns = "http://www.w3.org/2000/svg";
 
+	const storage_key = "rosace";
+
 	onMount(() => {
 		debug.set(window.location.hostname === "localhost");
+		const saved_patterns = JSON.parse(localStorage.getItem(storage_key) ?? "null");
+
+		// @TODO: it might be worth validating further
+		if (Array.isArray(saved_patterns)) {
+			$patterns.clear();
+			for (const saved_pattern of saved_patterns) {
+				$patterns.set(saved_pattern.id, writable(saved_pattern));
+			}
+
+			$patterns = $patterns;
+		}
 	});
 
 	const size = 20 * 18 * 2;
@@ -33,63 +46,67 @@
 	const point_from_event = (event: MouseEvent) =>
 		new DOMPointReadOnly(event.offsetX - size / 2, event.offsetY - size / 2);
 
-	const matrix_to_string = (matrix: DOMMatrixReadOnly) =>
-		["matrix(", matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f, ")"].join(" ");
-
 	const current = derived([patterns, selected], ([$patterns, $selected]) =>
 		$selected ? $patterns.get($selected) : undefined,
 	);
 
 	const current_matrix = writable<DOMMatrixReadOnly | undefined>();
 
-	current_matrix.subscribe((matrix) => {
-		if (matrix) console.log(matrix_to_string(matrix));
-	});
+	const drag = {
+		start: (event) => {
+			if (event.target instanceof SVGPathElement) {
+				event.preventDefault();
+				const { uuid } = event.target.dataset;
+				selected.set(uuid);
 
-	const start_drag = (event: PointerEvent) => {
-		if (event.target instanceof SVGPathElement) {
-			event.preventDefault();
-			const { uuid } = event.target.dataset;
-			selected.set(uuid);
+				if (uuid) {
+					current_matrix.set(
+						DOMMatrixReadOnly.fromMatrix(event.target.transform.baseVal.consolidate()?.matrix),
+					);
+					const point = point_from_event(event);
+					const offset = new DOMPointReadOnly(0, 0).matrixTransform($current_matrix);
+					dragOffset = offset;
 
-			if (uuid) {
-				current_matrix.set(DOMMatrixReadOnly.fromMatrix(event.target.transform.baseVal.consolidate()?.matrix));
-				const point = point_from_event(event);
-				const offset = new DOMPointReadOnly(0, 0).matrixTransform($current_matrix);
-				dragOffset = offset;
-
-				dragStart = point;
-				dragEnd = point;
-				dragging = true;
+					dragStart = point;
+					dragEnd = point;
+					dragging = true;
+				}
+			} else {
+				selected.set(undefined);
 			}
-		} else {
-			selected.set(undefined);
-		}
-	};
+		},
+		update: (event) => {
+			if (dragging && $current_matrix) {
+				event.preventDefault();
+				const point = point_from_event(event);
+				dragEnd = point;
+				const delta = new DOMPointReadOnly(dragEnd.x - dragStart.x, dragEnd.y - dragStart.y);
+				dragDelta = delta;
 
-	const update_drag = (event: PointerEvent) => {
-		if (dragging && $current_matrix) {
-			event.preventDefault();
-			const point = point_from_event(event);
-			dragEnd = point;
-			const delta = new DOMPointReadOnly(dragEnd.x - dragStart.x, dragEnd.y - dragStart.y);
-			dragDelta = delta;
+				const position = new DOMPointReadOnly(dragOffset.x + delta.x, dragOffset.y + delta.y).matrixTransform(
+					$current_matrix.inverse().translate(dragOffset.x, dragOffset.y),
+				);
+				final_position = position;
 
-			const position = new DOMPointReadOnly(dragOffset.x + delta.x, dragOffset.y + delta.y).matrixTransform(
-				$current_matrix.inverse().translate(dragOffset.x, dragOffset.y),
-			);
-			final_position = position;
+				$current?.update((current) => ({
+					...current,
+					position,
+				}));
+			}
+		},
+		stop: () => {
+			dragging = false;
 
-			$current?.update((current) => ({
-				...current,
-				position,
-			}));
-		}
-	};
+			const data = [];
 
-	const stop_drag = () => {
-		dragging = false;
-	};
+			for (const [id, pattern] of $patterns) {
+				const serialisable = get(pattern);
+				data.push(serialisable);
+			}
+
+			localStorage.setItem(storage_key, JSON.stringify(data));
+		},
+	} as const satisfies Record<string, (event: PointerEvent) => void>;
 </script>
 
 <div class="workspace">
@@ -97,10 +114,10 @@
 	<div class="canvas" style={`width: ${size}px; height: ${size}px;`}>
 		<svg
 			viewBox={`-${size / 2},-${size / 2} ${size},${size}`}
-			on:pointerdown={start_drag}
-			on:pointermove={update_drag}
-			on:pointerup={stop_drag}
-			on:pointercancel={stop_drag}
+			on:pointerdown={drag.start}
+			on:pointermove={drag.update}
+			on:pointerup={drag.stop}
+			on:pointercancel={drag.stop}
 		>
 			{#each [...$patterns.entries()] as [id, pattern] (id)}
 				<Shape {pattern} {guides} />
@@ -146,7 +163,14 @@
 		<li><s>great drag-and-drop</s></li>
 		<li><s>individual element repetition control</s></li>
 		<li>handle different symmetries (translation, planar, polar)</li>
-		<li>save previous state</li>
+		<li>
+			<s>save previous state</s>
+			<button
+				on:click={() => {
+					localStorage.removeItem(storage_key);
+				}}>clear</button
+			>
+		</li>
 		<li>create a catalog of shapes (loop, polygon, etc)</li>
 		<li>export resulting SVG</li>
 		<li>Finish by <strong>April 17th</strong></li>
