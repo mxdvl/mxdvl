@@ -15,17 +15,23 @@
 		}}>delete</button
 	>
 </h3>
+
 <label>
 	<input type="range" bind:value={$current.count} min="3" max="12" step="1" />
 	– Number of sides ({$current.count})
 </label>
 
+<label>
+	<input type="checkbox" bind:checked={$current.mirror} />
+	– Mirror ({$current.mirror})
+</label>
+
 {#if $current?.position}
 	<div>
-		position – {$current.position.x},{$current.position.y}
+		position – {Math.round($current.position.x)},{Math.round($current.position.y)}
 	</div>
 {/if}
 
 <div>
-	Path – {$current.d},
+	Path – {$current.d.slice(0, 24)}…
 </div>

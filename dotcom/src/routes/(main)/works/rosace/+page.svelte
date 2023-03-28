@@ -5,13 +5,16 @@
 	import Polygon from "./Polygon.svelte";
 	import Controls from "./Controls.svelte";
 
-	import { patterns, selected } from "./store";
+	import { debug, patterns, selected } from "./store";
 	import type { Point } from "./data";
+	import { onMount } from "svelte";
 
 	/** the SVG XML namespace */
 	const xmlns = "http://www.w3.org/2000/svg";
 
-	const debug = typeof window !== "undefined" && window?.location.hostname === "localhost";
+	onMount(() => {
+		debug.set(window.location.hostname === "localhost");
+	});
 
 	const size = 20 * 18 * 2;
 
@@ -30,21 +33,6 @@
 	const point_from_event = (event: MouseEvent) =>
 		new DOMPointReadOnly(event.offsetX - size / 2, event.offsetY - size / 2);
 
-	const mouse_down = (event: MouseEvent) => {
-		if (event.target instanceof SVGPathElement) {
-			event.preventDefault();
-			const { uuid } = event.target.dataset;
-			selected.set(uuid);
-
-			if (uuid) {
-				current_matrix.set(DOMMatrixReadOnly.fromMatrix(event.target.transform.baseVal.consolidate()?.matrix));
-				start_drag(point_from_event(event));
-			}
-		} else {
-			selected.set(undefined);
-		}
-	};
-
 	const matrix_to_string = (matrix: DOMMatrixReadOnly) =>
 		["matrix(", matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f, ")"].join(" ");
 
@@ -58,19 +46,32 @@
 		if (matrix) console.log(matrix_to_string(matrix));
 	});
 
-	const start_drag = (point: DOMPointReadOnly) => {
-		const offset = new DOMPointReadOnly(0, 0).matrixTransform($current_matrix);
-		dragOffset = offset;
+	const start_drag = (event: PointerEvent) => {
+		if (event.target instanceof SVGPathElement) {
+			event.preventDefault();
+			const { uuid } = event.target.dataset;
+			selected.set(uuid);
 
-		dragStart = point;
-		dragEnd = point;
-		dragging = true;
+			if (uuid) {
+				current_matrix.set(DOMMatrixReadOnly.fromMatrix(event.target.transform.baseVal.consolidate()?.matrix));
+				const point = point_from_event(event);
+				const offset = new DOMPointReadOnly(0, 0).matrixTransform($current_matrix);
+				dragOffset = offset;
+
+				dragStart = point;
+				dragEnd = point;
+				dragging = true;
+			}
+		} else {
+			selected.set(undefined);
+		}
 	};
 
-	const update_drag = (point: DOMPointReadOnly) => {
-		dragEnd = point;
-
-		if ($current_matrix) {
+	const update_drag = (event: PointerEvent) => {
+		if (dragging && $current_matrix) {
+			event.preventDefault();
+			const point = point_from_event(event);
+			dragEnd = point;
 			const delta = new DOMPointReadOnly(dragEnd.x - dragStart.x, dragEnd.y - dragStart.y);
 			dragDelta = delta;
 
@@ -85,6 +86,10 @@
 			}));
 		}
 	};
+
+	const stop_drag = () => {
+		dragging = false;
+	};
 </script>
 
 <div class="workspace">
@@ -92,22 +97,20 @@
 	<div class="canvas" style={`width: ${size}px; height: ${size}px;`}>
 		<svg
 			viewBox={`-${size / 2},-${size / 2} ${size},${size}`}
-			on:mousedown={mouse_down}
-			on:mousemove={(event) => {
-				if (dragging) {
-					update_drag(point_from_event(event));
-				}
-			}}
-			on:mouseup={() => {
-				dragging = false;
-			}}
+			on:pointerdown={start_drag}
+			on:pointermove={update_drag}
+			on:pointerup={stop_drag}
+			on:pointercancel={stop_drag}
 		>
 			{#each [...$patterns.entries()] as [id, pattern] (id)}
 				<Shape {pattern} {guides} />
 			{/each}
 
-			{#if debug}
+			{#if $debug && dragging}
 				<g style="pointer-event: none;">
+					<text x={-size / 2} y={size / 2} font-size={12} fill="currentColor" stroke="none"
+						>{$current_matrix?.toString()}</text
+					>
 					<circle cx={dragStart.x} cy={dragStart.y} r={3} fill="currentColor" />
 					<line x1={dragStart.x} y1={dragStart.y} x2={dragEnd.x} y2={dragEnd.y} />
 					<line x1={dragStart.x} y1={dragStart.y} x2={dragEnd.x} y2={dragEnd.y} />
@@ -147,9 +150,6 @@
 		<li>create a catalog of shapes (loop, polygon, etc)</li>
 		<li>export resulting SVG</li>
 		<li>Finish by <strong>April 17th</strong></li>
-		{#if $current_matrix}
-			<li>{matrix_to_string($current_matrix)}</li>
-		{/if}
 	</ul>
 
 	<div class="controls">
@@ -165,7 +165,7 @@
 	.workspace {
 		display: grid;
 		grid-template-columns: min-content 1fr;
-		grid-template-rows: auto calc(var(--grid-y) * 3) auto;
+		grid-template-rows: auto calc(var(--grid-y) * 3) auto calc(var(--grid-y) * 9);
 		column-gap: var(--grid-x);
 		row-gap: var(--grid-y);
 	}

@@ -4,6 +4,7 @@ import { back_and_forth } from "./weaving";
 import type { Pattern } from "./data";
 
 export const selected = writable<string | undefined>(undefined);
+export const debug = writable<boolean>(false);
 
 const loop = (count: number, bulge: number, length: number) =>
 	back_and_forth([
