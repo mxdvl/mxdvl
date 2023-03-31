@@ -35,7 +35,7 @@
 		"svelte-check": "3.1.4",
 		"svelte-hmr": "0.15.1",
 		"svelte-preprocess": "5.0.3",
-		"typescript": "5.0.2",
+		"typescript": "5.0.3",
 		"vite": "4",
 		"vite-imagetools": "^4.0.13"
 	}
