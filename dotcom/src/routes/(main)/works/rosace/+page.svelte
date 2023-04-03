@@ -49,7 +49,7 @@
 
 	const drag = {
 		start: (event) => {
-			if (event.target instanceof SVGPathElement) {
+			if (event.target instanceof SVGUseElement) {
 				event.preventDefault();
 				const { id, index } = event.target.dataset;
 				selected.set(id);

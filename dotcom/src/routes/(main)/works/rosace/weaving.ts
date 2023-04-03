@@ -26,7 +26,7 @@ export const mirror = (...deltas: readonly [number, number][]) =>
 		].map(([x, y]) => `l${x},${y}`),
 	);
 
-	export const loop = (count: number, bulge: number, length: number) =>
+export const loop = (count: number, bulge: number, length: number) =>
 	back_and_forth([
 		`a${length / bulge},${length / bulge} 0 0 1 ${length},0`,
 		`a${length / bulge},${length / bulge} 0 0 1 -${length},0`,

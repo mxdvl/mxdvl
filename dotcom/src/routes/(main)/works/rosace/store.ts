@@ -4,7 +4,7 @@ import type { Pattern } from "./data";
 
 export const selected = writable<string | undefined>(undefined);
 export const selected_index = writable<number | undefined>(undefined);
-export const toggle = (id: string) => selected.update((s) => s === id ? undefined : id)
+export const toggle = (id: string) => selected.update((s) => (s === id ? undefined : id));
 export const debug = writable<boolean>(false);
 
 export const uid = () => Math.random().toString(36).slice(2);
@@ -45,5 +45,3 @@ export const patterns = writable<Map<string, Writable<Pattern>>>(
 );
 
 export const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
-
-
