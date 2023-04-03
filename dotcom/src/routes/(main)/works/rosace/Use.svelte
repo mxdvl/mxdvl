@@ -2,7 +2,7 @@
 	import type { Point } from "./data";
 	import { debug, selected, selected_index } from "./store";
 
-	export let id: string | undefined = undefined;
+	export let id: string;
 	export let position: Point = { x: 0, y: 0 };
 	export let angle = 0;
 	export let scale = 1;
@@ -16,25 +16,21 @@
 	$: hover = active && $selected_index === index;
 </script>
 
-{#if id}
-	<use
-		href={`#shape-${id}`}
-		data-id={id}
-		data-index={index}
-		{transform}
-		class:active
-		class:hover
-		stroke={colour}
-		on:pointerover={() => {
-			if (active) selected_index.set(index);
-		}}
-	/>
-	{#if active && $debug}
-		<text x={30} y={-20} {transform}>a:{Math.floor(angle)} s:{scale}</text>
-		<line {transform} stroke="var(--ocean)" stroke-dasharray={[2, 6].join(" ")} x2={-position.x} y2={-position.y} />
-	{/if}
-{:else}
-	<use href={id} {transform} stroke={colour} />
+<use
+	href={`#shape-${id}`}
+	data-id={id}
+	data-index={index}
+	{transform}
+	class:active
+	class:hover
+	stroke={colour}
+	on:pointerover={() => {
+		if (active) selected_index.set(index);
+	}}
+/>
+{#if active && $debug}
+	<text x={30} y={-20} {transform}>a:{Math.floor(angle)} s:{scale}</text>
+	<line {transform} stroke="var(--ocean)" stroke-dasharray={[2, 6].join(" ")} x2={-position.x} y2={-position.y} />
 {/if}
 
 <style>

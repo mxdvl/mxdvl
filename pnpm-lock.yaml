@@ -45,6 +45,9 @@ importers:
       fathom-client:
         specifier: 3.5.0
         version: 3.5.0
+      lz-string:
+        specifier: ^1.5.0
+        version: 1.5.0
       mdsvex:
         specifier: 0.10.6
         version: 0.10.6(svelte@3.58.0)
@@ -2097,6 +2100,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: false
+
+  /lz-string@1.5.0:
+    resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
+    hasBin: true
     dev: false
 
   /magic-string@0.27.0:

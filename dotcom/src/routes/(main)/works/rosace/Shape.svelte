@@ -20,7 +20,7 @@
 	</defs>
 	<Spread count={$pattern.count} let:angle>
 		{#if active}
-			<Path angle={angle - 90} d={`M0,0H600`} colour="var(--skies)" />
+			<Path angle={angle} d={`M0,0V-600`} colour="var(--skies)" />
 		{/if}
 
 		<Mirror scales={$pattern.mirror ? [-1, 1] : [1]} let:scale>

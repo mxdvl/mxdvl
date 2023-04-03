@@ -24,6 +24,10 @@
 
 			$patterns = $patterns;
 		}
+
+		patterns.subscribe(() => {
+			update_hash();
+		});
 	});
 
 	const size = 20 * 18 * 2;
@@ -44,6 +48,10 @@
 	const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
 
 	const current_matrix = writable<DOMMatrixReadOnly | undefined>();
+
+	const update_hash = () => {
+		window.location.hash = state_to_hash();
+	};
 
 	const drag = {
 		start: (event) => {
@@ -94,7 +102,7 @@
 		},
 		stop: () => {
 			dragging = false;
-			window.location.hash = state_to_hash();
+			update_hash();
 		},
 	} as const satisfies Record<string, (event: PointerEvent) => void>;
 </script>

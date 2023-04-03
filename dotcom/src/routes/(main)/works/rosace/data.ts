@@ -1,3 +1,4 @@
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 export interface Point {
 	x: number;
 	y: number;
@@ -17,7 +18,8 @@ const pattern_to_string = ({ id, count, mirror, position, d }: Pattern) =>
 	[id, count, mirror ? "M" : "_", Math.round(position.x), Math.round(position.y), d].join(divider);
 /** Serialise patterns definition */
 
-export const patterns_to_string = (patterns: Pattern[]) => btoa(JSON.stringify(patterns.map(pattern_to_string)));
+export const patterns_to_string = (patterns: Pattern[]) =>
+	compressToEncodedURIComponent(JSON.stringify(patterns.map(pattern_to_string)));
 
 const string_to_pattern = (pattern: string): Pattern => {
 	const [id, count, mirror, x, y, d] = pattern.split(divider);
@@ -31,7 +33,7 @@ const string_to_pattern = (pattern: string): Pattern => {
 /** De-serialise pattern definition */
 export const string_to_patterns = (patterns: string): Pattern[] => {
 	try {
-		const array = JSON.parse(atob(patterns));
+		const array = JSON.parse(decompressFromEncodedURIComponent(patterns));
 
 		return Array.isArray(array) ? array.map(string_to_pattern) : [];
 	} catch (error) {

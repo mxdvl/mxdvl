@@ -12,4 +12,4 @@
 	const transform = `scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`;
 </script>
 
-<path id={`shape-${id}`} {transform} stroke={colour} {d} />
+<path id={id ? `shape-${id}` : undefined} {transform} stroke={colour} {d} />
