@@ -115,9 +115,8 @@
 	} as const satisfies Record<string, (event: PointerEvent) => void>;
 </script>
 
-<div class="workspace">
-	<h1>Rosace</h1>
-	<div class="canvas" style={`width: ${size}px; height: ${size}px;`}>
+<div id="workspace">
+	<div id="canvas" class="border">
 		<svg
 			viewBox={`-${size / 2},-${size / 2} ${size},${size}`}
 			on:pointerdown={drag.start}
@@ -160,11 +159,9 @@
 		</svg>
 	</div>
 
-	<ul class="controls">
+	<ul id="controls">
 		{#each [...$patterns.entries()] as [id, pattern] (id)}
-			<li>
-				<Controls {pattern} {patterns} />
-			</li>
+			<Controls {pattern} {patterns} />
 		{/each}
 		<li>
 			<button
@@ -183,13 +180,14 @@
 						}),
 					);
 					$patterns = $patterns;
+					selected.set(id);
 				}}>Add new shape</button
 			>
 		</li>
 	</ul>
 
 	<h2>Todo</h2>
-	<ul>
+	<ul id="todo">
 		<li><s>control individual elements + any symmetries</s></li>
 		<li><s>handle each element via unique IDs</s></li>
 		<li><s>great drag-and-drop</s></li>
@@ -211,36 +209,46 @@
 </div>
 
 <style>
-	.workspace {
+	#workspace {
 		display: grid;
-		grid-template-columns: min-content 1fr;
+		grid-template-columns: auto;
 		column-gap: var(--grid-x);
 		row-gap: var(--grid-y);
 	}
 
-	h1,
+	/** 18 × 61 = 1098 */
+	@media (min-width: 1098px) {
+		#workspace {
+			grid-template-columns: 720px 1fr;
+		}
+	}
+
 	h2 {
 		margin: 0;
 		grid-column: 1 / -1;
 	}
 
-	h1 {
-		grid-column: span 2;
-	}
-
 	ul {
 		padding: 0;
-		padding-left: 1rem;
 		margin: 0;
 	}
 
-	li {
+	#todo {
+		padding-left: 1rem;
+	}
+
+	#todo li {
 		padding-bottom: var(--grid-y);
 	}
-	.canvas {
+
+	#canvas {
+		background: var(--clouds);
+		aspect-ratio: 1;
+	}
+
+	.border {
 		margin: -1px;
 		border: 2px solid var(--skies);
-		background: var(--clouds);
 	}
 
 	svg {
@@ -250,30 +258,8 @@
 		fill: none;
 	}
 
-	.controls {
+	#controls {
 		display: flex;
 		flex-direction: column;
-	}
-
-	.controls li {
-		list-style-type: none;
-		padding-left: 0;
-		position: relative;
-	}
-
-	.controls li::before {
-		content: "";
-		display: block;
-		position: absolute;
-		pointer-events: none;
-		inset: -1px;
-		border: 2px solid var(--skies);
-	}
-
-	:global(header) {
-		display: none;
-	}
-	:global(footer) {
-		display: none;
 	}
 </style>

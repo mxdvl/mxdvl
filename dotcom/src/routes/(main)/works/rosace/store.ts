@@ -3,6 +3,7 @@ import { loop } from "./weaving";
 import type { Pattern } from "./data";
 
 export const selected = writable<string | undefined>(undefined);
+export const toggle = (id: string) => selected.update((s) => s === id ? undefined : id)
 export const debug = writable<boolean>(false);
 
 export const uid = () => Math.random().toString(36).slice(2);

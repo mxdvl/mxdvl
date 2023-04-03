@@ -14,10 +14,6 @@
 </script>
 
 <g id={$pattern.id}>
-	{#if active}
-		<circle r={120} stroke="var(--skies)" stroke-width={2} />
-		<circle r={240} stroke="var(--skies)" stroke-width={2} />
-	{/if}
 	<Spread count={$pattern.count} let:angle>
 		{#if active}
 			<Path angle={angle - 90} d={`M0,0H600`} colour="var(--skies)" />

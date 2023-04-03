@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let disabled: boolean = false;
+	export let inline = true;
 </script>
 
-<button on:click {disabled}>
+<button on:click {disabled} class:inline>
 	<slot />
 </button>
 
