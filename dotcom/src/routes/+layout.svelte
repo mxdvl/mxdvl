@@ -5,13 +5,12 @@
 	import { browser } from "$app/environment";
 	import { page } from "$app/stores";
 	import { load as loadFathom, trackPageview } from "fathom-client";
-	import type { LayoutData } from "./$types";
 
 	import "./styles.css";
 	import { lang } from "../lib/lang";
 	import { capitalise } from "../lib/capitalise";
 
-	export let data: LayoutData;
+	export let data;
 
 	onMount(() => {
 		loadFathom("MDDFSRVF", {

@@ -1,10 +1,8 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
-
 	import { getCondition } from "$lib/weather";
 	import Alternates from "$lib/Alternates.svelte";
 
-	export let data: PageData;
+	export let data;
 
 	const { feels_like, id } = data;
 </script>
