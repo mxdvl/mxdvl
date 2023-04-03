@@ -1,21 +1,19 @@
 <script lang="ts">
-	import { derived, get, readable, writable } from "svelte/store";
+	import { derived, writable } from "svelte/store";
+	import { onMount } from "svelte";
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
-
-	import { debug, patterns, selected, selected_index, uid } from "./store";
+	import { debug, state_to_hash, hash_to_state, patterns, selected, selected_index } from "./store";
 	import type { Point } from "./data";
-	import { onMount } from "svelte";
 
 	/** the SVG XML namespace */
 	const xmlns = "http://www.w3.org/2000/svg";
 
-	const storage_key = "rosace";
-
 	onMount(() => {
 		debug.set(window.location.hostname === "localhost");
-		const saved_patterns = JSON.parse(localStorage.getItem(storage_key) ?? "null");
+
+		const saved_patterns = hash_to_state(window.location.hash);
 
 		// @TODO: it might be worth validating further
 		if (Array.isArray(saved_patterns)) {
@@ -96,15 +94,7 @@
 		},
 		stop: () => {
 			dragging = false;
-
-			const data = [];
-
-			for (const [id, pattern] of $patterns) {
-				const serialisable = get(pattern);
-				data.push(serialisable);
-			}
-
-			localStorage.setItem(storage_key, JSON.stringify(data));
+			window.location.hash = state_to_hash();
 		},
 	} as const satisfies Record<string, (event: PointerEvent) => void>;
 </script>
@@ -166,7 +156,7 @@
 			<s>save previous state</s>
 			<button
 				on:click={() => {
-					localStorage.removeItem(storage_key);
+					window.location.hash = "";
 				}}>clear</button
 			>
 		</li>
@@ -225,5 +215,7 @@
 		stroke-width: 1;
 		stroke: var(--earth);
 		fill: none;
+		touch-action: pinch-zoom;
+		user-select: none;
 	}
 </style>

@@ -46,7 +46,6 @@
 		stroke: none;
 		fill: var(--skies);
 		pointer-events: none;
-		user-select: none;
 	}
 
 	.active {

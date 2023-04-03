@@ -2,7 +2,7 @@
 	import { derived, readable, writable, type Writable } from "svelte/store";
 	import type { Pattern } from "./data";
 
-	import { fly, fade } from "svelte/transition";
+	import { fade } from "svelte/transition";
 	import { flip } from "svelte/animate";
 	import { current, selected, uid } from "./store";
 	import Control from "./Control.svelte";
