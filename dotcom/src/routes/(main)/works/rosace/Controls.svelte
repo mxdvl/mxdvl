@@ -1,86 +1,92 @@
 <script lang="ts">
-	import type { Writable } from "svelte/store";
-	import { fly } from "svelte/transition";
-	import Button from "../../../../lib/Button.svelte";
+	import { derived, readable, writable, type Writable } from "svelte/store";
 	import type { Pattern } from "./data";
-	import { selected, toggle } from "./store";
 
-	export let pattern: Writable<Pattern>;
+	import { fly, fade } from "svelte/transition";
+	import { flip } from "svelte/animate";
+	import { current, selected, uid } from "./store";
+	import Control from "./Control.svelte";
+	import Button from "$lib/Button.svelte";
+
 	export let patterns: Writable<Map<string, Writable<Pattern>>>;
 
-	$: current = $pattern.id === $selected;
+	const duration = 240;
 
-	const toggle_selected = () => toggle($pattern.id);
+	const last_pattern = derived([$current ?? readable(undefined)], ([$current_value]) => {
+		if ($current_value !== undefined) {
+			const { position, mirror, count } = $current_value;
+			return { position, mirror, count };
+		} else {
+			return { position: { x: 0, y: 0 }, mirror: false, count: 3 };
+		}
+	});
+
+	const add_shape = ["add-shape", undefined] as const;
 </script>
 
-<li class:current>
-	<h3>
-		{$pattern.id}
-
-		<Button on:click={toggle_selected}
-			>{#if current}unselect{:else}select{/if}</Button
+<ul>
+	{#each [...$patterns.entries(), add_shape] as [id, pattern] (id)}
+		<li
+			class:current={$selected === id}
+			class:button={id === "add-shape"}
+			transition:fade={{ duration }}
+			animate:flip={{ duration }}
 		>
-	</h3>
-
-	{#if current}
-		<ul class="further-controls" transition:fly={{ y: -20 }}>
-			<label>
-				<input type="range" bind:value={$pattern.count} min="3" max="12" step="1" />
-				– Sides ({$pattern.count})
-			</label>
-
-			<label>
-				<input type="checkbox" bind:checked={$pattern.mirror} />
-				– Mirror ({$pattern.mirror})
-			</label>
-
-			{#if $pattern.position}
-				<div>
-					position – {Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
-				</div>
+			{#if pattern}
+				<Control {pattern} {patterns} />
+			{:else}
+				<Button
+					on:click={() => {
+						const id = uid();
+						const { count, mirror, position } = $last_pattern;
+						$patterns.set(
+							id,
+							writable({
+								id,
+								count,
+								mirror,
+								position,
+								// a triangle
+								d: "M0,0L20,20,v-20,Z",
+							}),
+						);
+						$patterns = $patterns;
+						selected.set(id);
+					}}>Add new shape</Button
+				>
 			{/if}
-
-			<div>
-				Path – {$pattern.d.slice(0, 24)}…
-			</div>
-
-			<button
-				on:click={() => {
-					$patterns.delete($pattern.id);
-					$patterns = $patterns;
-				}}>remove</button
-			>
-		</ul>
-	{/if}
-</li>
+		</li>
+	{/each}
+</ul>
 
 <style>
-	h3 {
-		margin: 0;
+	ul {
 		display: flex;
-		justify-content: space-between;
-		font-size: 1rem;
-		line-height: 1rem;
-		padding: 9px 6px;
+		flex-direction: column;
+		margin: 0;
 	}
-
 	li {
 		list-style-type: none;
 		border: 2px solid var(--skies);
 		margin: -1px;
 		overflow: hidden;
-		height: calc(2 * var(--grid-y));
+		height: calc(2 * var(--grid-y) - 1px);
 		transition: height 240ms;
 		background-color: var(--clouds);
 	}
 
 	li.current {
-		height: calc(8 * var(--grid-y));
+		height: calc(9 * var(--grid-y) - 1px);
+		border-color: var(--ocean);
+		z-index: 1;
 	}
 
-	ul.further-controls {
-		display: flex;
+	li.button {
+		padding: 9px;
+		height: calc(1 * var(--grid-y) - 1px);
+	}
+
+	ul {
 		padding: 0;
-		flex-direction: column;
 	}
 </style>

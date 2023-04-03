@@ -4,7 +4,7 @@
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
 
-	import { debug, patterns, selected, uid } from "./store";
+	import { debug, patterns, selected, selected_index, uid } from "./store";
 	import type { Point } from "./data";
 	import { onMount } from "svelte";
 
@@ -45,23 +45,17 @@
 
 	const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
 
-	const last_pattern = derived([$current ?? readable(undefined)], ([$current_value]) => {
-		if ($current_value !== undefined) {
-			const { position, mirror, count } = $current_value;
-			return { position, mirror, count };
-		} else {
-			return { position: initial_point, mirror: false, count: 3 };
-		}
-	});
-
 	const current_matrix = writable<DOMMatrixReadOnly | undefined>();
 
 	const drag = {
 		start: (event) => {
 			if (event.target instanceof SVGPathElement) {
 				event.preventDefault();
-				const { id } = event.target.dataset;
+				const { id, index } = event.target.dataset;
 				selected.set(id);
+
+				const numeric_index = Number(index);
+				if (!Number.isNaN(numeric_index)) selected_index.set(numeric_index);
 
 				if ($selected !== undefined) {
 					current_matrix.set(
@@ -159,32 +153,7 @@
 		</svg>
 	</div>
 
-	<ul id="controls">
-		{#each [...$patterns.entries()] as [id, pattern] (id)}
-			<Controls {pattern} {patterns} />
-		{/each}
-		<li>
-			<button
-				on:click={() => {
-					const id = uid();
-					const { count, mirror, position } = $last_pattern;
-					$patterns.set(
-						id,
-						writable({
-							id,
-							count,
-							mirror,
-							position,
-							// a triangle
-							d: "M0,0L20,20,v-20,Z",
-						}),
-					);
-					$patterns = $patterns;
-					selected.set(id);
-				}}>Add new shape</button
-			>
-		</li>
-	</ul>
+	<Controls {patterns} />
 
 	<h2>Todo</h2>
 	<ul id="todo">
@@ -217,7 +186,7 @@
 	}
 
 	/** 18 × 61 = 1098 */
-	@media (min-width: 1098px) {
+	@media screen and (min-width: 1098px) {
 		#workspace {
 			grid-template-columns: 720px 1fr;
 		}
@@ -256,10 +225,5 @@
 		stroke-width: 1;
 		stroke: var(--earth);
 		fill: none;
-	}
-
-	#controls {
-		display: flex;
-		flex-direction: column;
 	}
 </style>

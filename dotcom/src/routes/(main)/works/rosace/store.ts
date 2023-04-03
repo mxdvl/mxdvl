@@ -1,8 +1,9 @@
-import { writable, type Writable } from "svelte/store";
+import { derived, writable, type Writable } from "svelte/store";
 import { loop } from "./weaving";
 import type { Pattern } from "./data";
 
 export const selected = writable<string | undefined>(undefined);
+export const selected_index = writable<number | undefined>(undefined);
 export const toggle = (id: string) => selected.update((s) => s === id ? undefined : id)
 export const debug = writable<boolean>(false);
 
@@ -42,3 +43,7 @@ export const patterns = writable<Map<string, Writable<Pattern>>>(
 		].map(({ id, count, mirror, position, d }) => [id, writable({ id, count, mirror, position, d })]),
 	),
 );
+
+export const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
+
+
