@@ -5,7 +5,7 @@
 	export let length = 12;
 	export let bulge = 4 / 3;
 	export let count = 1;
-	export let uuid: string | undefined;
+	export let id: string | undefined;
 
 	$: loops = (length: number) => (bulge: number) =>
 		[
@@ -17,7 +17,7 @@
 		].join("");
 </script>
 
-<path class:active={$selected === uuid} d={loops(length)(bulge)} />
+<path class:active={$selected === id} d={loops(length)(bulge)} />
 
 <style>
 	path {

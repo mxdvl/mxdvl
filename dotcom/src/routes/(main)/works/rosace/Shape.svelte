@@ -11,10 +11,9 @@
 	export let guides = false;
 
 	$: active = $selected === $pattern.id && guides;
-	$: radius = Math.max(-$pattern.position.y, $pattern.position.x);
 </script>
 
-<g data-uuid={$pattern.id}>
+<g id={$pattern.id}>
 	{#if active}
 		<circle r={120} stroke="var(--skies)" stroke-width={2} />
 		<circle r={240} stroke="var(--skies)" stroke-width={2} />
@@ -25,7 +24,7 @@
 		{/if}
 
 		<Mirror scales={$pattern.mirror ? [-1, 1] : [1]} let:scale>
-			<Path position={$pattern.position} {angle} {scale} uuid={$pattern.id} d={$pattern.d} />
+			<Path position={$pattern.position} {angle} {scale} id={$pattern.id} d={$pattern.d} />
 		</Mirror>
 	</Spread>
 </g>

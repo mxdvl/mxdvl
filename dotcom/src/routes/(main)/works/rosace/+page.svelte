@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { derived, get, writable } from "svelte/store";
+	import { derived, get, readable, writable } from "svelte/store";
 
 	import Shape from "./Shape.svelte";
-	import Polygon from "./Polygon.svelte";
 	import Controls from "./Controls.svelte";
 
-	import { debug, patterns, selected } from "./store";
+	import { debug, patterns, selected, uid } from "./store";
 	import type { Point } from "./data";
 	import { onMount } from "svelte";
 
@@ -31,8 +30,6 @@
 
 	const size = 20 * 18 * 2;
 
-	let sides = 5;
-
 	let guides = true;
 
 	let dragging = false;
@@ -46,9 +43,16 @@
 	const point_from_event = (event: MouseEvent) =>
 		new DOMPointReadOnly(event.offsetX - size / 2, event.offsetY - size / 2);
 
-	const current = derived([patterns, selected], ([$patterns, $selected]) =>
-		$selected ? $patterns.get($selected) : undefined,
-	);
+	const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
+
+	const last_pattern = derived([$current ?? readable(undefined)], ([$current_value]) => {
+		if ($current_value !== undefined) {
+			const { position, mirror, count } = $current_value;
+			return { position, mirror, count };
+		} else {
+			return { position: initial_point, mirror: false, count: 3 };
+		}
+	});
 
 	const current_matrix = writable<DOMMatrixReadOnly | undefined>();
 
@@ -56,10 +60,10 @@
 		start: (event) => {
 			if (event.target instanceof SVGPathElement) {
 				event.preventDefault();
-				const { uuid } = event.target.dataset;
-				selected.set(uuid);
+				const { id } = event.target.dataset;
+				selected.set(id);
 
-				if (uuid) {
+				if ($selected !== undefined) {
 					current_matrix.set(
 						DOMMatrixReadOnly.fromMatrix(event.target.transform.baseVal.consolidate()?.matrix),
 					);
@@ -69,6 +73,8 @@
 
 					dragStart = point;
 					dragEnd = point;
+					dragDelta = initial_point;
+					final_position = initial_point;
 					dragging = true;
 				}
 			} else {
@@ -151,15 +157,41 @@
 					<line stroke="var(--ocean)" x1={0} y1={0} x2={final_position.x} y2={final_position.y} />
 				</g>
 			{/if}
-
-			<Polygon radius={20} {sides} />
 		</svg>
 	</div>
+
+	<ul class="controls">
+		{#each [...$patterns.entries()] as [id, pattern] (id)}
+			<li>
+				<Controls {pattern} {patterns} />
+			</li>
+		{/each}
+		<li>
+			<button
+				on:click={() => {
+					const id = uid();
+					const { count, mirror, position } = $last_pattern;
+					$patterns.set(
+						id,
+						writable({
+							id,
+							count,
+							mirror,
+							position,
+							// a triangle
+							d: "M0,0L20,20,v-20,Z",
+						}),
+					);
+					$patterns = $patterns;
+				}}>Add new shape</button
+			>
+		</li>
+	</ul>
 
 	<h2>Todo</h2>
 	<ul>
 		<li><s>control individual elements + any symmetries</s></li>
-		<li><s>handle each element via UUIDs</s></li>
+		<li><s>handle each element via unique IDs</s></li>
 		<li><s>great drag-and-drop</s></li>
 		<li><s>individual element repetition control</s></li>
 		<li>handle different symmetries (translation, planar, polar)</li>
@@ -171,25 +203,17 @@
 				}}>clear</button
 			>
 		</li>
+		<li><label> <input type="checkbox" bind:checked={$debug} />Advanced debug info</label></li>
 		<li>create a catalog of shapes (loop, polygon, etc)</li>
 		<li>export resulting SVG</li>
 		<li>Finish by <strong>April 17th</strong></li>
 	</ul>
-
-	<div class="controls">
-		{#if $current}
-			<Controls current={$current} {patterns} />
-		{:else}
-			<h3>(Select a pattern to control it)</h3>
-		{/if}
-	</div>
 </div>
 
 <style>
 	.workspace {
 		display: grid;
 		grid-template-columns: min-content 1fr;
-		grid-template-rows: auto calc(var(--grid-y) * 3) auto calc(var(--grid-y) * 9);
 		column-gap: var(--grid-x);
 		row-gap: var(--grid-y);
 	}
@@ -197,6 +221,7 @@
 	h1,
 	h2 {
 		margin: 0;
+		grid-column: 1 / -1;
 	}
 
 	h1 {
@@ -216,7 +241,6 @@
 		margin: -1px;
 		border: 2px solid var(--skies);
 		background: var(--clouds);
-		grid-row: span 2;
 	}
 
 	svg {
@@ -229,6 +253,21 @@
 	.controls {
 		display: flex;
 		flex-direction: column;
+	}
+
+	.controls li {
+		list-style-type: none;
+		padding-left: 0;
+		position: relative;
+	}
+
+	.controls li::before {
+		content: "";
+		display: block;
+		position: absolute;
+		pointer-events: none;
+		inset: -1px;
+		border: 2px solid var(--skies);
 	}
 
 	:global(header) {
