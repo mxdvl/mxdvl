@@ -28,6 +28,10 @@
 		patterns.subscribe(() => {
 			update_hash();
 		});
+
+		selected.subscribe((selected) => {
+			selected === undefined && selected_index.set(0);
+		});
 	});
 
 	const size = 20 * 18 * 2;
@@ -165,6 +169,7 @@
 			<button
 				on:click={() => {
 					window.location.hash = "";
+					$patterns = new Map();
 				}}>clear</button
 			>
 		</li>

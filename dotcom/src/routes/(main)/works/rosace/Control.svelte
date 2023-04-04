@@ -15,7 +15,7 @@
 </script>
 
 <h3>
-	{$pattern.id}
+	#path-{$pattern.id}
 
 	<Button on:click={toggle_selected}
 		>{#if current}unselect{:else}select{/if}</Button
@@ -24,33 +24,45 @@
 
 {#if current}
 	<ul class="further-controls" transition:fly|local={{ y: -12, duration: 240 }}>
-		<label>
-			<input type="range" bind:value={$pattern.count} min="3" max="12" step="1" />
-			– Sides ({$pattern.count})
-		</label>
+		<li>
+			Count:
+			<button
+				on:click={() => {
+					$pattern.count = Math.max(1, $pattern.count - 3);
+				}}>-3</button
+			>
+			<input type="number" bind:value={$pattern.count} min="3" max="120" step="1" />
+			<button
+				on:click={() => {
+					$pattern.count = Math.min(120, $pattern.count + 3);
+				}}>+3</button
+			>
+		</li>
 
-		<label>
-			<input type="checkbox" bind:checked={$pattern.mirror} />
-			– Mirror ({$pattern.mirror})
-		</label>
+		<li>
+			<label>
+				Mirror:
+				<input type="checkbox" bind:checked={$pattern.mirror} />
+			</label>
+		</li>
 
-		{#if $pattern.position}
-			<div>
-				position – {Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
-			</div>
-		{/if}
+		<li>
+			Position: {Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
+		</li>
 
-		<div>
-			Path – {$pattern.d.slice(0, 24)}…
-		</div>
+		<li>
+			<textarea bind:value={$pattern.d} cols="32" rows="4" />
+		</li>
 
-		<Button
-			on:click={() => {
-				selected.set(undefined);
-				$patterns.delete($pattern.id);
-				$patterns = $patterns;
-			}}>remove</Button
-		>
+		<li>
+			<Button
+				on:click={() => {
+					selected.set(undefined);
+					$patterns.delete($pattern.id);
+					$patterns = $patterns;
+				}}>remove</Button
+			>
+		</li>
 	</ul>
 {/if}
 
@@ -59,6 +71,7 @@
 		margin: 0;
 		display: flex;
 		justify-content: space-between;
+		align-items: flex-start;
 		font-size: 1rem;
 		line-height: 1rem;
 		padding: 9px 6px;
@@ -66,8 +79,21 @@
 
 	ul.further-controls {
 		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
 		padding: 3px;
-		row-gap: 4px;
-		flex-direction: column;
+		gap: 12px;
+		flex-direction: row;
+		flex-wrap: wrap;
+		list-style-type: none;
+	}
+
+	textarea {
+		display: block;
+		font-family: monospace;
+		background-color: inherit;
+		resize: none;
+		font-size: inherit;
+		border: 2px solid var(--skies);
 	}
 </style>

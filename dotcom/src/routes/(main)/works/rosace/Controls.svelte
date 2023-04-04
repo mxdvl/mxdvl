@@ -1,27 +1,41 @@
 <script lang="ts">
-	import { derived, readable, writable, type Writable } from "svelte/store";
-	import type { Pattern } from "./data";
-
+	import type { Writable } from "svelte/store";
+	import { writable } from "svelte/store";
 	import { fade } from "svelte/transition";
 	import { flip } from "svelte/animate";
-	import { current, selected, uid } from "./store";
+
 	import Control from "./Control.svelte";
 	import Button from "$lib/Button.svelte";
+	import { selected, uid } from "./store";
+	import { loop } from "./weaving";
+	import type { Pattern, Point } from "./data";
 
 	export let patterns: Writable<Map<string, Writable<Pattern>>>;
 
 	const duration = 240;
 
-	const last_pattern = derived([$current ?? readable(undefined)], ([$current_value]) => {
-		if ($current_value !== undefined) {
-			const { position, mirror, count } = $current_value;
-			return { position, mirror, count };
-		} else {
-			return { position: { x: 0, y: 0 }, mirror: false, count: 3 };
-		}
-	});
-
 	const add_shape = ["add-shape", undefined] as const;
+
+	const handle_click = () => {
+		const id = uid();
+		const count: number = Math.round(Math.random() * 9 + 3);
+		const mirror: boolean = Math.random() > 1 / 2;
+		const position: Point = { x: Math.random() * 40, y: Math.random() * 40 };
+
+		$patterns.set(
+			id,
+			writable({
+				id,
+				count,
+				mirror,
+				position,
+				// a triangle
+				d: ["M0,0", ...loop(3, 3 / 2, 12), "Z"].join(""),
+			}),
+		);
+		$patterns = $patterns;
+		selected.set(id);
+	};
 </script>
 
 <ul>
@@ -35,25 +49,7 @@
 			{#if pattern}
 				<Control {pattern} {patterns} />
 			{:else}
-				<Button
-					on:click={() => {
-						const id = uid();
-						const { count, mirror, position } = $last_pattern;
-						$patterns.set(
-							id,
-							writable({
-								id,
-								count,
-								mirror,
-								position,
-								// a triangle
-								d: "M0,0L20,20,v-20,Z",
-							}),
-						);
-						$patterns = $patterns;
-						selected.set(id);
-					}}>Add new shape</Button
-				>
+				<Button on:click={handle_click}>Add new shape</Button>
 			{/if}
 		</li>
 	{/each}
@@ -65,6 +61,7 @@
 		flex-direction: column;
 		margin: 0;
 	}
+
 	li {
 		list-style-type: none;
 		border: 2px solid var(--skies);
