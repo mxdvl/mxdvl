@@ -66,7 +66,7 @@
 		list-style-type: none;
 		border: 2px solid var(--skies);
 		margin: -1px;
-		overflow: hidden;
+		overflow-y: scroll;
 		height: calc(2 * var(--grid-y) - 1px);
 		transition: height 240ms;
 		background-color: var(--clouds);
@@ -85,5 +85,15 @@
 
 	ul {
 		padding: 0;
+	}
+
+	@media (max-width: 342px) {
+		ul {
+			font-size: 14.5px;
+		}
+
+		li.current {
+			height: calc(12 * var(--grid-y) - 1px);
+		}
 	}
 </style>

@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Writable } from "svelte/store";
+	import { writable } from "svelte/store";
 	import { fly } from "svelte/transition";
 
 	import Button from "$lib/Button.svelte";
 	import type { Pattern } from "./data";
-	import { selected, toggle } from "./store";
+	import { selected, toggle, uid } from "./store";
 
 	export let pattern: Writable<Pattern>;
 	export let patterns: Writable<Map<string, Writable<Pattern>>>;
@@ -14,47 +15,60 @@
 	const toggle_selected = () => toggle($pattern.id);
 </script>
 
-<h3>
+<h3 on:click={toggle_selected}>
 	#path-{$pattern.id}
 
-	<Button on:click={toggle_selected}
-		>{#if current}unselect{:else}select{/if}</Button
-	>
+	{#if current}
+		<span class="close">&times;</span>
+	{:else}
+		<span class="open">○</span>
+	{/if}
 </h3>
 
 {#if current}
 	<ul class="further-controls" transition:fly|local={{ y: -12, duration: 240 }}>
 		<li>
-			Count:
+			Count
 			<button
 				on:click={() => {
-					$pattern.count = Math.max(1, $pattern.count - 3);
-				}}>-3</button
+					$pattern.count = Math.max(1, $pattern.count - 1);
+				}}>-</button
 			>
 			<input type="number" bind:value={$pattern.count} min="3" max="120" step="1" />
 			<button
 				on:click={() => {
-					$pattern.count = Math.min(120, $pattern.count + 3);
-				}}>+3</button
+					$pattern.count = Math.min(120, $pattern.count + 1);
+				}}>+</button
 			>
 		</li>
 
 		<li>
 			<label>
-				Mirror:
+				Mirror
 				<input type="checkbox" bind:checked={$pattern.mirror} />
 			</label>
 		</li>
 
 		<li>
-			Position: {Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
+			{Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
 		</li>
 
-		<li>
-			<textarea bind:value={$pattern.d} cols="32" rows="4" />
+		<li class="path">
+			<textarea bind:value={$pattern.d} cols="20" rows="4" />
 		</li>
 
-		<li>
+		<li class="buttons">
+			<Button
+				on:click={() => {
+					const id = uid();
+					const pattern_to_copy = $pattern;
+					const { x, y } = pattern_to_copy.position;
+					const copy = writable({ ...pattern_to_copy, id, position: { x: x + 12, y } });
+					$patterns.set(id, copy);
+					selected.set(id);
+					$patterns = $patterns;
+				}}>duplicate</Button
+			>
 			<Button
 				on:click={() => {
 					selected.set(undefined);
@@ -75,6 +89,18 @@
 		font-size: 1rem;
 		line-height: 1rem;
 		padding: 9px 6px;
+		position: sticky;
+		top: 0;
+		background-image: linear-gradient(to bottom, var(--clouds) 60%, transparent);
+		z-index: 3;
+	}
+
+	.open {
+		color: var(--skies);
+	}
+
+	.close {
+		color: var(--ocean);
 	}
 
 	ul.further-controls {
@@ -88,6 +114,16 @@
 		list-style-type: none;
 	}
 
+	.buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.path {
+		flex-basis: 50%;
+	}
+
 	textarea {
 		display: block;
 		font-family: monospace;
@@ -95,5 +131,11 @@
 		resize: none;
 		font-size: inherit;
 		border: 2px solid var(--skies);
+	}
+
+	@media (max-width: 342px) {
+		.buttons {
+			flex-direction: row;
+		}
 	}
 </style>
