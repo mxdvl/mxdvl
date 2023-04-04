@@ -21,6 +21,7 @@
 		"@sveltejs/adapter-vercel": "2.4.1",
 		"@sveltejs/kit": "1.15.1",
 		"@sveltejs/vite-plugin-svelte": "2.0.4",
+		"@types/node": "18.15",
 		"@typescript-eslint/eslint-plugin": "5.57.1",
 		"@typescript-eslint/parser": "5.57.1",
 		"@vercel/node": "2.10.2",
