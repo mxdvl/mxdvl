@@ -29,9 +29,13 @@
 		selected.subscribe((selected) => {
 			selected === undefined && selected_index.set(0);
 		});
+
+		if (window.location.hostname !== "www.mxdvl.com") redirect = "https://www.mxdvl.com/works/rosace";
 	});
 
 	const size = 20 * 18 * 2;
+
+	let redirect: string;
 
 	let guides = true;
 
@@ -107,6 +111,10 @@
 		},
 	} as const satisfies Record<string, (event: PointerEvent) => void>;
 </script>
+
+{#if redirect}
+	<h3><a href={redirect}>Currently on a develop branch, see www.mxdvl.com version</a></h3>
+{/if}
 
 <div id="workspace">
 	<div id="canvas" class="border">
