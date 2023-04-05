@@ -15,7 +15,7 @@
 	const toggle_selected = () => toggle($pattern.id);
 </script>
 
-<h3 on:click={toggle_selected}>
+<h3 on:focus={toggle_selected}>
 	#path-{$pattern.id}
 
 	{#if current}

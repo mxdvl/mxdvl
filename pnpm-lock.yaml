@@ -33,6 +33,9 @@ importers:
       '@vercel/node':
         specifier: 2.10.2
         version: 2.10.2
+      browser-fs-access:
+        specifier: 0.33.0
+        version: 0.33.0
       eslint:
         specifier: 8.37.0
         version: 8.37.0
@@ -1092,6 +1095,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       fill-range: 7.0.1
+    dev: false
+
+  /browser-fs-access@0.33.0:
+    resolution: {integrity: sha512-OIroFiFdNcITJnLCJUoJBRWLf6lu/e7h24Ik0khWg7Ozn+sR+asYiSeiPpXmV32OgogSNiOqCoaI1/7vrl1T+Q==}
     dev: false
 
   /buffer-crc32@0.2.13:

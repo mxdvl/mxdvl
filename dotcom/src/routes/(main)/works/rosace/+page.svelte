@@ -7,9 +7,6 @@
 	import { debug, state_to_hash, hash_to_state, patterns, selected, selected_index } from "./store";
 	import type { Point } from "./data";
 
-	/** the SVG XML namespace */
-	const xmlns = "http://www.w3.org/2000/svg";
-
 	onMount(() => {
 		debug.set(window.location.hostname === "localhost");
 
@@ -114,6 +111,7 @@
 <div id="workspace">
 	<div id="canvas" class="border">
 		<svg
+			id="rosace"
 			viewBox={`-${size / 2},-${size / 2} ${size},${size}`}
 			on:pointerdown={drag.start}
 			on:pointermove={drag.update}
@@ -175,7 +173,7 @@
 		</li>
 		<li><label> <input type="checkbox" bind:checked={$debug} />Advanced debug info</label></li>
 		<li>create a catalog of shapes (loop, polygon, etc)</li>
-		<li>export resulting SVG</li>
+		<li><s>export resulting SVG</s></li>
 		<li>Finish by <strong>April 17th</strong></li>
 	</ul>
 </div>

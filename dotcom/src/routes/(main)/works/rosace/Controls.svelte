@@ -3,6 +3,7 @@
 	import { writable } from "svelte/store";
 	import { fade } from "svelte/transition";
 	import { flip } from "svelte/animate";
+	import { fileSave } from "browser-fs-access";
 
 	import Control from "./Control.svelte";
 	import Button from "$lib/Button.svelte";
@@ -14,9 +15,10 @@
 
 	const duration = 240;
 
-	const add_shape = ["add-shape", undefined] as const;
+	const extra = ["extra", undefined] as const;
 
-	const handle_click = () => {
+	const add_shape = (e: MouseEvent) => {
+		console.log(e);
 		const id = uid();
 		const count: number = Math.round(Math.random() * 9 + 3);
 		const mirror: boolean = Math.random() > 1 / 2;
@@ -36,20 +38,37 @@
 		$patterns = $patterns;
 		selected.set(id);
 	};
+
+	/** the SVG XML namespace */
+	const xmlns = "http://www.w3.org/2000/svg";
+
+	const save_svg = async () => {
+		const svg = document.querySelector("svg#rosace");
+		if (!svg) return;
+
+		const html = svg.outerHTML.replace("<svg ", `<svg xmlns="${xmlns}" `);
+
+		const blob = new Blob([html], { type: "image/svg+xml" });
+		await fileSave(blob, {
+			fileName: "Rosace.svg",
+			extensions: [".svg"],
+		});
+	};
 </script>
 
 <ul>
-	{#each [...$patterns.entries(), add_shape] as [id, pattern] (id)}
+	{#each [...$patterns.entries(), extra] as [id, pattern] (id)}
 		<li
 			class:current={$selected === id}
-			class:button={id === "add-shape"}
+			class:button={id === "extra"}
 			transition:fade={{ duration }}
 			animate:flip={{ duration }}
 		>
 			{#if pattern}
 				<Control {pattern} {patterns} />
 			{:else}
-				<Button on:click={handle_click}>Add new shape</Button>
+				<Button on:click={add_shape}>Add new shape</Button>
+				<Button on:click={save_svg}>Save SVG</Button>
 			{/if}
 		</li>
 	{/each}
