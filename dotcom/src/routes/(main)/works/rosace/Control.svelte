@@ -15,14 +15,16 @@
 	const toggle_selected = () => toggle($pattern.id);
 </script>
 
-<h3 on:focus={toggle_selected}>
-	#path-{$pattern.id}
+<h3>
+	<Button on:click={toggle_selected} type={"flex"}>
+		#path-{$pattern.id}
 
-	{#if current}
-		<span class="close">&times;</span>
-	{:else}
-		<span class="open">○</span>
-	{/if}
+		{#if current}
+			<span class="close">&times;</span>
+		{:else}
+			<span class="open">○</span>
+		{/if}
+	</Button>
 </h3>
 
 {#if current}
@@ -83,12 +85,9 @@
 <style>
 	h3 {
 		margin: 0;
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
 		font-size: 1rem;
-		line-height: 1rem;
-		padding: 9px 6px;
+		line-height: 1.8rem;
+		padding: 3px;
 		position: sticky;
 		top: 0;
 		background-image: linear-gradient(to bottom, var(--clouds) 60%, transparent);
@@ -122,6 +121,10 @@
 
 	.path {
 		flex-basis: 50%;
+	}
+
+	input[type="number"] {
+		max-width: 3rem;
 	}
 
 	textarea {
