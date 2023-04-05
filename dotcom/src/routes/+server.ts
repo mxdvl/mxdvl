@@ -1,7 +1,6 @@
 import type { Lang } from "$lib/lang";
-import type { RequestHandler } from "./$types";
 
-export const GET: RequestHandler = ({ request }) => {
+export const GET = ({ request }) => {
 	const maybeLang = request.headers
 		.get("accept-language")
 		?.split(",")

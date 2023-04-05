@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Works from "$lib/Works.svelte";
-	import type { PageData } from "./$types";
 
-	export let data: PageData;
+	export let data;
 	const { works } = data;
 </script>
 

@@ -1,9 +1,8 @@
 import { getWeather } from "$lib/weather";
-import type { PageServerLoad } from "./$types";
 
 export const prerender = true;
 
-export const load: PageServerLoad = async () => {
+export const load = async () => {
 	const data = await getWeather("london");
 
 	if (data?.cod === 200) {
