@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let disabled: boolean = false;
+	export let type: undefined | "flex" = undefined;
 </script>
 
-<button on:click {disabled}>
+<button on:click {disabled} data-type={type}>
 	<slot />
 </button>
 
@@ -10,13 +11,12 @@
 	button {
 		--border: var(--ocean);
 
-		position: relative;
-
 		display: inline;
+		position: relative;
 		border: none;
 		padding: 0 3px;
 		margin: 0;
-		height: var(--grid);
+		height: var(--grid-y);
 		color: inherit;
 		font-family: inherit;
 		font-size: inherit;
@@ -24,6 +24,14 @@
 		font-weight: inherit;
 		line-height: inherit;
 		background: transparent;
+	}
+
+	button[data-type="flex"] {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
 	}
 
 	button::before {

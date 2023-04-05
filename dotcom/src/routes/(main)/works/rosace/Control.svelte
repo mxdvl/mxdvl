@@ -1,0 +1,144 @@
+<script lang="ts">
+	import type { Writable } from "svelte/store";
+	import { writable } from "svelte/store";
+	import { fly } from "svelte/transition";
+
+	import Button from "$lib/Button.svelte";
+	import type { Pattern } from "./data";
+	import { selected, toggle, uid } from "./store";
+
+	export let pattern: Writable<Pattern>;
+	export let patterns: Writable<Map<string, Writable<Pattern>>>;
+
+	$: current = $pattern.id === $selected;
+
+	const toggle_selected = () => toggle($pattern.id);
+</script>
+
+<h3>
+	<Button on:click={toggle_selected} type={"flex"}>
+		#path-{$pattern.id}
+
+		{#if current}
+			<span class="close">&times;</span>
+		{:else}
+			<span class="open">○</span>
+		{/if}
+	</Button>
+</h3>
+
+{#if current}
+	<ul class="further-controls" transition:fly|local={{ y: -12, duration: 240 }}>
+		<li>
+			Count
+			<button
+				on:click={() => {
+					$pattern.count = Math.max(1, $pattern.count - 1);
+				}}>-</button
+			>
+			<input type="number" bind:value={$pattern.count} min="3" max="120" step="1" />
+			<button
+				on:click={() => {
+					$pattern.count = Math.min(120, $pattern.count + 1);
+				}}>+</button
+			>
+		</li>
+
+		<li>
+			<label>
+				Mirror
+				<input type="checkbox" bind:checked={$pattern.mirror} />
+			</label>
+		</li>
+
+		<li>
+			{Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
+		</li>
+
+		<li class="path">
+			<textarea bind:value={$pattern.d} cols="20" rows="4" />
+		</li>
+
+		<li class="buttons">
+			<Button
+				on:click={() => {
+					const id = uid();
+					const pattern_to_copy = $pattern;
+					const { x, y } = pattern_to_copy.position;
+					const copy = writable({ ...pattern_to_copy, id, position: { x: x + 12, y } });
+					$patterns.set(id, copy);
+					selected.set(id);
+					$patterns = $patterns;
+				}}>duplicate</Button
+			>
+			<Button
+				on:click={() => {
+					selected.set(undefined);
+					$patterns.delete($pattern.id);
+					$patterns = $patterns;
+				}}>remove</Button
+			>
+		</li>
+	</ul>
+{/if}
+
+<style>
+	h3 {
+		margin: 0;
+		font-size: 1rem;
+		line-height: 1.8rem;
+		padding: 3px;
+		position: sticky;
+		top: 0;
+		background-image: linear-gradient(to bottom, var(--clouds) 60%, transparent);
+		z-index: 3;
+	}
+
+	.open {
+		color: var(--skies);
+	}
+
+	.close {
+		color: var(--ocean);
+	}
+
+	ul.further-controls {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		padding: 3px;
+		gap: 12px;
+		flex-direction: row;
+		flex-wrap: wrap;
+		list-style-type: none;
+	}
+
+	.buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.path {
+		flex-basis: 50%;
+	}
+
+	input[type="number"] {
+		max-width: 3rem;
+	}
+
+	textarea {
+		display: block;
+		font-family: monospace;
+		background-color: inherit;
+		resize: none;
+		font-size: inherit;
+		border: 2px solid var(--skies);
+	}
+
+	@media (max-width: 342px) {
+		.buttons {
+			flex-direction: row;
+		}
+	}
+</style>
