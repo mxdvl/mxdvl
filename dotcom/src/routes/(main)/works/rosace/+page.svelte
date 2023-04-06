@@ -6,6 +6,8 @@
 	import Controls from "./Controls.svelte";
 	import { debug, state_to_hash, hash_to_state, patterns, selected, selected_index } from "./store";
 	import type { Point } from "./data";
+	import Polygon from "./Polygon.svelte";
+	import Loop from "./Loop.svelte";
 
 	onMount(() => {
 		debug.set(window.location.hostname === "localhost");
@@ -163,6 +165,11 @@
 
 	<Controls {patterns} />
 
+	<ul id="shapes">
+		<li><Polygon /></li>
+		<li><Loop /></li>
+	</ul>
+
 	<h2>Todo</h2>
 	<ul id="todo">
 		<li><s>control individual elements + any symmetries</s></li>
@@ -236,5 +243,14 @@
 		fill: none;
 		touch-action: pinch-zoom;
 		user-select: none;
+	}
+
+	#shapes {
+		display: flex;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		flex-wrap: wrap;
+		column-gap: var(--grid-x);
 	}
 </style>

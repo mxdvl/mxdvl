@@ -14,6 +14,7 @@ export const patterns = writable<Map<string, Writable<Pattern>>>(new Map());
 
 export const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
 
+
 const prefix = "#shape/";
 
 /** a default map to start from */
