@@ -1,7 +1,6 @@
-import { derived, get, writable, type Writable } from "svelte/store";
+import { derived, writable, type Writable } from "svelte/store";
 import { loop } from "./weaving";
 import type { Pattern, Point } from "./data";
-import { patterns_to_string, string_to_patterns } from "./data";
 
 export const selected = writable<string | undefined>(undefined);
 export const selected_index = writable<number | undefined>(undefined);
@@ -27,8 +26,6 @@ export const add_pattern = (path?: string) => {
 	});
 	selected.set(id);
 };
-
-const prefix = "#shape/";
 
 /** a default map to start from */
 export const basic_map = new Map(
@@ -63,25 +60,3 @@ export const basic_map = new Map(
 		},
 	].map(({ id, count, mirror, position, d }) => [id, writable({ id, count, mirror, position, d: d.join(" ") })]),
 );
-
-// @TODO: make this a pure function
-export const state_to_hash = () => {
-	const data = [];
-
-	for (const [, pattern] of get(patterns)) {
-		data.push(get(pattern));
-	}
-
-	return prefix + patterns_to_string(data);
-};
-
-export const hash_to_state = (hash: string) => {
-	try {
-		if (!hash.startsWith(prefix)) return undefined;
-
-		return string_to_patterns(hash.slice(prefix.length));
-	} catch (error) {
-		console.error(error);
-		return undefined;
-	}
-};

@@ -1,43 +1,37 @@
 <script lang="ts">
-	import { derived, writable } from "svelte/store";
+	import { derived, get, writable } from "svelte/store";
 	import { onMount } from "svelte";
+	import { goto } from "$app/navigation";
+	import { page } from "$app/stores";
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
-	import { debug, state_to_hash, hash_to_state, patterns, selected, selected_index } from "./store";
-	import type { Point } from "./data";
+	import { debug, patterns, selected, selected_index } from "./store";
+	import { patterns_to_string, type Pattern, type Point, string_to_patterns } from "./data";
 	import Polygon from "./Polygon.svelte";
 	import Loop from "./Loop.svelte";
 
-	onMount(() => {
+	export let data;
+
+	onMount(async () => {
 		debug.set(window.location.hostname === "localhost");
 
-		const saved_patterns = hash_to_state(window.location.hash);
-
-		// @TODO: it might be worth validating further
-		if (Array.isArray(saved_patterns)) {
-			$patterns.clear();
-			for (const saved_pattern of saved_patterns) {
-				$patterns.set(saved_pattern.id, writable(saved_pattern));
-			}
-
-			$patterns = $patterns;
+		/** handle legacy hash states */
+		const prefix = "#shape/";
+		if (window.location.hash.startsWith(prefix)) {
+			window.location.href = window.location.href.replace(prefix, "?state=");
 		}
 
 		patterns.subscribe(() => {
-			update_hash();
+			save_state();
 		});
 
 		selected.subscribe((selected) => {
 			selected === undefined && selected_index.set(0);
 		});
-
-		if (window.location.hostname !== "www.mxdvl.com") redirect = "https://www.mxdvl.com/works/rosace";
 	});
 
 	const size = 20 * 18 * 2;
-
-	let redirect: string;
 
 	let guides = true;
 
@@ -56,9 +50,36 @@
 
 	const current_matrix = writable<DOMMatrixReadOnly | undefined>();
 
-	const update_hash = () => {
-		window.location.hash = state_to_hash();
+	const save_state = () => {
+		const patterns_snapshot: Pattern[] = [];
+
+		for (const [, pattern] of $patterns) {
+			patterns_snapshot.push(get(pattern));
+		}
+
+		const state = patterns_to_string(patterns_snapshot);
+
+		const search = "?" + new URLSearchParams({ state });
+
+		if (window.location.search !== search) {
+			window.history.pushState(state, "", search);
+		}
 	};
+
+	const read_state = (state: string) => {
+		const saved_patterns = string_to_patterns(state);
+
+		$patterns.clear();
+		for (const saved_pattern of saved_patterns) {
+			$patterns.set(saved_pattern.id, writable(saved_pattern));
+		}
+
+		$patterns = $patterns;
+	};
+
+	console.log({ data });
+
+	if (data.state) read_state(data.state);
 
 	const drag = {
 		start: (event) => {
@@ -109,13 +130,17 @@
 		},
 		stop: () => {
 			dragging = false;
-			update_hash();
+			save_state();
 		},
 	} as const satisfies Record<string, (event: PointerEvent) => void>;
 </script>
 
-{#if redirect}
-	<h3><a href={redirect}>Currently on a develop branch, see www.mxdvl.com version</a></h3>
+{#if $page.url.origin !== "www.mxdvl.com"}
+	<h3>
+		<a href={`https://www.mxdvl.com/works/rosace?${$page.url.search}`}
+			>Currently on a develop branch, see www.mxdvl.com version</a
+		>
+	</h3>
 {/if}
 
 <div id="workspace">
