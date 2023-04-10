@@ -134,7 +134,7 @@
 
 {#if $page.url.origin !== "www.mxdvl.com"}
 	<h3>
-		<a href={`https://www.mxdvl.com/works/rosace?${$page.url.search}`}
+		<a href={`https://www.mxdvl.com/works/rosace${$page.url.search}`}
 			>Currently on a develop branch, see www.mxdvl.com version</a
 		>
 	</h3>
