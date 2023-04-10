@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { derived, get, writable } from "svelte/store";
 	import { onMount } from "svelte";
-	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
 
 	import Shape from "./Shape.svelte";
