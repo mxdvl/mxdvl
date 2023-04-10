@@ -1,7 +1,6 @@
-import { derived, get, writable, type Writable } from "svelte/store";
+import { derived, writable, type Writable } from "svelte/store";
 import { loop } from "./weaving";
-import type { Pattern } from "./data";
-import { patterns_to_string, string_to_patterns } from "./data";
+import type { Pattern, Point } from "./data";
 
 export const selected = writable<string | undefined>(undefined);
 export const selected_index = writable<number | undefined>(undefined);
@@ -14,7 +13,19 @@ export const patterns = writable<Map<string, Writable<Pattern>>>(new Map());
 
 export const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
 
-const prefix = "#shape/";
+export const add_pattern = (path?: string) => {
+	const id = uid();
+	const d = path ?? ["M0,0", ...loop(3, 3 / 2, 12), "Z"].join("");
+	const count: number = Math.round(Math.random() * 9 + 3);
+	const mirror: boolean = Math.random() > 1 / 2;
+	const position: Point = { x: Math.random() * 48, y: Math.random() * 48 - 24 };
+
+	patterns.update(($patterns) => {
+		$patterns.set(id, writable({ id, count, mirror, position, d }));
+		return $patterns;
+	});
+	selected.set(id);
+};
 
 /** a default map to start from */
 export const basic_map = new Map(
@@ -49,25 +60,3 @@ export const basic_map = new Map(
 		},
 	].map(({ id, count, mirror, position, d }) => [id, writable({ id, count, mirror, position, d: d.join(" ") })]),
 );
-
-// @TODO: make this a pure function
-export const state_to_hash = () => {
-	const data = [];
-
-	for (const [, pattern] of get(patterns)) {
-		data.push(get(pattern));
-	}
-
-	return prefix + patterns_to_string(data);
-};
-
-export const hash_to_state = (hash: string) => {
-	try {
-		if (!hash.startsWith(prefix)) return undefined;
-
-		return string_to_patterns(hash.slice(prefix.length));
-	} catch (error) {
-		console.error(error);
-		return undefined;
-	}
-};
