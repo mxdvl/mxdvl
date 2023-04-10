@@ -76,8 +76,6 @@
 		$patterns = $patterns;
 	};
 
-	console.log({ data });
-
 	if (data.state) read_state(data.state);
 
 	const drag = {
@@ -142,6 +140,10 @@
 	</h3>
 {/if}
 
+<noscript>
+	<h4>Note: JavaScript is required to edit the shape</h4>
+</noscript>
+
 <div id="workspace">
 	<div id="canvas" class="border">
 		<svg
@@ -153,8 +155,8 @@
 			on:pointercancel={drag.stop}
 		>
 			<defs>
-				<text stroke="none">Generated with @mxdvl’s Rosace</text>
-				<text stroke="none">https://www.mxdvl.com/works/rosace{$page.url.search}</text>
+				<text>Generated with @mxdvl’s Rosace</text>
+				<text>https://www.mxdvl.com/works/rosace{$page.url.search}</text>
 			</defs>
 
 			{#each [...$patterns.entries()] as [id, pattern] (id)}
