@@ -2,6 +2,7 @@
 	import { derived, get, writable } from "svelte/store";
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
+	import { goto } from "$app/navigation";
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
@@ -11,24 +12,6 @@
 	import Loop from "./Loop.svelte";
 
 	export let data;
-
-	onMount(async () => {
-		debug.set(window.location.hostname === "localhost");
-
-		/** handle legacy hash states */
-		const prefix = "#shape/";
-		if (window.location.hash.startsWith(prefix)) {
-			window.location.href = window.location.href.replace(prefix, "?state=");
-		}
-
-		patterns.subscribe(() => {
-			save_state();
-		});
-
-		selected.subscribe((selected) => {
-			selected === undefined && selected_index.set(0);
-		});
-	});
 
 	const size = 20 * 18 * 2;
 
@@ -61,7 +44,7 @@
 		const search = "?" + new URLSearchParams({ state });
 
 		if (window.location.search !== search) {
-			window.history.pushState(state, "", search);
+			goto(search, { noScroll: true });
 		}
 	};
 
@@ -130,6 +113,29 @@
 			save_state();
 		},
 	} as const satisfies Record<string, (event: PointerEvent) => void>;
+
+	onMount(async () => {
+		debug.set(window.location.hostname === "localhost");
+
+		/** handle legacy hash states */
+		const prefix = "#shape/";
+		if (window.location.hash.startsWith(prefix)) {
+			window.location.href = window.location.href.replace(prefix, "?state=");
+		}
+
+		patterns.subscribe(() => {
+			save_state();
+		});
+
+		selected.subscribe((selected) => {
+			selected === undefined && selected_index.set(0);
+		});
+
+		window.addEventListener("popstate", (e) => {
+			const previous_state = new URLSearchParams(window.location.search).get("state");
+			if (previous_state) read_state(previous_state);
+		});
+	});
 </script>
 
 {#if $page.url.host !== "www.mxdvl.com"}
