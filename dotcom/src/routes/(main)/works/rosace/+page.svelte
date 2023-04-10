@@ -153,6 +153,11 @@
 			on:pointerup={drag.stop}
 			on:pointercancel={drag.stop}
 		>
+			<defs>
+				<text stroke="none">Generated with @mxdvl’s Rosace</text>
+				<text stroke="none">https://www.mxdvl.com/works/rosace{$page.url.search}</text>
+			</defs>
+
 			{#each [...$patterns.entries()] as [id, pattern] (id)}
 				<Shape {pattern} {guides} />
 			{/each}
@@ -267,6 +272,9 @@
 		stroke: var(--earth);
 		fill: none;
 		touch-action: pinch-zoom;
+	}
+
+	svg :global(text) {
 		user-select: none;
 	}
 
