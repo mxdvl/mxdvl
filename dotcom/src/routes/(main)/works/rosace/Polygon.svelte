@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from "../../../../lib/Button.svelte";
 	import SVG from "./SVG.svelte";
-	import { current } from "./store";
+	import { add_pattern, current } from "./store";
 	import { on_circle } from "./weaving";
 
 	let radius = 12;
@@ -51,7 +51,7 @@
 		if ($current) {
 			$current.update((c) => ({ ...c, d }));
 		} else {
-			navigator.clipboard.writeText(d);
+			add_pattern(d);
 		}
-	}}>{$current ? "set" : "copy"} {polygon(sides)}</Button
+	}}>{$current ? "set to" : "add"} {polygon(sides)}</Button
 >

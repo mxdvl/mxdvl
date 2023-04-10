@@ -1,6 +1,6 @@
 import { derived, get, writable, type Writable } from "svelte/store";
 import { loop } from "./weaving";
-import type { Pattern } from "./data";
+import type { Pattern, Point } from "./data";
 import { patterns_to_string, string_to_patterns } from "./data";
 
 export const selected = writable<string | undefined>(undefined);
@@ -14,6 +14,19 @@ export const patterns = writable<Map<string, Writable<Pattern>>>(new Map());
 
 export const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
 
+export const add_pattern = (path?: string) => {
+	const id = uid();
+	const d = path ?? ["M0,0", ...loop(3, 3 / 2, 12), "Z"].join("");
+	const count: number = Math.round(Math.random() * 9 + 3);
+	const mirror: boolean = Math.random() > 1 / 2;
+	const position: Point = { x: Math.random() * 48, y: Math.random() * 48 - 24 };
+
+	patterns.update(($patterns) => {
+		$patterns.set(id, writable({ id, count, mirror, position, d }));
+		return $patterns;
+	});
+	selected.set(id);
+};
 
 const prefix = "#shape/";
 

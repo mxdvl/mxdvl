@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from "../../../../lib/Button.svelte";
 	import SVG from "./SVG.svelte";
-	import { current } from "./store";
+	import { add_pattern, current } from "./store";
 	import { loop } from "./weaving";
 
 	let count = 2;
@@ -27,7 +27,7 @@
 		if ($current) {
 			$current.update((c) => ({ ...c, d }));
 		} else {
-			navigator.clipboard.writeText(d);
+			add_pattern(d);
 		}
-	}}>{$current ? "set" : "copy"} to {count > 1 ? `${count} ${name}s` : name}</Button
+	}}>{$current ? "set to" : "add"} {count > 1 ? `${count} ${name}s` : name}</Button
 >
