@@ -132,7 +132,7 @@
 	} as const satisfies Record<string, (event: PointerEvent) => void>;
 </script>
 
-{#if $page.url.origin !== "www.mxdvl.com"}
+{#if $page.url.host !== "www.mxdvl.com"}
 	<h3>
 		<a href={`https://www.mxdvl.com/works/rosace${$page.url.search}`}
 			>Currently on a develop branch, see www.mxdvl.com version</a
