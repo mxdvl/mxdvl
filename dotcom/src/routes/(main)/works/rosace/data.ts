@@ -16,8 +16,8 @@ const divider = "|";
 
 const pattern_to_string = ({ id, count, mirror, position, d }: Pattern) =>
 	[id, count, mirror ? "M" : "_", Math.round(position.x), Math.round(position.y), d].join(divider);
-/** Serialise patterns definition */
 
+/** Serialise patterns definition */
 export const patterns_to_string = (patterns: Pattern[]) =>
 	lz.compressToEncodedURIComponent(JSON.stringify(patterns.map(pattern_to_string)));
 
