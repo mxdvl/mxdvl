@@ -3,6 +3,7 @@
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
+	import Button from "$lib/Button.svelte";
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
@@ -33,34 +34,42 @@
 
 	const current_matrix = writable<DOMMatrixReadOnly | undefined>();
 
-	const save_state = () => {
-		const patterns_snapshot: Pattern[] = [];
+	const state = {
+		set: (state: string) => {
+			const saved_patterns = string_to_patterns(state);
 
-		for (const [, pattern] of $patterns) {
-			patterns_snapshot.push(get(pattern));
-		}
+			$patterns.clear();
+			for (const saved_pattern of saved_patterns) {
+				$patterns.set(saved_pattern.id, writable(saved_pattern));
+			}
 
-		const state = patterns_to_string(patterns_snapshot);
+			$patterns = $patterns;
+		},
+		get: () => {
+			const patterns_snapshot: Pattern[] = [];
 
-		const search = "?" + new URLSearchParams({ state });
+			for (const [, pattern] of $patterns) {
+				patterns_snapshot.push(get(pattern));
+			}
 
-		if (window.location.search !== search) {
-			goto(search, { noScroll: true });
-		}
-	};
+			return patterns_to_string(patterns_snapshot);
+		},
+		write: () => {
+			const search = "?" + new URLSearchParams({ state: state.get() });
 
-	const read_state = (state: string) => {
-		const saved_patterns = string_to_patterns(state);
+			if (window.location.search !== search) {
+				goto(search, { noScroll: true });
+			}
+		},
+		copy: () => {
+			navigator.clipboard.writeText(state.get());
+		},
+		clear: () => {
+			$patterns = new Map();
+		},
+	} as const;
 
-		$patterns.clear();
-		for (const saved_pattern of saved_patterns) {
-			$patterns.set(saved_pattern.id, writable(saved_pattern));
-		}
-
-		$patterns = $patterns;
-	};
-
-	if (data.state) read_state(data.state);
+	if (data.state) state.set(data.state);
 
 	const drag = {
 		start: (event) => {
@@ -111,7 +120,7 @@
 		},
 		stop: () => {
 			dragging = false;
-			save_state();
+			state.write();
 		},
 	} as const satisfies Record<string, (event: PointerEvent) => void>;
 
@@ -125,7 +134,7 @@
 		}
 
 		patterns.subscribe(() => {
-			save_state();
+			state.write();
 		});
 
 		selected.subscribe((selected) => {
@@ -134,7 +143,7 @@
 
 		window.addEventListener("popstate", (e) => {
 			const previous_state = new URLSearchParams(window.location.search).get("state");
-			if (previous_state) read_state(previous_state);
+			if (previous_state) state.set(previous_state);
 		});
 	});
 </script>
@@ -218,12 +227,8 @@
 		<li>handle different symmetries (translation, planar, polar)</li>
 		<li>
 			<s>save previous state</s>
-			<button
-				on:click={() => {
-					window.location.hash = "";
-					$patterns = new Map();
-				}}>clear</button
-			>
+			<Button on:click={state.clear}>clear</Button>
+			<Button on:click={state.copy}>copy to clipboard</Button>
 		</li>
 		<li><label> <input type="checkbox" bind:checked={$debug} />Advanced debug info</label></li>
 		<li>create a catalog of shapes (loop, polygon, etc)</li>
