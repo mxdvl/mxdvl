@@ -10,6 +10,7 @@
 	import { patterns_to_string, type Pattern, type Point, string_to_patterns } from "./data";
 	import Polygon from "./Polygon.svelte";
 	import Loop from "./Loop.svelte";
+	import Crescent from "./Crescent.svelte";
 
 	export let data;
 
@@ -205,6 +206,7 @@
 	<ul id="shapes">
 		<li><Polygon /></li>
 		<li><Loop /></li>
+		<li><Crescent /></li>
 	</ul>
 
 	<h2>Todo</h2>
@@ -292,5 +294,15 @@
 		padding: 0;
 		flex-wrap: wrap;
 		column-gap: var(--grid-x);
+		row-gap: var(--grid-y);
+	}
+
+	#shapes li {
+		background-color: var(--clouds);
+		border: 2px solid var(--skies);
+		margin: -1px;
+		display: flex;
+		align-items: center;
+		width: 100%;
 	}
 </style>
