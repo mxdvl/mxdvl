@@ -15,3 +15,9 @@ Leveraging the web platform, and especially SVG features, required a framework t
 [wheel charts]: https://en.wikipedia.org/wiki/Volvelle
 [doilies]: https://en.wikipedia.org/wiki/Doily
 [rose windows]: https://en.wikipedia.org/wiki/Rose_window
+
+## Timeline
+
+1. Feb 20th early weaving explorations
+2. Apr 5th first Svelte prototype
+3. Apr 11th addition of this ReadMe
