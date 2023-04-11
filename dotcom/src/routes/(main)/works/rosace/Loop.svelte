@@ -12,8 +12,11 @@
 	$: name = bulge === 2 ? "circle" : "loop";
 </script>
 
-<SVG>
+<SVG centre>
 	<g transform="translate(-18,0)">
+		<g fill="var(--ocean)" stroke="none">
+			<circle r={2} />
+		</g>
 		<path {d} />
 	</g>
 </SVG>

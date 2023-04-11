@@ -37,7 +37,10 @@
 	};
 </script>
 
-<SVG>
+<SVG centre>
+	<g fill="var(--ocean)" stroke="none">
+		<circle r={2} />
+	</g>
 	{#if first}
 		<path {d} />
 	{/if}
