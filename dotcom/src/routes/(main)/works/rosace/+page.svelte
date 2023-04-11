@@ -13,6 +13,7 @@
 	import Loop from "./Loop.svelte";
 	import Crescent from "./Crescent.svelte";
 	import Curve from "./Curve.svelte";
+	import Star from "./Star.svelte";
 
 	export let data;
 
@@ -218,6 +219,7 @@
 		<li><Loop /></li>
 		<li><Crescent /></li>
 		<li><Curve /></li>
+		<li><Star /></li>
 	</ul>
 
 	<h2>Todo</h2>
@@ -311,5 +313,14 @@
 		display: flex;
 		align-items: center;
 		width: 100%;
+	}
+
+	#shapes li :global(svg) {
+		flex-shrink: 0;
+	}
+
+	#shapes li :global(input) {
+		width: calc(2 * var(--grid-x));
+		flex-grow: 1;
 	}
 </style>

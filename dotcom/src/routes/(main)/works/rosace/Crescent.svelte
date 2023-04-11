@@ -41,9 +41,3 @@
 		}
 	}}>{$current ? "set to" : "add"} {name}</Button
 >
-
-<style>
-	input {
-		flex-shrink: 1;
-	}
-</style>

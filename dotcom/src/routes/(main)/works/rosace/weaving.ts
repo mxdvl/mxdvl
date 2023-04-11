@@ -2,11 +2,11 @@ const { cos, sin, PI } = Math;
 export const tau = PI * 2;
 
 export const on_circle =
-	(turns = 1) =>
+	(offset = 1 / 4) =>
 	(radius: number) =>
 	(count: number) =>
 		Array.from({ length: count }, (_, index) => {
-			const position = tau * ((turns * index) / count - 1 / 4);
+			const position = tau * (index / count - offset);
 			return [cos(position) * radius, sin(position) * radius] as const;
 		});
 
