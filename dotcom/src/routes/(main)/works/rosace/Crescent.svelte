@@ -9,6 +9,9 @@
 </script>
 
 <SVG centre>
+	<g fill="var(--ocean)" stroke="none">
+		<circle r={2} />
+	</g>
 	<path {d} />
 </SVG>
 

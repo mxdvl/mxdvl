@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let size = 18 * 3 - 2;
-	export let centre = true;
+	export let centre = false;
 
 	const origin = centre ? `${-size / 2},${-size / 2}` : "0,0";
 </script>

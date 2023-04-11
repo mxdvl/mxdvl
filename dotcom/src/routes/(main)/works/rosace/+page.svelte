@@ -12,6 +12,7 @@
 	import Polygon from "./Polygon.svelte";
 	import Loop from "./Loop.svelte";
 	import Crescent from "./Crescent.svelte";
+	import Curve from "./Curve.svelte";
 
 	export let data;
 
@@ -216,6 +217,7 @@
 		<li><Polygon /></li>
 		<li><Loop /></li>
 		<li><Crescent /></li>
+		<li><Curve /></li>
 	</ul>
 
 	<h2>Todo</h2>
