@@ -312,17 +312,29 @@
 		background-color: var(--clouds);
 		border: 2px solid var(--skies);
 		margin: -1px;
-		display: flex;
+		display: grid;
 		align-items: center;
+		grid-template-columns: min-content auto;
 		width: 100%;
 	}
 
 	#shapes li :global(svg) {
-		flex-shrink: 0;
+		grid-row-start: 1;
+		grid-row-end: span 6;
+	}
+
+	#shapes li :global(label) {
+		grid-column-start: 2;
+		display: flex;
+		gap: 0.5rem;
 	}
 
 	#shapes li :global(input) {
-		width: calc(2 * var(--grid-x));
+		min-width: calc(2 * var(--grid-x));
 		flex-grow: 1;
+	}
+
+	#shapes li :global(button) {
+		width: max-content;
 	}
 </style>

@@ -21,10 +21,6 @@
 	</g>
 </SVG>
 
-<input type="range" bind:value={count} min={1} max={6} step={1} />
-<input type="range" bind:value={length} min={6} max={18} step={1} />
-<input type="range" bind:value={bulge} min={0.75} max={2} step={0.0625} />
-
 <Button
 	on:click={() => {
 		if ($current) {
@@ -34,3 +30,16 @@
 		}
 	}}>{$current ? "set to" : "add"} {count > 1 ? `${count} ${name}s` : name}</Button
 >
+
+<label>
+	Count
+	<input type="range" bind:value={count} min={1} max={6} step={1} />
+</label>
+<label>
+	Length
+	<input type="range" bind:value={length} min={6} max={18} step={1} />
+</label>
+<label>
+	Bulge
+	<input type="range" bind:value={bulge} min={0.75} max={2} step={0.0625} />
+</label>

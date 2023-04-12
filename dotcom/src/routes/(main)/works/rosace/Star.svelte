@@ -27,10 +27,6 @@
 	<path {d} />
 </SVG>
 
-<input type="range" bind:value={inner_radius} min={6} max={12} step={1} />
-<input type="range" bind:value={outer_radius} min={12} max={24} step={1} />
-<input type="range" bind:value={count} min={5} max={19} step={1} />
-
 <Button
 	on:click={() => {
 		if ($current) {
@@ -40,3 +36,16 @@
 		}
 	}}>{$current ? "set to" : "add"} star</Button
 >
+
+<label>
+	Count
+	<input type="range" bind:value={count} min={5} max={19} step={1} />
+</label>
+<label>
+	Inner radius
+	<input type="range" bind:value={inner_radius} min={6} max={12} step={1} />
+</label>
+<label>
+	Outer radius
+	<input type="range" bind:value={outer_radius} min={12} max={24} step={1} />
+</label>
