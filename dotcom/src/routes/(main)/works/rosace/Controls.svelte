@@ -6,13 +6,14 @@
 
 	import Control from "./Control.svelte";
 	import Button from "$lib/Button.svelte";
-	import { add_pattern, selected } from "./store";
+	import { add_pattern, animate, selected } from "./store";
 	import type { Pattern } from "./data";
 
 	export let patterns: Writable<Map<string, Writable<Pattern>>>;
 
 	const duration = 240;
 
+	const animation = ["animate", undefined] as const;
 	const extra = ["extra", undefined] as const;
 
 	/** the SVG XML namespace */
@@ -33,16 +34,20 @@
 </script>
 
 <ul>
-	{#each [...$patterns.entries(), extra] as [id, pattern] (id)}
+	{#each [animation, ...$patterns.entries(), extra] as [id, pattern] (id)}
 		<li
 			class:current={$selected === id}
-			class:button={id === "extra"}
+			class:button={!pattern}
 			transition:fade={{ duration }}
 			animate:flip={{ duration }}
 		>
 			{#if pattern}
 				<Control {pattern} {patterns} />
-			{:else}
+			{:else if id === "animate"}
+				<Button on:click={() => animate.update((_) => !_)}
+					>{#if $animate} Pause {:else} Play {/if} Animation
+				</Button>
+			{:else if id === "extra"}
 				<Button
 					on:click={() => {
 						add_pattern();

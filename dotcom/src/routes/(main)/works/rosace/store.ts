@@ -9,6 +9,8 @@ export const debug = writable<boolean>(false);
 
 export const uid = () => Math.random().toString(36).slice(2);
 
+export const animate = writable<boolean>(false);
+
 export const patterns = writable<Map<string, Writable<Pattern>>>(new Map());
 
 export const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));

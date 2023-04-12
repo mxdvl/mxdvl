@@ -5,7 +5,7 @@
 	import Use from "./Use.svelte";
 	import Path from "./Path.svelte";
 	import Spread from "./Spread.svelte";
-	import { selected } from "./store";
+	import { animate, selected } from "./store";
 
 	export let pattern: Writable<Pattern>;
 
@@ -14,7 +14,7 @@
 	$: active = $selected === $pattern.id && guides;
 </script>
 
-<g id={$pattern.id}>
+<g id={$pattern.id} style={`--end:${360 / $pattern.count}deg;`} class:animate={$animate}>
 	<defs>
 		<Path id={$pattern.id} d={$pattern.d} />
 	</defs>
@@ -28,3 +28,24 @@
 		</Mirror>
 	</Spread>
 </g>
+
+<style>
+	g {
+		animation: rotate 3.6s linear infinite;
+		animation-play-state: paused;
+		transition: 120ms;
+	}
+
+	g.animate {
+		animation-play-state: running;
+	}
+
+	@keyframes rotate {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(var(--end, 0deg));
+		}
+	}
+</style>
