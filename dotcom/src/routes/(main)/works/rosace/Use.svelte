@@ -14,6 +14,8 @@
 	$: transform = `scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`;
 	$: current = $selected === id;
 	$: active = current && $selected_index === index;
+	$: angle_difference = Math.abs(($selected_index ?? 0) - index);
+	$: angle_distance = angle_difference > 180 ? 360 - angle_difference : angle_difference;
 </script>
 
 <use
@@ -23,6 +25,7 @@
 	{transform}
 	class:current
 	class:active
+	style={`--delay: ${angle_distance * 3}ms`}
 	stroke={colour}
 	on:pointerover={() => {
 		if (active) selected_index.set(index);
@@ -48,7 +51,7 @@
 	}
 	use.current {
 		stroke: var(--ocean);
-		animation: fill 180ms forwards;
+		animation: fill 180ms ease-out var(--delay) both;
 	}
 
 	use.active {
