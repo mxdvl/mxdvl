@@ -31,8 +31,7 @@
 
 <style>
 	g {
-		animation: rotate 3.6s linear infinite;
-		animation-play-state: paused;
+		animation: rotate 3.6s linear infinite paused;
 		transition: 120ms;
 	}
 

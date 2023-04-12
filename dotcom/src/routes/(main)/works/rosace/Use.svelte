@@ -48,7 +48,7 @@
 	}
 	use.current {
 		stroke: var(--ocean);
-		animation: fill 360ms forwards;
+		animation: fill 180ms forwards;
 	}
 
 	use.active {
