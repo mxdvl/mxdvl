@@ -68,23 +68,23 @@
 
 	li {
 		list-style-type: none;
+		box-sizing: border-box;
 		border: 2px solid var(--skies);
 		margin: -1px;
 		overflow-y: scroll;
-		height: calc(2 * var(--grid-y) - 1px);
+		height: calc(2 * var(--grid-y));
 		transition: height 240ms;
 		background-color: var(--clouds);
 	}
 
 	li.current {
-		height: calc(9 * var(--grid-y) - 1px);
+		height: calc(10 * var(--grid-y));
 		border-color: var(--ocean);
 		z-index: 1;
 	}
 
 	li.button {
-		padding: 9px;
-		height: calc(1 * var(--grid-y) - 1px);
+		padding: 6px;
 	}
 
 	ul {
@@ -97,7 +97,7 @@
 		}
 
 		li.current {
-			height: calc(12 * var(--grid-y) - 1px);
+			height: calc(12 * var(--grid-y));
 		}
 	}
 </style>

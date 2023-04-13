@@ -86,7 +86,7 @@
 	h3 {
 		margin: 0;
 		font-size: 1rem;
-		line-height: 1.8rem;
+		line-height: 1.5rem;
 		padding: 3px;
 		position: sticky;
 		top: 0;

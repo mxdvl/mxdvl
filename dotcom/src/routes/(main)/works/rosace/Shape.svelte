@@ -22,28 +22,30 @@
 		animate.subscribe(($animate) => {
 			if (!g) return;
 			if ($animate) {
+				animation?.cancel();
 				animation = g.animate(
 					{
-						rotate: ["0deg", `${to}deg`],
+						transform: ["rotate(0deg)", `rotate(${to}deg)`],
 					},
-					{ duration, fill: "both", iterations: Infinity },
+					{ duration, iterations: Infinity },
 				);
 			} else if (animation) {
-				const { currentTime } = animation;
-				if (currentTime === null) {
+				const { progress = null } = animation.effect?.getComputedTiming() ?? {};
+				if (progress === null) {
 					return;
 				}
 
-				const iteration_time = currentTime % duration;
+				const from = to * progress;
 
-				const from = (to * iteration_time) / duration;
-
+				animation.cancel();
 				animation = g.animate(
 					{
-						rotate: [`${from > to / 2 ? from - to : from}deg`, `${0}deg`],
+						transform: [`rotate(${progress > 1 / 2 ? from - to : from}deg)`, `rotate(0deg)`],
 					},
 					{ duration: 240, fill: "forwards", easing: "ease", iterations: 1 },
 				);
+
+				console.log(g.getAnimations());
 			}
 		});
 	});
