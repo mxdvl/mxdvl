@@ -30,8 +30,6 @@
 	<path {d} />
 </SVG>
 
-<input type="range" bind:value={radius} min={-18} max={18} step={1} />
-
 <Button
 	on:click={() => {
 		if ($current) {
@@ -41,3 +39,8 @@
 		}
 	}}>{$current ? "set to" : "add"} {name}</Button
 >
+
+<label>
+	Angle
+	<input type="range" bind:value={radius} min={-18} max={18} step={1} />
+</label>

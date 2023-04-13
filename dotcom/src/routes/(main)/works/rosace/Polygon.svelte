@@ -46,9 +46,6 @@
 	{/if}
 </SVG>
 
-<input type="range" bind:value={sides} min={3} max={12} step={1} />
-<input type="range" bind:value={radius} min={6} max={18} step={1} />
-
 <Button
 	on:click={() => {
 		if ($current) {
@@ -58,3 +55,12 @@
 		}
 	}}>{$current ? "set to" : "add"} {polygon(sides)}</Button
 >
+
+<label>
+	Sides
+	<input type="range" bind:value={sides} min={3} max={12} step={1} />
+</label>
+<label>
+	Radius
+	<input type="range" bind:value={radius} min={6} max={18} step={1} />
+</label>

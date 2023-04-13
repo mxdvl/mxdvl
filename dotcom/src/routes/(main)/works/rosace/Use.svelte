@@ -12,8 +12,10 @@
 	const index = scale * angle;
 
 	$: transform = `scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`;
-	$: active = $selected === id;
-	$: hover = active && $selected_index === index;
+	$: current = $selected === id;
+	$: active = current && $selected_index === index;
+	$: angle_difference = Math.abs(($selected_index ?? 0) - index);
+	$: angle_distance = angle_difference > 180 ? 360 - angle_difference : angle_difference;
 </script>
 
 <use
@@ -21,21 +23,42 @@
 	data-id={id}
 	data-index={index}
 	{transform}
+	class:current
 	class:active
-	class:hover
+	style={`--delay: ${angle_distance * 3}ms`}
 	stroke={colour}
 	on:pointerover={() => {
 		if (active) selected_index.set(index);
 	}}
 />
-{#if active && $debug}
-	<text x={30} y={-20} {transform}>a:{Math.floor(angle)} s:{scale}</text>
-	<line {transform} stroke="var(--ocean)" stroke-dasharray={[2, 6].join(" ")} x2={-position.x} y2={-position.y} />
+
+{#if active}
+	<use {transform} href={`#shape-${id}`} class:current stroke-width={2} />
+	{#if $debug}
+		<text x={30} y={-20} {transform}>a:{Math.floor(angle)} s:{scale}</text>
+		<line {transform} stroke="var(--ocean)" stroke-dasharray={[2, 6].join(" ")} x2={-position.x} y2={-position.y} />
+	{/if}
 {/if}
 
 <style>
 	use {
 		fill: transparent;
+		stroke-dasharray: 12;
+	}
+
+	use[data-id]:hover {
+		cursor: move;
+	}
+	use.current {
+		stroke: var(--ocean);
+		animation: fill 180ms ease-out var(--delay) both;
+	}
+
+	use.active {
+		stroke: var(--skies);
+		stroke-linejoin: round;
+		stroke-linecap: round;
+		stroke-width: 18;
 	}
 
 	text {
@@ -44,14 +67,12 @@
 		pointer-events: none;
 	}
 
-	.active {
-		stroke: var(--ocean);
-		fill: var(--skies);
-	}
-
-	.hover[data-id] {
-		stroke: var(--glint);
-		stroke-width: 2;
-		cursor: move;
+	@keyframes fill {
+		from {
+			stroke-dashoffset: 12;
+		}
+		to {
+			stroke-dashoffset: 0;
+		}
 	}
 </style>

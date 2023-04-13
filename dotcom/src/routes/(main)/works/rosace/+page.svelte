@@ -7,7 +7,7 @@
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
-	import { debug, patterns, selected, selected_index } from "./store";
+	import { animate, debug, patterns, selected, selected_index } from "./store";
 	import { patterns_to_string, type Pattern, type Point, string_to_patterns } from "./data";
 	import Polygon from "./Polygon.svelte";
 	import Loop from "./Loop.svelte";
@@ -77,6 +77,8 @@
 		start: (event) => {
 			if (event.target instanceof SVGUseElement) {
 				event.preventDefault();
+				animate.set(false);
+
 				const { id, index } = event.target.dataset;
 				selected.set(id);
 
@@ -228,14 +230,14 @@
 		<li><s>handle each element via unique IDs</s></li>
 		<li><s>great drag-and-drop</s></li>
 		<li><s>individual element repetition control</s></li>
-		<li>handle different symmetries (translation, planar, polar)</li>
+		<li><s>animate</s></li>
 		<li>
 			<s>save previous state</s>
 			<Button on:click={state.clear}>clear</Button>
 			<Button on:click={state.copy}>copy to clipboard</Button>
 		</li>
 		<li><label> <input type="checkbox" bind:checked={$debug} />Advanced debug info</label></li>
-		<li>create a catalog of shapes (loop, polygon, etc)</li>
+		<li><s>create a catalog of shapes (loop, polygon, etc)</s></li>
 		<li><s>export resulting SVG</s></li>
 		<li>Finish by <strong>April 17th</strong></li>
 	</ul>
@@ -310,17 +312,29 @@
 		background-color: var(--clouds);
 		border: 2px solid var(--skies);
 		margin: -1px;
-		display: flex;
+		display: grid;
 		align-items: center;
+		grid-template-columns: min-content auto;
 		width: 100%;
 	}
 
 	#shapes li :global(svg) {
-		flex-shrink: 0;
+		grid-row-start: 1;
+		grid-row-end: span 6;
+	}
+
+	#shapes li :global(label) {
+		grid-column-start: 2;
+		display: flex;
+		gap: 0.5rem;
 	}
 
 	#shapes li :global(input) {
-		width: calc(2 * var(--grid-x));
+		min-width: calc(2 * var(--grid-x));
 		flex-grow: 1;
+	}
+
+	#shapes li :global(button) {
+		width: max-content;
 	}
 </style>

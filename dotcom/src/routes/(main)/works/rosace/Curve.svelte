@@ -25,11 +25,6 @@
 	</g>
 </SVG>
 
-<input type="range" bind:value={width} min={20} max={90} step={1} />
-<input type="range" bind:value={offset} min={0} max={30} step={1} />
-<input type="range" bind:value={start} min={10} max={60} step={1} />
-<input type="range" bind:value={end} min={10} max={60} step={1} />
-
 <Button
 	on:click={() => {
 		if ($current) {
@@ -39,3 +34,20 @@
 		}
 	}}>{$current ? "set to" : "add"} curve</Button
 >
+
+<label>
+	Width
+	<input type="range" bind:value={width} min={20} max={90} step={1} />
+</label>
+<label>
+	Offset
+	<input type="range" bind:value={offset} min={0} max={30} step={1} />
+</label>
+<label>
+	Pull start
+	<input type="range" bind:value={start} min={10} max={60} step={1} />
+</label>
+<label>
+	Pull end
+	<input type="range" bind:value={end} min={10} max={60} step={1} />
+</label>

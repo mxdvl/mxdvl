@@ -21,3 +21,4 @@ Leveraging the web platform, and especially SVG features, required a framework t
 1. Feb 20th early weaving explorations
 2. Apr 5th first Svelte prototype
 3. Apr 11th addition of this ReadMe
+4. Apr 13th animated rotation
