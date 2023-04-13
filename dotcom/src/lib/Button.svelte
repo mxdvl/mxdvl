@@ -1,9 +1,10 @@
 <script lang="ts">
 	export let disabled: boolean = false;
+	export let subdued: boolean = false;
 	export let type: undefined | "flex" = undefined;
 </script>
 
-<button on:click {disabled} data-type={type}>
+<button on:click {disabled} data-type={type} class:subdued>
 	<slot />
 </button>
 
@@ -24,6 +25,10 @@
 		font-weight: inherit;
 		line-height: inherit;
 		background: transparent;
+	}
+
+	button.subdued:not(:hover) {
+		--border: transparent;
 	}
 
 	button[data-type="flex"] {

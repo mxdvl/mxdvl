@@ -16,7 +16,7 @@
 </script>
 
 <h3>
-	<Button on:click={toggle_selected} type={"flex"}>
+	<Button on:click={toggle_selected} type={"flex"} subdued={true}>
 		#path-{$pattern.id}
 
 		{#if current}
@@ -129,11 +129,12 @@
 
 	textarea {
 		display: block;
-		font-family: monospace;
+		font-family: "IBM Plex Mono", monospace;
 		background-color: inherit;
 		resize: none;
 		font-size: inherit;
 		border: 2px solid var(--skies);
+		color: inherit;
 	}
 
 	@media (max-width: 342px) {
