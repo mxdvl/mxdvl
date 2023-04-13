@@ -27,8 +27,11 @@
 					{
 						transform: ["rotate(0deg)", `rotate(${to}deg)`],
 					},
-					{ duration, iterations: Infinity },
+					{ duration, iterations: 1, easing: "cubic-bezier(0.1, 0, 0.5, 0.5)" },
 				);
+				animation.finished.then((a) => {
+					a.effect?.updateTiming({ easing: "linear", iterations: Infinity });
+				});
 			} else if (animation) {
 				const { progress = null } = animation.effect?.getComputedTiming() ?? {};
 				if (progress === null) {
@@ -44,8 +47,6 @@
 					},
 					{ duration: 240, fill: "forwards", easing: "ease", iterations: 1 },
 				);
-
-				console.log(g.getAnimations());
 			}
 		});
 	});
