@@ -27,8 +27,12 @@
 		background: transparent;
 	}
 
-	button.subdued:not(:hover) {
+	button.subdued {
 		--border: transparent;
+	}
+
+	button.subdued:hover {
+		--border: var(--ocean);
 	}
 
 	button[data-type="flex"] {
@@ -57,12 +61,9 @@
 		color: var(--border);
 	}
 
-	button:active {
-		--border: var(--glint);
-	}
-
+	button:active,
 	button:focus {
-		outline: var(--glint) solid 2px;
-		outline-offset: 2px;
+		--border: var(--glint);
+		outline: none;
 	}
 </style>
