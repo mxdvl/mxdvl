@@ -13,6 +13,40 @@
 	$: current = $pattern.id === $selected;
 
 	const toggle_selected = () => toggle($pattern.id);
+
+	const handle_keydown = (event: KeyboardEvent) => {
+		switch (event.key) {
+			case "ArrowRight": {
+				event.preventDefault();
+				$pattern.position.x++;
+				break;
+			}
+			case "ArrowLeft": {
+				event.preventDefault();
+				$pattern.position.x--;
+				break;
+			}
+			case "ArrowUp": {
+				event.preventDefault();
+				$pattern.position.y++;
+				break;
+			}
+			case "ArrowDown": {
+				event.preventDefault();
+				$pattern.position.y--;
+				break;
+			}
+			case "Backspace": {
+				event.preventDefault();
+
+				$patterns.delete($pattern.id);
+				selected.set(undefined);
+				$patterns = $patterns;
+
+				break;
+			}
+		}
+	};
 </script>
 
 <h3>
@@ -51,7 +85,7 @@
 			</label>
 		</li>
 
-		<li>
+		<li tabindex={0} on:keydown={handle_keydown}>
 			{Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
 		</li>
 

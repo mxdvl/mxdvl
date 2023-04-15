@@ -3,7 +3,6 @@
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
-	import Button from "$lib/Button.svelte";
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
