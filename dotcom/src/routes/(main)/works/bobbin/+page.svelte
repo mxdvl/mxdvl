@@ -3,7 +3,6 @@
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
-	import Button from "$lib/Button.svelte";
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
@@ -158,6 +157,56 @@
 <noscript>
 	<h4>Note: JavaScript is required to edit the shape</h4>
 </noscript>
+
+<svelte:window
+	on:keydown={(e) => {
+		if ($current) {
+			switch (e.key) {
+				case "ArrowRight": {
+					e.preventDefault();
+					$current.update((pattern) => {
+						pattern.position.x++;
+						return pattern;
+					});
+					break;
+				}
+				case "ArrowLeft": {
+					e.preventDefault();
+					$current.update((pattern) => {
+						pattern.position.x--;
+						return pattern;
+					});
+					break;
+				}
+				case "ArrowUp": {
+					e.preventDefault();
+					$current.update((pattern) => {
+						pattern.position.y++;
+						return pattern;
+					});
+					break;
+				}
+				case "ArrowDown": {
+					e.preventDefault();
+					$current.update((pattern) => {
+						pattern.position.y--;
+						return pattern;
+					});
+					break;
+				}
+				case "Backspace": {
+					e.preventDefault();
+
+					$patterns.delete(get($current).id);
+					selected.set(undefined);
+					$patterns = $patterns;
+
+					break;
+				}
+			}
+		}
+	}}
+/>
 
 <div id="workspace">
 	<div id="canvas" class="border">
