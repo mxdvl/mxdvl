@@ -64,6 +64,7 @@
 		display: flex;
 		flex-direction: column;
 		margin: 0;
+		grid-row-end: span 2;
 	}
 
 	li {
