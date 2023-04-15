@@ -40,18 +40,12 @@
 					<Logo />
 				</a>
 			</li>
-			{#if $page.url.pathname.endsWith("/rosace")}
-				<li>Rosace</li>
-			{:else}
-				{#each pages as page}
-					<li
-						class={`page ${[page.fr, page.en].includes(path) ? "active" : ""}`}
-						style="--width: {page.width}"
-					>
-						<a href={`/${page[$lang]}`}>{capitalise(page[$lang])}</a>
-					</li>
-				{/each}
-			{/if}
+
+			{#each pages as page}
+				<li class={`page ${[page.fr, page.en].includes(path) ? "active" : ""}`} style="--width: {page.width}">
+					<a href={`/${page[$lang]}`}>{capitalise(page[$lang])}</a>
+				</li>
+			{/each}
 		</ul>
 	</nav>
 </header>
