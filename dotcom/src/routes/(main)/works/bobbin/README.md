@@ -1,6 +1,4 @@
-# Bobbin
-
-## delicate circular symmetries
+# Bobbin – delicate circular symmetries
 
 Weaving together technologies of the past and future, _Bobbin_ invites us to explore the delicate intricacies of circular patterns. Mimicking the delicacy found in traditional crafts, _Bobbin_ leverages Svelte to enable us all to become artists. Like modern day lace makers, we are invited to create our own designs and step back and admire the possibilities of the web as a design tool. This tool celebrates the advancements we have made on seeing speedy results, without compromising on elegance or beauty.
 
