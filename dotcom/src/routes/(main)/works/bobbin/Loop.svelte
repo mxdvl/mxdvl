@@ -2,7 +2,7 @@
 	import Button from "../../../../lib/Button.svelte";
 	import SVG from "./SVG.svelte";
 	import { add_pattern, current } from "./store";
-	import { loop } from "./weaving";
+	import { loop } from "./weaving.js";
 
 	let count = 2;
 	let bulge = 3 / 2;

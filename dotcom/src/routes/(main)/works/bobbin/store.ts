@@ -1,5 +1,5 @@
 import { derived, writable, type Writable } from "svelte/store";
-import { loop } from "./weaving";
+import { loop } from "./weaving.js";
 import type { Pattern, Point } from "./data";
 
 export const selected = writable<string | undefined>(undefined);
