@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	export let size = 18 * 3 - 2;
 	export let centre = false;
 

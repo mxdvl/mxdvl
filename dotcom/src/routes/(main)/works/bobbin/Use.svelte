@@ -1,13 +1,15 @@
-<script lang="ts">
-	import type { Point } from "./data";
+<script>
 	import { debug, selected, selected_index } from "./store";
 
-	export let id: string;
-	export let position: Point = { x: 0, y: 0 };
+	/** @type {string} */
+	export let id;
+	/** @type {import('./data').Point}*/
+	export let position = { x: 0, y: 0 };
 	export let angle = 0;
 	export let scale = 1;
 
-	export let colour: string | undefined = undefined;
+	/** @type {string | undefined} */
+	export let colour = undefined;
 
 	const index = scale * angle;
 

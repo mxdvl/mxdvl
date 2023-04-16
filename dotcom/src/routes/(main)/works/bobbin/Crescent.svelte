@@ -1,11 +1,12 @@
-<script lang="ts">
+<script>
 	import Button from "../../../../lib/Button.svelte";
 	import SVG from "./SVG.svelte";
 	import { add_pattern, current } from "./store";
 
 	let radius = 6;
 
-	const get_name = (radius: number) => {
+	/** @param {number} radius */
+	const get_name = (radius) => {
 		switch (radius) {
 			case -18:
 				return "circle";

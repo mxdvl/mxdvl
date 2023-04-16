@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import Button from "../../../../lib/Button.svelte";
 	import SVG from "./SVG.svelte";
 	import { add_pattern, current } from "./store";

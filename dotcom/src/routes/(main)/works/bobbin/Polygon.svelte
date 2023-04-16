@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import Button from "../../../../lib/Button.svelte";
 	import SVG from "./SVG.svelte";
 	import { add_pattern, current } from "./store";
@@ -10,7 +10,8 @@
 	$: [first, ...rest] = on_circle()(radius)(sides);
 	$: d = ["M", first?.join(","), "L", ...rest.map(([x, y]) => `${x},${y} `), "Z"].join("");
 
-	const polygon = (n: number) => {
+	/** @param {number} n */
+	const polygon = (n) => {
 		switch (n) {
 			case 3:
 				return "triangle";

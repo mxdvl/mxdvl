@@ -1,20 +1,23 @@
-<script lang="ts">
-	import type { Writable } from "svelte/store";
+<script>
 	import { writable } from "svelte/store";
 	import { fly } from "svelte/transition";
 
 	import Button from "$lib/Button.svelte";
-	import type { Pattern } from "./data";
 	import { selected, toggle, uid } from "./store";
 
-	export let pattern: Writable<Pattern>;
-	export let patterns: Writable<Map<string, Writable<Pattern>>>;
+	/** @typedef {import('./data').Pattern} Pattern */
+
+	/** @type {import("svelte/store").Writable<Pattern>} */
+	export let pattern;
+	/** @type {import("svelte/store").Writable<Map<string, import("svelte/store").Writable<Pattern>>>} */
+	export let patterns;
 
 	$: current = $pattern.id === $selected;
 
 	const toggle_selected = () => toggle($pattern.id);
 
-	const handle_keydown = (event: KeyboardEvent) => {
+	/** @param {KeyboardEvent} event */
+	const handle_keydown = (event) => {
 		switch (event.key) {
 			case "ArrowRight": {
 				event.preventDefault();

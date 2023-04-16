@@ -1,6 +1,4 @@
-<script lang="ts">
-	import type { Writable } from "svelte/store";
-	import type { Pattern } from "./data";
+<script>
 	import Mirror from "./Mirror.svelte";
 	import Use from "./Use.svelte";
 	import Path from "./Path.svelte";
@@ -8,12 +6,17 @@
 	import { animate, selected } from "./store";
 	import { onMount } from "svelte";
 
-	export let pattern: Writable<Pattern>;
+	/** @typedef {import('./data').Pattern} Pattern */
+
+	/** @type {import("svelte/store").Writable<Pattern>} */
+	export let pattern;
 
 	export let guides = false;
 
-	let g: SVGGElement | undefined;
-	let animation: Animation | undefined;
+	/** @type {SVGElement | undefined} */
+	let g;
+	/** @type {Animation | undefined} */
+	let animation;
 
 	const duration = 3600;
 	$: to = 360 / $pattern.count;
