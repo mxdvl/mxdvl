@@ -1,13 +1,15 @@
-<script lang="ts">
-	import type { Point } from "./data";
+<script>
 	import { debug, selected, selected_index } from "./store";
 
-	export let id: string;
-	export let position: Point = { x: 0, y: 0 };
+	/** @type {string} */
+	export let id;
+	/** @type {import('./data').Point}*/
+	export let position = { x: 0, y: 0 };
 	export let angle = 0;
 	export let scale = 1;
 
-	export let colour: string | undefined = undefined;
+	/** @type {string | undefined} */
+	export let colour = undefined;
 
 	const index = scale * angle;
 
@@ -33,14 +35,18 @@
 />
 
 {#if active}
-	<use {transform} href={`#shape-${id}`} class:current stroke-width={2} />
+	<use {transform} href={`#shape-${id}`} class:current stroke-width={2} class="do-not-point" />
 	{#if $debug}
-		<text x={30} y={-20} {transform}>a:{Math.floor(angle)} s:{scale}</text>
+		<text x={30} y={-20} {transform} class="do-not-point">a:{Math.floor(angle)} s:{scale}</text>
 		<line {transform} stroke="var(--ocean)" stroke-dasharray={[2, 6].join(" ")} x2={-position.x} y2={-position.y} />
 	{/if}
 {/if}
 
 <style>
+	.do-not-point {
+		pointer-events: none;
+	}
+
 	use {
 		fill: transparent;
 		stroke-dasharray: 12;
@@ -64,7 +70,6 @@
 	text {
 		stroke: none;
 		fill: var(--skies);
-		pointer-events: none;
 	}
 
 	@keyframes fill {

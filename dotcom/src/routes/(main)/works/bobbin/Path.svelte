@@ -1,13 +1,15 @@
-<script lang="ts">
-	import type { Point } from "./data";
-
-	export let d: string;
-	export let id: string | undefined = undefined;
-	export let position: Point = { x: 0, y: 0 };
+<script>
+	/** @type {string} */
+	export let d;
+	/** @type {string | undefined} */
+	export let id = undefined;
+	/** @type {import('./data').Point} */
+	export let position = { x: 0, y: 0 };
 	export let angle = 0;
 	export let scale = 1;
 
-	export let colour: string | undefined = undefined;
+	/** @type {string | undefined} */
+	export let colour = undefined;
 
 	const transform = `scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`;
 </script>

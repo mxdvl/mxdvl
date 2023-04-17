@@ -1,5 +1,6 @@
-<script lang="ts">
-	export let count: number;
+<script>
+	/** @type {number} */
+	export let count;
 </script>
 
 <g data-count={count}>

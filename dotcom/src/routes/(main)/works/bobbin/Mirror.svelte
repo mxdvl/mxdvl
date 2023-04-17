@@ -1,5 +1,6 @@
-<script lang="ts">
-	export let scales: [1] | [-1, 1];
+<script>
+	/** @type {[1] | [-1, 1]} */
+	export let scales;
 </script>
 
 {#each scales as scale}

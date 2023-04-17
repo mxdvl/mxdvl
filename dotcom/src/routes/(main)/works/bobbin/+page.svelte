@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { derived, get, writable } from "svelte/store";
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
@@ -7,12 +7,12 @@
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
 	import { animate, debug, patterns, selected, selected_index } from "./store";
-	import { patterns_to_string, type Pattern, type Point, string_to_patterns } from "./data";
-	import Polygon from "./Polygon.svelte";
-	import Loop from "./Loop.svelte";
-	import Crescent from "./Crescent.svelte";
-	import Curve from "./Curve.svelte";
-	import Star from "./Star.svelte";
+	import { patterns_to_string, string_to_patterns } from "./data";
+	import Polygon from "./catalogue/Polygon.svelte";
+	import Loop from "./catalogue/Loop.svelte";
+	import Crescent from "./catalogue/Crescent.svelte";
+	import Curve from "./catalogue/Curve.svelte";
+	import Star from "./catalogue/Star.svelte";
 
 	export let data;
 
@@ -21,22 +21,25 @@
 	let guides = true;
 
 	let dragging = false;
-	const initial_point: Point = { x: 0, y: 0 };
+	/** @type {import('./data').Point} */
+	const initial_point = { x: 0, y: 0 };
 	$: dragStart = initial_point;
 	$: dragEnd = initial_point;
 	$: dragOffset = initial_point;
 	$: dragDelta = initial_point;
 	$: final_position = initial_point;
 
-	const point_from_event = (event: MouseEvent) =>
-		new DOMPointReadOnly(event.offsetX - size / 2, event.offsetY - size / 2);
+	/** @type {(event: MouseEvent) => DOMPointReadOnly} */
+	const point_from_event = (event) => new DOMPointReadOnly(event.offsetX - size / 2, event.offsetY - size / 2);
 
 	const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
 
-	const current_matrix = writable<DOMMatrixReadOnly | undefined>();
+	/** @type {import("svelte/store").Writable<DOMMatrixReadOnly | undefined>}*/
+	const current_matrix = writable();
 
-	const state = {
-		set: (state: string) => {
+	const state = /** @type {const} */ ({
+		/** @param {string} state */
+		set: (state) => {
 			const saved_patterns = string_to_patterns(state);
 
 			$patterns.clear();
@@ -47,7 +50,8 @@
 			$patterns = $patterns;
 		},
 		get: () => {
-			const patterns_snapshot: Pattern[] = [];
+			/** @type {import('./data').Pattern[]} */
+			const patterns_snapshot = [];
 
 			for (const [, pattern] of $patterns) {
 				patterns_snapshot.push(get(pattern));
@@ -68,11 +72,11 @@
 		clear: () => {
 			$patterns = new Map();
 		},
-	} as const;
+	});
 
 	if (data.state) state.set(data.state);
 
-	const drag = {
+	const drag = /** @type {const} @satisfies {Record<string, (event: PointerEvent) => void>} */ ({
 		start: (event) => {
 			if (event.target instanceof SVGUseElement) {
 				event.preventDefault();
@@ -125,7 +129,7 @@
 			dragging = false;
 			state.write();
 		},
-	} as const satisfies Record<string, (event: PointerEvent) => void>;
+	});
 
 	onMount(async () => {
 		debug.set(window.location.hostname === "localhost");

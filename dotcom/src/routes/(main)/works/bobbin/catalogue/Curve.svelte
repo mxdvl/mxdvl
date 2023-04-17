@@ -1,7 +1,7 @@
-<script lang="ts">
-	import Button from "../../../../lib/Button.svelte";
-	import SVG from "./SVG.svelte";
-	import { add_pattern, current } from "./store";
+<script>
+	import Button from "$lib/Button.svelte";
+	import SVG from "../SVG.svelte";
+	import { add_pattern, current } from "../store";
 
 	let width = 90;
 	let offset = 30;

@@ -1,27 +1,34 @@
 import * as lz from "lz-string";
-export interface Point {
-	x: number;
-	y: number;
-}
+/**
+ * @typedef Point
+ * @property {number} x
+ * @property {number} y
+ */
 
-export interface Pattern {
-	id: string;
-	count: number;
-	mirror: boolean;
-	position: Point;
-	d: string;
-}
+/**
+ * @typedef Pattern
+ * @property {string} id
+ * @property {number} count
+ * @property {boolean} mirror
+ * @property {Point} position
+ * @property {string} d
+ */
 
 const divider = "|";
 
-const pattern_to_string = ({ id, count, mirror, position, d }: Pattern) =>
+/** @param {Pattern} pattern */
+const pattern_to_string = ({ id, count, mirror, position, d }) =>
 	[id, count, mirror ? "M" : "_", Math.round(position.x), Math.round(position.y), d].join(divider);
 
-/** Serialise patterns definition */
-export const patterns_to_string = (patterns: Pattern[]) =>
+/**
+ * Serialise patterns definition
+ * @param {Pattern[]} patterns
+ */
+export const patterns_to_string = (patterns) =>
 	lz.compressToEncodedURIComponent(JSON.stringify(patterns.map(pattern_to_string)));
 
-const string_to_pattern = (pattern: string): Pattern => {
+/** @param {string} pattern @returns {Pattern} */
+const string_to_pattern = (pattern) => {
 	const [id, count, mirror, x, y, d] = pattern.split(divider);
 	if (id && count && mirror && x && y && d) {
 		return { id, count: Number(count), mirror: mirror === "M", position: { x: Number(x), y: Number(y) }, d };
@@ -30,8 +37,12 @@ const string_to_pattern = (pattern: string): Pattern => {
 	}
 };
 
-/** De-serialise pattern definition */
-export const string_to_patterns = (patterns: string): Pattern[] => {
+/**
+ * De-serialise pattern definition
+ * @param {string} patterns
+ * @returns {Pattern[]}
+ */
+export const string_to_patterns = (patterns) => {
 	try {
 		const array = JSON.parse(lz.decompressFromEncodedURIComponent(patterns));
 

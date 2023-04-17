@@ -1,5 +1,4 @@
-<script lang="ts">
-	import type { Writable } from "svelte/store";
+<script>
 	import { fade } from "svelte/transition";
 	import { flip } from "svelte/animate";
 	import { fileSave } from "browser-fs-access";
@@ -7,14 +6,16 @@
 	import Control from "./Control.svelte";
 	import Button from "$lib/Button.svelte";
 	import { add_pattern, animate, selected } from "./store";
-	import type { Pattern } from "./data";
 
-	export let patterns: Writable<Map<string, Writable<Pattern>>>;
+	/** @typedef {import('./data').Pattern} Pattern */
+
+	/** @type {import("svelte/store").Writable<Map<string, import("svelte/store").Writable<Pattern>>>} */
+	export let patterns;
 
 	const duration = 240;
 
-	const animation = ["animate", undefined] as const;
-	const extra = ["extra", undefined] as const;
+	const animation = /** @type {const} */ (["animate", undefined]);
+	const extra = /** @type {const} */ (["extra", undefined]);
 
 	/** the SVG XML namespace */
 	const xmlns = "http://www.w3.org/2000/svg";
