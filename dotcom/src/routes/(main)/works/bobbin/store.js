@@ -1,26 +1,34 @@
-import { derived, writable, type Writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 import { loop } from "./weaving.js";
-import type { Pattern, Point } from "./data";
+/** @template T @typedef {import("svelte/store").Writable<T>} Writable<T> */
+/** @typedef {import("./data").Pattern} Pattern */
 
-export const selected = writable<string | undefined>(undefined);
-export const selected_index = writable<number | undefined>(undefined);
-export const toggle = (id: string) => selected.update((s) => (s === id ? undefined : id));
-export const debug = writable<boolean>(false);
+/** @type {Writable<string | undefined>} */
+export const selected = writable(undefined);
+/** @type {Writable<number | undefined>} */
+export const selected_index = writable(undefined);
+/** @param {string} id */
+export const toggle = (id) => selected.update((s) => (s === id ? undefined : id));
+/** @type {Writable<boolean>} */
+export const debug = writable(false);
 
 export const uid = () => Math.random().toString(36).slice(2);
 
-export const animate = writable<boolean>(false);
+/** @type {Writable<boolean>} */
+export const animate = writable(false);
 
-export const patterns = writable<Map<string, Writable<Pattern>>>(new Map());
+/** @type {Writable<Map<string, Writable<Pattern>>>} */
+export const patterns = writable(new Map());
 
 export const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
 
-export const add_pattern = (path?: string) => {
+/** @param {string} [path] */
+export const add_pattern = (path) => {
 	const id = uid();
 	const d = path ?? ["M0,0", ...loop(3, 3 / 2, 12), "Z"].join("");
-	const count: number = Math.round(Math.random() * 9 + 3);
-	const mirror: boolean = Math.random() > 1 / 2;
-	const position: Point = { x: Math.random() * 48, y: Math.random() * 48 - 24 };
+	const count = Math.round(Math.random() * 9 + 3);
+	const mirror = Math.random() > 1 / 2;
+	const position = { x: Math.random() * 48, y: Math.random() * 48 - 24 };
 
 	patterns.update(($patterns) => {
 		$patterns.set(id, writable({ id, count, mirror, position, d }));
