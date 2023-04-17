@@ -8,11 +8,11 @@
 	import Controls from "./Controls.svelte";
 	import { animate, debug, patterns, selected, selected_index } from "./store";
 	import { patterns_to_string, string_to_patterns } from "./data";
-	import Polygon from "./Polygon.svelte";
-	import Loop from "./Loop.svelte";
-	import Crescent from "./Crescent.svelte";
-	import Curve from "./Curve.svelte";
-	import Star from "./Star.svelte";
+	import Polygon from "./catalogue/Polygon.svelte";
+	import Loop from "./catalogue/Loop.svelte";
+	import Crescent from "./catalogue/Crescent.svelte";
+	import Curve from "./catalogue/Curve.svelte";
+	import Star from "./catalogue/Star.svelte";
 
 	export let data;
 

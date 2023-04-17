@@ -1,8 +1,8 @@
 <script>
 	import Button from "$lib/Button.svelte";
-	import SVG from "./SVG.svelte";
-	import { add_pattern, current } from "./store";
-	import { on_circle } from "./weaving.js";
+	import SVG from "../SVG.svelte";
+	import { add_pattern, current } from "../store";
+	import { on_circle } from "../weaving.js";
 
 	let inner_radius = 8;
 	let outer_radius = 18;
