@@ -17,18 +17,12 @@
 	},
 	"importMap": "deno/import-map.json",
 	"fmt": {
-		"files": {
-			"include": ["deno"]
-		},
-		"options": {
-			"lineWidth": 120,
-			"indentWidth": 4,
-			"useTabs": true
-		}
+		"include": ["deno", "deno.jsonc"],
+		"lineWidth": 120,
+		"indentWidth": 4,
+		"useTabs": true
 	},
 	"lint": {
-		"files": {
-			"include": ["deno"]
-		}
+		"include": ["deno", "deno.jsonc"]
 	}
 }
