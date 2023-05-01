@@ -1,25 +1,25 @@
 {
 	"imports": {
-		"std/": "https://deno.land/std@0.180.0/",
-		"lightningcss-wasm": "https://esm.sh/v113/*lightningcss-wasm@1.19.0",
-		"linkedom": "https://esm.sh/v113/*linkedom@0.14.25",
-		"linkedom/": "https://esm.sh/v113/*linkedom@0.14.25/",
-		"preact-render-to-string": "https://esm.sh/v113/*preact-render-to-string@6.0.1",
-		"preact-render-to-string/": "https://esm.sh/v113/*preact-render-to-string@6.0.1/",
-		"preact": "https://esm.sh/v113/preact@10.13.2",
-		"preact/": "https://esm.sh/v113/preact@10.13.2/",
+		"std/": "https://deno.land/std@0.177.0/",
+		"lightningcss-wasm": "https://esm.sh/v118/*lightningcss-wasm@1.19.0",
+		"linkedom": "https://esm.sh/v118/*linkedom@0.14.25",
+		"linkedom/": "https://esm.sh/v118/*linkedom@0.14.25/",
+		"preact-render-to-string": "https://esm.sh/v118/*preact-render-to-string@6.0.1",
+		"preact-render-to-string/": "https://esm.sh/v118/*preact-render-to-string@6.0.1/",
+		"preact": "https://esm.sh/v118/preact@10.13.2",
+		"preact/": "https://esm.sh/v118/preact@10.13.2/",
 		"resvg": "https://deno.land/x/resvg_wasm@0.2.0/mod.ts"
 	},
 	"scopes": {
-		"https://esm.sh/v113/": {
-			"css-select": "https://esm.sh/v113/css-select@5.1.0",
-			"cssom": "https://esm.sh/v113/cssom@0.5.0",
+		"https://esm.sh/v118/": {
+			"css-select": "https://esm.sh/v118/css-select@5.1.0",
+			"cssom": "https://esm.sh/v118/cssom@0.5.0",
 			"canvas": "https://deno.land/x/canvas@v1.4.1/mod.ts",
-			"html-escaper": "https://esm.sh/v113/html-escaper@3.0.3",
-			"htmlparser2": "https://esm.sh/v113/htmlparser2@8.0.2",
-			"napi-wasm": "https://esm.sh/v113/napi-wasm@1.0.1",
-			"pretty-format": "https://esm.sh/v113/pretty-format@3.8.0",
-			"uhyphen": "https://esm.sh/v113/uhyphen@0.2.0"
+			"html-escaper": "https://esm.sh/v118/html-escaper@3.0.3",
+			"htmlparser2": "https://esm.sh/v118/htmlparser2@8.0.2",
+			"napi-wasm": "https://esm.sh/v118/napi-wasm@1.0.1",
+			"pretty-format": "https://esm.sh/v118/pretty-format@3.8.0",
+			"uhyphen": "https://esm.sh/v118/uhyphen@0.2.0"
 		}
 	}
 }
