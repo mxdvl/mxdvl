@@ -13,7 +13,7 @@
 	{#each Object.entries(picture.sources) as [format, images]}
 		<source srcset={images.map(({ src, w }) => `${src} ${w}w`).join(", ")} type={"image/" + format} />
 	{/each}
-	<img src={picture.fallback.src} {alt} />
+	<img src={picture.img.src} {alt} />
 </picture>
 
 <style>
