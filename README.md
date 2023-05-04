@@ -1,4 +1,4 @@
-# Hello 👋, it’s Max. 👨🏻‍💻
+## Hello 👋, it’s Max. 👨🏻‍💻
 
 ### Engineer & Designer in London, working at [The Guardian][employer] 📰.
 
