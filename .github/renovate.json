@@ -4,9 +4,6 @@
 	"schedule": ["after 10am and before 6pm every weekday"],
 	"prConcurrentLimit": 5,
 	"packageRules": [
-        {
-            "rangeStrategy": "pin"
-        },
 		{
 			"matchUpdateTypes": ["minor", "patch"],
 			"matchCurrentVersion": "!/^0/",
