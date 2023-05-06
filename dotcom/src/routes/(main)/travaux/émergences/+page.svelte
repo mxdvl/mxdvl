@@ -25,7 +25,7 @@
 	Quatre projets de recherche menés par Börkur Bergmann dans le nord du Québec.
 
 	{#each projects as picture}
-		<Image ratio={2 / 3} {picture} alt={`Photo du projet ${picture.fallback.src.split("/").at(-1)}`} />
+		<Image ratio={2 / 3} {picture} alt={`Photo du projet ${picture.img.src.split("/").at(-1)}`} />
 	{/each}
 
 	<p>

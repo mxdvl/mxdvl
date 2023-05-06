@@ -79,8 +79,8 @@ importers:
         specifier: 4.3.5
         version: 4.3.5(@types/node@18.16.0)
       vite-imagetools:
-        specifier: ^4.0.13
-        version: 4.0.13
+        specifier: 5.0.2
+        version: 5.0.2
 
 packages:
 
@@ -423,7 +423,7 @@ packages:
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
-      semver: 7.3.8
+      semver: 7.5.0
       tar: 6.1.12
     transitivePeerDependencies:
       - encoding
@@ -717,7 +717,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.59.2(typescript@5.0.4)
       eslint: 8.39.0
       eslint-scope: 5.1.1
-      semver: 7.3.8
+      semver: 7.5.0
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -1783,11 +1783,11 @@ packages:
     engines: {node: '>= 4'}
     dev: false
 
-  /imagetools-core@3.2.3:
-    resolution: {integrity: sha512-YbZhedg/zja34yV6iRDhfo4cmAYSwxaErkuzc/RpMMAELgszpDKf3MLH6VlsR+QkenPUEGkGAVpJAM2GbUls9Q==}
+  /imagetools-core@4.0.1:
+    resolution: {integrity: sha512-DSQZJcinQ7rjSCIi/+drCWMgiLbp2WxDUXKI+0DXElFLfwnMVQVQEZ5JZVygOL3T12Yy+sq6bM1UXuMN//KqUw==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      sharp: 0.31.3
+      sharp: 0.32.1
     dev: false
 
   /import-fresh@3.3.0:
@@ -2082,11 +2082,11 @@ packages:
     resolution: {integrity: sha512-u4uAs/4Zzmp/jjsD9cyFYDXeISfUWaAVWshPmDZOFOv4Xl4SbzTXm53I04C2uRueYJ+0t5PEtLH/owbn2Npf/w==}
     engines: {node: '>=10'}
     dependencies:
-      semver: 7.3.8
+      semver: 7.5.0
     dev: false
 
-  /node-addon-api@5.0.0:
-    resolution: {integrity: sha512-CvkDw2OEnme7ybCykJpVcKH+uAOLV2qLqiyla128dN9TkEWfrYmxG6C2boDe5KcNQqZF3orkqzGgOMvZ/JNekA==}
+  /node-addon-api@6.1.0:
+    resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
     dev: false
 
   /node-fetch@2.6.9:
@@ -2407,6 +2407,14 @@ packages:
       lru-cache: 6.0.0
     dev: false
 
+  /semver@7.5.0:
+    resolution: {integrity: sha512-+XC0AD/R7Q2mPSRuy2Id0+CGTZ98+8f+KvwirxOKIEyid+XSx6HbC63p+O4IndTHuX5Z+JxQ0TghCkO5Cg/2HA==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+    dev: false
+
   /set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
     dev: false
@@ -2415,16 +2423,16 @@ packages:
     resolution: {integrity: sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==}
     dev: false
 
-  /sharp@0.31.3:
-    resolution: {integrity: sha512-XcR4+FCLBFKw1bdB+GEhnUNXNXvnt0tDo4WsBsraKymuo/IAuPuCBVAL2wIkUw2r/dwFW5Q5+g66Kwl2dgDFVg==}
+  /sharp@0.32.1:
+    resolution: {integrity: sha512-kQTFtj7ldpUqSe8kDxoGLZc1rnMFU0AO2pqbX6pLy3b7Oj8ivJIdoKNwxHVQG2HN6XpHPJqCSM2nsma2gOXvOg==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
       color: 4.2.3
       detect-libc: 2.0.1
-      node-addon-api: 5.0.0
+      node-addon-api: 6.1.0
       prebuild-install: 7.1.1
-      semver: 7.3.8
+      semver: 7.5.0
       simple-get: 4.0.1
       tar-fs: 2.1.1
       tunnel-agent: 0.6.0
@@ -2818,12 +2826,12 @@ packages:
       unist-util-stringify-position: 2.0.3
     dev: false
 
-  /vite-imagetools@4.0.13:
-    resolution: {integrity: sha512-DeMAhDwvWATzBa5Qu9Fv6rtOuHZFONrv5Z5a95jd/oBDDCdyTKYVqxIurS5ox9A/sH8bhVF7r++Yww0DKpjKFQ==}
+  /vite-imagetools@5.0.2:
+    resolution: {integrity: sha512-awsrc/9eMY3uR0GXSGq8kD048xDnosOC2kN9c3i3hVj96ZdOCBzONg13IIyAL8NzbZk9B0fpVKQsgXpmKQHJUA==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@rollup/pluginutils': 5.0.2
-      imagetools-core: 3.2.3
+      imagetools-core: 4.0.1
     transitivePeerDependencies:
       - rollup
     dev: false
