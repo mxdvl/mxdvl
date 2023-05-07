@@ -19,5 +19,6 @@
 	div {
 		display: flex;
 		flex-wrap: wrap;
+		column-gap: var(--grid-x);
 	}
 </style>

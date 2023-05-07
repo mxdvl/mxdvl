@@ -46,7 +46,8 @@
 		<li
 			class:first={date.getUTCDate() === 1 && date.getUTCDay() !== 1}
 			class:early={date.getUTCDate() <= 7}
-			class:subdued={date.getTime() !== today.getTime() && date.getUTCDay() !== 1}
+			class:subdued={date.getUTCFullYear() !== today.getUTCFullYear() ||
+				(to_week(date) !== to_week(today) && date.getUTCDay() !== today.getUTCDay())}
 			class:today={date.getTime() === today.getTime()}
 			style={`grid-column-start:${to_column(date)}`}
 		>
@@ -76,6 +77,7 @@
 	.calendar li {
 		line-height: var(--size);
 		text-align: center;
+		border-radius: 1px;
 	}
 
 	.calendar .day {
@@ -83,6 +85,8 @@
 		background-color: transparent;
 		background-color: var(--skies);
 		position: sticky;
+		border: 2px solid var(--skies);
+		margin: -1px;
 		top: 0;
 	}
 
