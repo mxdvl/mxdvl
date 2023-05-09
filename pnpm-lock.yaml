@@ -10,8 +10,8 @@ importers:
         specifier: ^1.8.7
         version: 1.8.7
       '@ibm/plex':
-        specifier: 6.2.0
-        version: 6.2.0
+        specifier: 6.3.0
+        version: 6.3.0
       '@sveltejs/adapter-vercel':
         specifier: 2.4.3
         version: 2.4.3(@sveltejs/kit@1.16.2)
@@ -385,8 +385,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: false
 
-  /@ibm/plex@6.2.0:
-    resolution: {integrity: sha512-0ddHQTHN2/LqGC9jahnb7+kR7Cq+EmI1Z+SUVmpehilMu0QZ6hNBU/lOM0O2as5pwZt8xMejKZw4qCMRW9vDLg==}
+  /@ibm/plex@6.3.0:
+    resolution: {integrity: sha512-kb1ATGXrFu/gF2NZY40OlRUAEWCcrq9mIEYkuWqXUPaC6Zrb7iA9wQYTkJdAPP+V6ySfp7NLAyzAnK9c5k90Sg==}
     dev: false
 
   /@jridgewell/resolve-uri@3.1.0:
