@@ -46,7 +46,7 @@ html {
 	src: local("IBM Plex Sans Var"), local("IBMPlexSansVar-Roman"),
 		url("../../node_modules/@ibm/plex/IBM-Plex-Sans-Variable/fonts/complete/woff2/IBM Plex Sans Var-Roman.woff2")
 			format("woff2-variations");
-	font-display: fallback;
+	font-display: optional;
 }
 
 @font-face {
