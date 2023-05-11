@@ -4,6 +4,9 @@
 	/** @type {number} */
 	export let year = today.getUTCFullYear();
 
+	/** @type {import("$lib/lang").Lang} */
+	export let lang = "en";
+
 	const from = new Date(Date.UTC(year, 0, 1));
 	const to = new Date(Date.UTC(year + 1, 0, 1));
 
@@ -13,7 +16,20 @@
 		new Date(from).setUTCDate(day + 1),
 	);
 
-	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	const months = /** @type {const} */ ([
+		["Jan", "janv."],
+		["Feb", "févr."],
+		["Mar", "mars"],
+		["Apr", "avr."],
+		["May", "mai"],
+		["Jun", "juin"],
+		["Jul", "juill."],
+		["Aug", "août"],
+		["Sep", "sept."],
+		["Oct", "oct."],
+		["Nov", "nov."],
+		["Dec", "déc."],
+	]).map(([en, fr]) => (lang === "fr" ? fr : en));
 
 	/** @param {Date} date */
 	const to_column = (date) => 2 + ((date.getUTCDay() + 6) % 7);
