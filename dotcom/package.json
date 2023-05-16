@@ -40,6 +40,6 @@
 		"svelte-preprocess": "5.0.3",
 		"typescript": "5.0.4",
 		"vite": "4.3.6",
-		"vite-imagetools": "5.0.3"
+		"vite-imagetools": "5.0.4"
 	}
 }
