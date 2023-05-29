@@ -2,7 +2,7 @@
 	"[svelte]": {
 		"editor.defaultFormatter": "svelte.svelte-vscode"
 	},
-	"cSpell.words": ["allô", "cloudinary"],
+	"cSpell.words": ["allô"],
 	"deno.enablePaths": ["deno"],
 	"editor.defaultFormatter": "denoland.vscode-deno",
 	"[jsonc]": {

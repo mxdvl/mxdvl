@@ -1,8 +1,4 @@
-lockfileVersion: '6.1'
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
+lockfileVersion: '6.0'
 
 importers:
 
@@ -10,9 +6,6 @@ importers:
 
   dotcom:
     dependencies:
-      '@cloudinary/url-gen':
-        specifier: ^1.8.7
-        version: 1.8.7
       '@ibm/plex':
         specifier: 6.3.0
         version: 6.3.0
@@ -87,18 +80,6 @@ importers:
         version: 5.0.4
 
 packages:
-
-  /@cloudinary/transformation-builder-sdk@1.1.0:
-    resolution: {integrity: sha512-BqhTqIwPTyQ4hE0NjKXf/bF7VAjwe2ZHNuypdG6oQ6bDoiLTOSzdAZsg0jFndureQiVPavBKOzQTjHImp45z/g==}
-    dependencies:
-      '@cloudinary/url-gen': 1.8.7
-    dev: false
-
-  /@cloudinary/url-gen@1.8.7:
-    resolution: {integrity: sha512-07Hqy3weuuRm8ZCwn/HejrfiC8MiC/dK13IWm01FslhWek55jUTsKqR5xMwYQPX8+MWpLXd/EI/FiwqWaB5dDA==}
-    dependencies:
-      '@cloudinary/transformation-builder-sdk': 1.1.0
-    dev: false
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
