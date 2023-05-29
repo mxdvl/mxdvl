@@ -12,28 +12,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: pnpm setup
-        uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 8.6.0
+      - uses: pnpm/action-setup@v2.2.4
 
-      - name: Node setup
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version-file: "./.nvmrc"
           cache: "pnpm"
 
       - name: Install modules
-        run: pnpm install
+        run: corepack pnpm install
 
       - name: Format
-        run: "pnpm check:format"
+        run: "corepack pnpm check:format"
 
       - name: Lint
-        run: "pnpm check:lint"
+        run: "corepack pnpm check:lint"
 
       - name: Svelte
-        run: "pnpm check:svelte"
+        run: "corepack pnpm check:svelte"
 
   deno:
     runs-on: ubuntu-latest
