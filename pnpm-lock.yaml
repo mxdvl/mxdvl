@@ -34,8 +34,8 @@ importers:
         specifier: 2.14.3
         version: 2.14.3
       browser-fs-access:
-        specifier: 0.34.0
-        version: 0.34.0
+        specifier: 0.34.1
+        version: 0.34.1
       eslint:
         specifier: 8.41.0
         version: 8.41.0
@@ -966,8 +966,8 @@ packages:
       fill-range: 7.0.1
     dev: false
 
-  /browser-fs-access@0.34.0:
-    resolution: {integrity: sha512-F49NXUfjE9ZkDSF9Xr0PXPt89Sb9TIZDpxWEHOp0kYnT7RfciGLYcpHqXFFJ/+CiocOlT+5DOJ8Y7+XrKrzafw==}
+  /browser-fs-access@0.34.1:
+    resolution: {integrity: sha512-HPaRf2yimp8kWSuWJXc8Mi78dPbDzfduA+Gyq14H4jlMvd6XNfIRm36Y2yRLaa4x0gwcGuepj4zf14oiTlxrxQ==}
     dev: false
 
   /buffer-crc32@0.2.13:
