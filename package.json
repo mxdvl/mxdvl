@@ -6,5 +6,6 @@
 		"check:format": "pnpm -r check:format",
 		"check:lint": "pnpm -r check:lint",
 		"check:svelte": "pnpm -r check:svelte"
-	}
+	},
+	"packageManager": "pnpm@8.6.0"
 }
