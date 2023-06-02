@@ -32,8 +32,8 @@ importers:
         specifier: 5.59.8
         version: 5.59.8(eslint@8.41.0)(typescript@5.0.4)
       '@vercel/node':
-        specifier: 2.14.3
-        version: 2.14.3
+        specifier: 2.14.4
+        version: 2.14.4
       browser-fs-access:
         specifier: 0.34.1
         version: 0.34.1
@@ -737,12 +737,12 @@ packages:
       eslint-visitor-keys: 3.4.1
     dev: false
 
-  /@vercel/build-utils@6.7.3:
-    resolution: {integrity: sha512-BCu5zX8MhzXAvd7X1Hn6b8blSTzKyY7JAEAdT5+FcB8e5fTs4bIQmYNc9JMeCqUgtisSpJvDAt69OLYP/aqEKw==}
+  /@vercel/build-utils@6.7.4:
+    resolution: {integrity: sha512-xpeGfnDFMGr33Bod0a5X4ODQvCELh0Pf+5hG6Z2lhAa7I1USFXvCp5jlgEWQSccx07Ff8V6SgBXtedCJbK9J/A==}
     dev: false
 
-  /@vercel/error-utils@1.0.8:
-    resolution: {integrity: sha512-s+f7jP2oH1koICbQ8e3K9hOpOeUct7rbCnF9qsNwXemq850wAh2e90tp9R6oYBM0BNpiLRRm+oG5zD2sCIm3HQ==}
+  /@vercel/error-utils@1.0.10:
+    resolution: {integrity: sha512-nsKy2sy+pjUWyKI1V/XXKspVzHMYgSalmj5+EsKWFXZbnNZicqxNtMR94J8Hs7SB4TQxh0s4KhczJtL59AVGMg==}
     dev: false
 
   /@vercel/nft@0.22.6:
@@ -766,14 +766,14 @@ packages:
       - supports-color
     dev: false
 
-  /@vercel/node@2.14.3:
-    resolution: {integrity: sha512-XEoMTQvqQC11hItfDsTegtBA66jTFXA7PTyI2QHASpoAQFMGcx91XI/sTPvxgK/1u+eXjxpiv6OU3l4/i27G4Q==}
+  /@vercel/node@2.14.4:
+    resolution: {integrity: sha512-DhwOpcOzFzzqzTdosEymSIg7kE8XtOJfuDfHWy4rfOcc+YB8DcgxiHBNa/sVFwRkQVXdRQ0Uv6MunyuVr1Zqhw==}
     dependencies:
       '@edge-runtime/vm': 2.0.0
       '@types/node': 14.18.33
       '@types/node-fetch': 2.6.3
-      '@vercel/build-utils': 6.7.3
-      '@vercel/error-utils': 1.0.8
+      '@vercel/build-utils': 6.7.4
+      '@vercel/error-utils': 1.0.10
       '@vercel/static-config': 2.0.17
       async-listen: 3.0.0
       edge-runtime: 2.1.4
