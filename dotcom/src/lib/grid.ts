@@ -1,4 +1,4 @@
-const GRID_SIZE = 18;
+export const GRID_SIZE = 18;
 
 export const grids = Array.from({ length: 10 }, (_, i) => (i + 3) * 6)
 	.map(

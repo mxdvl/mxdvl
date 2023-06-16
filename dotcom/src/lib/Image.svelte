@@ -5,8 +5,6 @@
 
 	export let alt: string;
 	export let ratio = 1;
-
-	const GRID_SIZE = 6;
 </script>
 
 <picture style={`--ratio: ${ratio};`}>
