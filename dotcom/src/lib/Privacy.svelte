@@ -1,9 +1,9 @@
-<script lang="ts">
+<script>
 	import { onMount } from "svelte";
 	import Button from "./Button.svelte";
-	import type { Lang } from "./lang";
 
-	export let lang: Lang;
+	/** @type {import("$lib/lang.js").Lang} */
+	export let lang;
 
 	let tracking = false;
 	onMount(() => {
@@ -11,13 +11,11 @@
 	});
 
 	const block = () => {
-		// @ts-expect-error -- this is missing from the type definition
-		window.fathom.blockTrackingForMe();
+		window.fathom?.blockTrackingForMe();
 		tracking = false;
 	};
 	const unblock = () => {
-		// @ts-expect-error -- this is missing from the type definition
-		window.fathom.enableTrackingForMe();
+		window.fathom?.enableTrackingForMe();
 		tracking = true;
 	};
 </script>

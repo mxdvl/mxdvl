@@ -1,7 +1,9 @@
-<script context="module" lang="ts">
-	import type { Lang } from "$lib/lang";
-
-	const getTitle = (lang: Lang, url?: string) => {
+<script context="module">
+	/**
+	 * @param {import("$lib/lang.js").Lang} lang
+	 * @param {string} [url]
+	 */
+	const getTitle = (lang, url) => {
 		const missing = lang === "en" ? "(missing title)" : "(titre manquant)";
 		// TODO: make it nice
 		return (
@@ -15,12 +17,15 @@
 		);
 	};
 
-	export const cleanDate = (date: string) => new Date(date).toISOString().slice(0, 7);
+	/** @param {string} date */
+	export const cleanDate = (date) => new Date(date).toISOString().slice(0, 7);
 </script>
 
-<script lang="ts">
-	export let works: string[];
-	export let lang: Lang;
+<script>
+	/** @type {string[]} */
+	export let works;
+	/** @type {import("$lib/lang.js").Lang} */
+	export let lang;
 </script>
 
 <ul>

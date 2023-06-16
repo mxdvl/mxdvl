@@ -1,4 +1,4 @@
-import { GRID_SIZE } from "./grid";
+import { GRID_SIZE } from "./grid.js";
 
 const COLUMNS = /** @type {const} */ ([18, 24, 30, 36]);
 

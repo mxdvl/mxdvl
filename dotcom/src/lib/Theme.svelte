@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import Button from "./Button.svelte";
-	import { lang, type Lang } from "./lang";
+	import { lang } from "./lang";
 
 	type Theme = "light" | "dark";
 	let themePreference: Theme;

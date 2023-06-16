@@ -1,4 +1,4 @@
-import { getWeather } from "$lib/weather";
+import { getWeather } from "$lib/weather.js";
 
 export const prerender = true;
 
