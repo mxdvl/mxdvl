@@ -1,4 +1,4 @@
-import { DOMParser, Element } from "linkedom";
+import { DOMParser, Element, Node } from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
 import { Handler, serve } from "std/http/server.ts";
 import { crypto } from "std/crypto/mod.ts";
 import { typeByExtension } from "std/media_types/type_by_extension.ts";

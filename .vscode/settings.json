@@ -21,7 +21,7 @@
 		"editor.defaultFormatter": "denoland.vscode-deno"
 	},
 	"[typescript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "denoland.vscode-deno"
 	},
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "denoland.vscode-deno"
