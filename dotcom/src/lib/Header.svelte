@@ -22,7 +22,7 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import Logo from "$lib/CMPS.svelte";
-	import { capitalise } from "./capitalise";
+	import { capitalise } from "$lib/capitalise.js";
 
 	let path: string;
 	$: path = $page.url.pathname.split("/").filter(Boolean)[0] ?? "";

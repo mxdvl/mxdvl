@@ -1,11 +1,19 @@
-<script lang="ts" context="module">
-	import type { Work } from "$lib/work";
-</script>
-
-<script lang="ts">
+<script>
 	import { cleanDate } from "$lib/Works.svelte";
 
-	export let work: Work;
+	/**
+	 * @typedef Work
+	 * @property {string} [alt]
+	 * @property {object} metadata
+	 * @property {import("./lang").Lang} metadata.lang
+	 * @property {string} metadata.title
+	 * @property {string} metadata.date
+	 * @property {string} [metadata.at]
+	 * @property {string} content
+	 */
+
+	/** @type {Work} */
+	export let work;
 </script>
 
 <section lang={work.metadata.lang}>

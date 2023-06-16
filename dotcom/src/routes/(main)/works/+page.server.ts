@@ -1,4 +1,4 @@
-import { paths } from "$lib/paths";
+import { paths } from "$lib/paths.js";
 
 export const load = async () => {
 	return {

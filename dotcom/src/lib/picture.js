@@ -1,10 +1,6 @@
-/**
- * Keep in sync with app.css
- * @link dotcom/src/app.css
- */
-const GRID_SIZE = 18;
+import { GRID_SIZE } from "./grid";
 
-const COLUMNS = [18, 24, 30, 36] as const;
+const COLUMNS = /** @type {const} */ ([18, 24, 30, 36]);
 
 export const defaultDirectives = new URLSearchParams({
 	w: COLUMNS.map((column) => column * GRID_SIZE)
