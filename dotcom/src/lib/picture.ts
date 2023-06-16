@@ -1,8 +1,4 @@
-/**
- * Keep in sync with app.css
- * @link dotcom/src/app.css
- */
-const GRID_SIZE = 18;
+import { GRID_SIZE } from "./grid";
 
 const COLUMNS = [18, 24, 30, 36] as const;
 
