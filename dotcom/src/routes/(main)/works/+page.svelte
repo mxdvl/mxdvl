@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import Works from "$lib/Works.svelte";
 
 	export let data;
