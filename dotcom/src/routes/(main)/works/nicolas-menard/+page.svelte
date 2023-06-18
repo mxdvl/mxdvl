@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module">
 	import projects from "./projects.png";
 
 	import Image from "$lib/Image.svelte";

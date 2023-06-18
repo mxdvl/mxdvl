@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module">
 	import Image from "$lib/Image.svelte";
 	import Alternates from "$lib/Alternates.svelte";
 	import { date, en, fr, responsive } from "../../works/florian-busch/+page.svelte";

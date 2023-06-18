@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script context="module">
 	export const date = "2012-07";
 
 	import crete from "./crête.jpg";
@@ -6,10 +6,10 @@
 	import cote from "./côte.jpg";
 	import ravin from "./ravin.jpg";
 
-	export const projects = [crete, plaine, cote, ravin] as const;
+	export const projects = /** @type {const} */ ([crete, plaine, cote, ravin]);
 </script>
 
-<script lang="ts">
+<script>
 	import { page } from "$app/stores";
 	import Image from "$lib/Image.svelte";
 	import Alternates from "$lib/Alternates.svelte";

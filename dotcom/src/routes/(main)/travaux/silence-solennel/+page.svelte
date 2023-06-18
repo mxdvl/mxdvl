@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script context="module">
 	import symetrie from "./symetrie.jpg";
 	import entree from "./entree.jpg";
 

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script context="module">
 	export const date = "2016-01";
 	export const title = "1:X Multidisciplinary Exploration";
 
@@ -8,7 +8,7 @@
 	export { model, modelSide };
 </script>
 
-<script lang="ts">
+<script>
 	import { page } from "$app/stores";
 
 	import Image from "$lib/Image.svelte";

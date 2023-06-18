@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { page } from "$app/stores";
 	import Image from "$lib/Image.svelte";
 	import Alternates from "$lib/Alternates.svelte";

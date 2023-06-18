@@ -1,24 +1,9 @@
-<script lang="ts">
+<script>
 	import Alternates from "$lib/Alternates.svelte";
 	import Number from "$lib/Number.svelte";
-
-	const max = 100_000_000_003;
+	import { getFactors, max } from "../../tools/factors/+page.svelte";
 
 	let number = 12_000;
-
-	const getFactors = (n: number): number[] => {
-		const factors = [n];
-
-		for (var i = 2; i <= Math.sqrt(n); i++) {
-			if (number % i == 0) {
-				factors.push(i);
-
-				if (number / i != i) factors.push(number / i);
-			}
-		}
-
-		return factors.sort((a, b) => a - b);
-	};
 
 	$: factors = getFactors(number);
 </script>

@@ -1,6 +1,8 @@
-<script lang="ts">
-	export let en: string;
-	export let fr: string;
+<script>
+	/** @type {string} */
+	export let en;
+	/** @type {string} */
+	export let fr;
 </script>
 
 <svelte:head>

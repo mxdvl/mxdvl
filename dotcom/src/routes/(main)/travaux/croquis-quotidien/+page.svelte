@@ -1,8 +1,8 @@
-<script context="module" lang="ts">
+<script context="module">
 	export const date = "2016-04";
 </script>
 
-<script lang="ts">
+<script>
 	import { page } from "$app/stores";
 
 	import Image from "$lib/Image.svelte";

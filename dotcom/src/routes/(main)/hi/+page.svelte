@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { getCondition } from "$lib/weather.js";
 	import Alternates from "$lib/Alternates.svelte";
 

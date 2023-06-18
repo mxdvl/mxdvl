@@ -1,24 +1,29 @@
-<script lang="ts">
+<script context="module">
+	/** @param {number} n */
+	export const getFactors = (n) => {
+		const factors = [n];
+
+		for (var i = 2; i <= Math.sqrt(n); i++) {
+			if (n % i == 0) {
+				factors.push(i);
+
+				if (n / i != i) factors.push(n / i);
+			}
+		}
+
+		return factors.sort((a, b) => a - b);
+	};
+
+	export const max = 100_000_000_003;
+</script>
+
+<script>
 	import Alternates from "$lib/Alternates.svelte";
 	import Number from "$lib/Number.svelte";
 
 	const max = 100_000_000_003;
 
 	let number = 12_000;
-
-	const getFactors = (n: number): number[] => {
-		const factors = [n];
-
-		for (var i = 2; i <= Math.sqrt(n); i++) {
-			if (number % i == 0) {
-				factors.push(i);
-
-				if (number / i != i) factors.push(number / i);
-			}
-		}
-
-		return factors.sort((a, b) => a - b);
-	};
 
 	$: factors = getFactors(number);
 </script>

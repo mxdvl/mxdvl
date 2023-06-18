@@ -1,10 +1,10 @@
-<script lang="ts">
+<script>
 	import Header from "$lib/Header.svelte";
 	import Footer from "$lib/Footer.svelte";
 	import { onMount } from "svelte";
 	import { browser } from "$app/environment";
 	import { page } from "$app/stores";
-	import { load as loadFathom, trackPageview } from "fathom-client";
+	import { load, trackPageview } from "fathom-client";
 
 	import "./styles.css";
 	import { lang } from "../lib/lang";
@@ -13,7 +13,7 @@
 	export let data;
 
 	onMount(() => {
-		loadFathom("MDDFSRVF", {
+		load("MDDFSRVF", {
 			includedDomains: ["www.mxdvl.com"],
 			url: "https://earthworm.mxdvl.com/script.js",
 		});

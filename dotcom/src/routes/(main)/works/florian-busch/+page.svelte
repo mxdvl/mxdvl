@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module">
 	import responsive from "./responsive-website.png";
 
 	import Image from "$lib/Image.svelte";
