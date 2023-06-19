@@ -1,7 +1,8 @@
-<script lang="ts">
-	export let disabled: boolean = false;
-	export let subdued: boolean = false;
-	export let type: undefined | "flex" = undefined;
+<script>
+	export let disabled = false;
+	export let subdued = false;
+	/** @type {undefined | "flex"} */
+	export let type = undefined;
 </script>
 
 <button on:click {disabled} data-type={type} class:subdued>

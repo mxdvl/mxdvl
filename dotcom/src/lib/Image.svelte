@@ -1,9 +1,9 @@
-<script lang="ts">
-	import type { Picture } from "vite-imagetools";
+<script>
+	/** @type {import("vite-imagetools").Picture} */
+	export let picture;
 
-	export let picture: Picture;
-
-	export let alt: string;
+	/** @type {string} */
+	export let alt;
 	export let ratio = 1;
 </script>
 

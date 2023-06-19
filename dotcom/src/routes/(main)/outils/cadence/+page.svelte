@@ -1,25 +1,39 @@
-<script lang="ts">
-	import Alternates from "$lib/Alternates.svelte";
+<script context="module">
+	const one_mile_in_kilometres = 1.609344;
 
-	const initial = 4.25;
-	const mile = 1.609344;
-	const step = 5 / 60;
-	const min = 3;
-	const max = 12;
+	/** @param {number} pace */
+	export const toMiles = (pace) => pace / one_mile_in_kilometres;
 
-	let perKilometre = initial / 1;
-	let perMile = initial / mile;
+	/** @param {number} pace */
+	export const toKilometre = (pace) => pace * one_mile_in_kilometres;
 
-	const setPace = (newPace: number, units: "km" | "m") => {
-		if (units === "km") perMile = newPace * mile;
-		if (units === "m") perKilometre = newPace / mile;
-	};
-
-	const toMinuteSeconds = (pace: number) => {
+	/** @param {number} pace */
+	export const toMinuteSeconds = (pace) => {
 		const minutes = String(Math.floor(pace)).padStart(2, "0");
 		const seconds = String(Math.round(60 * (pace % 1))).padStart(2, "0");
 
 		return `${minutes}:${seconds}`;
+	};
+</script>
+
+<script>
+	import Alternates from "$lib/Alternates.svelte";
+
+	const initial = 4.25;
+	const step = 5 / 60;
+	const min = 3;
+	const max = 12;
+
+	let perKilometre = initial;
+	let perMile = toMiles(initial);
+
+	/**
+	 * @param {number} newPace
+	 * @param {"km" | "m"} units
+	 */
+	const setPace = (newPace, units) => {
+		if (units === "km") perMile = toMiles(newPace);
+		if (units === "m") perKilometre = toKilometre(newPace);
 	};
 
 	$: setPace(perKilometre, "km");

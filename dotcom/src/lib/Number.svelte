@@ -1,7 +1,10 @@
-<script lang="ts">
-	export let value: number;
-	export let max: number;
-	export let min: number;
+<script>
+	/** @type {number} */
+	export let value;
+	/** @type {number} */
+	export let max;
+	/** @type {number} */
+	export let min;
 </script>
 
 <input type="number" {min} {max} bind:value />

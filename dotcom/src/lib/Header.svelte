@@ -1,30 +1,30 @@
-<script context="module" lang="ts">
-	import { lang, type Lang } from "./lang";
-	const pages: Array<Record<Lang, string> & Record<"width", number>> = [
-		{
-			en: "works",
-			fr: "travaux",
-			width: 3,
-		},
-		{
-			en: "profile",
-			fr: "profil",
-			width: 3,
-		},
-		{
-			en: "tools",
-			fr: "outils",
-			width: 2,
-		},
-	];
-</script>
-
-<script lang="ts">
+<script>
 	import { page } from "$app/stores";
 	import Logo from "$lib/CMPS.svelte";
 	import { capitalise } from "$lib/capitalise.js";
+	import { lang } from "$lib/lang.js";
 
-	let path: string;
+	const pages =
+		/** @type {const} @satisfies {ReadonlyArray<Record<import("./lang").Lang, string> & {width: number}>}*/ ([
+			{
+				en: "works",
+				fr: "travaux",
+				width: 3,
+			},
+			{
+				en: "profile",
+				fr: "profil",
+				width: 3,
+			},
+			{
+				en: "tools",
+				fr: "outils",
+				width: 2,
+			},
+		]);
+
+	/** @type {string} */
+	let path;
 	$: path = $page.url.pathname.split("/").filter(Boolean)[0] ?? "";
 </script>
 
@@ -42,7 +42,11 @@
 			</li>
 
 			{#each pages as page}
-				<li class={`page ${[page.fr, page.en].includes(path) ? "active" : ""}`} style="--width: {page.width}">
+				<li
+					class="page"
+					class:active={[page.fr, page.en].map(String).includes(path)}
+					style="--width: {page.width}"
+				>
 					<a href={`/${page[$lang]}`}>{capitalise(page[$lang])}</a>
 				</li>
 			{/each}

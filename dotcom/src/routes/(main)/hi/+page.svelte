@@ -1,5 +1,5 @@
-<script lang="ts">
-	import { getCondition } from "$lib/weather";
+<script>
+	import { getCondition } from "$lib/weather.js";
 	import Alternates from "$lib/Alternates.svelte";
 
 	export let data;

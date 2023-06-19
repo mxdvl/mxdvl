@@ -1,15 +1,21 @@
-<script lang="ts">
+<script>
 	import { onMount } from "svelte";
-	import Button from "./Button.svelte";
-	import { lang, type Lang } from "./lang";
+	import Button from "$lib/Button.svelte";
+	import { lang } from "$lib/lang";
 
-	type Theme = "light" | "dark";
-	let themePreference: Theme;
-	let currentTheme: Theme;
+	/** @typedef {"light" | "dark"} Theme */
+	/** @type {Theme} */
+	let themePreference;
+	/** @type {Theme} */
+	let currentTheme;
 
-	const systemTheme = (): Theme => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+	const systemTheme = () => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
-	const toggleClass = (theme: Theme, element: HTMLElement) => {
+	/**
+	 * @param {Theme} theme
+	 * @param {HTMLElement} element
+	 */
+	const toggleClass = (theme, element) => {
 		const { classList } = element;
 		classList.remove("light", "dark");
 		classList.add(theme);
@@ -19,7 +25,8 @@
 			?.setAttribute("color", theme === "dark" ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
 	};
 
-	const setTheme = (theme: Theme): void => {
+	/** @param {Theme} theme */
+	const setTheme = (theme) => {
 		currentTheme = theme;
 		document.body.classList.add("themed");
 

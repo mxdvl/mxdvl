@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module">
 	import screenshot from "./mobile-screenshot.png";
 
 	import Image from "$lib/Image.svelte";

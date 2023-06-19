@@ -1,9 +1,10 @@
-<script lang="ts">
-	import { lang, type Lang } from "./lang";
+<script>
 	import { page } from "$app/stores";
-	import Theme from "./Theme.svelte";
+	import { lang } from "$lib/lang.js";
+	import Theme from "$lib/Theme.svelte";
 
-	let path: string;
+	/** @type {string} */
+	let path;
 	$: path = $page.url.pathname.replace("/travaux", "/works");
 </script>
 
