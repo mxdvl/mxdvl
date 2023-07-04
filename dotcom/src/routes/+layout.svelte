@@ -15,7 +15,7 @@
 	onMount(() => {
 		load("MDDFSRVF", {
 			includedDomains: ["www.mxdvl.com"],
-			url: "https://earthworm.mxdvl.com/script.js",
+			url: "https://cdn.usefathom.com/script.js",
 		});
 	});
 
