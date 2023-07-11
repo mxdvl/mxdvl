@@ -4,7 +4,7 @@ import {
 	IMagickImage,
 	initializeImageMagick,
 	MagickFormat,
-} from "https://deno.land/x/imagemagick_deno@0.0.19/mod.ts";
+} from "image-magick";
 
 // Heavily inspired by https://github.com/itgalaxy/favicons/blob/3d200b6e8b9f84adc321a7302b9e7bbb2c7c9103/src/ico.ts#L1
 
