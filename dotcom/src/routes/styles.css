@@ -43,7 +43,9 @@ html {
 	font-family: "IBM Plex Sans Variable";
 	font-style: normal;
 	font-weight: 100 700;
-	src: local("IBM Plex Sans Var"), local("IBMPlexSansVar-Roman"),
+	src:
+		local("IBM Plex Sans Var"),
+		local("IBMPlexSansVar-Roman"),
 		url("../../node_modules/@ibm/plex/IBM-Plex-Sans-Variable/fonts/complete/woff2/IBM Plex Sans Var-Roman.woff2")
 			format("woff2-variations");
 	font-display: optional;
@@ -53,7 +55,9 @@ html {
 	font-family: "IBM Plex Mono";
 	font-style: normal;
 	font-weight: 400;
-	src: local("IBM Plex Mono"), local("IBMPlexMono"),
+	src:
+		local("IBM Plex Mono"),
+		local("IBMPlexMono"),
 		url("../../node_modules/@ibm/plex/IBM-Plex-Mono/fonts/split/woff2/IBMPlexMono-Text-Latin1.woff2")
 			format("woff2");
 	font-display: optional;
