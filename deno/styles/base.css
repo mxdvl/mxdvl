@@ -11,7 +11,7 @@ html {
 	font-weight: 100 700;
 	src: local("IBM Plex Sans Var"), local("IBMPlexSansVar-Roman"),
 		url("./IBMPlexSansVar-Roman.woff2") format("woff2-variations");
-	font-display: swap;
+	font-display: optional;
 }
 
 body {
@@ -76,20 +76,16 @@ picture {
 	width: calc(var(--width) * var(--grid));
 	height: calc(var(--width) * var(--ratio) * var(--grid));
 	color: var(--skies);
-	background-image: linear-gradient(
-			to bottom right,
+	background-image: linear-gradient(to bottom right,
 			transparent calc(50% - 1px),
 			currentColor calc(50% - 1px),
 			currentColor calc(50% + 1px),
-			transparent calc(50% + 1px)
-		),
-		linear-gradient(
-			to top right,
+			transparent calc(50% + 1px)),
+		linear-gradient(to top right,
 			transparent calc(50% - 1px),
 			currentColor calc(50% - 1px),
 			currentColor calc(50% + 1px),
-			transparent calc(50% + 1px)
-		);
+			transparent calc(50% + 1px));
 	background-position: calc(0.5 * var(--grid-x)) var(--grid-y);
 	background-size: var(--grid-x) var(--grid-y);
 
@@ -183,7 +179,7 @@ picture img {
 	object-fit: cover;
 }
 
-picture + picture {
+picture+picture {
 	margin-top: var(--grid);
 }
 
@@ -230,11 +226,9 @@ footer::before {
 	z-index: -1;
 	color: var(--skies);
 
-	background-image: radial-gradient(
-			circle at 25% 75%,
+	background-image: radial-gradient(circle at 25% 75%,
 			currentColor 1px,
-			transparent 1px
-		),
+			transparent 1px),
 		radial-gradient(circle at 75% 25%, currentColor 1px, transparent 1px);
 	background-position: top left;
 	background-size: var(--grid-x) var(--grid-y);

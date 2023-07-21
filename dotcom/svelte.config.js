@@ -11,6 +11,7 @@ const config = {
 
 	kit: {
 		adapter: vercel(),
+		inlineStyleThreshold: 6000,
 	},
 };
 
