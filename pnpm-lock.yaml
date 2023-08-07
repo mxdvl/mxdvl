@@ -68,8 +68,8 @@ importers:
         specifier: 3.4.6
         version: 3.4.6(svelte@4.1.2)
       svelte-hmr:
-        specifier: 0.15.2
-        version: 0.15.2(svelte@4.1.2)
+        specifier: 0.15.3
+        version: 0.15.3(svelte@4.1.2)
       svelte-preprocess:
         specifier: 5.0.4
         version: 5.0.4(svelte@4.1.2)(typescript@5.1.6)
@@ -2689,15 +2689,6 @@ packages:
       - sass
       - stylus
       - sugarss
-    dev: false
-
-  /svelte-hmr@0.15.2(svelte@4.1.2):
-    resolution: {integrity: sha512-q/bAruCvFLwvNbeE1x3n37TYFb3mTBJ6TrCq6p2CoFbSTNhDE9oAtEfpy+wmc9So8AG0Tja+X0/mJzX9tSfvIg==}
-    engines: {node: ^12.20 || ^14.13.1 || >= 16}
-    peerDependencies:
-      svelte: ^3.19.0 || ^4.0.0-next.0
-    dependencies:
-      svelte: 4.1.2
     dev: false
 
   /svelte-hmr@0.15.3(svelte@4.1.2):
