@@ -54,13 +54,16 @@ const weatherAPIResponseSchema = z.object({
 /** Get weather from OpenWeatherMap
  * @see https://openweathermap.org/current
  * @param {City} city
+ * @param {string | undefined} api_key
  */
-const getWeather = async (city) => {
+const getWeather = async (city, api_key) => {
 	if (!isValidCity(city)) return undefined;
+	if (!api_key) return undefined;
 
-	const url = new URL("https://api.openweathermap.org/data/2.5/weather");
-	url.searchParams.set("q", city);
-	url.searchParams.set("appid", String(process.env.WEATHER_API));
+	const url = new URL(`https://api.openweathermap.org/data/2.5/weather?${new URLSearchParams({
+		q: city,
+		appid: api_key,
+	})}`);
 
 	return fetch(url.toString())
 		.then((r) => r.json())
