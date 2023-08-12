@@ -6,7 +6,7 @@ export const defaultDirectives = new URLSearchParams({
 	w: COLUMNS.map((column) => column * GRID_SIZE)
 		.flatMap((width) => [width, width * 2])
 		.join(";"),
-	format: ["webp", "jpeg"].join(";"),
+	format: ["avif", "jpeg"].join(";"),
 	progressive: "",
 	as: "picture",
 });
