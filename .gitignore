@@ -11,3 +11,6 @@ deno/static
 dotcom/.svelte-kit
 dotcom/build
 dotcom/functions
+
+# Private
+.env
