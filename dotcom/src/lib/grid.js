@@ -10,5 +10,3 @@ export const grids = Array.from({ length: 10 }, (_, i) => (i + 3) * 6)
 }`,
 	)
 	.join("\n");
-
-console.log(grids);
