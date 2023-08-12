@@ -60,10 +60,12 @@ const getWeather = async (city, api_key) => {
 	if (!isValidCity(city)) return undefined;
 	if (!api_key) return undefined;
 
-	const url = new URL(`https://api.openweathermap.org/data/2.5/weather?${new URLSearchParams({
-		q: city,
-		appid: api_key,
-	})}`);
+	const url = new URL(
+		`https://api.openweathermap.org/data/2.5/weather?${new URLSearchParams({
+			q: city,
+			appid: api_key,
+		})}`,
+	);
 
 	return fetch(url.toString())
 		.then((r) => r.json())
