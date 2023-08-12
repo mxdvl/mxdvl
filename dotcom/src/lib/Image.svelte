@@ -1,5 +1,7 @@
 <script>
-	/** @type {import("vite-imagetools").Picture} */
+	import { GRID_SIZE } from "./grid";
+
+	/** @type {string} */
 	export let picture;
 
 	/** @type {string} */
@@ -8,10 +10,13 @@
 </script>
 
 <picture style={`--ratio: ${ratio};`}>
-	{#each Object.entries(picture.sources) as [format, images]}
-		<source srcset={images.map(({ src, w }) => `${src} ${w}w`).join(", ")} type={"image/" + format} />
-	{/each}
-	<img src={picture.img.src} {alt} />
+	<source
+		srcset={Array.from({ length: 6 }, (_, i) => i + 3)
+			.map((column) => `${picture} ${column * GRID_SIZE}w`)
+			.join(", ")}
+	/>
+
+	<img src={picture} {alt} />
 </picture>
 
 <style>

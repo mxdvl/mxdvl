@@ -2,7 +2,7 @@
 	export const date = "2016-01";
 	export const title = "1:X Multidisciplinary Exploration";
 
-	import model from "./1x-expo-model.jpg";
+	import model from "./1x-expo-model.jpg?url";
 	import modelSide from "./1x-expo-model-side.jpg";
 
 	export { model, modelSide };

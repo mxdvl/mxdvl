@@ -57,6 +57,7 @@ const weatherAPIResponseSchema = z.object({
  */
 const getWeather = async (city) => {
 	if (!isValidCity(city)) return undefined;
+	if(!process.env.WEATHER_API) return undefined;
 
 	const url = new URL("https://api.openweathermap.org/data/2.5/weather");
 	url.searchParams.set("q", city);

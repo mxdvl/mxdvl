@@ -1,9 +1,9 @@
 <script context="module">
 	export const date = "2016-04";
 
-	import electricCables from "./dd-electric_cables.jpg";
-	import d12 from "./d12.jpg";
-	import ochanomizu from "./img_2692.jpg";
+	import electricCables from "./dd-electric_cables.jpg?url";
+	import d12 from "./d12.jpg?url";
+	import ochanomizu from "./img_2692.jpg?url";
 
 	export { electricCables, d12, ochanomizu };
 </script>
