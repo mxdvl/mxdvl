@@ -13,6 +13,9 @@
 	/** number of slides */
 	let pick = 3;
 
+	/** to prevent the background seeping through the cross fade */
+	let middle_slides_display_longer = true;
+
 	const colours = /** @type {const} */ (["maroon", "salmon", "coral", "tomato", "bisque"]);
 	$: slides = colours.slice(0, pick);
 
@@ -44,8 +47,12 @@
 </svelte:head>
 
 <div style={`--angle:${angle}deg;--offset:${offset}px;--duration:${slides.length * (display + fade)}s`}>
-	{#each slides as slide, index (slide + slides.length)}
-		<figure style={`--slide:${index};--delay:${(display + fade) * index - fade}s;--colour:${slide}`}>
+	{#each slides as slide, index (Math.random())}
+		<figure
+			style={`--slide:${index};--delay:${(display + fade) * index - fade}s;--colour:${slide};${
+				!middle_slides_display_longer && "animation-name: last-slide;"
+			}`}
+		>
 			{slide}
 		</figure>
 	{/each}
@@ -54,12 +61,20 @@
 <p>(hover slides to pause animation)</p>
 
 <form>
-	<label><input type="range" min="0" max="90" bind:value={angle} />{angle}deg</label>
-	<label><input type="range" min="0" max="90" bind:value={offset} />{offset}px</label>
+	<label><input type="range" min="0" max="60" bind:value={angle} />{angle}deg</label>
+	<label><input type="range" min="0" max="48" bind:value={offset} />{offset}px</label>
 	<label><input type="range" min="1" max="12" bind:value={display} />{display}s</label>
 	<label><input type="range" min="0.125" max="4" step="0.125" bind:value={fade} />{fade}s</label>
 	<label><input type="range" min="1" max="5" bind:value={pick} />{pick} slide(s)</label>
+	<label><input type="checkbox" bind:checked={middle_slides_display_longer} />fix cross fade transparency</label>
 </form>
+
+<pre>
+{@html "@keyframes last-slide {\n\t" + animationLast.replaceAll("\n", "\n\t") + "\n}"}
+{@html middle_slides_display_longer
+		? "@keyframes middle-slide {\n\t" + animationMiddle.replaceAll("\n", "\n\t") + "\n}"
+		: "/* we need different keyframes for middle slides */"}
+</pre>
 
 <style>
 	div {
@@ -76,6 +91,7 @@
 		margin: 0;
 		inset: 0;
 		background-color: var(--colour);
+		transform-origin: center left;
 		transform: rotate3d(0, 1, 0, var(--angle))
 			translate3d(calc(var(--slide) * var(--offset)), 0, calc(var(--slide) * var(--offset)));
 	}
@@ -88,7 +104,7 @@
 		animation-duration: var(--duration);
 		animation-delay: var(--delay);
 		animation-iteration-count: infinite;
-		animation-timing-function: linear;
+		animation-timing-function: ease-in-out;
 		animation-name: middle-slide;
 		opacity: 0;
 	}
