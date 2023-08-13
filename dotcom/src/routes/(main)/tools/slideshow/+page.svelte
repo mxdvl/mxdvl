@@ -55,13 +55,6 @@
 	<label><input type="checkbox" bind:checked={middle_slides_display_longer} />fix cross fade transparency</label>
 </form>
 
-<pre>
-{@html "@keyframes last-slide {\n\t" + last_slide_keyframes.replaceAll("\n", "\n\t") + "\n}"}
-{@html middle_slides_display_longer
-		? "@keyframes middle-slide {\n\t" + middle_slide_keyframes.replaceAll("\n", "\n\t") + "\n}"
-		: "/* we need different keyframes for middle slides */"}
-</pre>
-
 <svg
 	viewBox={`-18 -18 ${GRID_SIZE * (slides.length + 1) * (display + fade)} ${GRID_SIZE * (slides.length * 2 + 1)}`}
 	height={GRID_SIZE * (slides.length * 2 + 1)}
@@ -107,6 +100,13 @@
 		{/if}
 	{/each}
 </svg>
+
+<pre>
+{@html "@keyframes last-slide {\n\t" + last_slide_keyframes.replaceAll("\n", "\n\t") + "\n}"}
+{@html middle_slides_display_longer
+	? "@keyframes middle-slide {\n\t" + middle_slide_keyframes.replaceAll("\n", "\n\t") + "\n}"
+	: "/* we need different keyframes for middle slides */"}
+</pre>
 
 <style>
 	div {
