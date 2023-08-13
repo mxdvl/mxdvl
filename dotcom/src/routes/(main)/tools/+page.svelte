@@ -1,7 +1,7 @@
 <script>
 	import Alternates from "$lib/Alternates.svelte";
 
-	const tools = /** @type {const} */ (["pace", "factors", "calendar"]);
+	const tools = /** @type {const} */ (["pace", "factors", "calendar", "slideshow"]);
 </script>
 
 <Alternates en="/tools" fr="/outils" />

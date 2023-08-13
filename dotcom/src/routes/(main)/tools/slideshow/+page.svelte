@@ -1,4 +1,8 @@
 <script>
+	import { slide } from "svelte/transition";
+	import { GRID_SIZE } from "../../../../lib/grid";
+	import { keyframes } from "./keyframes";
+
 	/** in degrees */
 	let angle = 24;
 
@@ -19,31 +23,13 @@
 	const colours = /** @type {const} */ (["maroon", "salmon", "coral", "tomato", "bisque"]);
 	$: slides = colours.slice(0, pick);
 
-	/**
-	 * @param {object} options
-	 * @param {number} options.length number of slides
-	 * @param {number} options.display duration of display
-	 * @param {number} options.fade duration of fade
-	 * @param {boolean} options.last whether the slide is last
-	 */
-	const createAnimation = ({ length, last, fade, display }) => {
-		const stages = /** @type {const} @satisfies {ReadonlyArray<{time: number, opacity: 0 | 1}>} */ ([
-			{ time: 0, opacity: 0 },
-			{ time: fade, opacity: 1 },
-			{ time: fade + display + fade * (last ? 0 : 1), opacity: 1 },
-			{ time: fade + display + fade * (last ? 1 : 1.01), opacity: 0 },
-		]);
-		const duration = length * (fade + display);
-		return stages.map(({ time, opacity }) => `${(time / duration) * 100}% { opacity: ${opacity}; }`).join("\n");
-	};
-
-	$: animationMiddle = createAnimation({ length: slides.length, last: false, fade, display });
-	$: animationLast = createAnimation({ length: slides.length, last: true, fade, display });
+	$: middle_slide_keyframes = keyframes({ length: slides.length, last: false, fade, display });
+	$: last_slide_keyframes = keyframes({ length: slides.length, last: true, fade, display });
 </script>
 
 <svelte:head>
-	{@html "<sty" + "le>@keyframes middle-slide { " + animationMiddle + "}</sty" + "le>"}
-	{@html "<sty" + "le>@keyframes last-slide { " + animationLast + "}</sty" + "le>"}
+	{@html "<sty" + "le>@keyframes middle-slide { " + middle_slide_keyframes + "}</sty" + "le>"}
+	{@html "<sty" + "le>@keyframes last-slide { " + last_slide_keyframes + "}</sty" + "le>"}
 </svelte:head>
 
 <div style={`--angle:${angle}deg;--offset:${offset}px;--duration:${slides.length * (display + fade)}s`}>
@@ -70,11 +56,57 @@
 </form>
 
 <pre>
-{@html "@keyframes last-slide {\n\t" + animationLast.replaceAll("\n", "\n\t") + "\n}"}
+{@html "@keyframes last-slide {\n\t" + last_slide_keyframes.replaceAll("\n", "\n\t") + "\n}"}
 {@html middle_slides_display_longer
-		? "@keyframes middle-slide {\n\t" + animationMiddle.replaceAll("\n", "\n\t") + "\n}"
+		? "@keyframes middle-slide {\n\t" + middle_slide_keyframes.replaceAll("\n", "\n\t") + "\n}"
 		: "/* we need different keyframes for middle slides */"}
 </pre>
+
+<svg
+	viewBox={`-18 -18 ${GRID_SIZE * (slides.length + 1) * (display + fade)} ${GRID_SIZE * (slides.length * 2 + 1)}`}
+	height={GRID_SIZE * (slides.length * 2 + 1)}
+	stroke-width={2}
+	fill="var(--skies)"
+	stroke="var(--ocean)"
+>
+	{#each slides as _, index}
+		{#if index === 0}
+			<path
+				d={[
+					`M0,${GRID_SIZE}`,
+					`v${-GRID_SIZE}`,
+					`h${slides.length * (display + fade) * GRID_SIZE}`,
+					`v${GRID_SIZE}`,
+					"z",
+				].join(" ")}
+			/>
+		{:else if index !== slides.length - 1}
+			<path
+				d={[
+					`M0,${(1 + index * 2) * GRID_SIZE}`,
+					`h${(index * (display + fade) - fade) * GRID_SIZE}`,
+					`l${fade * GRID_SIZE},${-GRID_SIZE}`,
+					`h${(display + fade) * GRID_SIZE}`,
+					`v${GRID_SIZE}`,
+					`h${(slides.length - index - 1) * (display + fade) * GRID_SIZE}`,
+					"z",
+				].join(" ")}
+			/>
+		{:else}
+			<path
+				d={[
+					`M0,${(1 + index * 2) * GRID_SIZE}`,
+					`h${(index * (display + fade) - fade) * GRID_SIZE}`,
+					`l${fade * GRID_SIZE},${-GRID_SIZE}`,
+					`h${display * GRID_SIZE}`,
+					`l${fade * GRID_SIZE},${GRID_SIZE}`,
+					`h${(slides.length - index - 1) * (display + fade) * GRID_SIZE}`,
+					"z",
+				].join(" ")}
+			/>
+		{/if}
+	{/each}
+</svg>
 
 <style>
 	div {
