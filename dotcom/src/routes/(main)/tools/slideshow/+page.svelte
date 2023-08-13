@@ -80,7 +80,7 @@
 					"z",
 				].join(" ")}
 			/>
-		{:else if index !== slides.length - 1}
+		{:else if middle_slides_display_longer && index !== slides.length - 1}
 			<path
 				d={[
 					`M0,${(1 + index * 2) * GRID_SIZE}`,
