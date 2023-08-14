@@ -18,6 +18,7 @@
 	ul {
 		list-style-type: none;
 		display: flex;
+		flex-wrap: wrap;
 		margin: 0;
 		padding: 0;
 	}

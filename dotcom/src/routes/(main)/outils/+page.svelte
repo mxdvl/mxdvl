@@ -1,7 +1,7 @@
 <script>
 	import Alternates from "$lib/Alternates.svelte";
 
-	const tools = /** @type {const} */ (["cadence", "facteurs", "calendrier"]);
+	const tools = /** @type {const} */ (["cadence", "facteurs", "calendrier", "diaporama"]);
 </script>
 
 <Alternates en="/tools" fr="/outils" />
@@ -18,6 +18,7 @@
 	ul {
 		list-style-type: none;
 		display: flex;
+		flex-wrap: wrap;
 		margin: 0;
 		padding: 0;
 	}
