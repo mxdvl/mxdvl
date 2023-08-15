@@ -83,8 +83,8 @@ importers:
         specifier: 5.0.7
         version: 5.0.7
       zod:
-        specifier: 3.21.4
-        version: 3.21.4
+        specifier: 3.22.0
+        version: 3.22.0
 
 packages:
 
@@ -3054,6 +3054,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /zod@3.21.4:
-    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+  /zod@3.22.0:
+    resolution: {integrity: sha512-y5KZY/ssf5n7hCGDGGtcJO/EBJEm5Pa+QQvFBeyMOtnFYOSflalxIFFvdaYevPhePcmcKC4aTbFkCcXN7D0O8Q==}
     dev: false
