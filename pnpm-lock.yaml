@@ -15,10 +15,10 @@ importers:
         version: 6.3.0
       '@sveltejs/adapter-vercel':
         specifier: 3.0.3
-        version: 3.0.3(@sveltejs/kit@1.23.0)
+        version: 3.0.3(@sveltejs/kit@1.24.0)
       '@sveltejs/kit':
-        specifier: 1.23.0
-        version: 1.23.0(svelte@4.2.0)(vite@4.4.9)
+        specifier: 1.24.0
+        version: 1.24.0(svelte@4.2.0)(vite@4.4.9)
       '@sveltejs/vite-plugin-svelte':
         specifier: 2.4.5
         version: 2.4.5(svelte@4.2.0)(vite@4.4.9)
@@ -502,12 +502,12 @@ packages:
       picomatch: 2.3.1
     dev: false
 
-  /@sveltejs/adapter-vercel@3.0.3(@sveltejs/kit@1.23.0):
+  /@sveltejs/adapter-vercel@3.0.3(@sveltejs/kit@1.24.0):
     resolution: {integrity: sha512-0FQMjR6klW4627ewdclSr0lUe/DqiiyOaRTfgb5cXgNbVMsZMOA2fQ77TYQnJdvMfSEWe6y8uznV48XqKh9+vA==}
     peerDependencies:
       '@sveltejs/kit': ^1.5.0
     dependencies:
-      '@sveltejs/kit': 1.23.0(svelte@4.2.0)(vite@4.4.9)
+      '@sveltejs/kit': 1.24.0(svelte@4.2.0)(vite@4.4.9)
       '@vercel/nft': 0.23.0
       esbuild: 0.18.11
     transitivePeerDependencies:
@@ -515,8 +515,8 @@ packages:
       - supports-color
     dev: false
 
-  /@sveltejs/kit@1.23.0(svelte@4.2.0)(vite@4.4.9):
-    resolution: {integrity: sha512-MuDM6afpSMnPFMtEsE1O+Qn6NVPNHDqsDYYZE/8/+Z3IvGmE+GKHC+za6fEmCfwXLqNlxFZiV8s8kKOeNVJP+g==}
+  /@sveltejs/kit@1.24.0(svelte@4.2.0)(vite@4.4.9):
+    resolution: {integrity: sha512-r7Gj0/VcdAIRL1yE1cJ5rurWJ5drrR7BzRv+P+NAathtvnMCi0u4FhezO7T4bj7DJdQ3TNsax3yQcrVWxh60fg==}
     engines: {node: ^16.14 || >=18}
     hasBin: true
     requiresBuild: true
@@ -536,6 +536,7 @@ packages:
       set-cookie-parser: 2.6.0
       sirv: 2.0.2
       svelte: 4.2.0
+      tiny-glob: 0.2.9
       undici: 5.23.0
       vite: 4.4.9(@types/node@18.17.0)
     transitivePeerDependencies:
@@ -1776,6 +1777,10 @@ packages:
       type-fest: 0.20.2
     dev: false
 
+  /globalyzer@0.1.0:
+    resolution: {integrity: sha512-40oNTM9UfG6aBmuKxk/giHn5nQ8RVz/SS4Ir6zgzOv9/qC3kKZ9v4etGTcJbEl/NyVQH7FGU7d+X1egr57Md2Q==}
+    dev: false
+
   /globby@11.1.0:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
@@ -1786,6 +1791,10 @@ packages:
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 3.0.0
+    dev: false
+
+  /globrex@0.1.2:
+    resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
     dev: false
 
   /graceful-fs@4.2.10:
@@ -2762,6 +2771,13 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       convert-hrtime: 3.0.0
+    dev: false
+
+  /tiny-glob@0.2.9:
+    resolution: {integrity: sha512-g/55ssRPUjShh+xkfx9UPDXqhckHEsHr4Vd9zX55oSdGZc/MD0m3sferOkwWtp98bv+kcVfEHtRJgBVJzelrzg==}
+    dependencies:
+      globalyzer: 0.1.0
+      globrex: 0.1.2
     dev: false
 
   /to-regex-range@5.0.1:
