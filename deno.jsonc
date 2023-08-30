@@ -1,11 +1,12 @@
 {
 	"tasks": {
-		"dev": "deno task build && deno run --watch --allow-read --allow-net deno/server.ts",
-		"build": "rm -rf deno/static && mkdir -p deno/static && deno task build:assets & deno task build:styles & deno task build:icons",
+		"dev": "deno run --watch --allow-read --allow-net deno/mononykus.ts --watch",
+		"build": "rm -rf deno/static && mkdir -p deno/static & deno task build:icons & deno task build:mononykus",
 		"build:assets": "deno run --allow-read --allow-write=deno/static deno/scripts/copy_assets.ts",
 		"build:icons": "deno run --allow-read --allow-write=cmps/build,deno/static --allow-net deno/scripts/process_icons.ts",
 		"build:styles": "deno run --allow-read=. --allow-write --allow-net deno/styles/styles.css.ts",
-		"serve": "deno task build build && deno run --allow-read=deno --allow-net deno/server.ts"
+		"build:mononykus": "deno run -A deno/mononykus.ts",
+		"serve": "deno run --allow-read --allow-net deno/server.ts"
 	},
 	"compilerOptions": {
 		"lib": ["deno.ns", "dom", "dom.asynciterable"],
