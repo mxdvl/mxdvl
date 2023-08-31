@@ -1,21 +1,12 @@
 <script>
 	import Header from "./Header.svelte";
 	import Footer from "./Footer.svelte";
-	import { onMount } from "svelte";
-	import { load, trackPageview } from "npm:fathom-client@3.5.0";
+	import Analytics from "./Analytics.island.svelte";
 	import { capitalise } from "../../dotcom/src/lib/capitalise.js";
 
 	const url = new URL("/hi", "https://www.mxdvl.com/");
 
 	const lang = "en";
-
-	onMount(() => {
-		load("MDDFSRVF", {
-			includedDomains: ["www.mxdvl.com"],
-			url: "https://cdn.usefathom.com/script.js",
-		});
-		trackPageview();
-	});
 </script>
 
 <svelte:head>
@@ -27,6 +18,7 @@
 			.map(decodeURIComponent)
 			.map(capitalise)}</title
 	>
+	<link href="/assets/styles.css" rel="stylesheet" />
 </svelte:head>
 
 <Header {url} {lang} />
@@ -36,6 +28,8 @@
 </main>
 
 <Footer {url} {lang} />
+
+<Analytics />
 
 <style>
 	main {
