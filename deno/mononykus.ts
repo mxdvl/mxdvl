@@ -1,7 +1,6 @@
 import { Handler, serve } from "std/http/server.ts";
 import { serveDir, serveFile } from "std/http/file_server.ts";
 import { dirname, fromFileUrl } from "std/path/mod.ts";
-import { build, rebuild } from "https://deno.land/x/mononykus@0.7.1/src/build.ts";
 
 const options = {
 	site_dir: fromFileUrl(dirname(import.meta.url) + "/"),
@@ -30,6 +29,8 @@ export const handler: Handler = (request) => {
 };
 
 if (import.meta.main) {
+	const { build, rebuild } = await import("https://deno.land/x/mononykus@0.7.1/src/build.ts");
+
 	const environment = Deno.args.some((arg) => arg === "--watch") ? "dev" : "prod";
 	if (environment === "dev") {
 		await rebuild(options);
