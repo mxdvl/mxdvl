@@ -32,8 +32,8 @@ importers:
         specifier: 6.7.2
         version: 6.7.2(eslint@8.49.0)(typescript@5.2.2)
       '@vercel/node':
-        specifier: 3.0.5
-        version: 3.0.5
+        specifier: 3.0.6
+        version: 3.0.6
       browser-fs-access:
         specifier: 0.35.0
         version: 0.35.0
@@ -767,8 +767,8 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: false
 
-  /@vercel/build-utils@7.2.0:
-    resolution: {integrity: sha512-zLGXMuqRG/s++tqmui6MNRmHHi9phArug6XF5iRLVN8w/w3UxnnMVn3zXmnozrljrjwqSE43u8jLOVDqnk879Q==}
+  /@vercel/build-utils@7.2.1:
+    resolution: {integrity: sha512-WCqSBCPNlANEOsmroCzCZq6ZxArV20RHBbdaZzhZjkGtEReSZx5BSOsrnkewFJFuu5pNGYegAaVi0VCkA1irZQ==}
     dev: false
 
   /@vercel/error-utils@2.0.1:
@@ -796,20 +796,42 @@ packages:
       - supports-color
     dev: false
 
-  /@vercel/node@3.0.5:
-    resolution: {integrity: sha512-Ow98UMLuODqORNO34j+mbmTGimWD9BjM4onUKkuaSoLaHcl/CAlTTR4m71IdyJeoDBcf0bRURluseED0gmXCTA==}
+  /@vercel/nft@0.24.1:
+    resolution: {integrity: sha512-bGYrA/w98LNl9edxXcAezKs+Ixa2a+RkAvxXK38gH3815v+WkNa2AGY+wQv59vu2f9il9+zIKj6YrnlYIbh+jA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      '@mapbox/node-pre-gyp': 1.0.10
+      '@rollup/pluginutils': 4.2.1
+      acorn: 8.9.0
+      async-sema: 3.1.1
+      bindings: 1.5.0
+      estree-walker: 2.0.2
+      glob: 7.2.3
+      graceful-fs: 4.2.10
+      micromatch: 4.0.5
+      node-gyp-build: 4.5.0
+      resolve-from: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@vercel/node@3.0.6:
+    resolution: {integrity: sha512-QYsmc5rtuyjSAryAo4qRwsEw9NXhapAbF/OBM0Fdq3kPiwHDfbElJpb7UbeQH19u3q4d+E7Z6wZTbO6bsrzw4g==}
     dependencies:
       '@edge-runtime/node-utils': 2.2.1
       '@edge-runtime/primitives': 3.1.1
       '@edge-runtime/vm': 3.1.1
       '@types/node': 14.18.33
-      '@vercel/build-utils': 7.2.0
+      '@vercel/build-utils': 7.2.1
       '@vercel/error-utils': 2.0.1
+      '@vercel/nft': 0.24.1
       '@vercel/static-config': 3.0.0
       async-listen: 3.0.0
-      content-type: 1.0.5
       edge-runtime: 2.5.1
       esbuild: 0.14.47
+      etag: 1.8.1
       exit-hook: 2.2.1
       node-fetch: 2.6.9
       path-to-regexp: 6.2.1
@@ -821,6 +843,7 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - encoding
+      - supports-color
     dev: false
 
   /@vercel/static-config@3.0.0:
@@ -1107,11 +1130,6 @@ packages:
 
   /console-control-strings@1.1.0:
     resolution: {integrity: sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==}
-    dev: false
-
-  /content-type@1.0.5:
-    resolution: {integrity: sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==}
-    engines: {node: '>= 0.6'}
     dev: false
 
   /convert-hrtime@3.0.0:
@@ -1616,6 +1634,11 @@ packages:
   /esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /etag@1.8.1:
+    resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
+    engines: {node: '>= 0.6'}
     dev: false
 
   /exit-hook@2.2.1:
