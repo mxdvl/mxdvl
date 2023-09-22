@@ -1,5 +1,5 @@
 <script>
-	import Theme from "./Theme.svelte";
+	import Theme from "./Theme.island.svelte";
 
 	/** @type {Lang} */
 	export let lang;
@@ -29,7 +29,7 @@
 		</p>
 	{/if}
 
-	<Theme />
+	<Theme {lang} />
 
 	{#if lang == "fr"}
 		<p>

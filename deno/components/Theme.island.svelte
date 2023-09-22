@@ -71,6 +71,38 @@
 	});
 </script>
 
+<svelte:head
+	><svelte:element this="script">
+		{@html `
+const html = document.querySelector("html");
+const mq = window.matchMedia("(prefers-color-scheme: dark)");
+try {
+	const { theme } = localStorage;
+	if (theme) {
+		html.classList.add(theme);
+		document.querySelector("link[rel=icon]")?.setAttribute("href", \`/cmps-\${theme}.svg\`);
+		document
+			.querySelector("link[rel=apple-touch-icon]")
+			?.setAttribute("href", \`/cmps-icon-\${theme}.png\`);
+		document
+			.querySelector("link[rel=mask-icon]")
+			?.setAttribute("color", theme === "dark" ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
+	} else {
+		html.classList.toggle("dark", mq.matches);
+		html.classList.toggle("light", !mq.matches);
+		console.log(document.querySelector("link[rel=mask-icon]"));
+		document
+			.querySelector("link[rel=mask-icon]")
+			?.setAttribute("color", mq.matches ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
+	}
+} catch (error) {
+	html.classList.add("light");
+	console.log(error);
+}
+`}</svelte:element
+	></svelte:head
+>
+
 {#if lang === "fr"}
 	<p>
 		Changer de thème? Vous pouvez choisir

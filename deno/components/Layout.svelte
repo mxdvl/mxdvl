@@ -21,13 +21,15 @@
 	<link href="/assets/styles.css" rel="stylesheet" />
 </svelte:head>
 
-<Header {url} {lang} />
+<div id="grid">
+	<Header {url} {lang} />
 
-<main>
-	<slot />
-</main>
+	<main>
+		<slot />
+	</main>
 
-<Footer {url} {lang} />
+	<Footer {url} {lang} />
+</div>
 
 <Analytics />
 
