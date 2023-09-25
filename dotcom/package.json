@@ -25,7 +25,7 @@
 		"@typescript-eslint/parser": "6.7.2",
 		"@vercel/node": "3.0.6",
 		"browser-fs-access": "0.35.0",
-		"eslint": "8.49.0",
+		"eslint": "8.50.0",
 		"eslint-config-prettier": "9.0.0",
 		"eslint-plugin-svelte3": "4.0.0",
 		"fathom-client": "3.5.0",
