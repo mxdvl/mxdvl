@@ -18,7 +18,7 @@
 	"dependencies": {
 		"@ibm/plex": "6.3.0",
 		"@sveltejs/adapter-vercel": "3.0.3",
-		"@sveltejs/kit": "1.25.1",
+		"@sveltejs/kit": "1.25.2",
 		"@sveltejs/vite-plugin-svelte": "2.4.6",
 		"@types/node": "18.18",
 		"@typescript-eslint/eslint-plugin": "6.7.4",
