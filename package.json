@@ -7,5 +7,5 @@
 		"check:lint": "pnpm -r check:lint",
 		"check:svelte": "pnpm -r check:svelte"
 	},
-	"packageManager": "pnpm@8.9.0"
+	"packageManager": "pnpm@8.9.2"
 }
