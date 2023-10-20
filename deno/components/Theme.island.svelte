@@ -73,7 +73,7 @@
 </script>
 
 <svelte:head
-	><svelte:element this="script">
+	><svelte:element this="script" defer>
 		{@html `
 const html = document.querySelector("html");
 const mq = window.matchMedia("(prefers-color-scheme: dark)");
