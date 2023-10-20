@@ -8,8 +8,8 @@
 </script>
 
 <picture style={`--ratio: ${ratio};`}>
-	{#each Object.entries(picture.sources) as [format, images]}
-		<source srcset={images.map(({ src, w }) => `${src} ${w}w`).join(", ")} type={"image/" + format} />
+	{#each Object.entries(picture.sources) as [format, srcset]}
+		<source {srcset} type={"image/" + format} />
 	{/each}
 	<img src={picture.img.src} {alt} />
 </picture>
