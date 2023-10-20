@@ -2,7 +2,7 @@
 	import Logo from "./CMPS.svelte";
 	import { capitalise } from "../../dotcom/src/lib/capitalise.js";
 
-	/** @typedef {import('./lang')} */
+	/** @typedef {import('./lang.js').Lang} Lang */
 
 	/** @type {Lang} */
 	export let lang;
