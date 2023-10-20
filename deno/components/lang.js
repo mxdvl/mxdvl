@@ -1,1 +1,2 @@
-/** @typedef {'en' | 'fr'} Lang */
+/** @typedef {typeof langs[number]} Lang */
+export const langs = /** @type {const} */ (["en", "fr"]);

@@ -1,8 +1,9 @@
 <script>
 	import { onMount } from "svelte";
-	import Button from "../../dotcom/src/lib/Button.svelte";
+	import Button from "./Button.svelte";
 
 	/** @typedef {"light" | "dark"} Theme */
+
 	/** @type {Theme} */
 	let themePreference;
 	/** @type {Theme} */

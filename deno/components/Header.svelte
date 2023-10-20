@@ -2,6 +2,8 @@
 	import Logo from "./CMPS.svelte";
 	import { capitalise } from "../../dotcom/src/lib/capitalise.js";
 
+	/** @typedef {import('./lang')} */
+
 	/** @type {Lang} */
 	export let lang;
 
@@ -84,6 +86,7 @@
 		height: 100%;
 		margin: 0;
 		padding: 0;
+		padding-top: calc(var(--grid-y) / 2);
 		gap: 0;
 
 		font-weight: 480;
