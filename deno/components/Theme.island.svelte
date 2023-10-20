@@ -73,7 +73,7 @@
 </script>
 
 <svelte:head
-	><svelte:element this="script" defer>
+	><svelte:element this="script" async>
 		{@html `
 const html = document.querySelector("html");
 const mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -91,14 +91,13 @@ try {
 	} else {
 		html.classList.toggle("dark", mq.matches);
 		html.classList.toggle("light", !mq.matches);
-		console.log(document.querySelector("link[rel=mask-icon]"));
 		document
 			.querySelector("link[rel=mask-icon]")
 			?.setAttribute("color", mq.matches ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
 	}
 } catch (error) {
 	html.classList.add("light");
-	console.log(error);
+	console.error(error);
 }
 `}</svelte:element
 	></svelte:head
