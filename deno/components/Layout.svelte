@@ -4,7 +4,7 @@
 	import Analytics from "./Analytics.island.svelte";
 	import { capitalise } from "../../dotcom/src/lib/capitalise.js";
 
-	const url = new URL("/hi", "https://www.mxdvl.com/");
+	export let url = new URL("https://www.mxdvl.com/");
 
 	const lang = "en";
 </script>
@@ -23,40 +23,40 @@
 			--ocean: rgb(0% 63.29% 66.65%);
 			--glint: rgb(100% 46.32% 10.17%);
 
+			--earth: rgb(0% 14.37% 13.78%);
+			--clouds: rgb(93.44% 98.82% 100%);
+			--skies: rgb(78.7% 91.16% 93.87%);
+
 			-webkit-text-size-adjust: 100%;
 			-moz-text-size-adjust: 100%;
 			-ms-text-size-adjust: 100%;
 			text-size-adjust: 100%;
 		}
 
-		.light {
-			--earth: rgb(0% 14.37% 13.78%);
-			--clouds: rgb(93.44% 98.82% 100%);
-			--skies: rgb(78.7% 91.16% 93.87%);
-		}
-
-		.dark {
-			--earth: rgb(93.44% 98.82% 100%);
-			--clouds: rgb(0% 19.5% 22.66%);
-			--skies: rgb(0% 11.53% 13.59%);
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--earth: rgb(93.44% 98.82% 100%);
+				--clouds: rgb(0% 19.5% 22.66%);
+				--skies: rgb(0% 11.53% 13.59%);
+			}
 		}
 
 		@supports (color: lch(66% 120 54)) {
 			:root {
 				--ocean: lch(60% 72 204);
 				--glint: lch(66% 120 54);
-			}
 
-			.light {
 				--earth: lch(12% 60 192);
 				--clouds: lch(98% 6 216);
 				--skies: lch(90% 12 216);
 			}
 
-			.dark {
-				--earth: lch(98% 6 216);
-				--clouds: lch(18% 24 216);
-				--skies: lch(9% 24 216);
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--earth: lch(98% 6 216);
+					--clouds: lch(18% 24 216);
+					--skies: lch(9% 24 216);
+				}
 			}
 		}
 

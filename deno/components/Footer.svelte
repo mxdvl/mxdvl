@@ -1,5 +1,5 @@
 <script>
-	import Theme from "./Theme.island.svelte";
+	/** @typedef {import('./lang.js').Lang} Lang */
 
 	/** @type {Lang} */
 	export let lang;
@@ -29,8 +29,6 @@
 		</p>
 	{/if}
 
-	<Theme {lang} />
-
 	{#if lang == "fr"}
 		<p>
 			Inquiet pour votre <a href="/confidentialité">confidentialité</a>?
@@ -48,13 +46,12 @@
 					type: "code",
 					q: [
 						"repo:mxdvl/mxdvl",
-						"path:/\\.(svelte|md)/",
-						`path:${path.split("/").at(-1)}`,
+						"path:/deno\/routes\/.+\\.svelte/",
 					].join(" "),
 				}).toString()}`,
 				"https://github.com/"
 			).href}
-			>{#if lang == "fr"}
+			>{#if $lang == "fr"}
 				Suggérer une modification
 			{:else}
 				Propose an edit
