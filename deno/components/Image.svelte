@@ -1,6 +1,6 @@
 <script>
-	/** @type {Record<string, [format: string, srcset: string]>} */
-	export let picture;
+	/** @type {string} */
+	export let src;
 
 	/** @type {string} */
 	export let alt;
@@ -8,10 +8,7 @@
 </script>
 
 <picture style={`--ratio: ${ratio};`}>
-	{#each Object.entries(picture) as [format, srcset]}
-		<source {srcset} type={"image/" + format} />
-	{/each}
-	<img src={picture.img.src} {alt} />
+	<img src={`/media/${src}`} {alt} />
 </picture>
 
 <style>

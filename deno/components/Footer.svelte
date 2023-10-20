@@ -46,12 +46,12 @@
 					type: "code",
 					q: [
 						"repo:mxdvl/mxdvl",
-						"path:/deno\/routes\/.+\\.svelte/",
+						"path:/deno/routes/.+\\.svelte/",
 					].join(" "),
 				}).toString()}`,
 				"https://github.com/"
 			).href}
-			>{#if $lang == "fr"}
+			>{#if lang == "fr"}
 				Suggérer une modification
 			{:else}
 				Propose an edit

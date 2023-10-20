@@ -25,7 +25,7 @@
 </script>
 
 <script>
-	/** @typedef {import('./lang.js')} */
+	/** @typedef {import('./lang.js').Lang} Lang */
 
 	/** @type {string[]} */
 	export let works;
