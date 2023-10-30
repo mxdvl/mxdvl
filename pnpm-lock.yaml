@@ -74,8 +74,8 @@ importers:
         specifier: 4.5.0
         version: 4.5.0(@types/node@20.8.8)
       vite-imagetools:
-        specifier: 6.1.0
-        version: 6.1.0
+        specifier: 6.2.0
+        version: 6.2.0
       zod:
         specifier: 3.22.4
         version: 3.22.4
@@ -3051,8 +3051,8 @@ packages:
       unist-util-stringify-position: 2.0.3
     dev: false
 
-  /vite-imagetools@6.1.0:
-    resolution: {integrity: sha512-3XfENNPyJ2fx4ByjJ200HDG+s5qaPpDoo2ZHZAqDCBGjO5spUOCEBEvBImwVu05BDxO59QwzFgIIFY9NvRIQRA==}
+  /vite-imagetools@6.2.0:
+    resolution: {integrity: sha512-+CwjCNuxdGnoGLZRwTpCUFH1wdSZ+Ts8dhZpi2gnPE1XTeBlySiZP7CiW3nFgcHs3lFww5TOBnZB1hlebdXGZA==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@rollup/pluginutils': 5.0.2
