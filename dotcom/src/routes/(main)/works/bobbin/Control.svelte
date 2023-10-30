@@ -166,7 +166,7 @@
 
 	textarea {
 		display: block;
-		font-family: "IBM Plex Mono", monospace;
+		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
 		background-color: inherit;
 		resize: none;
 		font-size: inherit;
