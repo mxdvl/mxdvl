@@ -36,7 +36,7 @@
 		"svelte-preprocess": "5.0.4",
 		"svelte": "4.2.2",
 		"typescript": "5.2.2",
-		"vite-imagetools": "6.2.1",
+		"vite-imagetools": "6.2.3",
 		"vite": "4.5.0",
 		"zod": "3.22.4"
 	}
