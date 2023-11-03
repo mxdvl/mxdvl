@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "3.0.3",
-		"@sveltejs/kit": "1.27.2",
+		"@sveltejs/kit": "1.27.3",
 		"@sveltejs/vite-plugin-svelte": "2.4.6",
 		"@types/node": "20.8",
 		"@typescript-eslint/eslint-plugin": "6.9.1",
