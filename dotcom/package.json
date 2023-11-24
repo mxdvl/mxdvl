@@ -19,7 +19,7 @@
 		"@sveltejs/adapter-vercel": "3.1.0",
 		"@sveltejs/kit": "1.27.6",
 		"@sveltejs/vite-plugin-svelte": "3.0.1",
-		"@types/node": "20.9",
+		"@types/node": "20.10",
 		"@typescript-eslint/eslint-plugin": "6.12.0",
 		"@typescript-eslint/parser": "6.12.0",
 		"@vercel/node": "3.0.11",
