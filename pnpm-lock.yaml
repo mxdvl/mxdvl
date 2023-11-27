@@ -74,8 +74,8 @@ importers:
         specifier: 5.0.2
         version: 5.0.2(@types/node@20.10.0)
       vite-imagetools:
-        specifier: 6.2.4
-        version: 6.2.4
+        specifier: 6.2.5
+        version: 6.2.5
       zod:
         specifier: 3.22.4
         version: 3.22.4
@@ -686,11 +686,11 @@ packages:
       picomatch: 2.3.1
     dev: false
 
-  /@rollup/pluginutils@5.0.2:
-    resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
+  /@rollup/pluginutils@5.0.5:
+    resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -2229,11 +2229,11 @@ packages:
     engines: {node: '>= 4'}
     dev: false
 
-  /imagetools-core@6.0.0:
-    resolution: {integrity: sha512-oH6Rng1AJSwaJnQ0nJBKvEPyz0u5tXHy4dN0ujvf7hMljVBh/Dp/qoDU1gGR26eR13VgyVKiy8XzXEBCwgHtCw==}
+  /imagetools-core@6.0.1:
+    resolution: {integrity: sha512-F8NDWHUnVwAmvZ4k4nkSfgmNvwtRZQu2ipoyjo4f5q4+A9Ex1HgJxbdyXY+wCODUcn0dCH3uLLHXawa2FXt/vA==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      sharp: 0.32.4
+      sharp: 0.32.6
     dev: false
 
   /import-fresh@3.3.0:
@@ -2920,8 +2920,8 @@ packages:
     resolution: {integrity: sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==}
     dev: false
 
-  /sharp@0.32.4:
-    resolution: {integrity: sha512-exUnZewqVZC6UXqXuQ8fyJJv0M968feBi04jb9GcUHrWtkRoAKnbJt8IfwT4NJs7FskArbJ14JAFGVuooszoGg==}
+  /sharp@0.32.6:
+    resolution: {integrity: sha512-KyLTWwgcR9Oe4d9HwCwNM2l7+J0dUQwn/yf7S0EnTtb0eVS4RxO0eUSvxPtzT4F3SY+C4K6fqdv/DO27sJ/v/w==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
@@ -3377,12 +3377,12 @@ packages:
       unist-util-stringify-position: 2.0.3
     dev: false
 
-  /vite-imagetools@6.2.4:
-    resolution: {integrity: sha512-ZeWDekJPb+N7WvdmyEcyvs9uLjjhjcQt7pO5LZrKcUan0V6+XizLJ/J1h4nSHduAb8+xpzfl7tPyf9rkk3ujBA==}
+  /vite-imagetools@6.2.5:
+    resolution: {integrity: sha512-3E7Og8SanzFkN9qmcOQm5/p2RPz3p5ThVDS0m44eHKP8yRcm6h+z8A1p7ykrVSqPE+lX6bSbTZsR9bjEiLtqJw==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      '@rollup/pluginutils': 5.0.2
-      imagetools-core: 6.0.0
+      '@rollup/pluginutils': 5.0.5
+      imagetools-core: 6.0.1
     transitivePeerDependencies:
       - rollup
     dev: false
