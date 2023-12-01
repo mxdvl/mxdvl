@@ -8,7 +8,7 @@ zoneight234
 7pqrstsixteen`;
 
 	const firstDigit = /^.*?(one|two|three|four|five|six|seven|eight|nine|\d)/;
-	const lastDigit = /.+(one|two|three|four|five|six|seven|eight|nine|\d).*?$/;
+	const lastDigit = /.*(one|two|three|four|five|six|seven|eight|nine|\d).*?$/;
 
 	/** @type {Record<string, number>}*/
 	const mappings = {
@@ -37,10 +37,21 @@ zoneight234
 
 <textarea rows="7" bind:value={input}></textarea>
 
+<pre>{numbers.reduce((a, b) => a + b)}</pre>
+
 <ul>
 	{#each numbers as number, index (index)}
-		<li>{number} : {lines[index]}</li>
+		<li>{number} – {lines[index]}</li>
 	{/each}
 </ul>
 
-<pre>{numbers.reduce((a, b) => a + b)}</pre>
+<style>
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	li {
+		font-family: monospace;
+	}
+</style>
