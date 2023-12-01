@@ -7,8 +7,8 @@ xtwone3four
 zoneight234
 7pqrstsixteen`;
 
-	const firstDigit = /^.*?(one|two|three|four|five|six|seven|eight|nine|\d)/;
-	const lastDigit = /.*(one|two|three|four|five|six|seven|eight|nine|\d).*?$/;
+	const firstDigit = /^.*?(\d|one|two|three|four|five|six|seven|eight|nine)/;
+	const lastDigit = /.*(\d|one|two|three|four|five|six|seven|eight|nine).*?$/;
 
 	/** @type {Record<string, number>}*/
 	const mappings = {
