@@ -55,6 +55,9 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 			{ red: 0, green: 0, blue: 0 },
 		);
 	});
+
+	/** @param {number} n */
+	const double_digit = (n) => n.toString().padStart(2, " ");
 </script>
 
 <textarea cols="80" rows="6" bind:value={input}></textarea>
@@ -79,14 +82,14 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 <ul>
 	{#each part_one as { id, draws }}
 		<li>
-			{id}:
+			{double_digit(id)}:
 			{#each draws as { red, green, blue }, index}
 				{#if index !== 0}
 					{" "}-{" "}
 				{/if}
-				<span class="red">{red}</span>
-				<span class="green">{green}</span>
-				<span class="blue">{blue}</span>
+				<span class="red">{double_digit(red)}</span>
+				<span class="green">{double_digit(green)}</span>
+				<span class="blue">{double_digit(blue)}</span>
 			{/each}
 		</li>
 	{/each}
