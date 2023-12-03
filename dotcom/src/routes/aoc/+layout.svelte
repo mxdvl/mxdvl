@@ -7,9 +7,20 @@
 
 <style global>
 	:root {
-		--red: darkred;
-		--green: darkgreen;
-		--blue: rgb(46, 125, 194);
+		color-scheme: light dark;
+
+		--red: firebrick;
+		--green: forestgreen;
+		--blue: cornflowerblue;
+
+		@media (prefers-color-scheme: dark) {
+			--red: tomato;
+			--green: palegreen;
+		}
+	}
+
+	::selection {
+		background: color-mix(in oklab, var(--blue), transparent 60%);
 	}
 
 	body,
@@ -19,10 +30,12 @@
 	}
 
 	textarea {
+		display: block;
 		font-size: 1rem;
 		border: 0.5ch solid var(--blue);
 		resize: none;
 		padding: 0.5ch;
+		caret-color: var(--blue);
 	}
 
 	h1,
