@@ -78,15 +78,6 @@
 </p>
 
 <ul style="--rows:{rows};--cols:{cols}">
-	{#each symbols as coordinates}
-		{@const [x, y] = coordinates.split(",")}
-		<li
-			class="symbol"
-			class:gear={gears.has(coordinates)}
-			style="grid-column-start:{Number(x) + 1};grid-row-start:{Number(y) + 1}"
-		></li>
-	{/each}
-
 	{#each part_one as { value, x, y }}
 		<li
 			class="number"
@@ -97,8 +88,19 @@
 			grid-row-end: {Math.min(y + 1, rows) + 2};
 			"
 		>
-			{value}
+			<div>
+				{value}
+			</div>
 		</li>
+	{/each}
+
+	{#each symbols as coordinates}
+		{@const [x, y] = coordinates.split(",")}
+		<li
+			class="symbol"
+			class:gear={gears.has(coordinates)}
+			style="grid-column-start:{Number(x) + 1};grid-row-start:{Number(y) + 1}"
+		></li>
 	{/each}
 </ul>
 
@@ -134,8 +136,14 @@
 	}
 
 	li.number {
-		background-color: rgba(204, 204, 204, 0.667);
+		background-color: color-mix(in oklab, var(--skies), transparent 60%);
 		text-align: center;
 		margin: 0.125em;
+		display: flex;
+	}
+
+	li.number div {
+		height: 1rem;
+		margin: auto;
 	}
 </style>
