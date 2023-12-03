@@ -71,7 +71,7 @@
 
 <textarea cols="20" rows="10" bind:value={input}></textarea>
 
-<pre>Part two: {part_two.reduce(sum)}</pre>
+<p>Part two: {part_two.reduce(sum)}</p>
 
 <p>
 	Part one: {part_one.map(({ value }) => value).reduce(sum)}
@@ -124,19 +124,19 @@
 
 		width: min-content;
 
-		border: 1px solid var(--ocean);
+		border: 0.5ch solid var(--blue);
 	}
 
 	li.symbol {
-		background-color: var(--ocean);
+		background-color: var(--green);
 	}
 
 	li.gear {
-		background-color: var(--glint);
+		background-color: var(--red);
 	}
 
 	li.number {
-		background-color: color-mix(in oklab, var(--skies), transparent 60%);
+		background-color: color-mix(in oklab, var(--blue), transparent 75%);
 		text-align: center;
 		margin: 0.125em;
 		display: flex;
