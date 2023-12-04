@@ -1,6 +1,22 @@
+<script>
+	import { page } from "$app/stores";
+
+	export let data;
+
+	$: ({ days } = data);
+</script>
+
 <header>
-	<h1>Advent of Code</h1>
+	<h1>Advent of Code <a href="/aoc/2023">2023</a></h1>
 	<h2>solutions by <a href="/">@mxdvl</a></h2>
+
+	<menu>
+		Days:
+		{#each days as day}
+			{@const href = `/aoc/2023/${day}`}
+			<li class:current={$page.url.pathname === href}><a {href}>{day.replace("day/", "")}</a></li>
+		{/each}
+	</menu>
 </header>
 
 <slot />
@@ -32,9 +48,9 @@
 	textarea {
 		display: block;
 		font-size: 1rem;
-		border: 0.5ch solid var(--blue);
+		border: 0.125rem solid var(--blue);
 		resize: none;
-		padding: 0.5ch;
+		padding: 0.125rem;
 		caret-color: var(--blue);
 	}
 
@@ -42,12 +58,13 @@
 	h2,
 	h3,
 	h4 {
-		font-size: 2rem;
+		font-size: 1rem;
 		margin: 0;
 		line-height: 1;
 	}
 
 	h1 {
+		font-weight: 900;
 		color: var(--red);
 	}
 
@@ -56,14 +73,34 @@
 		color: var(--green);
 	}
 
-	h2 a {
-		color: inherit;
-	}
-
 	header {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		border-bottom: 0.5ch solid var(--blue);
+		border-bottom: 0.125rem solid var(--blue);
 		margin-bottom: 1rem;
+	}
+
+	header a {
+		color: inherit;
+	}
+
+	ul {
+		list-style-type: disc;
+		margin-block: 0.5rem;
+		padding-left: 0;
+		list-style-position: inside;
+	}
+
+	header menu {
+		display: flex;
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		gap: 1ch;
+		grid-column-end: span 2;
+	}
+
+	header menu .current {
+		color: var(--blue);
 	}
 </style>
