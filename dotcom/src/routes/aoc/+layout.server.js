@@ -1,4 +1,3 @@
-
 import { paths } from "$lib/paths";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
