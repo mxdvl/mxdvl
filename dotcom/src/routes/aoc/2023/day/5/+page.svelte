@@ -110,7 +110,7 @@ humidity-to-location map:
 	/** @typedef {{from: number, to: number}} Range*/
 
 	/**
-	 * @param {Range[]} ranges
+	 * @param {readonly Range[]} ranges
 	 * @param {typeof maps[number]} seed
 	 */
 	const faster_reducer = (ranges, { mappings }) =>
@@ -138,20 +138,13 @@ humidity-to-location map:
 						//    {       | }
 						//    {       }
 						if (last_range.from >= mapping.from && last_range.to <= mapping.to) {
-							//  26829166 - solution
-							// 100639414
-							//  26829165
-							// 235472086
-							console.info("range fully inside mapping", { last_range, mapping });
 							const next = [
 								{
 									from: last_range.from + mapping.difference,
 									to: last_range.to + mapping.difference,
 								},
 							];
-							if (next.some(({ from, to }) => from === 0)) console.warn(next);
-							if (mapping.from === 0 || last_range.from === 0)
-								console.error({ last_range, mapping, next });
+							console.info("range fully inside mapping", { last_range, mapping, next });
 							return slice.concat(...next);
 						}
 
@@ -160,13 +153,12 @@ humidity-to-location map:
 						//    | { }   |
 						//    |   {  }|
 						if (last_range.from < mapping.from && last_range.to > mapping.to) {
-							console.info("range contains the mapping", { last_range, mapping });
 							const next = [
 								{ from: last_range.from, to: mapping.from - 1 },
 								{ from: mapping.from + mapping.difference, to: mapping.to + mapping.difference },
 								{ from: mapping.to + 1, to: last_range.to },
 							];
-							if (next.some(({ from, to }) => from > to)) console.warn(next);
+							console.info("range contains the mapping", { last_range, mapping, next });
 							return slice.concat(...next);
 						}
 
@@ -175,12 +167,11 @@ humidity-to-location map:
 						//    {   }   |
 						//  { |   }   |
 						if (last_range.to > mapping.to) {
-							console.info("range lower half intersects with mappin", { last_range, mapping });
 							const next = [
 								{ from: last_range.from + mapping.difference, to: mapping.to + mapping.difference },
 								{ from: mapping.to + 1, to: last_range.to },
 							];
-							if (next.some(({ from, to }) => from > to)) console.warn({ last_range, mapping, next });
+							console.info("range lower half intersects with mapping", { last_range, mapping, next });
 							return slice.concat(...next);
 						}
 
@@ -189,12 +180,11 @@ humidity-to-location map:
 						//    |   {   }
 						//    |   {   | }
 						if (last_range.from < mapping.from) {
-							console.info("range higher half intersect with mapping", { last_range, mapping });
 							const next = [
 								{ from: last_range.from, to: mapping.from - 1 },
 								{ from: mapping.from + mapping.difference, to: last_range.to + mapping.difference },
 							];
-							if (next.some(({ from, to }) => from > to)) console.warn(next);
+							console.info("range higher half intersect with mapping", { last_range, mapping, next });
 							return slice.concat(...next);
 						}
 
@@ -204,6 +194,7 @@ humidity-to-location map:
 					[range],
 				),
 			)
+			.slice()
 			.sort(sort_ranges)
 			.reduce((ranges, next_range, _, all_ranges) => {
 				const last_range = ranges.at(-1);
@@ -211,18 +202,22 @@ humidity-to-location map:
 				if (next_range.from === 0) console.log({ last_range, next_range, all_ranges });
 
 				// we need to consolidate overlapping ranges
-				if (last_range && last_range.to >= next_range.from) {
+				if (last_range && last_range.to >= next_range.from - 1) {
 					const next = { from: last_range.from, to: next_range.to };
 					console.log(last_range, next_range, next);
 					return [...ranges.slice(0, -1), next];
 				}
 
 				return [...ranges, next_range];
-			}, /** @type {Range[]} */ ([]));
+			}, /** @type {readonly Range[]} */ ([]));
 
 	let steps = 1;
+	$: current_step = maps[steps - 1];
 
-	$: part_two = maps.reduce(faster_reducer, part_two_ranges).sort(sort_ranges);
+	$: part_two = maps.reduce(faster_reducer, part_two_ranges).slice().sort(sort_ranges);
+
+	// 109343986
+	// 100639414
 </script>
 
 <textarea cols="40" rows="36" bind:value={input}></textarea>
@@ -236,20 +231,30 @@ humidity-to-location map:
 <input type="range" bind:value={steps} min={0} max={maps.length} />
 
 <div>
-	<p>{maps[steps - 1]?.name}</p>
+	<p>{current_step?.name?.replace("map:", "ranges:")}</p>
 	<ul>
-		{#each maps
-			.slice(0, steps)
-			.reduce(faster_reducer, part_two_ranges)
-			.sort(sort_ranges) as { from, to }, index (`${index}-${from}-${to}`)}
+		{#each maps.slice(0, steps).reduce(faster_reducer, part_two_ranges) as { from, to }}
 			<li>
 				{from}-{to}
 			</li>
 		{/each}
 	</ul>
+
+	<ul>
+		<li>
+			{current_step?.name}
+			<ul class="nested">
+				{#each current_step?.mappings ?? [] as { from, to, difference }}
+					<li class:nil={from === -difference}>
+						{from}-{to} &rarr; {difference}
+					</li>
+				{/each}
+			</ul>
+		</li>
+	</ul>
 </div>
 
-<!-- {#each maps as { name, mappings }}
+{#each maps as { name, mappings }}
 	{name}
 	<svg viewBox="0 -100 100 100">
 		<line x1="0" x2="100" y1="0" y2="-100" stroke="var(--blue)" />
@@ -260,7 +265,7 @@ humidity-to-location map:
 			{/each}
 		</g>
 	</svg>
-{/each} -->
+{/each}
 
 <hr />
 
@@ -308,6 +313,10 @@ humidity-to-location map:
 		padding-left: 2ch;
 		margin-top: 0;
 		margin-bottom: 1rem;
+	}
+
+	li.nil {
+		color: var(--blue);
 	}
 
 	svg {
