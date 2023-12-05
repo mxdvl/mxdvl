@@ -39,19 +39,7 @@ humidity-to-location map:
 
 	$: seeds = raw_seeds?.split(":")[1]?.trim().split(" ").map(Number) ?? [];
 
-	// /** @param {string} seeds */
-	// const part_two_seeds = function* (seeds) {
-	// 	for (const [pair] of seeds.matchAll(/\d+ \d+/g)) {
-	// 		console.log(pair);
-	// 		const [from = 0, length = 1] = pair.split(" ").map(Number) ?? [];
-	// 		let counter = 0;
-	// 		while (counter < length) {
-	// 			yield from + counter;
-	// 			counter++;
-	// 		}
-	// 	}
-	// 	return undefined;
-	// };
+	/** @typedef {{from: number, to: number}} Range*/
 
 	$: part_two_ranges = [...raw_seeds.matchAll(/(\d+) (\d+)/g)].map(([, from, to]) => ({
 		from: Number(from),
@@ -65,7 +53,7 @@ humidity-to-location map:
 	const sort_ranges = (a, b) => a.from - b.from;
 
 	$: maps = rest.map((map) => {
-		const [name, ...ranges] = map.split("\n");
+		const [name, ...ranges] = map.split("\n").filter(Boolean);
 
 		// /** @type {Map<number, number>} */
 		// const mapping = new Map();
@@ -99,100 +87,82 @@ humidity-to-location map:
 	};
 
 	/**
-	 * @param {number} converted
-	 * @param {typeof maps[number]} seed
-	 */
-	const fast_reducer = (converted, { mappings }) => {
-		const { difference = 0 } = mappings.find(({ from, to }) => converted >= from && converted <= to) ?? {};
-		return converted + difference;
-	};
-
-	/** @typedef {{from: number, to: number}} Range*/
-
-	/**
 	 * @param {readonly Range[]} ranges
 	 * @param {typeof maps[number]} seed
 	 */
 	const faster_reducer = (ranges, { mappings }) =>
 		ranges
 			.flatMap((range) =>
-				mappings.reduce(
-					(ranges_accumulator, mapping) => {
-						const last_range = ranges_accumulator.at(-1);
-						if (!last_range) throw "No last range found";
+				mappings
+					.filter(({ from, to }) => from <= range.to && to >= range.from)
+					.reduce(
+						(ranges_accumulator, mapping) => {
+							const last_range = ranges_accumulator.at(-1);
+							if (!last_range) throw "No last range found";
 
-						// no overlap
-						//    [ range ]
-						// { }|
-						//    |       |  {   }
-						if (last_range.from > mapping.to || last_range.to < mapping.from) {
-							// console.info("no overlap", { last_range, mapping });
-							return ranges_accumulator;
-						}
+							const slice = ranges_accumulator.slice(0, -1);
 
-						const slice = ranges_accumulator.slice(0, -1);
+							// range fully inside mapping
+							//    [ range ]
+							//  { |       | }
+							//    {       | }
+							//    {       }
+							if (last_range.from >= mapping.from && last_range.to <= mapping.to) {
+								const next = [
+									{
+										from: last_range.from + mapping.difference,
+										to: last_range.to + mapping.difference,
+									},
+								];
+								console.info("range fully inside mapping", { last_range, mapping, next });
+								return slice.concat(...next);
+							}
 
-						// range fully inside mapping
-						//    [ range ]
-						//  { |       | }
-						//    {       | }
-						//    {       }
-						if (last_range.from >= mapping.from && last_range.to <= mapping.to) {
-							const next = [
-								{
-									from: last_range.from + mapping.difference,
-									to: last_range.to + mapping.difference,
-								},
-							];
-							console.info("range fully inside mapping", { last_range, mapping, next });
-							return slice.concat(...next);
-						}
+							// range contains the mapping
+							//    [ range ]
+							//    | { }   |
+							//    |   {  }|
+							if (last_range.from < mapping.from && last_range.to > mapping.to) {
+								const next = [
+									{ from: last_range.from, to: mapping.from - 1 },
+									{ from: mapping.from + mapping.difference, to: mapping.to + mapping.difference },
+									{ from: mapping.to + 1, to: last_range.to },
+								];
+								console.info("range contains the mapping", { last_range, mapping, next });
+								return slice.concat(...next);
+							}
 
-						// range contains the mapping
-						//    [ range ]
-						//    | { }   |
-						//    |   {  }|
-						if (last_range.from < mapping.from && last_range.to > mapping.to) {
-							const next = [
-								{ from: last_range.from, to: mapping.from - 1 },
-								{ from: mapping.from + mapping.difference, to: mapping.to + mapping.difference },
-								{ from: mapping.to + 1, to: last_range.to },
-							];
-							console.info("range contains the mapping", { last_range, mapping, next });
-							return slice.concat(...next);
-						}
+							// range lower half intersects with mappin
+							//    [ range ]
+							//    {   }   |
+							//  { |   }   |
+							if (last_range.to > mapping.to) {
+								const next = [
+									{ from: last_range.from + mapping.difference, to: mapping.to + mapping.difference },
+									{ from: mapping.to + 1, to: last_range.to },
+								];
+								console.info("range lower half intersects with mapping", { last_range, mapping, next });
+								return slice.concat(...next);
+							}
 
-						// range lower half intersects with mappin
-						//    [ range ]
-						//    {   }   |
-						//  { |   }   |
-						if (last_range.to > mapping.to) {
-							const next = [
-								{ from: last_range.from + mapping.difference, to: mapping.to + mapping.difference },
-								{ from: mapping.to + 1, to: last_range.to },
-							];
-							console.info("range lower half intersects with mapping", { last_range, mapping, next });
-							return slice.concat(...next);
-						}
+							// range higher half intersect with mapping
+							//    [ range ]
+							//    |   {   }
+							//    |   {   | }
+							if (last_range.from < mapping.from) {
+								const next = [
+									{ from: last_range.from, to: mapping.from - 1 },
+									{ from: mapping.from + mapping.difference, to: last_range.to + mapping.difference },
+								];
+								console.info("range higher half intersect with mapping", { last_range, mapping, next });
+								return slice.concat(...next);
+							}
 
-						// range higher half intersect with mapping
-						//    [ range ]
-						//    |   {   }
-						//    |   {   | }
-						if (last_range.from < mapping.from) {
-							const next = [
-								{ from: last_range.from, to: mapping.from - 1 },
-								{ from: mapping.from + mapping.difference, to: last_range.to + mapping.difference },
-							];
-							console.info("range higher half intersect with mapping", { last_range, mapping, next });
-							return slice.concat(...next);
-						}
-
-						console.log({ ranges_accumulator, last_range, mapping });
-						throw "There is an unhandled case";
-					},
-					[range],
-				),
+							console.log({ ranges_accumulator, last_range, mapping });
+							throw "There is an unhandled case";
+						},
+						[range],
+					),
 			)
 			.slice()
 			.sort(sort_ranges)
