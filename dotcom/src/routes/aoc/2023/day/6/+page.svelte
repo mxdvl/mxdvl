@@ -10,9 +10,9 @@ Distance:  9  40  200`;
 	 * @returns {readonly [number, number]}
 	 */
 	const find_ways = (time, record) => {
-		let hold = 1;
+		let hold = Math.ceil(record / time);
 		while ((time - hold) * hold <= record) {
-			hold++;
+		hold++;
 		}
 		return /** @type {const} */ ([hold, time - hold]);
 	};
@@ -32,14 +32,14 @@ Distance:  9  40  200`;
 	$: ways = find_ways(race.time, race.distance);
 </script>
 
-<textarea cols="40" rows="36" bind:value={input}></textarea>
+<textarea cols="60" rows="2" bind:value={input}></textarea>
 
 <hr />
 
 <h2>Part two</h2>
 
 <p>
-	{race.distance}mm in {race.time}ms &rarr; {ways[1] - ways[0] + 1} ways
+	{race.distance}mm in {race.time}ms &rarr; <strong>{ways[1] - ways[0] + 1}</strong> ways to win
 </p>
 
 <p>
@@ -50,7 +50,11 @@ Distance:  9  40  200`;
 
 <h2>Part one</h2>
 
-<p>Number of ways = {races.map(({ ways: [from, to] }) => 1 + to - from).reduce(product)}</p>
+<p>
+	The product of the ways to win is <strong
+		>{races.map(({ ways: [from, to] }) => 1 + to - from).reduce(product)}</strong
+	>.
+</p>
 
 <ul>
 	{#each races as { time, distance, ways }}
