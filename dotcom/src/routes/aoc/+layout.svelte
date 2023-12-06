@@ -103,4 +103,9 @@
 	header menu .current {
 		color: var(--blue);
 	}
+
+	hr {
+		border: none;
+		border-top: 0.125rem solid var(--blue);
+	}
 </style>
