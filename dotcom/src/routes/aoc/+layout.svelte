@@ -19,6 +19,12 @@
 	</menu>
 </header>
 
+<blockquote>
+	See the <a href="https://github.com/mxdvl/mxdvl/blob/aoc-2023/dotcom/src/routes/{$page.url.pathname}/%2Bpage.svelte"
+		>source code for this page</a
+	>.
+</blockquote>
+
 <slot />
 
 <style global>
@@ -39,10 +45,22 @@
 		background: color-mix(in oklab, var(--blue), transparent 60%);
 	}
 
+	a {
+		color: inherit;
+		text-decoration-thickness: 0.125rem;
+	}
+
 	body,
 	textarea,
 	input {
 		font-family: ui-monospace, monospace;
+	}
+
+	blockquote {
+		margin: 0;
+		padding: 0;
+		text-align: right;
+		color: var(--green);
 	}
 
 	textarea {
@@ -80,8 +98,8 @@
 		margin-bottom: 1rem;
 	}
 
-	header a {
-		color: inherit;
+	header h2 {
+		text-align: right;
 	}
 
 	ul {
