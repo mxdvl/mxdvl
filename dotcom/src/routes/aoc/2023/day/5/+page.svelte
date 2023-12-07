@@ -1,6 +1,4 @@
 <script>
-	import { onMount } from "svelte";
-
 	let input = `seeds: 79 14 55 13
 
 seed-to-soil map:
@@ -39,7 +37,8 @@ humidity-to-location map:
 
 	$: seeds = raw_seeds?.split(":")[1]?.trim().split(" ").map(Number) ?? [];
 
-	/** @typedef {{from: number, to: number}} Range*/
+	/** @typedef {{readonly from: number, readonly to: number}} Range */
+	/** @typedef {Range & {readonly difference: number}} Mapping */
 
 	$: part_two_ranges = [...raw_seeds.matchAll(/(\d+) (\d+)/g)].map(([, from, to]) => ({
 		from: Number(from),
@@ -84,6 +83,34 @@ humidity-to-location map:
 			mappings.find(({ from, to }) => last_conversion >= from && last_conversion <= to) ?? {};
 
 		return converted.concat(last_conversion + difference);
+	};
+
+	/**
+	 * @param {Range} range
+	 * @param {number} intersection
+	 * @returns {[Range] | [Range, Range]}
+	 */
+	const split_range = (range, intersection) => {
+		if (intersection < range.from || intersection > range.to) return [range];
+
+		return [
+			{ from: range.from, to: intersection },
+			{ from: intersection + 1, to: range.to },
+		];
+	};
+
+	/**
+	 * @param {readonly Range[]} ranges
+	 * @param {readonly Mapping[]} mappings
+	 */
+	const remap_ranges = (ranges, mappings) => {
+		// const new_ranges = ranges.map((range) =>
+		// 	split_range(
+		// 		range,
+		// 		mappings.flatMap(({ from, to }) => [from, to]),
+		// 	).map((seed) => seed + (mappings.find(({ from, to }) => from <= seed && seed <= to)?.difference ?? 0)),
+		// );
+		// console.log({ old_ranges: ranges, mappings, new_ranges });
 	};
 
 	/**
@@ -174,7 +201,7 @@ humidity-to-location map:
 				// we need to consolidate overlapping ranges
 				if (last_range && last_range.to >= next_range.from - 1) {
 					const next = { from: last_range.from, to: next_range.to };
-					console.log(last_range, next_range, next);
+					// console.log(last_range, next_range, next);
 					return [...ranges.slice(0, -1), next];
 				}
 
@@ -185,9 +212,6 @@ humidity-to-location map:
 	$: current_step = maps[steps - 1];
 
 	$: part_two = maps.reduce(faster_reducer, part_two_ranges).slice().sort(sort_ranges);
-
-	// 109343986
-	// 100639414
 </script>
 
 <textarea cols="40" rows="36" bind:value={input}></textarea>
@@ -199,6 +223,8 @@ humidity-to-location map:
 <p>Part two: {part_two[0]?.from}</p>
 
 <input type="range" bind:value={steps} min={0} max={maps.length} />
+
+{remap_ranges(part_two_ranges, maps[0]?.mappings ?? [])}
 
 <div>
 	<p>{current_step?.name?.replace("map:", "ranges:")}</p>
@@ -224,18 +250,16 @@ humidity-to-location map:
 	</ul>
 </div>
 
-{#each maps as { name, mappings }}
-	{name}
-	<svg viewBox="0 -100 100 100">
-		<line x1="0" x2="100" y1="0" y2="-100" stroke="var(--blue)" />
-		<g stroke="var(--red)">
-			{#each mappings as { from, to, difference }}
-				<line x1={from} x2={to} y1={-(from + difference)} y2={-(to + difference)} stroke-dasharray="0 2" />
-				<circle cx={from} cy={-from - difference} r="0.75" />
-			{/each}
-		</g>
-	</svg>
-{/each}
+<svg viewBox="0 0 100 {100 * steps}">
+	{#each part_two_ranges.flatMap(({ from, to }) => [from, to]) as seed}
+		{#each maps.slice(0, steps) as { mappings }, index}
+			{@const difference = mappings.find(({ from, to }) => from <= seed && seed <= to)?.difference ?? 0}
+			<g stroke="var(--red)">
+				<line x1={seed} x2={seed + difference} y1={100 * index} y2={100 * (index + 1)} />
+			</g>
+		{/each}
+	{/each}
+</svg>
 
 <hr />
 
