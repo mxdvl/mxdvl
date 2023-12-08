@@ -19,8 +19,10 @@ QQQJA 483`;
 	const second_order = "AKQT98765432J";
 
 	/** @typedef {{readonly type: typeof types[number], readonly cards: string}} Hand */
+	/** @typedef {Map<typeof first_order[number], number>} Cards */
 
-	/** @param {string} order
+	/**
+	 * @param {string} order
 	 * @returns {(a: Hand, b: Hand) => number}
 	 */
 	const compare = (order) => (a, b) => {
@@ -37,6 +39,65 @@ QQQJA 483`;
 		return diff;
 	};
 
+	/**
+	 * @param {Cards} map
+	 * @returns {typeof types[number]}
+	 */
+	const get_type = (map) => {
+		switch (map.size) {
+			case 1:
+				return types[0];
+			case 2:
+				return [...map.values()].some((v) => v === 4) ? types[1] : types[2];
+			case 3:
+				return [...map.values()].some((v) => v === 3) ? types[3] : types[4];
+			case 4:
+				return types[5];
+			case 5:
+				return types[6];
+		}
+		throw "Invalid hand!";
+	};
+
+	/**
+	 * @param {Cards} map
+	 * @returns {typeof types[number]}
+	 */
+	const get_type_with_jokers = (map) => {
+		switch (map.get("J")) {
+			case 5:
+			case 4:
+				return types[0];
+			case 3:
+				return map.size === 2 ? types[0] : types[1];
+			case 2: {
+				switch (map.size - 1) {
+					case 1:
+						return types[0];
+					case 2:
+						return types[1];
+					case 3:
+						return types[3];
+				}
+				return types[6];
+			}
+			case 1: {
+				switch (map.size - 1) {
+					case 1:
+						return types[0];
+					case 2:
+						return [...map.values()].some((v) => v === 3) ? types[1] : types[2];
+					case 3:
+						return types[3];
+					case 4:
+						return types[5];
+				}
+				return types[6];
+			}
+		}
+		return types[6];
+	};
+
 	$: hands = input.split("\n").filter(Boolean);
 
 	$: hands_one = hands
@@ -49,20 +110,7 @@ QQQJA 483`;
 				map.set(card, count + 1);
 			}
 
-			/** @type {Hand["type"]} */
-			let type = types[6];
-
-			if (map.size === 1) {
-				type = types[0];
-			} else if (map.size === 2) {
-				type = [...map.values()].some((v) => v === 4) ? types[1] : types[2];
-			} else if (map.size === 3) {
-				type = [...map.values()].some((v) => v === 3) ? types[3] : types[4];
-			} else if (map.size === 4) {
-				type = types[5];
-			}
-
-			return { cards, bid, type };
+			return { cards, bid: Number(bid), type: get_type(map) };
 		})
 		.sort(compare(first_order));
 
@@ -78,66 +126,9 @@ QQQJA 483`;
 
 			const jokers = map.get("J") ?? 0;
 
-			/** @type {Hand["type"]} */
-			let type = types[6];
+			const type = map.has("J") ? get_type_with_jokers(map) : get_type(map);
 
-			if (jokers === 5 || jokers === 4) {
-				type = types[0];
-			} else if (jokers === 3) {
-				type = map.size === 2 ? types[0] : types[1];
-			} else if (jokers === 2) {
-				switch (map.size - 1) {
-					case 1: {
-						type = types[0];
-						break;
-					}
-					case 2: {
-						type = types[1];
-						break;
-					}
-					case 3: {
-						type = types[3];
-						break;
-					}
-					default: {
-						console.error("Invalid hand with 2J", cards);
-						break;
-					}
-				}
-			} else if (jokers === 1) {
-				switch (map.size - 1) {
-					case 1: {
-						type = types[0];
-						break;
-					}
-					case 2: {
-						type = [...map.values()].some((v) => v === 3) ? types[1] : types[2];
-						break;
-					}
-					case 3: {
-						type = types[3];
-						break;
-					}
-					case 4: {
-						type = types[5];
-						break;
-					}
-					default: {
-						console.error("Invalid hand with 1J", cards);
-						break;
-					}
-				}
-			} else if (map.size === 1) {
-				type = types[0];
-			} else if (map.size === 2) {
-				type = [...map.values()].some((v) => v === 4) ? types[1] : types[2];
-			} else if (map.size === 3) {
-				type = [...map.values()].some((v) => v === 3) ? types[3] : types[4];
-			} else if (map.size === 4) {
-				type = types[5];
-			}
-
-			return { cards, bid, type, jokers };
+			return { cards, bid: Number(bid), type, jokers };
 		})
 		.sort(compare(second_order));
 </script>
@@ -148,7 +139,7 @@ QQQJA 483`;
 
 <hr />
 
-<h2>Part two: {hands_two.reduce((acc, h, i) => acc + Number(h.bid) * (1 + i), 0)}</h2>
+<h2>Part two: {hands_two.reduce((acc, h, i) => acc + h.bid * (1 + i), 0)}</h2>
 
 <ol>
 	{#each hands_two as hand}
@@ -158,7 +149,7 @@ QQQJA 483`;
 
 <hr />
 
-<h2>Part one: {hands_one.reduce((acc, h, i) => acc + Number(h.bid) * (1 + i), 0)}</h2>
+<h2>Part one: {hands_one.reduce((acc, h, i) => acc + h.bid * (1 + i), 0)}</h2>
 
 <ol>
 	{#each hands_one as hand}
