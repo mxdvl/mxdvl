@@ -1,10 +1,10 @@
 <script>
 	import { onMount } from "svelte";
 
-	import { zoom, zoomIdentity } from "d3-zoom";
+	import { zoom } from "d3-zoom";
 	import { select } from "d3-selection";
 	import { drag } from "d3-drag";
-	import { forceSimulation, forceLink, forceManyBody, forceCenter, forceRadial } from "d3-force";
+	import { forceSimulation, forceLink, forceManyBody, forceCenter } from "d3-force";
 
 	/** @typedef {import('./types.js').NodeDatum} NodeDatum */
 	/** @typedef {import('./types.js').LinkDatum} LinkDatum */
@@ -17,23 +17,40 @@
 
 	$: ({ links, nodes } = graph);
 
+	$: starting_points = nodes.filter(({ id }) => id.endsWith("A"));
+
 	const colours = { Z: "var(--red)", A: "var(--green)", node: "currentColor" };
+
+	/** @param {NodeDatum} d */
+	const center = (d) => ({
+		x: (d.group % 3) * ((2.5 * width) / starting_points.length) - width / 2,
+		y: Math.floor(d.group / 3) * ((4 * height) / starting_points.length) - height / 2,
+	});
 
 	/** @type {import('d3-force').Simulation<NodeDatum, LinkDatum>} */
 	let simulation;
 	/** @type {import('d3-selection').Selection<SVGElement, unknown, HTMLElement, unknown>} */
 	let svg;
+
+	$: {
+		for (const link of links) {
+			if (!nodes.some((d) => d.id === link.target)) nodes.push({ id: link.target, group: -1 });
+		}
+		nodes = nodes;
+	}
 	onMount(() => {
 		simulation = forceSimulation(nodes)
 			.force(
 				"link",
-				forceLink(links).id((d) => d.id),
+				forceLink(links)
+					.id((d) => d.id)
+					.strength(0.8),
 			)
-			// .force("pins", d3.forceCenter())
-			.force("charge", forceManyBody().strength(-0.6))
-			.force("center", forceRadial((d) => (d.group === "node" ? width / 3 : 100), 0, 0).strength(0.001))
-			// .force("center", d3.forceCenter(width / 2, height / 2))
+			.force("charge", forceManyBody().distanceMax(120).distanceMin(10))
+			.force("center", forceCenter(0, 0))
 			.on("tick", simulationUpdate);
+
+		simulation.force("radial");
 
 		svg = select("svg");
 
@@ -42,31 +59,39 @@
 
 		const link = g
 			.append("g")
-			.attr("stroke", "#999")
-			.attr("stroke-opacity", 0.6)
+			.attr("stroke", "currentColor")
+			.attr("stroke-opacity", 0.1)
 			.selectAll("line")
 			.data(links)
 			.join("line");
-		// .attr("stroke-width", (d) => Math.sqrt(d.value));
 
 		const node = g
 			.append("g")
-			.attr("stroke", "#fff")
-			.attr("stroke-width", 1.5)
 			.selectAll("circle")
 			.data(nodes)
 			.join("circle")
-			.attr("r", (d) => (d.group === "node" ? 3 : 6))
-			.attr("fill", (d) => colours[d.group])
+			.attr("r", (d) => (d.id.endsWith("A") ? 6 : d.id.endsWith("Z") ? 4 : 2))
+			.attr("fill", (d) =>
+				d.id.endsWith("Z")
+					? colours.Z
+					: d.id.endsWith("A")
+					  ? colours.A
+					  : d.group % 2 === 0
+					    ? colours.node
+					    : "var(--blue)",
+			)
 			.call(drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
 
-		node.append("title").text((d) => d.id);
+		node.append("title").text((d) => {
+			const index = starting_points.findIndex((p) => p.id === d.id);
+			return `${d.id} &rarr; ${center(d).x},${center(d).y}`;
+		});
 
 		svg.call(
 			zoom()
 				.extent([
-					[-width, -height],
-					[width, height],
+					[-width * 2, -height * 2],
+					[width * 3, height * 3],
 				])
 				.scaleExtent([1 / 10, 8])
 				.on("zoom", zoomed),

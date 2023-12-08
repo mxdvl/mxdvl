@@ -92,12 +92,35 @@ ZZZ = (ZZZ, ZZZ)`;
 		.filter((location) => location.endsWith("A"))
 		.map((starting) => get_steps_two(starting, nodes, list));
 
-	$: graph = [...nodes.entries()].reduce(
-		(acc, [location, { L, R }]) => {
-			const group = location.endsWith("Z") ? "Z" : location.endsWith("A") ? "A" : "node";
-			acc.nodes.push({ id: location, group });
-			acc.links.push({ source: location, target: L });
-			acc.links.push({ source: location, target: R });
+	const width = 600;
+	const height = 600;
+
+	$: graph = part_two_steps.reduce(
+		(acc, steps, group) => {
+			const unique_steps = new Set(steps);
+			let step_index = 0;
+			for (const step of unique_steps) {
+				const node = nodes.get(step);
+
+				if (!node) continue;
+
+				/** @param {{group: number}} d */
+				const center = ({ group }) => ({
+					x: (group % 3) * ((2.5 * width) / part_two_steps.length) - width / 2,
+					y: Math.floor(group / 3) * ((4 * height) / part_two_steps.length) - height / 2,
+				});
+
+				const radius = 120;
+				const { x, y } = center({ group });
+
+				const dx = radius * Math.sin((Math.PI * 2 * step_index) / unique_steps.size);
+				const dy = radius * Math.cos((Math.PI * 2 * step_index) / unique_steps.size);
+				acc.nodes.push({ id: step, group, x: x + dx, y: y + dy });
+				acc.links.push({ source: step, target: node.L }, { source: step, target: node.R });
+
+				step_index++;
+			}
+
 			return acc;
 		},
 		{
