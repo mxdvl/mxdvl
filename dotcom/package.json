@@ -1,6 +1,5 @@
 {
 	"name": "@mxdvl/dotcom",
-	"version": "0.1.0",
 	"description": "Max Duval’s personal website.",
 	"private": true,
 	"type": "module",
