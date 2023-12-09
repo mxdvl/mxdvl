@@ -4,6 +4,8 @@
 	export let data;
 
 	$: ({ days } = data);
+
+	$: day = $page.url.pathname.match(/\/day\/(\d+)/)?.[1];
 </script>
 
 <header>
@@ -17,13 +19,25 @@
 			<li class:current={$page.url.pathname === href}><a {href}>{day.replace("day/", "")}</a></li>
 		{/each}
 	</menu>
-</header>
 
-<blockquote>
-	See the <a href="https://github.com/mxdvl/mxdvl/blob/aoc-2023/dotcom/src/routes/{$page.url.pathname}/%2Bpage.svelte"
-		>source code for this page</a
-	>.
-</blockquote>
+	<hr />
+
+	{#if day}
+		<p>
+			Get <a href="https://adventofcode.com/2023/day/{day}/input" target="_blank" rel="noopener"
+				>day {day} input &nearrow;</a
+			>…
+		</p>
+	{:else}
+		<p>Pick a day &UpDownArrow; above or below</p>
+	{/if}
+	<p class="right">
+		See the <a
+			href="https://github.com/mxdvl/mxdvl/blob/aoc-2023/dotcom/src/routes/{$page.url.pathname}/%2Bpage.svelte"
+			>source code for this page</a
+		>.
+	</p>
+</header>
 
 <slot />
 
@@ -56,11 +70,8 @@
 		font-family: ui-monospace, monospace;
 	}
 
-	blockquote {
-		margin: 0;
-		padding: 0;
+	.right {
 		text-align: right;
-		color: var(--green);
 	}
 
 	textarea {
@@ -122,7 +133,19 @@
 		color: var(--blue);
 	}
 
+	header p {
+		margin: 0;
+		padding: 0;
+		padding-bottom: 0.25rem;
+		color: var(--green);
+	}
+
+	header hr {
+		grid-column: 1 / -1;
+	}
+
 	hr {
+		width: 100%;
 		border: none;
 		border-top: 0.125rem solid var(--blue);
 	}
