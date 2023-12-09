@@ -96,21 +96,15 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 </ul>
 
 <style>
-	ul {
-		font-family: monospace;
-		list-style-type: none;
-		padding: 0;
-	}
-
 	.red {
-		color: red;
+		color: var(--red);
 	}
 
 	.green {
-		color: green;
+		color: var(--green);
 	}
 
 	.blue {
-		color: blue;
+		color: var(--blue);
 	}
 </style>
