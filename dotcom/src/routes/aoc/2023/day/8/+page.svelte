@@ -130,8 +130,6 @@ ZZZ = (ZZZ, ZZZ)`;
 	);
 </script>
 
-<h1>AoC 2023 Day 7</h1>
-
 <textarea rows="12" bind:value={input}></textarea>
 
 <hr />
