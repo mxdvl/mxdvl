@@ -13,6 +13,7 @@ L7JLJL-JLJLJL--JLJ.L
 
 	/** @typedef {`${number},${number}`} Coordinates */
 	/** @typedef {typeof mappings[keyof typeof mappings]} Pipe */
+	/** @typedef {keyof typeof  directions} Direction */
 
 	const mappings = /** @type {const} */ ({
 		S: "╬",
@@ -74,7 +75,7 @@ L7JLJL-JLJLJL--JLJ.L
 	$: empties = new Set(spaces.filter(({ letter }) => letter === ".").map(format));
 
 	/**
-	 * @param {keyof typeof directions} direction
+	 * @param {Direction} direction
 	 * @param {Pipe} next
 	 */
 	const connects = (direction, next) => {
@@ -106,7 +107,7 @@ L7JLJL-JLJLJL--JLJ.L
 
 	/**
 	 * @param {Coordinates} coord
-	 * @param {keyof typeof directions} direction
+	 * @param {Direction} direction
 	 */
 	const move = (coord, direction) => {
 		const { x, y } = parse(coord);
@@ -116,7 +117,7 @@ L7JLJL-JLJLJL--JLJ.L
 
 	/**
 	 * @param {Pipe} pipe
-	 * @param {keyof typeof directions} direction
+	 * @param {Direction} direction
 	 */
 	const redirect = (pipe, direction) => {
 		switch (pipe) {
@@ -146,10 +147,17 @@ L7JLJL-JLJLJL--JLJ.L
 		/** @type {Map<Coordinates, number>}*/
 		const loop = new Map();
 		/** @type {Set<Coordinates>}*/
-		const inside = new Set();
-		const outside = new Set();
+		const right = new Set();
+		/** @type {Set<Coordinates>}*/
+		const left = new Set();
 
-		console.log({ start });
+		/** @type {Extract<Direction, 'left' | 'right'>}*/
+		let side = "right";
+		/** @type {Pipe}*/
+		let first;
+		/** @type {Pipe}*/
+		let last;
+
 		loop.set(start, 0);
 
 		let search = /** @type {const} */ (["up", "right", "down", "left"])
@@ -169,6 +177,12 @@ L7JLJL-JLJLJL--JLJ.L
 			const { direction, pipe, coord } = search;
 			loop.set(coord, ++index);
 
+			const { x, y } = parse(coord);
+			if (x === 0 && direction === "down") side = "left";
+			if (x === cols - 1 && direction === "up") side = "left";
+			if (y === 0 && direction === "left") side = "left";
+			if (y === rows - 1 && direction === "right") side = "left";
+
 			const next_coord = move(coord, direction);
 			const next_pipe = pipes.get(next_coord);
 			console.log({ coord, pipe, next_coord, next_pipe });
@@ -179,11 +193,11 @@ L7JLJL-JLJLJL--JLJ.L
 			switch (next_pipe) {
 				case "╔": {
 					if (direction === "left") {
-						inside.add(move(next_coord, "left"));
-						inside.add(move(next_coord, "up"));
+						right.add(move(next_coord, "left"));
+						right.add(move(next_coord, "up"));
 					} else if (direction == "up") {
-						outside.add(move(next_coord, "left"));
-						outside.add(move(next_coord, "up"));
+						left.add(move(next_coord, "left"));
+						left.add(move(next_coord, "up"));
 					} else {
 						// throw `Invalid! ${next_pipe} ${direction}`;
 					}
@@ -191,11 +205,11 @@ L7JLJL-JLJLJL--JLJ.L
 				}
 				case "╚": {
 					if (direction === "down") {
-						inside.add(move(next_coord, "left"));
-						inside.add(move(next_coord, "down"));
+						right.add(move(next_coord, "left"));
+						right.add(move(next_coord, "down"));
 					} else if (direction === "left") {
-						outside.add(move(next_coord, "left"));
-						outside.add(move(next_coord, "down"));
+						left.add(move(next_coord, "left"));
+						left.add(move(next_coord, "down"));
 					} else {
 						throw `Invalid! ${next_pipe} ${direction}`;
 					}
@@ -203,11 +217,11 @@ L7JLJL-JLJLJL--JLJ.L
 				}
 				case "╗": {
 					if (direction === "up") {
-						inside.add(move(next_coord, "right"));
-						inside.add(move(next_coord, "up"));
+						right.add(move(next_coord, "right"));
+						right.add(move(next_coord, "up"));
 					} else if (direction === "right") {
-						outside.add(move(next_coord, "right"));
-						outside.add(move(next_coord, "up"));
+						left.add(move(next_coord, "right"));
+						left.add(move(next_coord, "up"));
 					} else {
 						throw `Invalid! ${next_pipe} ${direction}`;
 					}
@@ -215,11 +229,11 @@ L7JLJL-JLJLJL--JLJ.L
 				}
 				case "╝": {
 					if (direction === "right") {
-						inside.add(move(next_coord, "down"));
-						inside.add(move(next_coord, "right"));
+						right.add(move(next_coord, "down"));
+						right.add(move(next_coord, "right"));
 					} else if (direction === "down") {
-						outside.add(move(next_coord, "down"));
-						outside.add(move(next_coord, "right"));
+						left.add(move(next_coord, "down"));
+						left.add(move(next_coord, "right"));
 					} else {
 						throw `Invalid! ${next_pipe} ${direction}`;
 					}
@@ -227,11 +241,11 @@ L7JLJL-JLJLJL--JLJ.L
 				}
 				case "═": {
 					if (direction === "right") {
-						inside.add(move(next_coord, "down"));
-						outside.add(move(next_coord, "up"));
+						right.add(move(next_coord, "down"));
+						left.add(move(next_coord, "up"));
 					} else if (direction === "left") {
-						inside.add(move(next_coord, "up"));
-						outside.add(move(next_coord, "down"));
+						right.add(move(next_coord, "up"));
+						left.add(move(next_coord, "down"));
 					} else {
 						throw `Invalid! ${next_pipe} ${direction}`;
 					}
@@ -239,17 +253,18 @@ L7JLJL-JLJLJL--JLJ.L
 				}
 				case "║": {
 					if (direction === "up") {
-						inside.add(move(next_coord, "right"));
-						outside.add(move(next_coord, "left"));
+						right.add(move(next_coord, "right"));
+						left.add(move(next_coord, "left"));
 					} else if (direction === "down") {
-						inside.add(move(next_coord, "left"));
-						outside.add(move(next_coord, "right"));
+						right.add(move(next_coord, "left"));
+						left.add(move(next_coord, "right"));
 					} else {
 						throw `Invalid! ${next_pipe} ${direction}`;
 					}
 					break;
 				}
 				case "╬": {
+					last = pipe;
 					// we finished the loop
 					break;
 				}
@@ -262,9 +277,14 @@ L7JLJL-JLJLJL--JLJ.L
 			};
 		}
 
-		for (const coord of inside) {
-			if (loop.has(coord)) continue;
+		for (const [coord] of loop) {
+			right.delete(coord);
+			left.delete(coord);
+		}
 
+		const inside = side === "right" ? right : left;
+
+		for (const coord of inside) {
 			const adjacents = adjacent(coord).filter((coord) => {
 				if (loop.has(coord)) return false;
 				if (inside.has(coord)) return false;
@@ -277,10 +297,10 @@ L7JLJL-JLJLJL--JLJ.L
 			}
 		}
 
-		return { loop, inside, outside };
+		return { loop, inside, side };
 	};
 
-	$: ({ loop, inside, outside } = get_loop(pipes, start));
+	$: ({ loop, inside, side } = get_loop(pipes, start));
 
 	$: console.log({ pipes, inside });
 </script>
@@ -291,7 +311,7 @@ L7JLJL-JLJLJL--JLJ.L
 
 <h2>Part 2</h2>
 
-<p>There are {[...inside].filter((coord) => !loop.has(coord)).length} elements inside the loop</p>
+<p>There are {inside.size} elements inside the loop, on the {side} hand side</p>
 
 <hr />
 
@@ -306,7 +326,8 @@ L7JLJL-JLJLJL--JLJ.L
 			class:start={letter === "╬"}
 			class:loop={loop.has(coord)}
 			class:inside={inside.has(coord)}
-			style="grid-column-start:{x + 1};grid-row-start:{y + 1};--delay:{(loop.get(coord) ?? 0) * 3}ms;"
+			style="grid-column-start:{x + 1};grid-row-start:{y + 1};--delay:-{(loop.size - (loop.get(coord) ?? 0)) *
+				120}ms;"
 		>
 			{letter}
 		</li>
@@ -324,6 +345,7 @@ L7JLJL-JLJLJL--JLJ.L
 <style>
 	.graph {
 		display: grid;
+		padding: 1ch;
 		list-style-type: none;
 		grid-template-columns: repeat(var(--cols), min-content);
 		line-height: 1.25;
@@ -336,7 +358,7 @@ L7JLJL-JLJLJL--JLJ.L
 
 	.loop {
 		color: var(--blue);
-		animation: scale-in 12ms both;
+		animation: scale-in 2.4s infinite both;
 		animation-delay: var(--delay);
 	}
 
@@ -349,10 +371,15 @@ L7JLJL-JLJLJL--JLJ.L
 	}
 
 	@keyframes scale-in {
-		from {
-			transform: scale(0);
+		84% {
+			transform: scale(1);
 		}
-		to {
+
+		96% {
+			transform: scale(1.5);
+		}
+
+		100% {
 			transform: scale(1);
 		}
 	}
