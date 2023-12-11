@@ -357,13 +357,15 @@ L7JLJL-JLJLJL--JLJ.L
 	}
 
 	.loop {
-		color: var(--blue);
-		animation: scale-in 2.4s infinite both;
+		--highlight: var(--blue);
+		animation: scale-in 2.4s infinite;
+		animation-fill-mode: none;
 		animation-delay: var(--delay);
 	}
 
 	.start {
 		color: var(--red);
+		--highlight: var(--red);
 	}
 
 	li:not(.inside, .outside, .loop) {
@@ -371,15 +373,17 @@ L7JLJL-JLJLJL--JLJ.L
 	}
 
 	@keyframes scale-in {
-		84% {
+		24% {
 			transform: scale(1);
+			color: currentColor;
 		}
 
-		96% {
+		30% {
 			transform: scale(1.5);
+			color: var(--highlight);
 		}
 
-		100% {
+		to {
 			transform: scale(1);
 		}
 	}
