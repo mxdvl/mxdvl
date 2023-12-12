@@ -18,7 +18,7 @@
 	 * @param {Coordinates} coordinates
 	 * @returns {{x: number, y: number }}
 	 */
-	const parse = (coordinates) => {
+	const parse_coordinates = (coordinates) => {
 		const [x = -1, y = -1] = coordinates.split(",").map(Number);
 		return { x, y };
 	};
@@ -29,7 +29,22 @@
 	 * @param {number} coordinates.y
 	 * @returns {Coordinates}
 	 */
-	const format = ({ x, y }) => `${x},${y}`;
+	const format_coordinates = ({ x, y }) => `${x},${y}`;
+
+	/** @type {(coord: string) => coord is Coordinates} */
+	const is_coordinates = (coord) => !!coord.match(/^-?\d+,-?\d+$/);
+
+	/** @typedef {`${Coordinates}:${Coordinates}`} Pair */
+
+	/**
+	 * @param {Pair} pair
+	 * @returns {[Coordinates, Coordinates] | undefined}
+	 */
+	const parse_pair = (pair) => {
+		const [a, b] = pair.split(":").filter(is_coordinates);
+		if (!a || !b) return;
+		return [a, b];
+	};
 
 	$: lines = input.split("\n").filter((line) => line.match(/^[.#]+$/));
 
@@ -57,9 +72,9 @@
 
 	$: stars = [...raw_stars]
 		.map((star) => {
-			const { x, y } = parse(star);
+			const { x, y } = parse_coordinates(star);
 
-			return format({
+			return format_coordinates({
 				x: x + [...xs].filter((empty) => empty < x).length * (expansion - 1),
 				y: y + [...ys].filter((empty) => empty < y).length * (expansion - 1),
 			});
@@ -69,7 +84,7 @@
 	/**
 	 * @param {Coordinates} a
 	 * @param {Coordinates} b
-	 * @returns {`${Coordinates}:${Coordinates}` | undefined}
+	 * @returns {Pair | undefined}
 	 */
 	const get_pair_hash = (a, b) => {
 		const order = a.localeCompare(b);
@@ -87,18 +102,18 @@
 
 	/**
 	 * @param {ReadonlySet<Coordinates>} stars
-	 * @returns {ReadonlyMap<`${Coordinates}:${Coordinates}`, number>}
+	 * @returns {ReadonlyMap<Pair, number>}
 	 */
 	const get_pairs = (stars) => {
 		const copied_stars = new Set(stars);
-		const pairs = /** @type {Map<`${Coordinates}:${Coordinates}`, number>} */ (new Map());
+		const pairs = /** @type {Map<Pair, number>} */ (new Map());
 		for (const star of stars) {
 			for (const pair of new Set(stars)) {
 				const hash = get_pair_hash(star, pair);
 				if (!hash) continue;
 				if (pairs.has(hash)) continue;
-				const { x: x0, y: y0 } = parse(star);
-				const { x: x1, y: y1 } = parse(pair);
+				const { x: x0, y: y0 } = parse_coordinates(star);
+				const { x: x1, y: y1 } = parse_coordinates(pair);
 				const distance = Math.abs(x0 - x1) + Math.abs(y0 - y1);
 				pairs.set(hash, distance);
 			}
@@ -108,8 +123,8 @@
 
 	$: pairs = get_pairs(stars);
 
-	$: cols = Math.max(...[...stars].map(parse).map(({ x }) => x));
-	$: rows = Math.max(...[...stars].map(parse).map(({ y }) => y));
+	$: cols = Math.max(...[...stars].map(parse_coordinates).map(({ x }) => x));
+	$: rows = Math.max(...[...stars].map(parse_coordinates).map(({ y }) => y));
 
 	/** @type {Coordinates} */
 	let current_star = "0,2";
@@ -134,13 +149,15 @@
 </p>
 
 <ul>
-	{#each pairs as [hash, distance]}
-		{@const [a, b] = hash.split(":")}
-		<li>
-			<button class:current={a === current_star} on:click={() => (current_star = a)}>{a}</button>:
-			<button class:current={b === current_star} on:click={() => (current_star = b)}>{b}</button>
-			&rarr; {distance}
-		</li>
+	{#each pairs as [hash, distance] (hash)}
+		{@const [start, end] = parse_pair(hash) ?? []}
+		{#if start && end}
+			<li>
+				<button class:current={start === current_star} on:click={() => (current_star = start)}>{start}</button>
+				<span class:current={current_star === start || current_star === end}>&larr;{distance}&rarr;</span>
+				<button class:current={end === current_star} on:click={() => (current_star = end)}>{end}</button>
+			</li>
+		{/if}
 	{/each}
 </ul>
 
@@ -148,14 +165,16 @@
 	{#each [...pairs.entries()].filter(([hash]) => hash
 			.split(":")
 			.some((coord) => coord === current_star)) as [hash, distance]}
-		{@const [a, b] = hash.split(":").map(parse)}
-		<g>
-			<line stroke-width={rows / 600} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-			<text x={(a.x + b.x) / 2} y={(a.y + b.y) / 2}>{distance}</text>
-		</g>
+		{@const [start, end] = parse_pair(hash)?.map(parse_coordinates) ?? []}
+		{#if start && end}
+			<g>
+				<line stroke-width={rows / 600} x1={start.x} y1={start.y} x2={end.x} y2={end.y} />
+				<text x={(start.x + end.x) / 2} y={(start.y + end.y) / 2}>{distance}</text>
+			</g>
+		{/if}
 	{/each}
 	{#each stars as coordinates}
-		{@const { x, y } = parse(coordinates)}
+		{@const { x, y } = parse_coordinates(coordinates)}
 
 		<text {x} {y} class:current={current_star === coordinates} on:pointerover={() => (current_star = coordinates)}
 			>✦</text
