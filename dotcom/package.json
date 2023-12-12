@@ -21,7 +21,7 @@
 		"@types/node": "20.10",
 		"@typescript-eslint/eslint-plugin": "6.13.2",
 		"@typescript-eslint/parser": "6.13.2",
-		"@vercel/node": "3.0.11",
+		"@vercel/node": "3.0.12",
 		"browser-fs-access": "0.35.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-svelte": "2.35.1",
