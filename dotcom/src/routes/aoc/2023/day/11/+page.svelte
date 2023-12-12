@@ -108,13 +108,16 @@
 
 	$: pairs = get_pairs(stars);
 
+	$: cols = Math.max(...[...stars].map(parse).map(({ x }) => x));
+	$: rows = Math.max(...[...stars].map(parse).map(({ y }) => y));
+
 	/** @type {Coordinates} */
-	let current_star;
+	let current_star = "0,2";
 </script>
 
 <textarea cols="24" rows="12" bind:value={input}></textarea>
 
-<input type="number" bind:value={expansion} />
+<input type="number" bind:value={expansion} min={1} />
 
 <hr />
 
@@ -141,28 +144,21 @@
 	{/each}
 </ul>
 
-<svg
-	viewBox="-1 -1 {Math.max(...[...stars].map(parse).map(({ x }) => x)) + 2} {Math.max(
-		...[...stars].map(parse).map(({ y }) => y + 2),
-	)}"
-	width="300"
->
-	{#each [...pairs.entries()].filter(([hash]) => hash.includes(current_star)) as [hash, distance]}
+<svg viewBox="-1 -1 {cols + 2} {rows + 2}" style="font-size:{rows / 200}dvw;">
+	{#each [...pairs.entries()].filter(([hash]) => hash
+			.split(":")
+			.some((coord) => coord === current_star)) as [hash, distance]}
 		{@const [a, b] = hash.split(":").map(parse)}
 		<g>
-			<line x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-			<text font-size="0.5" x={(a.x + b.x) / 2} y={(a.y + b.y) / 2}>{distance}</text>
+			<line stroke-width={rows / 600} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
+			<text x={(a.x + b.x) / 2} y={(a.y + b.y) / 2}>{distance}</text>
 		</g>
 	{/each}
 	{#each stars as coordinates}
 		{@const { x, y } = parse(coordinates)}
 
-		<text
-			font-size="0.5"
-			{x}
-			{y}
-			class:current={current_star === coordinates}
-			on:click={() => (current_star = coordinates)}>✦</text
+		<text {x} {y} class:current={current_star === coordinates} on:pointerover={() => (current_star = coordinates)}
+			>✦</text
 		>
 	{/each}
 </svg>
@@ -174,11 +170,11 @@
 
 	svg {
 		width: 100%;
+		aspect-ratio: 1 / 1;
 	}
+
 	line {
-		stroke-width: 0.02;
-		stroke-dasharray: 0.1;
-		stroke: currentColor;
+		stroke: var(--blue);
 	}
 
 	text {
