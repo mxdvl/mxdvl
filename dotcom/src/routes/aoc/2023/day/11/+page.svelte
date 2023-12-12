@@ -107,6 +107,9 @@
 	};
 
 	$: pairs = get_pairs(stars);
+
+	/** @type {Coordinates} */
+	let current_star;
 </script>
 
 <textarea cols="24" rows="12" bind:value={input}></textarea>
@@ -129,8 +132,58 @@
 
 <ul>
 	{#each pairs as [hash, distance]}
+		{@const [a, b] = hash.split(":")}
 		<li>
-			{hash} &rarr; {distance}
+			<button class:current={a === current_star} on:click={() => (current_star = a)}>{a}</button>:
+			<button class:current={b === current_star} on:click={() => (current_star = b)}>{b}</button>
+			&rarr; {distance}
 		</li>
 	{/each}
 </ul>
+
+<svg
+	viewBox="-1 -1 {Math.max(...[...stars].map(parse).map(({ x }) => x)) + 2} {Math.max(
+		...[...stars].map(parse).map(({ y }) => y + 2),
+	)}"
+	width="300"
+>
+	{#each [...pairs.entries()].filter(([hash]) => hash.includes(current_star)) as [hash, distance]}
+		{@const [a, b] = hash.split(":").map(parse)}
+		<g>
+			<line x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
+			<text font-size="0.5" x={(a.x + b.x) / 2} y={(a.y + b.y) / 2}>{distance}</text>
+		</g>
+	{/each}
+	{#each stars as coordinates}
+		{@const { x, y } = parse(coordinates)}
+
+		<text
+			font-size="0.5"
+			{x}
+			{y}
+			class:current={current_star === coordinates}
+			on:click={() => (current_star = coordinates)}>✦</text
+		>
+	{/each}
+</svg>
+
+<style>
+	.current {
+		color: var(--blue);
+	}
+
+	svg {
+		width: 100%;
+	}
+	line {
+		stroke-width: 0.02;
+		stroke-dasharray: 0.1;
+		stroke: currentColor;
+	}
+
+	text {
+		text-anchor: middle;
+		fill: currentColor;
+		vertical-align: center;
+	}
+</style>
