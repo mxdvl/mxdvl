@@ -15,6 +15,11 @@
 			"source": "/allo",
 			"destination": "/allô",
 			"permanent": true
+		},
+		{
+			"source": "/aoc",
+			"destination": "/aoc/2023",
+			"permanent": true
 		}
 	]
 }
