@@ -1,5 +1,5 @@
-import { copy } from "std/fs/copy.ts";
-import { cyan, green, red } from "std/fmt/colors.ts";
+import { copy } from "https://deno.land/std@0.193.0/fs/copy.ts";
+import { cyan, green, red } from "https://deno.land/std@0.193.0/fmt/colors.ts";
 import { render } from "resvg";
 import { generate_favicon } from "./ico.ts";
 
