@@ -1,7 +1,7 @@
 import { DOMParser, Element, Node } from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
-import { Handler, serve } from "std/http/server.ts";
-import { crypto } from "std/crypto/mod.ts";
-import { typeByExtension } from "std/media_types/type_by_extension.ts";
+import { Handler, serve } from "https://deno.land/std@0.193.0/http/server.ts";
+import { crypto } from "https://deno.land/std@0.193.0/crypto/mod.ts";
+import { typeByExtension } from "https://deno.land/std@0.193.0/media_types/type_by_extension.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
 import { parseTheme, Theme } from "./styles/themes.ts";
 import { fr } from "./pages/lang.ts";
