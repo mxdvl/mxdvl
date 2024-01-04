@@ -41,8 +41,8 @@ importers:
         specifier: 6.17.0
         version: 6.17.0(eslint@8.56.0)(typescript@5.3.3)
       '@vercel/node':
-        specifier: 3.0.14
-        version: 3.0.14
+        specifier: 3.0.15
+        version: 3.0.15
       browser-fs-access:
         specifier: 0.35.0
         version: 0.35.0
@@ -1127,27 +1127,6 @@ packages:
     resolution: {integrity: sha512-Sj0LFafGpYr6pfCqrQ82X6ukRl5qpmVrHM/191kNYFqkkB9YkjlMAj6QcEsvCG259x4QZ7Tya++0AB85NDPbKQ==}
     dev: false
 
-  /@vercel/nft@0.24.2:
-    resolution: {integrity: sha512-KhY3Ky/lCqE+fHpOXiKOLnXYJ49PZh1dyDSfVtZhmYtmica0NQgyO6kPOAGDNWqD9IOBx8hb65upxxjfnfa1JA==}
-    engines: {node: '>=16'}
-    hasBin: true
-    dependencies:
-      '@mapbox/node-pre-gyp': 1.0.10
-      '@rollup/pluginutils': 4.2.1
-      acorn: 8.9.0
-      async-sema: 3.1.1
-      bindings: 1.5.0
-      estree-walker: 2.0.2
-      glob: 7.2.3
-      graceful-fs: 4.2.10
-      micromatch: 4.0.5
-      node-gyp-build: 4.5.0
-      resolve-from: 5.0.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
   /@vercel/nft@0.26.1:
     resolution: {integrity: sha512-SdYX2qfw657niCQ2ZYTp72Cs3zI+tAm6DGyQEZnyGwjkVSPd1Tl3KIYLy/5NJKNoLI/uxMnHasECFJEnJ8Fb1A==}
     engines: {node: '>=18'}
@@ -1170,8 +1149,30 @@ packages:
       - supports-color
     dev: false
 
-  /@vercel/node@3.0.14:
-    resolution: {integrity: sha512-bgnal1ukp8+zszzY7T9ng4Ui3D7EXuIgvVUh1hbfeHcytOSwn8FYVLiuUuy8mnLkESaZaBejnZ22LCsVItNyag==}
+  /@vercel/nft@0.26.2:
+    resolution: {integrity: sha512-bxe2iShmKZi7476xYamyKvhhKwQ6JPEtQ2FSq1AjMUH2buMd8LQMkdoHinTqZYc+1sMTh3G0ARdjzNvV1FEisA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      '@mapbox/node-pre-gyp': 1.0.10
+      '@rollup/pluginutils': 4.2.1
+      acorn: 8.9.0
+      acorn-import-attributes: 1.9.2(acorn@8.9.0)
+      async-sema: 3.1.1
+      bindings: 1.5.0
+      estree-walker: 2.0.2
+      glob: 7.2.3
+      graceful-fs: 4.2.10
+      micromatch: 4.0.5
+      node-gyp-build: 4.5.0
+      resolve-from: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@vercel/node@3.0.15:
+    resolution: {integrity: sha512-jdds+p+RkTY0ji2eGOxsZcHHQi/cx04QX4xl0fnY2oBq3LvGYKyw3oWzvrzgxTBaK+zK5MbrmjsvoikJBRR0Hw==}
     dependencies:
       '@edge-runtime/node-utils': 2.2.1
       '@edge-runtime/primitives': 4.0.5
@@ -1179,13 +1180,12 @@ packages:
       '@types/node': 14.18.33
       '@vercel/build-utils': 7.4.1
       '@vercel/error-utils': 2.0.2
-      '@vercel/nft': 0.24.2
+      '@vercel/nft': 0.26.2
       '@vercel/static-config': 3.0.0
       async-listen: 3.0.0
       edge-runtime: 2.5.7
       esbuild: 0.14.47
       etag: 1.8.1
-      exit-hook: 2.2.1
       node-fetch: 2.6.9
       path-to-regexp: 6.2.1
       ts-morph: 12.0.0
@@ -2068,11 +2068,6 @@ packages:
   /etag@1.8.1:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
-    dev: false
-
-  /exit-hook@2.2.1:
-    resolution: {integrity: sha512-eNTPlAD67BmP31LDINZ3U7HSF8l57TxOY2PmBJ1shpCvpnxBF93mWCE8YHBnXs8qiUZJc9WDcWIeC3a2HIAMfw==}
-    engines: {node: '>=6'}
     dev: false
 
   /fast-deep-equal@3.1.3:
