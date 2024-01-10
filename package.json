@@ -7,6 +7,6 @@
 		"check:lint": "pnpm -r check:lint",
 		"check:svelte": "pnpm -r check:svelte"
 	},
-	"engines": { "node": "20.10.0" },
+	"engines": { "node": "20.11.0" },
 	"packageManager": "pnpm@8.14.1"
 }
