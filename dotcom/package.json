@@ -15,8 +15,8 @@
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"dependencies": {
-		"@sveltejs/adapter-vercel": "4.0.4",
-		"@sveltejs/kit": "2.3.2",
+		"@sveltejs/adapter-vercel": "4.0.5",
+		"@sveltejs/kit": "2.3.3",
 		"@sveltejs/vite-plugin-svelte": "3.0.1",
 		"@types/d3-drag": "3.0.7",
 		"@types/d3-force": "3.0.9",
