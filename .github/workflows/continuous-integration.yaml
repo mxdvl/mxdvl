@@ -38,7 +38,7 @@ jobs:
 
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: v1.39
 
       - name: Format
         run: deno fmt deno
