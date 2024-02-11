@@ -24,7 +24,10 @@
 	const xmlns = "http://www.w3.org/2000/svg";
 
 	const save_svg = async () => {
-		const html = svg.outerHTML.replace(/^<svg\b/, `<svg xmlns="${xmlns}" fill="none" stroke="#111" stroke-width="1" `);
+		const html = svg.outerHTML.replace(
+			/^<svg\b/,
+			`<svg xmlns="${xmlns}" fill="none" stroke="#111" stroke-width="1" `,
+		);
 
 		const blob = new Blob([html], { type: "image/svg+xml" });
 		await fileSave(blob, {
@@ -46,7 +49,11 @@
 				<Control {pattern} {patterns} />
 			{:else if id === "animate"}
 				<Button on:click={() => animate.update((_) => !_)}
-					>{#if $animate} Pause {:else} Play {/if} Animation
+					>{#if $animate}
+						Pause
+					{:else}
+						Play
+					{/if} Animation
 				</Button>
 			{:else if id === "extra"}
 				<Button

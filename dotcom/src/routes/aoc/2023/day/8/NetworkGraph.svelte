@@ -74,10 +74,10 @@
 				d.id.endsWith("Z")
 					? colours.Z
 					: d.id.endsWith("A")
-					  ? colours.A
-					  : d.group % 2 === 0
-					    ? colours.node
-					    : "var(--blue)",
+						? colours.A
+						: d.group % 2 === 0
+							? colours.node
+							: "var(--blue)",
 			)
 			.call(
 				// @ts-expect-error -- it’s D3

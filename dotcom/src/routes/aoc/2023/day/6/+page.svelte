@@ -12,7 +12,7 @@ Distance:  9  40  200`;
 	const find_ways = (time, record) => {
 		let hold = Math.ceil(record / time);
 		while ((time - hold) * hold <= record) {
-		hold++;
+			hold++;
 		}
 		return /** @type {const} */ ([hold, time - hold]);
 	};
