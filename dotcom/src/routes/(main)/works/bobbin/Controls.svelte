@@ -12,6 +12,9 @@
 	/** @type {import("svelte/store").Writable<Map<string, import("svelte/store").Writable<Pattern>>>} */
 	export let patterns;
 
+	/** @type {SVGSVGElement} */
+	export let svg;
+
 	const duration = 240;
 
 	const animation = /** @type {const} */ (["animate", undefined]);
@@ -21,14 +24,11 @@
 	const xmlns = "http://www.w3.org/2000/svg";
 
 	const save_svg = async () => {
-		const svg = document.querySelector("svg#rosace");
-		if (!svg) return;
-
-		const html = svg.outerHTML.replace("<svg ", `<svg xmlns="${xmlns}" `);
+		const html = svg.outerHTML.replace(/^<svg\b/, `<svg xmlns="${xmlns}" fill="none" stroke="#111" stroke-width="1" `);
 
 		const blob = new Blob([html], { type: "image/svg+xml" });
 		await fileSave(blob, {
-			fileName: "Rosace.svg",
+			fileName: "Bobbin.svg",
 			extensions: [".svg"],
 		});
 	};
