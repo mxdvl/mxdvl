@@ -215,7 +215,7 @@
 		</svg>
 	</div>
 
-	<Controls {patterns} {svg}/>
+	<Controls {patterns} {svg} />
 
 	<ul id="shapes">
 		<li><Polygon /></li>

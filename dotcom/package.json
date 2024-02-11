@@ -11,8 +11,8 @@
 		"cert": "rm -rf .cert && mkdir -p .cert && mkcert -key-file ./.cert/key.pem -cert-file ./.cert/cert.pem 'localhost'",
 		"check:svelte": "svelte-check --tsconfig ./tsconfig.json",
 		"check:lint": "eslint --ignore-path ../.gitignore",
-		"check:format": "prettier --check --plugin-search-dir=. .",
-		"format": "prettier --write --plugin-search-dir=. ."
+		"check:format": "prettier --check .",
+		"format": "prettier --write ."
 	},
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "5.1.0",
