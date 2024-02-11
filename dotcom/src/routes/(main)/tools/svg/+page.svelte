@@ -18,27 +18,27 @@
 	const size = 360;
 
 	/** @param {string} d */
-	const getPathCommander = (d) => {
+	const getSegments = (d) => {
 		try {
-			return new SVGPathCommander(d).normalize();
+			return SVGPathCommander.parsePathString(d);
 		} catch (_) {
-			return undefined;
+			return [];
 		}
 	};
 
-	$: pathCommander = getPathCommander(d);
+	$: segments = getSegments(d);
 </script>
 
 <svg viewBox={`0,0 ${size},${size}`} width={size} height={size} stroke="var(--earth)" stroke-width={2} fill="none">
-	<Path visualise={true} d={pathCommander?.normalize().toRelative().toString() ?? ""} />
+	<Path visualise={true} {d} />
 </svg>
 
 <textarea cols="30" bind:value={d} />
 
 <ul>
-	{#each pathCommander?.segments ?? [] as [command, ...parts]}
+	{#each segments as [command, ...parts]}
 		<li>
-			{command}: {parts.join(" ")}
+			<strong>{command}</strong>: {parts.join(" ")}
 		</li>
 	{/each}
 </ul>
