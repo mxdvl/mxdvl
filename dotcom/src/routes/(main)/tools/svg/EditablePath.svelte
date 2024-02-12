@@ -44,6 +44,7 @@
 			({ x, y, segments }, segment) => {
 				switch (segment[0]) {
 					case "M": {
+						segments.push([["M", x, y], segment]);
 						return { x: segment[1], y: segment[2], segments };
 					}
 					case "L": {
@@ -92,6 +93,17 @@
 	{#if active}
 		{@const { x, y, width, height } = SVGPathCommander.getPathBBox(segment)}
 		<rect x={x - 6} y={y - 6} width={width + 12} height={height + 12} />
+		{#if segment[1][0] === "M"}
+			<line
+				class="handles"
+				x1={x}
+				y1={y}
+				x2={x + width}
+				y2={y + height}
+				marker-start="url(#dot)"
+				marker-end="url(#dot)"
+			/>
+		{/if}
 	{/if}
 	<path
 		class:active
@@ -144,9 +156,11 @@
 		stroke-width: 4;
 	}
 
-	path.handles {
+	.handles {
 		stroke: var(--glint);
 		stroke-width: 1.5;
+		stroke-dasharray: 2 6;
+		stroke-linecap: round;
 	}
 
 	rect {

@@ -61,7 +61,7 @@
 	$: updateLine = () => {
 		if (!textArea) return;
 		if (!normalised) return;
-		selected = d.slice(0, textArea.selectionStart).split("\n").length - 2;
+		selected = d.slice(0, textArea.selectionStart).split("\n").length - 1;
 	};
 </script>
 
@@ -80,7 +80,7 @@
 	on:keyup={() => updateLine()}
 	on:click={() => updateLine()}
 	class:normalised
-	style={`background-position-y: calc(${selected + 1} * var(--grid-y) + 0.25rem);`}
+	style={`background-position-y: calc(${selected} * var(--grid-y) + 0.25rem);`}
 />
 
 <Button
