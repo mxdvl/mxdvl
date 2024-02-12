@@ -1,5 +1,6 @@
 <script>
 	import SVGPathCommander from "svg-path-commander";
+	import Svg from "../../works/bobbin/SVG.svelte";
 
 	export let visualise = false;
 	/** @type {string} */
@@ -50,26 +51,96 @@
 		}
 	};
 
+	/** @param {string} d */
+	const getSegments = (d) => {
+		try {
+			return SVGPathCommander.normalizePath(d).reduce(
+				({ x, y, segments }, segment) => {
+					switch (segment[0]) {
+						case "M": {
+							return { x: segment[1], y: segment[2], segments };
+						}
+						case "L": {
+							segments.push([["M", x, y], segment]);
+							return { x: segment[1], y: segment[2], segments };
+						}
+						case "C": {
+							segments.push([["M", x, y], segment]);
+							return { x: segment[5], y: segment[6], segments };
+						}
+						case "Q": {
+							segments.push([["M", x, y], segment]);
+							return { x: segment[3], y: segment[4], segments };
+						}
+						case "A": {
+							segments.push([["M", x, y], segment]);
+							return { x: segment[6], y: segment[7], segments };
+						}
+						case "Z":
+					}
+
+					return { x, y, segments };
+				},
+				{
+					x: 0,
+					y: 0,
+					segments: /** @type {import('svg-path-commander').NormalArray[]} */ ([]),
+				},
+			).segments;
+		} catch (_) {
+			return [];
+		}
+	};
+
 	$: handles = visualise ? getHandles(d) : [];
+
+	$: segments = getSegments(d);
+
+	/** @type {number | undefined} */
+	let selected = undefined;
 </script>
 
 <marker id="dot" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="6" markerHeight="6">
-	<circle cx="6" cy="6" r="3" fill="var(--glint)" stroke="none" />
+	<circle cx="6" cy="6" r="4" fill="var(--glint)" stroke="none" />
 </marker>
 
-{#each handles as handle}
-	<path
-		class="handles"
-		d={handle}
-		stroke-dasharray="1 6"
-		stroke-linecap="round"
-		marker-start="url(#dot)"
-		marker-mid="url(#dot)"
-		marker-end="url(#dot)"
-	/>
-{/each}
+{#each segments as segment}{/each}
 
-<path {d} />
+{#each segments as segment, index}
+	{@const active = index === selected}
+	{#if active}
+		{@const { x, y, width, height } = SVGPathCommander.getPathBBox(segment)}
+		<rect x={x - 6} y={y - 6} width={width + 12} height={height + 12} />
+	{/if}
+	<path
+		class:active
+		class="segment"
+		d={SVGPathCommander.pathToString(segment)}
+		on:click={() => {
+			selected = index;
+		}}
+		tabindex={0}
+		role="button"
+		on:keydown={(event) => {
+			if (!["Enter", " "].includes(event.key)) return;
+			event.preventDefault();
+			selected = index;
+		}}
+	/>
+	{#if active}
+		{#each getHandles(SVGPathCommander.pathToString(segment)) as handle}
+			<path
+				class="handles"
+				d={handle}
+				stroke-dasharray="1 6"
+				stroke-linecap="round"
+				marker-start="url(#dot)"
+				marker-mid="url(#dot)"
+				marker-end="url(#dot)"
+			/>
+		{/each}
+	{/if}
+{/each}
 
 <style>
 	path {
@@ -77,8 +148,28 @@
 		stroke-width: 2;
 	}
 
+	path.segment {
+		cursor: pointer;
+	}
+
+	path.segment.active {
+		stroke: var(--ocean);
+	}
+
+	path.segment:hover,
+	path.segment:focus {
+		outline: none;
+		stroke: var(--glint);
+		stroke-width: 4;
+	}
+
 	path.handles {
 		stroke: var(--glint);
 		stroke-width: 1.5;
+	}
+
+	rect {
+		stroke: var(--skies);
+		stroke-width: 2;
 	}
 </style>

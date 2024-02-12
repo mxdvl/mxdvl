@@ -22,7 +22,7 @@
 	/** @param {string} d */
 	const getSegments = (d) => {
 		try {
-			return SVGPathCommander.parsePathString(d);
+			return SVGPathCommander.pathToRelative(d);
 		} catch (_) {
 			return [];
 		}
@@ -59,7 +59,11 @@
 		border-radius: 0.125rem;
 		width: min(calc(12 * var(--grid-x)), 100%);
 		background: var(--clouds);
+		color: var(--earth);
 		margin: 0;
+		transition:
+			color 1.2s,
+			background 1.2s;
 
 		padding: 0.25rem;
 		font-family: ui-monospace;
