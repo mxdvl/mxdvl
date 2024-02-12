@@ -52,7 +52,7 @@
 		}
 	};
 
-	let line = 0;
+	let selected = 0;
 
 	$: disabled = !SVGPathCommander.isValidPath(d);
 
@@ -61,13 +61,13 @@
 	$: updateLine = () => {
 		if (!textArea) return;
 		if (!normalised) return;
-		line = d.slice(0, textArea.selectionStart).split("\n").length - 1;
+		selected = d.slice(0, textArea.selectionStart).split("\n").length - 2;
 	};
 </script>
 
 <svg viewBox={`0,0 ${size},${size}`} width={size} height={size} stroke="var(--earth)" stroke-width={2} fill="none">
 	{#if !disabled}
-		<EditablePath normalisedSegments={SVGPathCommander.normalizePath(d)} bind:selected={line} />
+		<EditablePath normalisedSegments={SVGPathCommander.normalizePath(d)} bind:selected />
 	{/if}
 </svg>
 
@@ -80,7 +80,7 @@
 	on:keyup={() => updateLine()}
 	on:click={() => updateLine()}
 	class:normalised
-	style={`background-position-y: calc(${line} * var(--grid-y) + 0.25rem);`}
+	style={`background-position-y: calc(${selected + 1} * var(--grid-y) + 0.25rem);`}
 />
 
 <Button
