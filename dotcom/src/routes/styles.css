@@ -59,7 +59,9 @@ body {
 }
 
 body.themed {
-	transition: background-color 1.2s;
+	transition:
+		background-color 1.2s,
+		color 1.2s;
 }
 
 @media (prefers-reduced-motion: reduce) {
