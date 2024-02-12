@@ -2,6 +2,7 @@
 	import Button from "$lib/Button.svelte";
 	import EditablePath from "./EditablePath.svelte";
 	import SVGPathCommander from "svg-path-commander";
+	import { onMount } from "svelte";
 
 	/** @param {import('svg-path-commander').PathArray} segments */
 	const format = (segments) => segments.map((segment) => segment.join(" ")).join("\n");
@@ -61,7 +62,7 @@
 		}
 	};
 
-	let selected = 0;
+	let selected = -1;
 
 	$: disabled = !SVGPathCommander.isValidPath(d);
 
@@ -72,6 +73,14 @@
 		if (!normalised) return;
 		selected = d.slice(0, textArea.selectionStart).split("\n").length - 1;
 	};
+
+	onMount(() => {
+		const params = new URLSearchParams(window.location.search);
+		const path = params.get("d");
+		if (!path) return;
+		if (!SVGPathCommander.isValidPath(path)) return;
+		d = path;
+	});
 </script>
 
 <svg viewBox={`0,0 ${size},${size}`} width={size} height={size} stroke="var(--earth)" stroke-width={2} fill="none">
