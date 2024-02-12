@@ -1,8 +1,8 @@
 <script>
 	import SVGPathCommander from "svg-path-commander";
 
-	/** @type {string} */
-	export let d;
+	/** @type {import('svg-path-commander').NormalArray} */
+	export let normalisedSegments;
 
 	/** @typedef {[import('svg-path-commander').MSegment, import('svg-path-commander').NormalSegment]} Segment */
 
@@ -38,65 +38,56 @@
 		}
 	};
 
-	/** @param {string} d */
-	const getSegments = (d) => {
-		try {
-			return SVGPathCommander.normalizePath(d).reduce(
-				({ x, y, segments }, segment) => {
-					switch (segment[0]) {
-						case "M": {
-							return { x: segment[1], y: segment[2], segments };
-						}
-						case "L": {
-							segments.push([["M", x, y], segment]);
-							return { x: segment[1], y: segment[2], segments };
-						}
-						case "C": {
-							segments.push([["M", x, y], segment]);
-							return { x: segment[5], y: segment[6], segments };
-						}
-						case "Q": {
-							segments.push([["M", x, y], segment]);
-							return { x: segment[3], y: segment[4], segments };
-						}
-						case "A": {
-							segments.push([["M", x, y], segment]);
-							return { x: segment[6], y: segment[7], segments };
-						}
-						case "Z": {
-							const [[, x0, y0]] = SVGPathCommander.normalizePath(d);
-							segments.push([
-								["M", x, y],
-								["L", x0, y0],
-							]);
-							return { x: x0, y: y0, segments };
-						}
+	/** @param {import('svg-path-commander').NormalArray} normalArray */
+	const getAbsoluteSegments = (normalArray) =>
+		normalArray.reduce(
+			({ x, y, segments }, segment) => {
+				switch (segment[0]) {
+					case "M": {
+						return { x: segment[1], y: segment[2], segments };
 					}
-
-					return { x, y, segments };
-				},
-				{
-					x: 0,
-					y: 0,
-					segments: /** @type {Segment[]} */ ([]),
-				},
-			).segments;
-		} catch (_) {
-			return [];
-		}
-	};
-
-	$: segments = getSegments(d);
+					case "L": {
+						segments.push([["M", x, y], segment]);
+						return { x: segment[1], y: segment[2], segments };
+					}
+					case "C": {
+						segments.push([["M", x, y], segment]);
+						return { x: segment[5], y: segment[6], segments };
+					}
+					case "Q": {
+						segments.push([["M", x, y], segment]);
+						return { x: segment[3], y: segment[4], segments };
+					}
+					case "A": {
+						segments.push([["M", x, y], segment]);
+						return { x: segment[6], y: segment[7], segments };
+					}
+					case "Z": {
+						const [[, x0, y0]] = SVGPathCommander.normalizePath(normalArray);
+						segments.push([
+							["M", x, y],
+							["L", x0, y0],
+						]);
+						return { x: x0, y: y0, segments };
+					}
+				}
+			},
+			{
+				x: 0,
+				y: 0,
+				segments: /** @type {Segment[]} */ ([]),
+			},
+		).segments;
 
 	/** @type {number | undefined} */
-	let selected = undefined;
+	export let selected = undefined;
 </script>
 
 <marker id="dot" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="6" markerHeight="6">
 	<circle cx="6" cy="6" r="4" fill="var(--glint)" stroke="none" />
 </marker>
 
-{#each segments as segment, index}
+{#each getAbsoluteSegments(normalisedSegments) as segment, index}
 	{@const active = index === selected}
 	{#if active}
 		{@const { x, y, width, height } = SVGPathCommander.getPathBBox(segment)}

@@ -1,47 +1,112 @@
 <script>
+	import Button from "$lib/Button.svelte";
 	import EditablePath from "./EditablePath.svelte";
 	import SVGPathCommander from "svg-path-commander";
 
+	/** @param {import('svg-path-commander').PathArray} segments */
+	const format = (segments) => segments.map((segment) => segment.join(" ")).join("\n");
+
 	/** @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d */
-	let d = SVGPathCommander.pathToString([
-		["m", 3, 3],
-		["l", 60, 40],
-		["a", 90, 120, 30, 0, 1, 120, 0],
+	let d = format([
+		["M", 60, 140],
+		["l", -20, -60],
+		["a", 90, 120, 0, 0, 1, 120, 0],
 		["l", -20, 60],
 		["q", -20, 60, 20, 20],
 		["l", 60, 0],
 		["c", 60, 0, 60, -20, 20, -20],
 		["c", 40, 0, 40, -20, 0, -20],
 		["c", 40, 0, 40, -20, -20, -20],
+		["s", -60, -20, 0, -20],
+		["h", 40],
+		["c", 40, 0, 40, -20, 0, -20],
+		["h", -40],
+		["c", -40, 0, -40, -20, 0, -20],
+		["h", 40],
+		["c", 80, 0, 80, 60, 0, 60],
 	]);
 
 	const size = 360;
 
-	/** @param {string} d */
-	const getSegments = (d) => {
-		try {
-			return SVGPathCommander.pathToRelative(d);
-		} catch (_) {
-			return [];
+	/** @type {HTMLTextAreaElement | undefined} */
+	let textArea = undefined;
+
+	/** @param {string} path */
+	const getSegments = (path) => {
+		return SVGPathCommander.isValidPath(path)
+			? SVGPathCommander.pathToRelative(path)
+			: /** @type {import('svg-path-commander').RelativeArray} */ ([["M", 0, 0]]);
+	};
+
+	let segments = getSegments(d);
+
+	/** @type {(path: string, method: 'relative' | 'absolute') => string} */
+	const formatPath = (path, method) => {
+		switch (method) {
+			case "relative": {
+				return format(SVGPathCommander.pathToRelative(path));
+			}
+			case "absolute": {
+				return format(SVGPathCommander.pathToAbsolute(path));
+			}
 		}
 	};
 
-	$: segments = getSegments(d);
+	let line = 0;
+
+	$: disabled = !SVGPathCommander.isValidPath(d);
+
+	$: normalised = !disabled && (d === formatPath(d, "relative") || d === formatPath(d, "absolute"));
+
+	$: updateLine = () => {
+		if (!textArea) return;
+		if (!normalised) return;
+		line = d.slice(0, textArea.selectionStart).split("\n").length - 1;
+	};
 </script>
 
 <svg viewBox={`0,0 ${size},${size}`} width={size} height={size} stroke="var(--earth)" stroke-width={2} fill="none">
-	<EditablePath {d} />
+	{#if !disabled}
+		<EditablePath normalisedSegments={SVGPathCommander.normalizePath(d)} bind:selected={line} />
+	{/if}
 </svg>
 
-<textarea cols="30" rows="12" bind:value={d} />
+<textarea
+	bind:this={textArea}
+	autocomplete="off"
+	cols="30"
+	rows={Math.max(12, d.split("\n").length + 1)}
+	bind:value={d}
+	on:keyup={() => updateLine()}
+	on:click={() => updateLine()}
+	class:normalised
+	style={`background-position-y: calc(${line} * var(--grid-y) + 0.25rem);`}
+/>
 
-<ul>
-	{#each segments as [command, ...parts]}
-		<li>
-			<strong>{command}</strong>: {parts.join(" ")}
-		</li>
-	{/each}
-</ul>
+<Button
+	disabled={disabled || d === formatPath(d, "relative")}
+	on:click={() => {
+		d = formatPath(d, "relative");
+	}}>format to relative</Button
+>
+<Button
+	disabled={disabled || d === formatPath(d, "absolute")}
+	on:click={() => {
+		d = formatPath(d, "absolute");
+	}}>format to absolute</Button
+>
+
+<p>
+	Normalised? {normalised}
+</p>
+
+{#if !disabled}
+	<ol>
+		{#each SVGPathCommander.pathToRelative(d) as segment}
+			<li>{segment}</li>
+		{/each}
+	</ol>
+{/if}
 
 <style>
 	svg,
@@ -59,13 +124,17 @@
 		margin: 0;
 		transition:
 			color 1.2s,
-			background 1.2s;
+			background-color 1.2s;
 
 		padding: 0.25rem;
 		font-family: ui-monospace;
 		font-size: 1rem;
 		line-height: var(--grid-y);
 		resize: none;
+	}
+
+	textarea.normalised {
+		background-image: linear-gradient(var(--skies), var(--skies) var(--grid-y), transparent var(--grid-y));
 	}
 
 	textarea:focus {
