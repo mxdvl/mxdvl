@@ -63,7 +63,14 @@
 							segments.push([["M", x, y], segment]);
 							return { x: segment[6], y: segment[7], segments };
 						}
-						case "Z":
+						case "Z": {
+							const [[, x0, y0]] = SVGPathCommander.normalizePath(d);
+							segments.push([
+								["M", x, y],
+								["L", x0, y0],
+							]);
+							return { x: x0, y: y0, segments };
+						}
 					}
 
 					return { x, y, segments };
