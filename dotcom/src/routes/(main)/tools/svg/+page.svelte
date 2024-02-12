@@ -1,5 +1,5 @@
 <script>
-	import Path from "./Path.svelte";
+	import EditablePath from "./EditablePath.svelte";
 	import SVGPathCommander from "svg-path-commander";
 
 	/** @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d */
@@ -17,8 +17,6 @@
 
 	const size = 360;
 
-	let visualise = true;
-
 	/** @param {string} d */
 	const getSegments = (d) => {
 		try {
@@ -32,12 +30,10 @@
 </script>
 
 <svg viewBox={`0,0 ${size},${size}`} width={size} height={size} stroke="var(--earth)" stroke-width={2} fill="none">
-	<Path {visualise} {d} />
+	<EditablePath {d} />
 </svg>
 
 <textarea cols="30" rows="12" bind:value={d} />
-
-<label>Visualise <input type="checkbox" bind:checked={visualise} /></label>
 
 <ul>
 	{#each segments as [command, ...parts]}

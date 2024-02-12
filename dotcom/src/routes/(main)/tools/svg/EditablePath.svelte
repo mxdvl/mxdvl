@@ -1,53 +1,40 @@
 <script>
 	import SVGPathCommander from "svg-path-commander";
-	import Svg from "../../works/bobbin/SVG.svelte";
 
-	export let visualise = false;
 	/** @type {string} */
 	export let d;
 
-	/** @typedef {{ x: number, y: number, segment: import('svg-path-commander').NormalSegment}} Segment */
+	/** @typedef {[import('svg-path-commander').MSegment, import('svg-path-commander').NormalSegment]} Segment */
 
-	/** @param {string} d */
-	const getHandles = (d) => {
-		try {
-			return SVGPathCommander.normalizePath(d).reduce(
-				({ x0, y0, handles }, segment) => {
-					switch (segment[0]) {
-						case "M": {
-							return { x0: segment[1], y0: segment[2], handles };
-						}
-						case "L": {
-							const [, x1, y1] = segment;
-							handles.push(`M${x0},${y0}L${x1},${y1}`);
-							return { x0: segment[1], y0: segment[2], handles };
-						}
-						case "C": {
-							const [, x1, y1, x2, y2, x3, y3] = segment;
-							handles.push(`M${x0},${y0}L${x1},${y1}`);
-							handles.push(`M${x3},${y3}L${x2},${y2}`);
-							return { x0: segment[5], y0: segment[6], handles };
-						}
-						case "Q": {
-							const [, x1, y1, x2, y2] = segment;
-							handles.push(`M${x0},${y0}L${x1},${y1} ${x2},${y2}`);
-							return { x0: segment[3], y0: segment[4], handles };
-						}
-						case "A": {
-							const [, rx, ry, angle, large, sweep, x1, y1] = segment;
-							handles.push(`M${x0},${y0}L${x1},${y1}`);
-							handles.push(`M${x0},${y0}A${rx},${ry},${angle},${1 - large},${1 - sweep},${x1},${y1}`);
-							return { x0: segment[6], y0: segment[7], handles };
-						}
-						case "Z": {
-							return { x0: 0, y0: 0, handles };
-						}
-					}
-				},
-				{ x0: 0, y0: 0, handles: /** @type {string[]} */ ([]) },
-			).handles;
-		} catch (_) {
-			return [];
+	/**
+	 * @param {Segment} segment
+	 */
+	const getHandles = (segment) => {
+		const [, x0, y0] = segment[0];
+		switch (segment[1][0]) {
+			case "Z":
+			case "M": {
+				return [];
+			}
+			case "L": {
+				const [, x1, y1] = segment[1];
+				return [`M${x0},${y0}L${x1},${y1}`];
+			}
+			case "C": {
+				const [, x1, y1, x2, y2, x3, y3] = segment[1];
+				return [`M${x0},${y0}L${x1},${y1}`, `M${x3},${y3}L${x2},${y2}`];
+			}
+			case "Q": {
+				const [, x1, y1, x2, y2] = segment[1];
+				return [`M${x0},${y0}L${x1},${y1} ${x2},${y2}`];
+			}
+			case "A": {
+				const [, rx, ry, angle, large, sweep, x1, y1] = segment[1];
+				return [
+					`M${x0},${y0}L${x1},${y1}`,
+					`M${x0},${y0}A${rx},${ry},${angle},${1 - large},${1 - sweep},${x1},${y1}`,
+				];
+			}
 		}
 	};
 
@@ -84,15 +71,13 @@
 				{
 					x: 0,
 					y: 0,
-					segments: /** @type {import('svg-path-commander').NormalArray[]} */ ([]),
+					segments: /** @type {Segment[]} */ ([]),
 				},
 			).segments;
 		} catch (_) {
 			return [];
 		}
 	};
-
-	$: handles = visualise ? getHandles(d) : [];
 
 	$: segments = getSegments(d);
 
@@ -103,8 +88,6 @@
 <marker id="dot" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="6" markerHeight="6">
 	<circle cx="6" cy="6" r="4" fill="var(--glint)" stroke="none" />
 </marker>
-
-{#each segments as segment}{/each}
 
 {#each segments as segment, index}
 	{@const active = index === selected}
@@ -128,7 +111,7 @@
 		}}
 	/>
 	{#if active}
-		{#each getHandles(SVGPathCommander.pathToString(segment)) as handle}
+		{#each getHandles(segment) as handle}
 			<path
 				class="handles"
 				d={handle}
