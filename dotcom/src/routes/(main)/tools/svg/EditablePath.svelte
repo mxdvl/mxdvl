@@ -96,10 +96,10 @@
 		{#if segment[1][0] === "M"}
 			<line
 				class="handles"
-				x1={x}
-				y1={y}
-				x2={x + width}
-				y2={y + height}
+				x1={segment[0][1]}
+				y1={segment[0][2]}
+				x2={segment[1][1]}
+				y2={segment[1][2]}
 				marker-start="url(#dot)"
 				marker-end="url(#dot)"
 			/>
