@@ -17,6 +17,8 @@
 
 	const size = 360;
 
+	let visualise = true;
+
 	/** @param {string} d */
 	const getSegments = (d) => {
 		try {
@@ -30,10 +32,12 @@
 </script>
 
 <svg viewBox={`0,0 ${size},${size}`} width={size} height={size} stroke="var(--earth)" stroke-width={2} fill="none">
-	<Path visualise={true} {d} />
+	<Path {visualise} {d} />
 </svg>
 
-<textarea cols="30" bind:value={d} />
+<textarea cols="30" rows="12" bind:value={d} />
+
+<label>Visualise <input type="checkbox" bind:checked={visualise} /></label>
 
 <ul>
 	{#each segments as [command, ...parts]}
@@ -42,3 +46,30 @@
 		</li>
 	{/each}
 </ul>
+
+<style>
+	svg,
+	textarea {
+		border: 0.125rem solid var(--skies);
+	}
+
+	textarea {
+		display: block;
+		appearance: none;
+		border-radius: 0.125rem;
+		width: min(calc(12 * var(--grid-x)), 100%);
+		background: var(--clouds);
+		margin: 0;
+
+		padding: 0.25rem;
+		font-family: ui-monospace;
+		font-size: 1rem;
+		line-height: var(--grid-y);
+		resize: none;
+	}
+
+	textarea:focus {
+		border-color: var(--ocean);
+		outline: none;
+	}
+</style>

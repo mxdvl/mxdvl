@@ -53,8 +53,8 @@
 	$: handles = visualise ? getHandles(d) : [];
 </script>
 
-<marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
-	<circle cx="5" cy="5" r="3" fill="var(--glint)" stroke="none" />
+<marker id="dot" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="6" markerHeight="6">
+	<circle cx="6" cy="6" r="3" fill="var(--glint)" stroke="none" />
 </marker>
 
 {#each handles as handle}
@@ -74,9 +74,11 @@
 <style>
 	path {
 		stroke: var(--earth);
+		stroke-width: 2;
 	}
 
 	path.handles {
 		stroke: var(--glint);
+		stroke-width: 1.5;
 	}
 </style>
