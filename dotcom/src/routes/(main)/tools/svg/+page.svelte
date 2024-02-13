@@ -140,7 +140,7 @@
 			background-color 1.2s;
 
 		padding: 0.25rem;
-		font-family: ui-monospace;
+		font-family: ui-monospace, monospace;
 		font-size: 1rem;
 		line-height: var(--grid-y);
 		resize: none;
