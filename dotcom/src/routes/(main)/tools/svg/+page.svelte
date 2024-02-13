@@ -4,37 +4,41 @@
 	import SVGPathCommander from "svg-path-commander";
 	import { onMount } from "svelte";
 
+	export let data;
+
 	/** @param {import('svg-path-commander').PathArray} segments */
 	const format = (segments) => segments.map((segment) => segment.join(" ")).join("\n");
 
 	/** @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d */
-	let d = format([
-		["M", 30, 140],
-		["v", 40],
-		["a", 50, 50, 0, 0, 0, 50, 50],
-		["h", 20],
-		["c", 60, 0, 60, -20, 20, -20],
-		["c", 40, 0, 40, -20, 0, -20],
-		["c", 40, 0, 40, -20, -20, -20],
-		["h", -20],
-		["a", 10, 10, 0, 0, 1, 0, -20],
-		["h", 200],
-		["a", 10, 10, 0, 0, 1, 0, 20],
-		["h", -20],
-		["c", -60, 0, -60, 20, -20, 20],
-		["c", -40, 0, -40, 20, 0, 20],
-		["c", -40, 0, -40, 20, 20, 20],
-		["h", 20],
-		["a", 50, 50, 0, 0, 0, 50, -50],
-		["v", -40],
-		["M", 190, 180],
-		["l", -20, 20],
-		["l", 10, 10],
-		["l", -10, 20],
-		["l", 20, -20],
-		["l", -10, -10],
-		["l", 10, -20],
-	]);
+	let d =
+		data.path ??
+		format([
+			["M", 30, 140],
+			["v", 40],
+			["a", 50, 50, 0, 0, 0, 50, 50],
+			["h", 20],
+			["c", 60, 0, 60, -20, 20, -20],
+			["c", 40, 0, 40, -20, 0, -20],
+			["c", 40, 0, 40, -20, -20, -20],
+			["h", -20],
+			["a", 10, 10, 0, 0, 1, 0, -20],
+			["h", 200],
+			["a", 10, 10, 0, 0, 1, 0, 20],
+			["h", -20],
+			["c", -60, 0, -60, 20, -20, 20],
+			["c", -40, 0, -40, 20, 0, 20],
+			["c", -40, 0, -40, 20, 20, 20],
+			["h", 20],
+			["a", 50, 50, 0, 0, 0, 50, -50],
+			["v", -40],
+			["M", 190, 180],
+			["l", -20, 20],
+			["l", 10, 10],
+			["l", -10, 20],
+			["l", 20, -20],
+			["l", -10, -10],
+			["l", 10, -20],
+		]);
 
 	const size = 360;
 
@@ -48,8 +52,6 @@
 			: /** @type {import('svg-path-commander').RelativeArray} */ ([["M", 0, 0]]);
 	};
 
-	let segments = getSegments(d);
-
 	/** @type {(path: string, method: 'relative' | 'absolute') => string} */
 	const formatPath = (path, method) => {
 		switch (method) {
@@ -62,7 +64,7 @@
 		}
 	};
 
-	let selected = -1;
+	let selected = data.selected;
 
 	$: disabled = !SVGPathCommander.isValidPath(d);
 
@@ -112,6 +114,16 @@
 	on:click={() => {
 		d = formatPath(d, "absolute");
 	}}>format to absolute</Button
+>
+<Button
+	disabled={disabled || d === formatPath(d, "absolute")}
+	on:click={() => {
+		const params = new URLSearchParams({
+			d,
+		});
+		if (selected >= 0) params.set("s", String(selected));
+		window.location.search = `?${params.toString()}`;
+	}}>save to URL</Button
 >
 
 {#if !normalised}
