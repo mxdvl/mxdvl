@@ -114,16 +114,11 @@
 	}}>format to absolute</Button
 >
 
-<p>
-	Normalised? {normalised}
-</p>
-
-{#if !disabled}
-	<ol>
-		{#each SVGPathCommander.pathToRelative(d) as segment}
-			<li>{segment}</li>
-		{/each}
-	</ol>
+{#if !normalised}
+	<p>
+		If you normalise & format the path, you can higlight a line in the text area and get the corresponding segment
+		higlighted
+	</p>
 {/if}
 
 <style>
