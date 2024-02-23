@@ -41,8 +41,8 @@ importers:
         specifier: 7.0.2
         version: 7.0.2(eslint@8.56.0)(typescript@5.3.3)
       '@vercel/node':
-        specifier: 3.0.19
-        version: 3.0.19
+        specifier: 3.0.20
+        version: 3.0.20
       browser-fs-access:
         specifier: 0.35.0
         version: 0.35.0
@@ -1159,8 +1159,8 @@ packages:
       - supports-color
     dev: false
 
-  /@vercel/nft@0.26.3:
-    resolution: {integrity: sha512-h1z/NN9ppS4YOKwSgBoopJlhm7tS2Qb/9Ld1HXjDpvvTE7mY0xVD8nllXs+RihD9uTGJISOIMzp18Eg0EApaMA==}
+  /@vercel/nft@0.26.4:
+    resolution: {integrity: sha512-j4jCOOXke2t8cHZCIxu1dzKLHLcFmYzC3yqAK6MfZznOL1QIJKd0xcFsXK3zcqzU7ScsE2zWkiMMNHGMHgp+FA==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
@@ -1181,8 +1181,8 @@ packages:
       - supports-color
     dev: false
 
-  /@vercel/node@3.0.19:
-    resolution: {integrity: sha512-geiAo2QjkNyWZSMbNKgaCvUvqg44tWDF0XDhEc6D+2H+2553Ea/RFpJNY7oSruuR1Rk43GUOKbxnVEDft/2JhQ==}
+  /@vercel/node@3.0.20:
+    resolution: {integrity: sha512-J6EqkFczKJyLZFoMv863vBMsqJndisK4fQ6yz41VsBp5bfUo6v3KjNa5miRnLjeKUhrQYGbGQLG89Q6wO1jBVQ==}
     dependencies:
       '@edge-runtime/node-utils': 2.3.0
       '@edge-runtime/primitives': 4.1.0
@@ -1190,7 +1190,7 @@ packages:
       '@types/node': 14.18.33
       '@vercel/build-utils': 7.7.0
       '@vercel/error-utils': 2.0.2
-      '@vercel/nft': 0.26.3
+      '@vercel/nft': 0.26.4
       '@vercel/static-config': 3.0.0
       async-listen: 3.0.0
       cjs-module-lexer: 1.2.3
