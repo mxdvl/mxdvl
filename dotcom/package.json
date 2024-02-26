@@ -16,7 +16,7 @@
 	},
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "5.1.0",
-		"@sveltejs/kit": "2.5.1",
+		"@sveltejs/kit": "2.5.2",
 		"@sveltejs/vite-plugin-svelte": "3.0.2",
 		"@types/d3-drag": "3.0.7",
 		"@types/d3-force": "3.0.9",
