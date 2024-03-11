@@ -41,8 +41,8 @@ importers:
         specifier: 7.1.1
         version: 7.1.1(eslint@8.57.0)(typescript@5.4.2)
       '@vercel/node':
-        specifier: 3.0.21
-        version: 3.0.21
+        specifier: 3.0.22
+        version: 3.0.22
       browser-fs-access:
         specifier: 0.35.0
         version: 0.35.0
@@ -1129,8 +1129,8 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: false
 
-  /@vercel/build-utils@7.7.1:
-    resolution: {integrity: sha512-TUO2sJiKHwF1CBZl9fP/Wof+IAMJ9QQEKU+RHzjNBedJmV/HolYIOAgW+jguQM7pOLz4cKbwcoPt+QltdHJ8Lw==}
+  /@vercel/build-utils@7.8.0:
+    resolution: {integrity: sha512-kYABisJ/Fzn8eYX27nEKnUhtFvW/8oBGGzPWVSgiN9pwtAa0IYCqFGIsg9EbWiXvBSrVuiS7++k6KU+rEtKs1w==}
     dev: false
 
   /@vercel/error-utils@2.0.2:
@@ -1181,14 +1181,14 @@ packages:
       - supports-color
     dev: false
 
-  /@vercel/node@3.0.21:
-    resolution: {integrity: sha512-Ie/1yC2rPYv5NkYqwTF2tWlwArjEPLwFwZ6Z2OMTxNaqivAkvODweAtrlLvilVESFDzdhkO50MCl5ettAZjIWA==}
+  /@vercel/node@3.0.22:
+    resolution: {integrity: sha512-opPu9PHiQBEUEnAJa6GPUgbNz2dEi6abkDGV27wjrHErOZemRr687U+SVFoR54CQ3soKASbp/HGHggCfow0SVQ==}
     dependencies:
       '@edge-runtime/node-utils': 2.3.0
       '@edge-runtime/primitives': 4.1.0
       '@edge-runtime/vm': 3.2.0
       '@types/node': 14.18.33
-      '@vercel/build-utils': 7.7.1
+      '@vercel/build-utils': 7.8.0
       '@vercel/error-utils': 2.0.2
       '@vercel/nft': 0.26.4
       '@vercel/static-config': 3.0.0
