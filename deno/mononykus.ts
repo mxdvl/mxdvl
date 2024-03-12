@@ -35,7 +35,7 @@ export const handler: Handler = (request) => {
 
 if (import.meta.main) {
 	const { build, rebuild } = await import(
-		"https://deno.land/x/mononykus@0.7.1/src/build.ts".slice()
+		"https://deno.land/x/mononykus@0.7.3/src/build.ts".slice()
 	);
 
 	const environment = Deno.args.some((arg) => arg === "--watch") ? "dev" : "prod";
