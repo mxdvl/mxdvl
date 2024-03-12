@@ -18,6 +18,9 @@
 
 	const size = 20 * 18 * 2;
 
+	/** @type {SVGSVGElement} */
+	let svg;
+
 	let guides = true;
 
 	let dragging = false;
@@ -165,7 +168,7 @@
 <div id="workspace">
 	<div id="canvas" class="border">
 		<svg
-			id="rosace"
+			bind:this={svg}
 			viewBox={`-${size / 2},-${size / 2} ${size},${size}`}
 			on:pointerdown={drag.start}
 			on:pointermove={drag.update}
@@ -212,7 +215,7 @@
 		</svg>
 	</div>
 
-	<Controls {patterns} />
+	<Controls {patterns} {svg} />
 
 	<ul id="shapes">
 		<li><Polygon /></li>

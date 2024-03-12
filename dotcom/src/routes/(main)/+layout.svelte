@@ -6,9 +6,9 @@
 	import { page } from "$app/stores";
 	import { load, trackPageview } from "fathom-client";
 
-	import "./styles.css";
-	import { lang } from "../lib/lang";
-	import { capitalise } from "../lib/capitalise";
+	import "../styles.css";
+	import { lang } from "$lib/lang";
+	import { capitalise } from "$lib/capitalise";
 
 	export let data;
 
