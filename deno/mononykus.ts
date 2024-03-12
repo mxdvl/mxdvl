@@ -19,6 +19,11 @@ export const handler: Handler = (request) => {
 		return Response.redirect(new URL(lang === "en" ? "/hi" : "/allô", url.origin));
 	}
 
+	if (url.pathname.startsWith("/media/")) {
+		const filepath = fromFileUrl(import.meta.resolve("." + url.pathname));
+		return serveFile(request, filepath);
+	}
+
 	if (!url.pathname.includes(".")) {
 		return serveFile(request, options.out_dir + decodeURIComponent(url.pathname) + ".html");
 	}

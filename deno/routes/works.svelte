@@ -1,7 +1,10 @@
 <script>
 	import Layout from "../components/Layout.svelte";
 	import Works from "../components/Works.svelte";
+	import Alternates from "../components/Alternates.svelte";
 </script>
+
+<Alternates en="/works" fr="/travaux" />
 
 <Layout>
 	<h2>Works</h2>
@@ -17,6 +20,6 @@
 			"works/1x-expo",
 			"works/emergences",
 		]}
-		lang={"fr"}
+		lang={"en"}
 	/>
 </Layout>
