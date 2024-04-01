@@ -22,7 +22,7 @@
 		"@types/d3-force": "3.0.9",
 		"@types/d3-selection": "3.0.10",
 		"@types/d3-zoom": "3.0.8",
-		"@types/node": "20.11",
+		"@types/node": "20.12",
 		"@typescript-eslint/eslint-plugin": "7.4.0",
 		"@typescript-eslint/parser": "7.4.0",
 		"@vercel/node": "3.0.25",
