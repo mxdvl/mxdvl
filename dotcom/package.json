@@ -44,7 +44,7 @@
 		"svelte": "4.2.12",
 		"svg-path-commander": "2.0.9",
 		"typescript": "5.4.3",
-		"vite-imagetools": "6.2.9",
+		"vite-imagetools": "7.0.1",
 		"vite": "5.2.7",
 		"zod": "3.22.4"
 	}
