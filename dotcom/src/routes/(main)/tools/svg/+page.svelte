@@ -45,13 +45,6 @@
 	/** @type {HTMLTextAreaElement | undefined} */
 	let textArea = undefined;
 
-	/** @param {string} path */
-	const getSegments = (path) => {
-		return SVGPathCommander.isValidPath(path)
-			? SVGPathCommander.pathToRelative(path)
-			: /** @type {import('svg-path-commander').RelativeArray} */ ([["M", 0, 0]]);
-	};
-
 	/** @type {(path: string, method: 'relative' | 'absolute') => string} */
 	const formatPath = (path, method) => {
 		switch (method) {

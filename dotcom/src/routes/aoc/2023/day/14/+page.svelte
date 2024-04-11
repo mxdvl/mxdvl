@@ -10,12 +10,6 @@ O.#..O.#.#
 #....###..
 #OO..#....`;
 
-	const mappings = /** @type {const} */ ({
-		O: "○",
-		"#": "■",
-		".": " ",
-	});
-
 	$: lines = input
 		.split("\n")
 		.filter((line) => line.match(/^[.O#]+$/))

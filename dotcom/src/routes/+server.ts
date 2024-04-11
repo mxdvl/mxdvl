@@ -1,5 +1,3 @@
-import type { Lang } from "$lib/lang";
-
 export const GET = ({ request }) => {
 	const maybeLang = request.headers
 		.get("accept-language")

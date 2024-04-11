@@ -140,8 +140,8 @@
 
 <p>Found {[...lines.join(".").matchAll(/#/g)].length} stars</p>
 
-<p>{[...xs]} columns</p>
-<p>{[...ys]} rows</p>
+<p>{[...xs].join(",")} columns</p>
+<p>{[...ys].join(",")} rows</p>
 
 <p>
 	A total of {pairs.size} pairs, with a combined distance of
