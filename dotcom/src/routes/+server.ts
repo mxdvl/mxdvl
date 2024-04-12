@@ -6,8 +6,7 @@ export const GET = ({ request }) => {
 		?.split(",")
 		.find((str) => str.startsWith("fr") || str.startsWith("en"));
 
-	/** @type {Lang} */
-	const lang = maybeLang?.startsWith("fr") ? "fr" : "en";
+	const lang: Lang = maybeLang?.startsWith("fr") ? "fr" : "en";
 
 	return new Response(undefined, {
 		status: 301,

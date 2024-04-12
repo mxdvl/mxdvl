@@ -1,7 +1,7 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { imagetools } from "vite-imagetools";
 import { defaultDirectives } from "./src/lib/picture";
-import type { ConfigEnv, UserConfigFn } from "vite";
+import type { UserConfigFn } from "vite";
 import { readFile } from "node:fs/promises";
 
 const get_certificate = async () => {
