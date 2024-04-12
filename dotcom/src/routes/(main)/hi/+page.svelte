@@ -9,19 +9,55 @@
 
 <Alternates en="/hi" fr="/allô" />
 
-<h1>Hi, there!</h1>
+<h1>Hi there, it’s <strong>Max</strong>!</h1>
 
-<p>Hello, it’s Max.</p>
-
-<p>
-	A <a href="/allô">bilingual</a> developer &amp, designer in
+<h2>
+	Designer & developer in
 	<span data-id={id}>{feels_like > 300 ? "boiling" : getCondition(id, "en")}</span>
-	London. Currently working at The Guardian.
-</p>
+	London.
+</h2>
+
+<!-- Feels like {feels_like}K</p> -->
 
 <p>
-	Elegance, simplicity and accessibility guide <a href="/works">my work</a>. I love building for the web and making
-	<a href="https://github.com/mxdvl">open-source contributions</a>.
+	Currently building <a href="https://www.theguardian.com/uk">the Guardian</a>’s website. You can read more about my
+	professional journey
+	<a href="/profile">on my profile</a>.
 </p>
 
-<p>Feels like {feels_like}K</p>
+<p>Recent stuff that I’m proud of having contributed to:</p>
+
+<ul>
+	<li>Deploying a real-time data collection pipeline focussed on privacy in April 2024</li>
+	<li><a href="https://mxdvl.github.io/gudrid/">Gudrid</a>, a tool to explore Guardian content</li>
+	<li>
+		The launch of <a href="https://github.com/guardian/typescript-school">TypeScript school</a>, which helps all
+		developers be on the same page in November 2023.
+	</li>
+	<li>
+		<a href="https://www.theguardian.com/info/2023/oct/24/standardisation-the-merit-of-consistent-patterns"
+			>“Standardisation: the merit of consistent patterns”</a
+		>, an engineering blog post in October 2023
+	</li>
+	<li>
+		Delivering an <a href="https://github.com/guardian/dotcom-rendering/pull/9024"
+			>adapted website experience for users experiencing poor page performance</a
+		>
+	</li>
+	<li>Mentored four fellow engineers in 2023, which help me grow along with them</li>
+	<li><a href="/works/bobbin">Bobbin</a>, a tool for making intricate symmetries</li>
+	<li>
+		<a href="https://github.com/guardian/csnx/pull/850">20&times; speed improvement</a> on internal relative time method
+	</li>
+</ul>
+
+<style>
+    ul {
+        padding-left: var(--grid);
+        margin: 0;
+    }
+
+    li {
+        padding-bottom: var(--grid-y);
+    }
+</style>
