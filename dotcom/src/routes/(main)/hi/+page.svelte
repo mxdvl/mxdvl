@@ -25,7 +25,7 @@
 	<a href="/profile">on my profile</a>.
 </p>
 
-<p>Recent stuff that I’m proud of having contributed to:</p>
+<p>I’m proud of these recents achievements and projects:</p>
 
 <ul>
 	<li>Deploying a real-time data collection pipeline focussed on privacy in April 2024</li>
@@ -52,12 +52,12 @@
 </ul>
 
 <style>
-    ul {
-        padding-left: var(--grid);
-        margin: 0;
-    }
+	ul {
+		padding-left: var(--grid);
+		margin: 0;
+	}
 
-    li {
-        padding-bottom: var(--grid-y);
-    }
+	li {
+		padding-bottom: var(--grid-y);
+	}
 </style>
