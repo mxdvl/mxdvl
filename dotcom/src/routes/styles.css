@@ -54,7 +54,8 @@ body {
 		sans-serif;
 
 	font-weight: 400;
-	font-size: 16px;
+	font-size: 125%;
+	line-height: 1.5;
 	background-color: var(--clouds);
 }
 
@@ -111,7 +112,7 @@ p {
 /* -- GRID --------------------------- */
 
 #grid {
-	--grid: 1.125rem;
+	--grid: 1.5rem;
 	--grid-double: calc(2 * var(--grid));
 	--grid-x: calc(2 * var(--grid));
 	--grid-y: calc(1 * var(--grid));
@@ -149,61 +150,61 @@ See $lib/grid.ts for generating these widths
 deno run dotcom/src/lib/grid.ts | pbcopy
 */
 
-@media screen and (min-width: 342px) {
+@media screen and (min-width: 29em) {
 	#grid {
 		--columns: 18;
 	}
 }
 
-@media screen and (min-width: 450px) {
+@media screen and (min-width: 38em) {
 	#grid {
 		--columns: 24;
 	}
 }
 
-@media screen and (min-width: 558px) {
+@media screen and (min-width: 47em) {
 	#grid {
 		--columns: 30;
 	}
 }
 
-@media screen and (min-width: 666px) {
+@media screen and (min-width: 56em) {
 	#grid {
 		--columns: 36;
 	}
 }
 
-@media screen and (min-width: 774px) {
+@media screen and (min-width: 65em) {
 	#grid {
 		--columns: 42;
 	}
 }
 
-@media screen and (min-width: 882px) {
+@media screen and (min-width: 74em) {
 	#grid {
 		--columns: 48;
 	}
 }
 
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 83em) {
 	#grid {
 		--columns: 54;
 	}
 }
 
-@media screen and (min-width: 1098px) {
+@media screen and (min-width: 92em) {
 	#grid {
 		--columns: 60;
 	}
 }
 
-@media screen and (min-width: 1206px) {
+@media screen and (min-width: 101em) {
 	#grid {
 		--columns: 66;
 	}
 }
 
-@media screen and (min-width: 1314px) {
+@media screen and (min-width: 110em) {
 	#grid {
 		--columns: 72;
 	}

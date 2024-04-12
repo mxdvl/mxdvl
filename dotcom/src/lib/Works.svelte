@@ -84,7 +84,7 @@
 		border-color: var(--glint);
 	}
 
-	@media screen and (min-width: 620px) {
+	@media screen and (min-width: 840px) {
 		ul {
 			--columns: 2;
 			--width: 14;
@@ -92,7 +92,7 @@
 		}
 	}
 
-	@media screen and (min-width: 740px) {
+	@media screen and (min-width: 1080px) {
 		ul {
 			--columns: 2;
 			--width: 19;
@@ -100,14 +100,14 @@
 		}
 	}
 
-	@media screen and (min-width: 960px) {
+	@media screen and (min-width: 1340px) {
 		ul {
 			--columns: 3;
 			--width: 16;
 		}
 	}
 
-	@media screen and (min-width: 1200px) {
+	@media screen and (min-width: 1620px) {
 		ul {
 			--columns: 3;
 			--width: 20;
@@ -115,7 +115,7 @@
 		}
 	}
 
-	@media screen and (min-width: 1400px) {
+	@media screen and (min-width: 1900px) {
 		ul {
 			--columns: 4;
 			--width: 15;

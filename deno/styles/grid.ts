@@ -1,4 +1,4 @@
-const HORIZONTAL_GRID = 18;
+const HORIZONTAL_GRID = 24;
 const BASE = 6;
 
 export const grid = Array.from({ length: 10 }, (_, i) => (i + 3) * BASE)
@@ -12,3 +12,7 @@ export const grid = Array.from({ length: 10 }, (_, i) => (i + 3) * BASE)
 }`;
 	})
 	.join("\n");
+
+if(import.meta.main) {
+  console.log(grid)
+}
