@@ -114,7 +114,7 @@
 			// yield heatmap.get(item);
 			heat_loss++;
 		}
-		// yield { heat_loss };
+		yield { heat_loss };
 		return;
 	}
 
