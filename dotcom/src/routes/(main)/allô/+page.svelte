@@ -9,15 +9,13 @@
 
 <Alternates en="/hi" fr="/allô" />
 
-<h1>Allô!</h1>
+<h1>Allô, c’est <strong>Max</strong>!</h1>
 
-<p>Allô, c’est Max.</p>
-
-<p>
-	Un dévelopeur & designer <a href="/hi">bilingue</a> à Londres
-	<span data-id={id}>{feels_like > 300 ? "bouillante" : getCondition(id, "fr")}</span>. Je travaille actuellement chez
+<h2>
+	Un dévelopeur & designer à Londres
+	<span data-id={id} data-temp={feels_like}>{feels_like > 300 ? "bouillante" : getCondition(id, "fr")}</span>. Je travaille actuellement chez
 	The Guardian.
-</p>
+</h2>
 
 <p>
 	<a href="/travaux">Mon travail</a>
@@ -25,4 +23,7 @@
 	<a href="https://github.com/mxdvl">contribuer à du code source ouvert </a>.
 </p>
 
-<p>Température ressentie {feels_like}K</p>
+<p>
+  Comme je travaille principalement en Anglais,
+  il y a <a href="/hi">plus d'info de ce côté-là</a>.
+</p>
