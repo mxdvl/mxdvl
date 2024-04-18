@@ -94,7 +94,7 @@
 	on:click={() => updateLine()}
 	class:normalised
 	style={`background-position-y: calc(${selected} * var(--grid-y) + 0.25rem);`}
-/>
+></textarea>
 
 <Button
 	disabled={disabled || d === formatPath(d, "relative")}
