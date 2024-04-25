@@ -2,7 +2,7 @@
 	import Alternates from "$lib/Alternates.svelte";
 	import { toKilometre, toMiles, toMinuteSeconds } from "../../outils/cadence/+page.svelte";
 
-	const initial = 4.25;
+	const initial = 4.3333;
 	const step = 5 / 60;
 	const min = 3;
 	const max = 12;
@@ -15,8 +15,8 @@
 	 * @param {"km" | "m"} units
 	 */
 	const setPace = (newPace, units) => {
-		if (units === "km") perMile = toMiles(newPace);
-		if (units === "m") perKilometre = toKilometre(newPace);
+		if (units === "m") perMile = toMiles(newPace);
+		if (units === "km") perKilometre = toKilometre(newPace);
 	};
 
 	$: setPace(perKilometre, "km");
