@@ -10,7 +10,7 @@
 	/** @param {number} pace */
 	export const toMinuteSeconds = (pace) => {
 		const minutes = String(Math.floor(pace)).padStart(2, "0");
-		const seconds = String(Math.round(60 * (pace % 1))).padStart(2, "0");
+		const seconds = String(Math.floor(60 * (pace % 1))).padStart(2, "0");
 
 		return `${minutes}:${seconds}`;
 	};
@@ -19,7 +19,7 @@
 <script>
 	import Alternates from "$lib/Alternates.svelte";
 
-	const initial = 4.25;
+	const initial = 4.333;
 	const step = 5 / 60;
 	const min = 3;
 	const max = 12;
@@ -32,8 +32,8 @@
 	 * @param {"km" | "m"} units
 	 */
 	const setPace = (newPace, units) => {
-		if (units === "km") perMile = toMiles(newPace);
-		if (units === "m") perKilometre = toKilometre(newPace);
+		if (units === "m") perMile = toMiles(newPace);
+		if (units === "km") perKilometre = toKilometre(newPace);
 	};
 
 	$: setPace(perKilometre, "km");
