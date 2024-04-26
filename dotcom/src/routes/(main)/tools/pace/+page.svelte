@@ -2,10 +2,10 @@
 	import Alternates from "$lib/Alternates.svelte";
 	import { toKilometre, toMiles, toMinuteSeconds } from "../../outils/cadence/+page.svelte";
 
-	const initial = 4.3333;
-	const step = 5 / 60;
-	const min = 3;
-	const max = 12;
+	const initial = 4 * 60 + 21;
+	const step = 1;
+	const min = 3 * 60;
+	const max = 9 * 60;
 
 	let perKilometre = initial;
 	let perMile = toMiles(initial);
@@ -15,8 +15,8 @@
 	 * @param {"km" | "m"} units
 	 */
 	const setPace = (newPace, units) => {
-		if (units === "m") perMile = toMiles(newPace);
-		if (units === "km") perKilometre = toKilometre(newPace);
+		if (units === "km") perMile = toMiles(newPace);
+		if (units === "m") perKilometre = toKilometre(newPace);
 	};
 
 	$: setPace(perKilometre, "km");
@@ -27,9 +27,9 @@
 
 <input type="range" bind:value={perKilometre} {min} {max} {step} />
 
-<p>A running pace of {toMinuteSeconds(perKilometre)} min / km…</p>
+<p>A running pace of <strong>{toMinuteSeconds(perKilometre)} min / km…</strong></p>
 
-<p>Is equivalent to {toMinuteSeconds(perMile)} min / mile!</p>
+<p>Is equivalent to <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
 
 <input type="range" bind:value={perMile} {min} {max} {step} />
 
@@ -44,5 +44,9 @@
 
 	input:hover {
 		accent-color: var(--glint);
+	}
+
+	strong {
+		font-variant-numeric: tabular-nums;
 	}
 </style>
