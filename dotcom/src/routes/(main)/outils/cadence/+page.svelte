@@ -27,17 +27,28 @@
 	let perKilometre = initial;
 	let perMile = toMiles(initial);
 
+	/**
+	 * @param {number} newPace
+	 * @param {"km" | "m"} units
+	 */
+	const setPace = (newPace, units) => {
+		if (units === "km") perMile = toMiles(newPace);
+		if (units === "m") perKilometre = toKilometre(newPace);
+	};
+
+	$: setPace(perKilometre, "km");
+	$: setPace(perMile, "m");
 </script>
 
 <Alternates en="/tools/pace" fr="/outils/cadence" />
 
-<input type="range" bind:value={perKilometre} {min} {max} {step} on:change={() => perMile = toMiles(perKilometre)} />
+<input type="range" bind:value={perKilometre} {min} {max} {step} />
 
 <p>Une cadence de <strong>{toMinuteSeconds(perKilometre)} min / km</strong>…</p>
 
 <p>Équivaut <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
 
-<input type="range" bind:value={perMile} {min} {max} {step} on:change={() => perKilometre = toKilometre(perMile)} />
+<input type="range" bind:value={perMile} {min} {max} {step} />
 
 <style>
 	p {
