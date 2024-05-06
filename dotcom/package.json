@@ -32,7 +32,7 @@
 		"d3-force": "3.0.0",
 		"d3-selection": "3.0.0",
 		"d3-zoom": "3.0.0",
-		"eslint": "9.1.1",
+		"eslint": "9.2.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-svelte": "2.38.0",
 		"fathom-client": "3.6.0",
