@@ -8,5 +8,5 @@
 		"check:svelte": "pnpm -r check:svelte"
 	},
 	"engines": { "node": "20.14.0" },
-	"packageManager": "pnpm@9.1.3"
+	"packageManager": "pnpm@9.1.4"
 }
