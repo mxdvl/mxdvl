@@ -71,8 +71,8 @@ importers:
         specifier: 2.39.3
         version: 2.39.3(eslint@9.4.0)(svelte@4.2.18)(ts-node@10.9.1(@types/node@20.14.2)(typescript@5.4.5))
       fathom-client:
-        specifier: 3.6.0
-        version: 3.6.0
+        specifier: 3.7.0
+        version: 3.7.0
       globals:
         specifier: 15.4.0
         version: 15.4.0
@@ -1382,8 +1382,8 @@ packages:
   fastq@1.13.0:
     resolution: {integrity: sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==}
 
-  fathom-client@3.6.0:
-    resolution: {integrity: sha512-/mrgmVvpw4HqDCcqUfPulERhONKgnJGL74RAxfqKDuRQ+7w9lKoTHMzqBWE7WNBvmsgZEthQWJFOWOEjv+T3gA==}
+  fathom-client@3.7.0:
+    resolution: {integrity: sha512-lMEyR3lSThlkK69+f/16OEyuii743iJGcZ6aIUKT5qYH9lGi7ENTYwuxh5NWWYSO6qs57we01nLxncW8kegJlw==}
 
   file-entry-cache@8.0.0:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
@@ -3360,7 +3360,7 @@ snapshots:
     dependencies:
       reusify: 1.0.4
 
-  fathom-client@3.6.0: {}
+  fathom-client@3.7.0: {}
 
   file-entry-cache@8.0.0:
     dependencies:
