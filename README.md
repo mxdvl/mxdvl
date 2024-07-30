@@ -10,7 +10,7 @@ Mentoring colleagues and aspiring developers.
 Get in touch via [email][] or [telephone][].
 
 Recent stuff I’m proud of having contributed to:
-- [“Parsing: the merit of strictly typed JSON”](https://www.theguardian.com/info/article/2024/jul/26/parsing-the-merit-of-strictly-typed-json), an engineering blog post in October 2023
+- [“Parsing: the merit of strictly typed JSON”](https://www.theguardian.com/info/article/2024/jul/26/parsing-the-merit-of-strictly-typed-json), an engineering blog post in July 2024
 - The launch of [TypeScript school](https://github.com/guardian/typescript-school), which helps all developers be on the same page in November 2023
 - [“Standardisation: the merit of consistent patterns”](https://www.theguardian.com/info/2023/oct/24/standardisation-the-merit-of-consistent-patterns), an engineering blog post in October 2023
 - Delivering an [adapted website experience for users experiencing poor page performance](https://github.com/guardian/dotcom-rendering/pull/9024)
