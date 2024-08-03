@@ -22,8 +22,14 @@
 <section id="cv">
 	<ul>
 		<li>
+			<h2>Hometrack</h2>
+			<h3>2024-now</h3>
+			<p>Senior software engineer & tech lead. More details to come…</p>
+		</li>
+
+		<li>
 			<h2>The Guardian</h2>
-			<h3>2020-now</h3>
+			<h3>2020-2024</h3>
 			<p>
 				I work on <a href="https://www.theguardian.com/">TheGuardian.com</a> web platform, as a Senior Software Engineer.
 				Starting out on the Commercial Development team, I played a key role in modernising the codebase. 2022 will
