@@ -24,9 +24,7 @@
 		<li>
 			<h2>Hometrack</h2>
 			<h3>2024-now</h3>
-			<p>
-				Senior software engineer & tech lead. More details to come…
-			</p>
+			<p>Senior software engineer & tech lead. More details to come…</p>
 		</li>
 
 		<li>

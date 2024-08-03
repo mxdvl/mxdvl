@@ -17,8 +17,10 @@
 </h2>
 
 <p>
-	Je fabrique actuellement une <a href="https://www.hometrack.com/products/opportunity-insight/">platforme web de données chez Hometrack</a>. J’ai aussi contribué au <a href="https://www.theguardian.com/uk">site du Guardian</a>. Il est possible d’en
-	voir plus sur mon parcours professionel sur <a href="/profil">mon profil</a>.
+	Je fabrique actuellement une <a href="https://www.hometrack.com/products/opportunity-insight/"
+		>platforme web de données chez Hometrack</a
+	>. J’ai aussi contribué au <a href="https://www.theguardian.com/uk">site du Guardian</a>. Il est possible d’en voir
+	plus sur mon parcours professionel sur <a href="/profil">mon profil</a>.
 </p>
 
 <p>Récemment, je suis fier d’avoir accompli et participé aux projets suivants:</p>

@@ -18,9 +18,7 @@
 		<li>
 			<h2>Hometrack</h2>
 			<h3>2024-now</h3>
-			<p>
-				Ingénieur logiciel sénior & responsable technique. Plus de détails à venir…
-			</p>
+			<p>Ingénieur logiciel sénior & responsable technique. Plus de détails à venir…</p>
 		</li>
 
 		<li>

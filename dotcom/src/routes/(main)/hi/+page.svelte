@@ -20,8 +20,9 @@
 <!-- Feels like {feels_like}K</p> -->
 
 <p>
-	Currently building a <a href="https://www.hometrack.com/products/opportunity-insight/">web data hub at Hometrack</a>. Previously contributed to <a href="https://www.theguardian.com/uk">the Guardian’s website</a>. You can read more about my
-	professional journey
+	Currently building a <a href="https://www.hometrack.com/products/opportunity-insight/">web data hub at Hometrack</a
+	>. Previously contributed to <a href="https://www.theguardian.com/uk">the Guardian’s website</a>. You can read more
+	about my professional journey
 	<a href="/profile">on my profile</a>.
 </p>
 
