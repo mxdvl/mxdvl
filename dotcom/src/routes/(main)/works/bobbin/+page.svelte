@@ -151,7 +151,7 @@
 			selected === undefined && selected_index.set(0);
 		});
 
-		window.addEventListener("popstate", (e) => {
+		window.addEventListener("popstate", () => {
 			const previous_state = new URLSearchParams(window.location.search).get("state");
 			if (previous_state) state.set(previous_state);
 		});

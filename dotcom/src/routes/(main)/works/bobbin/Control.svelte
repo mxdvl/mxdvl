@@ -88,6 +88,7 @@
 			</label>
 		</li>
 
+		<!-- eslint-disable svelte/valid-compile -- this is a tool for myself -->
 		<li tabindex={0} on:keydown={handle_keydown}>
 			{Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
 		</li>

@@ -45,13 +45,6 @@
 	/** @type {HTMLTextAreaElement | undefined} */
 	let textArea = undefined;
 
-	/** @param {string} path */
-	const getSegments = (path) => {
-		return SVGPathCommander.isValidPath(path)
-			? SVGPathCommander.pathToRelative(path)
-			: /** @type {import('svg-path-commander').RelativeArray} */ ([["M", 0, 0]]);
-	};
-
 	/** @type {(path: string, method: 'relative' | 'absolute') => string} */
 	const formatPath = (path, method) => {
 		switch (method) {
@@ -101,7 +94,7 @@
 	on:click={() => updateLine()}
 	class:normalised
 	style={`background-position-y: calc(${selected} * var(--grid-y) + 0.25rem);`}
-/>
+></textarea>
 
 <Button
 	disabled={disabled || d === formatPath(d, "relative")}

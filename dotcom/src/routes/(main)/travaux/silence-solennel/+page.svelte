@@ -21,9 +21,9 @@
 	<Image ratio={2 / 3} picture={symetrie} alt="maquette à 1:10 soulignant la symétrie de l’espace" />
 
 	<blockquote>
-		« La Cène, rouge et or:<br />
+		«&ThinSpace;La Cène, rouge et or:<br />
 		Coup de théâtre en contraste;<br />
-		Silence solennel. »
+		Silence solennel.&ThinSpace;»
 	</blockquote>
 
 	<Image ratio={2 / 3} picture={entree} alt="vue de la maquette par la porte d’entrée" />

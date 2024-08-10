@@ -1,23 +1,35 @@
 <h1>Max’s profile</h1>
 
-<p>
-	As a software engineer and designer, I transform complex ideas into refined products. Working with both client and
-	user in mind, I create robust systems that are fast and accessible. Understanding what makes the world tick has led
-	me to work across cultures and industries. I have lived and worked in the UK, Japan &amp; Canada, designing for
-	non-profits, bespoke projects, hospitality, government bodies and property developers.
-</p>
+<p>Here’s the part where I talk about myself in the third person:</p>
+
+<blockquote>
+	Building resilient & accessible websites since 2007.<br />
+	Designing tools & workflows that empower others to build with confidence.<br />
+	Transforming complex ideas into functional and elegant products.<br />
+	Mentoring colleagues and aspiring developers.
+</blockquote>
 
 <p>
-	I’ve done <a href="https://www.theguardian.com/info/2021/jun/25/a-day-in-the-life"
-		>an interview for The Guardian’s engineering blog</a
-	>.
+	I’m a designer &amp; developer by trade, and I fancy the title of “digital toolmaker”. I am deeply fascinated by
+	simplifying the complexities of our world through excellent tools and visualisations that enhance the way we think
+	and interact. Having discovered so much from the generous people that shared their craft before my, <a
+		href="https://github.com/mxdvl">most of what I build is open-source</a
+	> for anyone to peruse.
 </p>
+
+<p>Here’s the list of my professional endeavours:</p>
 
 <section id="cv">
 	<ul>
 		<li>
+			<h2>Hometrack</h2>
+			<h3>2024-now</h3>
+			<p>Senior software engineer & tech lead. More details to come…</p>
+		</li>
+
+		<li>
 			<h2>The Guardian</h2>
-			<h3>2020-now</h3>
+			<h3>2020-2024</h3>
 			<p>
 				I work on <a href="https://www.theguardian.com/">TheGuardian.com</a> web platform, as a Senior Software Engineer.
 				Starting out on the Commercial Development team, I played a key role in modernising the codebase. 2022 will
@@ -26,6 +38,12 @@
 			<p>
 				My main focus has been: modernisation JavaScript code, moving from Flow to TypeScript; optimisation of
 				vector images <abbr title="Scalable Vector Graphics">(SVG)</abbr>; various visualisations;
+			</p>
+			<p>
+				In the summer of 2021, I’ve done
+				<a href="https://www.theguardian.com/info/2021/jun/25/a-day-in-the-life">
+					a short interview for the Guardian’s “day in the life of an engineer”</a
+				>
 			</p>
 		</li>
 
@@ -97,6 +115,11 @@
 	</ul>
 </section>
 
+<p>
+	Prior to full-time employment, I gather a Masters in Architecture from McGill University in 2015 and a Bachelors of
+	Arts in Design at UQÀM in 2011.
+</p>
+
 <style>
 	ul {
 		list-style-type: none;
@@ -114,13 +137,11 @@
 		padding: 0 0 calc(3 * var(--grid));
 	}
 
-	ul > li:nth-last-child(1) {
-		padding-bottom: 0;
-	}
-	ul > li:nth-last-child(n + 2)::after {
+	ul > li::after {
 		content: " ";
 		width: 100%;
 		position: absolute;
+		top: 0;
 		border-bottom: 2px solid var(--skies);
 		bottom: calc(var(--grid-double) - 1px);
 	}

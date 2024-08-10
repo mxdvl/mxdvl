@@ -16,8 +16,14 @@
 <section id="cv">
 	<ul>
 		<li>
+			<h2>Hometrack</h2>
+			<h3>2024-now</h3>
+			<p>Ingénieur logiciel sénior & responsable technique. Plus de détails à venir…</p>
+		</li>
+
+		<li>
 			<h2>The Guardian</h2>
-			<h3>2020-now</h3>
+			<h3>2020-2024</h3>
 			<p>
 				Ingénieur logiciel sénior, je travaille sur la plateforme web,
 				<a href="https://www.theguardian.com/">TheGuardian.com</a>. Initialement sur l’équipe controllant le
