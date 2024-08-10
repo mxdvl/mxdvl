@@ -21,7 +21,7 @@
 
 <Alternates en="/privacy" fr="/confidentialité" />
 
-<Layout>
+<Layout lang="en">
   <p>
     Anonymous tracking via <a href="https://usefathom.com/">Fathom</a> helps me understand
     which pages are the most seen. You can still choose to opt out below.
