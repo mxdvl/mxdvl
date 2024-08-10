@@ -1,22 +1,23 @@
 import { Handler, serve } from "std/http/server.ts";
-import { serveDir, serveFile } from "std/http/file_server.ts";
-import { dirname, fromFileUrl } from "std/path/mod.ts";
+import { serveFile } from "std/http/file_server.ts";
+import { dirname, fromFileUrl, normalize as normalise } from "std/path/mod.ts";
+import { exists } from "jsr:@std/fs";
 
 const options = {
 	site_dir: fromFileUrl(dirname(import.meta.url) + "/"),
 	base: "/",
 	out_dir: "build/",
 	minify: false,
-};
+} as const;
 
-export const handler: Handler = (request) => {
+export const handler: Handler = async (request) => {
 	const url = new URL(request.url);
+	const lang = getPreferredLanguage(request.headers, ["fr", "en"]);
 
 	if (url.pathname === "/") {
-		const languages = request.headers.get("Accept-Language");
-		const lang = languages?.match(/\b(en|fr)\b/)?.[0] ?? "en";
-
-		return Response.redirect(new URL(lang === "en" ? "/hi" : "/allô", url.origin));
+		return Response.redirect(
+			new URL(lang === "en" ? "/hi" : "/allô", url.origin),
+		);
 	}
 
 	if (url.pathname.startsWith("/media/")) {
@@ -24,19 +25,23 @@ export const handler: Handler = (request) => {
 		return serveFile(request, filepath);
 	}
 
-	if (!url.pathname.includes(".")) {
-		return serveFile(request, options.out_dir + decodeURIComponent(url.pathname) + ".html");
+	const filePath = normalise(options.out_dir + decodeURI(url.pathname));
+
+	if (await exists(filePath, { isFile: true })) {
+		return serveFile(request, filePath);
 	}
 
-	return serveDir(request, {
-		fsRoot: options.out_dir,
-	});
+	if (await exists(filePath + ".html", { isFile: true })) {
+		return serveFile(request, filePath + ".html");
+	}
+
+	const error = lang === "en" ? "error.html" : "erreur.html";
+
+	return serveFile(request, options.out_dir + error);
 };
 
 if (import.meta.main) {
-	const { build, rebuild } = await import(
-		"https://deno.land/x/mononykus@0.7.3/src/build.ts".slice()
-	);
+	const { build, rebuild } = await import("jsr:@mxdvl/mononykus@0.7.5");
 
 	const environment = Deno.args.some((arg) => arg === "--watch") ? "dev" : "prod";
 	if (environment === "dev") {
@@ -46,7 +51,12 @@ if (import.meta.main) {
 
 		const watcher = Deno.watchFs(options.site_dir);
 		let timeout;
-		for await (const { kind, paths: [path] } of watcher) {
+		for await (
+			const {
+				kind,
+				paths: [path],
+			} of watcher
+		) {
 			if (path && (kind === "modify" || kind === "create")) {
 				if (path.includes(options.out_dir)) continue;
 				clearTimeout(timeout);
@@ -56,4 +66,18 @@ if (import.meta.main) {
 	} else {
 		await build(options);
 	}
+}
+
+/** For a given array of languages, get the user’s preferred one */
+function getPreferredLanguage<
+	const Langs extends readonly [string, ...string[]],
+>(headers: Headers, langs: Langs): Langs[number] {
+	const matchingLanguages = headers
+		.get("Accept-Language")
+		?.split(",")
+		.flatMap((language) => {
+			const match = langs.find((lang) => language.startsWith(lang));
+			return match ? [match] : [];
+		}) ?? [];
+	return matchingLanguages[0] ?? langs[0];
 }
