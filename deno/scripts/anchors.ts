@@ -1,5 +1,5 @@
 import { DOMParser, initParser } from "https://deno.land/x/deno_dom@v0.1.36-alpha/deno-dom-wasm-noinit.ts";
-import { gray, underline } from "https://deno.land/std@0.193.0/fmt/colors.ts";
+import { gray, underline } from "jsr:@std/fmt/colors";
 
 const [url] = Deno.args;
 

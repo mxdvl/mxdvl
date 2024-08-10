@@ -1,6 +1,6 @@
-import { ensureDir } from "std/fs/ensure_dir.ts";
-import { copy } from "std/fs/copy.ts";
-import { walk } from "std/fs/walk.ts";
+import { ensureDir } from "jsr:@std/fs/ensure-dir";
+import { copy } from "jsr:@std/fs/copy";
+import { walk } from "jsr:@std/fs/walk";
 
 const match = [/\.(png|jpe?g)$/];
 
