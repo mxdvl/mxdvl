@@ -1,6 +1,5 @@
-import { Handler, serve } from "std/http/server.ts";
-import { serveFile } from "std/http/file_server.ts";
-import { dirname, fromFileUrl, normalize as normalise } from "std/path/mod.ts";
+import { serveFile } from "jsr:@std/http/file-server";
+import { dirname, fromFileUrl, normalize as normalise } from "jsr:@std/path";
 import { exists } from "jsr:@std/fs";
 
 const options = {
@@ -10,7 +9,7 @@ const options = {
 	minify: false,
 } as const;
 
-export const handler: Handler = async (request) => {
+export async function handler(request: Request) {
 	const url = new URL(request.url);
 	const lang = getPreferredLanguage(request.headers, ["fr", "en"]);
 
@@ -38,7 +37,7 @@ export const handler: Handler = async (request) => {
 	const error = lang === "en" ? "error.html" : "erreur.html";
 
 	return serveFile(request, options.out_dir + error);
-};
+}
 
 if (import.meta.main) {
 	const { build, rebuild } = await import("jsr:@mxdvl/mononykus@0.7.5");
@@ -47,7 +46,7 @@ if (import.meta.main) {
 	if (environment === "dev") {
 		await rebuild(options);
 
-		serve(handler);
+		Deno.serve(handler);
 
 		const watcher = Deno.watchFs(options.site_dir);
 		let timeout;
