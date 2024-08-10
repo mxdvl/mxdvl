@@ -1,6 +1,7 @@
 import { serveFile } from "jsr:@std/http/file-server";
 import { dirname, fromFileUrl, normalize as normalise } from "jsr:@std/path";
 import { exists } from "jsr:@std/fs";
+import { langs } from "./components/lang.js";
 
 const options = {
 	site_dir: fromFileUrl(dirname(import.meta.url) + "/"),
@@ -11,7 +12,7 @@ const options = {
 
 export async function handler(request: Request) {
 	const url = new URL(request.url);
-	const lang = getPreferredLanguage(request.headers, ["fr", "en"]);
+	const lang = getPreferredLanguage(request.headers, langs);
 
 	if (url.pathname === "/") {
 		return Response.redirect(

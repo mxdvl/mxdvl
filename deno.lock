@@ -27,6 +27,7 @@
       "jsr:@std/path@^0.224.0": "jsr:@std/path@0.224.0",
       "jsr:@std/streams@^0.224.5": "jsr:@std/streams@0.224.5",
       "npm:@types/node": "npm:@types/node@18.16.19",
+      "npm:d3-force": "npm:d3-force@3.0.0",
       "npm:esbuild@0.20.2": "npm:esbuild@0.20.2",
       "npm:prettier@3.0.2": "npm:prettier@3.0.2",
       "npm:svelte@4.2.12": "npm:svelte@4.2.12"
@@ -302,6 +303,26 @@
           "mdn-data": "mdn-data@2.0.30",
           "source-map-js": "source-map-js@1.0.2"
         }
+      },
+      "d3-dispatch@3.0.1": {
+        "integrity": "sha512-rzUyPU/S7rwUflMyLc1ETDeBj0NRuHKKAcvukozwhshr6g6c5d8zh4c2gQjY2bZ0dXeGLWc1PF174P2tVvKhfg==",
+        "dependencies": {}
+      },
+      "d3-force@3.0.0": {
+        "integrity": "sha512-zxV/SsA+U4yte8051P4ECydjD/S+qeYtnaIyAs9tgHCqfguma/aAQDjo85A9Z6EKhBirHRJHXIgJUlffT4wdLg==",
+        "dependencies": {
+          "d3-dispatch": "d3-dispatch@3.0.1",
+          "d3-quadtree": "d3-quadtree@3.0.1",
+          "d3-timer": "d3-timer@3.0.1"
+        }
+      },
+      "d3-quadtree@3.0.1": {
+        "integrity": "sha512-04xDrxQTDTCFwP5H6hRhsRcb9xxv2RzkcsygFzmkSIOJy3PeRJP7sNk3VRIbKXcog561P9oU0/rVH6vDROAgUw==",
+        "dependencies": {}
+      },
+      "d3-timer@3.0.1": {
+        "integrity": "sha512-ndfJ/JxxMd3nw31uyKoY2naivF+r29V+Lc0svZxe1JvvIRmi8hUsrMvdOwgS1o6uBHmiz91geQ0ylPP0aj1VUA==",
+        "dependencies": {}
       },
       "dequal@2.0.3": {
         "integrity": "sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==",
