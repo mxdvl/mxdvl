@@ -98,8 +98,8 @@ importers:
         specifier: 6.0.2
         version: 6.0.2(postcss-load-config@3.1.4(postcss@8.4.39)(ts-node@10.9.1(@types/node@20.14.15)(typescript@5.5.4)))(postcss@8.4.39)(svelte@4.2.18)(typescript@5.5.4)
       svg-path-commander:
-        specifier: 2.0.9
-        version: 2.0.9
+        specifier: 2.0.10
+        version: 2.0.10
       typescript:
         specifier: 5.5.4
         version: 5.5.4
@@ -592,8 +592,8 @@ packages:
       svelte: ^4.0.0 || ^5.0.0-next.0
       vite: ^5.0.0
 
-  '@thednp/dommatrix@2.0.6':
-    resolution: {integrity: sha512-DXQq4Rs/akYzeXYGkNy3KiJ4JoD8+SYr1QRWTXtAGoZ0+vJcyBt0aeqA1K4CxPaBaIfKdOTE+Te1HV9sAQ4I4A==}
+  '@thednp/dommatrix@2.0.7':
+    resolution: {integrity: sha512-d5p07ZYa1Z6opXIGwKpBVvzxQity43T0kVnDXMbZNsMzaOrJGKtemRJA8Puj2GtvWQ5+JiNPkiwBWSk6plLVtA==}
 
   '@ts-morph/common@0.11.1':
     resolution: {integrity: sha512-7hWZS0NRpEsNV8vWJzg7FEz6V8MaLNeJOmwmghqUXTpzk16V1LLZhdo+4QvE/+zv4cVci0OviuJFnqhEfoV3+g==}
@@ -1898,8 +1898,8 @@ packages:
     resolution: {integrity: sha512-d0FdzYIiAePqRJEb90WlJDkjUEx42xhivxN8muUBmfZnP+tzUgz12DJ2hRJi8sIHCME7jeK1PTMgKPSfTd8JrA==}
     engines: {node: '>=16'}
 
-  svg-path-commander@2.0.9:
-    resolution: {integrity: sha512-VfRLznHewlpQvuahtBK0MT/PlWAapbTx8RSytqgaVwD3US2keKcc3WYYlBBk4vIOR+jB3nQu/NAVlWHKlo0Fjw==}
+  svg-path-commander@2.0.10:
+    resolution: {integrity: sha512-DGYaXpW6cD0ML3Qj/Md/2al4p44wm/THVQMd2wL5w5LlbFWM/iU8BMvWjUDRzJXe8tpQG3LVsuEQftzdjQE+Vg==}
     engines: {node: '>=16', pnpm: '>=8.6.0'}
 
   tar@6.1.12:
@@ -2448,7 +2448,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@thednp/dommatrix@2.0.6': {}
+  '@thednp/dommatrix@2.0.7': {}
 
   '@ts-morph/common@0.11.1':
     dependencies:
@@ -3733,9 +3733,9 @@ snapshots:
       magic-string: 0.30.10
       periscopic: 3.1.0
 
-  svg-path-commander@2.0.9:
+  svg-path-commander@2.0.10:
     dependencies:
-      '@thednp/dommatrix': 2.0.6
+      '@thednp/dommatrix': 2.0.7
 
   tar@6.1.12:
     dependencies:
