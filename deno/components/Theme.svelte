@@ -1,14 +1,13 @@
 <script>
 	import { onMount } from "svelte";
-	import Button from "$lib/Button.svelte";
-	import { lang } from "$lib/lang";
+	import Button from "./Button.svelte";
+	import { lang } from "./lang.js";
 
 	/** @typedef {"light" | "dark"} Theme */
-	/** @type {Theme} */
-	let themePreference;
-	/** @type {Theme} */
-	let currentTheme;
+	/** @type {Theme | undefined} */
+	let currentTheme = undefined;
 
+	/** @type {() => Theme} */
 	const systemTheme = () => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
 	/**
@@ -27,13 +26,13 @@
 
 	/** @param {Theme} theme */
 	const setTheme = (theme) => {
-		currentTheme = theme;
 		document.body.classList.add("themed");
 
 		const newTheme = theme === systemTheme() ? "default" : theme;
 		switch (newTheme) {
 			case "light":
 			case "dark":
+				currentTheme = newTheme;
 				localStorage.setItem("theme", newTheme);
 				break;
 			case "default":
@@ -42,18 +41,18 @@
 				break;
 		}
 
-		themePreference = localStorage.theme;
-		toggleClass(theme, document.documentElement);
+		toggleClass(currentTheme, document.documentElement);
 	};
 
 	onMount(() => {
-		themePreference = localStorage.theme;
-		currentTheme = themePreference ?? systemTheme();
-
-		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (ev) => {
-			if (!themePreference) currentTheme = ev.matches ? "dark" : "light";
-			toggleClass(currentTheme, document.documentElement);
-		});
+		const themePreference = localStorage.getItem("theme");
+		switch (themePreference) {
+			case "light":
+			case "dark":
+				setTheme(themePreference);
+			default:
+				setTheme(systemTheme());
+		}
 	});
 </script>
 
