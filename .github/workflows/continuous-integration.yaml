@@ -7,30 +7,6 @@ on:
       - main
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4.0.0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: package.json
-          cache: "pnpm"
-
-      - name: Install modules
-        run: corepack pnpm install
-
-      - name: Format
-        run: "corepack pnpm check:format"
-
-      - name: Lint
-        run: "corepack pnpm check:lint"
-
-      - name: Svelte
-        run: "corepack pnpm check:svelte"
-
   deno:
     runs-on: ubuntu-latest
     steps:
@@ -38,13 +14,13 @@ jobs:
 
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.39
+          deno-version: v1.45
 
       - name: Format
-        run: deno fmt deno
+        run: deno fmt
 
       - name: Format
-        run: deno lint deno
+        run: deno lint
 
       - name: Type-check
         run: deno check deno/**.ts
@@ -62,7 +38,7 @@ jobs:
 
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: v1.45
 
       - name: Build
         run: deno task build
@@ -74,4 +50,3 @@ jobs:
           entrypoint: deno/server.ts
           # root: deno
           import-map: deno/import-map.json
-
