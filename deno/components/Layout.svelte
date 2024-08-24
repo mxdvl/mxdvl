@@ -1,25 +1,26 @@
 <script>
-  import Header from "./Header.svelte";
-  import Footer from "./Footer.svelte";
-  import Analytics from "./Analytics.island.svelte";
-  import { capitalise } from "../../dotcom/src/lib/capitalise.js";
+	import Header from "./Header.svelte";
+	import Footer from "./Footer.svelte";
+	import Analytics from "./Analytics.island.svelte";
+	import { capitalise } from "../scripts/capitalise.js";
+	import { grid } from "../styles/grid.js";
 
-  export let url = new URL("https://www.mxdvl.com/");
+	export let url = new URL("https://www.mxdvl.com/");
 
-  /** @type {import('./lang.js').Lang} */
-  export let lang = "en";
+	/** @type {import('./lang.js').Lang} */
+	export let lang = "en";
 </script>
 
 <svelte:head>
-  <title
-    >MXDVL – {url.pathname
-      .split("/")
-      .filter(({ length }) => length > 0)
-      .slice(0, 1) // TODO: handle deeper navigations
-      .map(decodeURIComponent)
-      .map(capitalise)}</title
-  >
-  <style>
+	<title
+		>MXDVL – {url.pathname
+			.split("/")
+			.filter(({ length }) => length > 0)
+			.slice(0, 1) // TODO: handle deeper navigations
+			.map(decodeURIComponent)
+			.map(capitalise)}</title
+	>
+	<style>
     :root {
       --ocean: rgb(0% 63.29% 66.65%);
       --glint: rgb(100% 46.32% 10.17%);
@@ -223,127 +224,49 @@
     .themed #grid::before {
       transition: color 1.2s;
     }
+	</style>
+	{@html `<sty` + `le>\n` + grid + `\n</sty` + `le>`}
 
-    /*
-See $lib/grid.ts for generating these widths
-deno run dotcom/src/lib/grid.ts | pbcopy
-*/
-
-    @media screen and (min-width: 342px) {
-      #grid {
-        --columns: 18;
-      }
-    }
-
-    @media screen and (min-width: 450px) {
-      #grid {
-        --columns: 24;
-      }
-    }
-
-    @media screen and (min-width: 558px) {
-      #grid {
-        --columns: 30;
-      }
-    }
-
-    @media screen and (min-width: 666px) {
-      #grid {
-        --columns: 36;
-      }
-    }
-
-    @media screen and (min-width: 774px) {
-      #grid {
-        --columns: 42;
-      }
-    }
-
-    @media screen and (min-width: 882px) {
-      #grid {
-        --columns: 48;
-      }
-    }
-
-    @media screen and (min-width: 990px) {
-      #grid {
-        --columns: 54;
-      }
-    }
-
-    @media screen and (min-width: 1098px) {
-      #grid {
-        --columns: 60;
-      }
-    }
-
-    @media screen and (min-width: 1206px) {
-      #grid {
-        --columns: 66;
-      }
-    }
-
-    @media screen and (min-width: 1314px) {
-      #grid {
-        --columns: 72;
-      }
-    }
-  </style>
-
-  <script>
-    const html = document.documentElement;
-    const media_query = window.matchMedia("(prefers-color-scheme: dark)");
-    try {
-      const { theme } = localStorage;
-      if (theme) {
-        html.classList.add(theme);
-        document
-          .querySelector("link[rel=icon]")
-          ?.setAttribute("href", `/cmps-${theme}.svg`);
-        document
-          .querySelector("link[rel=apple-touch-icon]")
-          ?.setAttribute("href", `/cmps-icon-${theme}.png`);
-        document
-          .querySelector("link[rel=mask-icon]")
-          ?.setAttribute(
-            "color",
-            theme === "dark"
-              ? "rgb(93.44% 98.82% 100%)"
-              : "rgb(0% 14.37% 13.78%)",
-          );
-      } else {
-        html.classList.toggle("dark", media_query.matches);
-        html.classList.toggle("light", !media_query.matches);
-        document
-          .querySelector("link[rel=mask-icon]")
-          ?.setAttribute(
-            "color",
-            media_query.matches
-              ? "rgb(93.44% 98.82% 100%)"
-              : "rgb(0% 14.37% 13.78%)",
-          );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  </script>
+	<script>
+		const html = document.documentElement;
+		const media_query = window.matchMedia("(prefers-color-scheme: dark)");
+		try {
+			const { theme } = localStorage;
+			if (theme) {
+				html.classList.add(theme);
+				document.querySelector("link[rel=icon]")?.setAttribute("href", `/cmps-${theme}.svg`);
+				document.querySelector("link[rel=apple-touch-icon]")?.setAttribute("href", `/cmps-icon-${theme}.png`);
+				document
+					.querySelector("link[rel=mask-icon]")
+					?.setAttribute("color", theme === "dark" ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
+			} else {
+				html.classList.toggle("dark", media_query.matches);
+				html.classList.toggle("light", !media_query.matches);
+				document
+					.querySelector("link[rel=mask-icon]")
+					?.setAttribute("color", media_query.matches ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)");
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	</script>
 </svelte:head>
 
 <div id="grid">
-  <Header {url} {lang} />
+	<Header {url} {lang} />
 
-  <main>
-    <slot />
-  </main>
+	<main>
+		<slot />
+	</main>
 
-  <Footer {url} {lang} />
+	<Footer {url} {lang} />
 </div>
 
 <Analytics />
 
 <style>
-  main {
-    padding: var(--grid-double) 0;
-    margin: 0 auto;
-  }
+	main {
+		padding: var(--grid-double) 0;
+		margin: 0 auto;
+	}
 </style>

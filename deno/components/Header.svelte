@@ -1,6 +1,6 @@
 <script>
 	import Logo from "./CMPS.svelte";
-	import { capitalise } from "../../dotcom/src/lib/capitalise.js";
+	import { capitalise } from "../scripts/capitalise.js";
 
 	/** @typedef {import('./lang.js').Lang} Lang */
 
@@ -10,24 +10,23 @@
 	/** @type {URL} */
 	export let url;
 
-	const pages =
-		/** @type {const} @satisfies {ReadonlyArray<Record<Lang, string> & {width: number}>}*/ ([
-			{
-				en: "works",
-				fr: "travaux",
-				width: 3,
-			},
-			{
-				en: "profile",
-				fr: "profil",
-				width: 3,
-			},
-			{
-				en: "tools",
-				fr: "outils",
-				width: 2,
-			},
-		]);
+	const pages = /** @type {const} @satisfies {ReadonlyArray<Record<Lang, string> & {width: number}>}*/ ([
+		{
+			en: "works",
+			fr: "travaux",
+			width: 3,
+		},
+		{
+			en: "profile",
+			fr: "profil",
+			width: 3,
+		},
+		{
+			en: "tools",
+			fr: "outils",
+			width: 2,
+		},
+	]);
 
 	/** @type {string} */
 	const path = url.pathname.split("/").filter(Boolean)[0] ?? "";
@@ -38,9 +37,7 @@
 		<ul>
 			<li class="home">
 				<a
-					class={`branding ${
-						["allô", "hi"].includes(path) ? "active" : ""
-					}`}
+					class={`branding ${["allô", "hi"].includes(path) ? "active" : ""}`}
 					href={lang == "fr" ? "/allô" : "/hi"}
 					rel="home"
 				>
@@ -49,11 +46,7 @@
 			</li>
 
 			{#each pages as page}
-				<li
-					class="page"
-					class:active={[page.fr, page.en].includes(path)}
-					style="--width: {page.width}"
-				>
+				<li class="page" class:active={[page.fr, page.en].includes(path)} style="--width: {page.width}">
 					<a href={`/${page[lang]}`}>{capitalise(page[lang])}</a>
 				</li>
 			{/each}

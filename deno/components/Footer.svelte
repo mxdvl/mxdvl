@@ -22,8 +22,7 @@
 	{:else}
 		<p>
 			En ligne depuis 2007.<br />
-			Faites-moi signe via <a href="mailto:allo@mxdvl.com">courriel</a>,
-			ou
+			Faites-moi signe via <a href="mailto:allo@mxdvl.com">courriel</a>, ou
 			<a href="https://t.me/mxdvl">telegram</a>.<br />
 			Pronoms: il/lui.
 		</p>
@@ -44,12 +43,9 @@
 			href={new URL(
 				`search?${new URLSearchParams({
 					type: "code",
-					q: [
-						"repo:mxdvl/mxdvl",
-						"path:/deno/routes/.+\\.svelte/",
-					].join(" "),
+					q: ["repo:mxdvl/mxdvl", "path:/deno/routes/.+\\.svelte/"].join(" "),
 				}).toString()}`,
-				"https://github.com/"
+				"https://github.com/",
 			).href}
 			>{#if lang == "fr"}
 				Suggérer une modification

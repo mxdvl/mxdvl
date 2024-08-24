@@ -12,10 +12,7 @@
 				.split("/")
 				.slice(-1)[0]
 				?.split("-")
-				.map(
-					(word) =>
-						word.slice(0, 1).toLocaleUpperCase() + word.slice(1)
-				)
+				.map((word) => word.slice(0, 1).toLocaleUpperCase() + word.slice(1))
 				.join(" ") ?? missing
 		);
 	};
