@@ -1,7 +1,7 @@
 <script context="module">
-	import Image from "$lib/Image.svelte";
-	import Alternates from "$lib/Alternates.svelte";
-	import { date, en, fr, projects } from "../../works/nicolas-menard/+page.svelte";
+	import Image from "../../components/Image.svelte";
+	import Alternates from "../../components/Alternates.svelte";
+	import { date, en, fr, projects } from "../works/nicolas-menard.svelte";
 </script>
 
 <Alternates {en} {fr} />
@@ -19,5 +19,5 @@
 
 	<p>Les pages se chargent plus rapidement grâce à un réseau distribué de contenu (CDN).</p>
 
-	<Image ratio={13 / 6} picture={projects} alt="capture d’écran du site web de Nicolas" />
+	<Image ratio={13 / 6} src={projects} alt="capture d’écran du site web de Nicolas" />
 </section>

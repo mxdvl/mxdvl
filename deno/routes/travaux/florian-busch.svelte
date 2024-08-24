@@ -1,7 +1,7 @@
 <script context="module">
-	import Image from "$lib/Image.svelte";
-	import Alternates from "$lib/Alternates.svelte";
-	import { date, en, fr, responsive } from "../../works/florian-busch/+page.svelte";
+	import Image from "../../components/Image.svelte";
+	import Alternates from "../../components/Alternates.svelte";
+	import { date, en, fr, responsive } from "../works/florian-busch.svelte";
 </script>
 
 <Alternates {en} {fr} />
@@ -18,5 +18,5 @@
 
 	<p>Le site web se trouve à <a href="https://www.florianbusch.com/">www.florianbusch.com</a></p>
 
-	<Image ratio={6 / 9} picture={responsive} alt="mobile screenshot of Manshen's portfolio" />
+	<Image ratio={6 / 9} src={responsive} alt="mobile screenshot of Manshen's portfolio" />
 </section>

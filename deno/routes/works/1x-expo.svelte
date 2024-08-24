@@ -2,21 +2,21 @@
 	export const date = "2016-01";
 	export const title = "1:X Multidisciplinary Exploration";
 
-	import model from "./1x-expo-model.jpg";
-	import modelSide from "./1x-expo-model-side.jpg";
+	const model = "1x-expo/1x-expo-model.jpg";
+	const modelSide = "1x-expo/1x-expo-model-side.jpg";
 
 	export { model, modelSide };
 </script>
 
 <script>
-	import { page } from "$app/stores";
-
-	import Image from "$lib/Image.svelte";
-	import Alternates from "$lib/Alternates.svelte";
+	import Image from "../../components/Image.svelte";
+	import Alternates from "../../components/Alternates.svelte";
+	import Layout from "../../components/Layout.svelte";
 </script>
 
-<Alternates en={$page.url.pathname} fr="/travaux/1x-expo" />
+<Alternates fr="/travaux/1x-expo" en="/works/1x-expo" />
 
+<Layout>
 <section>
 	<h2>{title}</h2>
 	<h3>{date}</h3>
@@ -26,14 +26,14 @@
 		ongoing projects at Provencher_Roy.
 	</p>
 
-	<Image ratio={4 / 6} picture={model} alt="model of the expo" />
+	<Image ratio={4 / 6} src={model} alt="model of the expo" />
 
 	<p>
 		From the urban scale to furnitures through architecture, the comprehensive design approach of the firm was made
 		explicit with various models and tools used across the office.
 	</p>
 
-	<Image ratio={4 / 6} picture={modelSide} alt="another view of the model" />
+	<Image ratio={4 / 6} src={modelSide} alt="another view of the model" />
 
 	<p>
 		<em>
@@ -43,3 +43,4 @@
 		</em>
 	</p>
 </section>
+</Layout>

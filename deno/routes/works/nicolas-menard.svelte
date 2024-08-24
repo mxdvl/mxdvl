@@ -1,8 +1,8 @@
 <script context="module">
-	import projects from "./projects.png";
+	const projects = "nicolas-menard/projects.png";
 
-	import Image from "$lib/Image.svelte";
-	import Alternates from "$lib/Alternates.svelte";
+	import Image from "../../components/Image.svelte";
+	import Alternates from "../../components/Alternates.svelte";
 
 	const date = "2020-01";
 
@@ -27,5 +27,5 @@
 
 	<p>The pages now load much faster, using clever caching and distributed assets on a global CDN.</p>
 
-	<Image ratio={13 / 6} picture={projects} alt="screenshot of Nicolas’s website" />
+	<Image ratio={13 / 6} src={projects} alt="screenshot of Nicolas’s website" />
 </section>

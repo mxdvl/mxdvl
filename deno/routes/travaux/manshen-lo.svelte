@@ -1,7 +1,7 @@
 <script context="module">
-	import Image from "$lib/Image.svelte";
-	import Alternates from "$lib/Alternates.svelte";
-	import { date, en, fr, screenshot } from "../../works/manshen-lo/+page.svelte";
+	import Image from "../../components/Image.svelte";
+	import Alternates from "../../components/Alternates.svelte";
+	import { date, en, fr, screenshot } from "../works/manshen-lo.svelte";
 </script>
 
 <Alternates {en} {fr} />
@@ -17,5 +17,5 @@
 		with lazy-loading and CSS rules to prevent content from jumping on load.
 	</p>
 
-	<Image ratio={12 / 6} picture={screenshot} alt="mobile screenshot of Manshen's portfolio" />
+	<Image ratio={12 / 6} src={screenshot} alt="mobile screenshot of Manshen's portfolio" />
 </section>

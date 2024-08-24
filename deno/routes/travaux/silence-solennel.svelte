@@ -1,24 +1,23 @@
 <script context="module">
-	import symetrie from "./symetrie.jpg";
-	import entree from "./entree.jpg";
+	const symetrie = "silence-solennel/symetrie.jpg";
+	const entree = "silence-solennel/entree.jpg";
 
 	export { symetrie, entree };
 </script>
 
 <script>
-	import { page } from "$app/stores";
-	import Image from "$lib/Image.svelte";
-	import Alternates from "$lib/Alternates.svelte";
+	import Image from "../../components/Image.svelte";
+	import Alternates from "../../components/Alternates.svelte";
 </script>
 
-<Alternates en="/works/solemn-silence" fr={$page.url.pathname} />
+<Alternates en="/works/solemn-silence" fr="/travaux/silence-solennel" />
 
 <section>
 	<h2>Silence Solennel</h2>
 
 	<h3>2011-05</h3>
 
-	<Image ratio={2 / 3} picture={symetrie} alt="maquette à 1:10 soulignant la symétrie de l’espace" />
+	<Image ratio={2 / 3} src={symetrie} alt="maquette à 1:10 soulignant la symétrie de l’espace" />
 
 	<blockquote>
 		«&ThinSpace;La Cène, rouge et or:<br />
@@ -26,7 +25,7 @@
 		Silence solennel.&ThinSpace;»
 	</blockquote>
 
-	<Image ratio={2 / 3} picture={entree} alt="vue de la maquette par la porte d’entrée" />
+	<Image ratio={2 / 3} src={entree} alt="vue de la maquette par la porte d’entrée" />
 
 	<p>
 		Contraste d’une vieille grange remplie de grains dorés et d’un tapis rouge sang. Nourriture inaccessible et

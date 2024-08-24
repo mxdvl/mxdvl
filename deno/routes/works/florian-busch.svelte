@@ -1,8 +1,9 @@
 <script context="module">
-	import responsive from "./responsive-website.png";
+	const responsive = "florian-busch/responsive-website.png";
 
-	import Image from "$lib/Image.svelte";
-	import Alternates from "$lib/Alternates.svelte";
+	import Image from "../../components/Image.svelte";
+	import Alternates from "../../components/Alternates.svelte";
+	import Layout from "../../components/Layout.svelte";
 
 	const date = "2018-06";
 
@@ -14,6 +15,7 @@
 
 <Alternates {en} {fr} />
 
+<Layout>
 <section>
 	<h2>Florian Busch Architects’ website</h2>
 
@@ -26,5 +28,6 @@
 
 	<p>See the website at <a href="https://www.florianbusch.com/">www.florianbusch.com</a></p>
 
-	<Image ratio={6 / 9} picture={responsive} alt="screenshot of Nicolas’s website" />
+	<Image ratio={6 / 9} src={responsive} alt="screenshot of Nicolas’s website" />
 </section>
+</Layout>

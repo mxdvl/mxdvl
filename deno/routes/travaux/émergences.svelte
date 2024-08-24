@@ -1,21 +1,20 @@
 <script context="module">
 	export const date = "2012-07";
 
-	import crete from "./crête.jpg";
-	import plaine from "./plaine.jpg";
-	import cote from "./côte.jpg";
-	import ravin from "./ravin.jpg";
+	const crete = "émergences/crête.jpg";
+	const plaine = "émergences/plaine.jpg";
+	const cote = "émergences/côte.jpg";
+	const ravin = "émergences/ravin.jpg";
 
 	export const projects = /** @type {const} */ ([crete, plaine, cote, ravin]);
 </script>
 
 <script>
-	import { page } from "$app/stores";
-	import Image from "$lib/Image.svelte";
-	import Alternates from "$lib/Alternates.svelte";
+	import Image from "../../components/Image.svelte";
+	import Alternates from "../../components/Alternates.svelte";
 </script>
 
-<Alternates en="/works/solemn-silence" fr={$page.url.pathname} />
+<Alternates en="/works/emergences" fr="/travaux/émergences" />
 
 <section>
 	<h2>émergences</h2>
