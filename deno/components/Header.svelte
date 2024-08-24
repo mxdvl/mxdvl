@@ -1,6 +1,6 @@
 <script>
 	import Logo from "./CMPS.svelte";
-	import { capitalise } from "../scripts/capitalise.js";
+	import { capitalise } from "./capitalise.js";
 
 	/** @typedef {import('./lang.js').Lang} Lang */
 

@@ -36,7 +36,8 @@
       "npm:d3-force": "npm:d3-force@3.0.0",
       "npm:esbuild@0.20.2": "npm:esbuild@0.20.2",
       "npm:prettier@3.0.2": "npm:prettier@3.0.2",
-      "npm:svelte@4.2.12": "npm:svelte@4.2.12"
+      "npm:svelte@4.2.12": "npm:svelte@4.2.12",
+      "npm:zod": "npm:zod@3.23.8"
     },
     "jsr": {
       "@luca/esbuild-deno-loader@0.10.3": {
@@ -453,6 +454,10 @@
           "magic-string": "magic-string@0.30.5",
           "periscopic": "periscopic@3.1.0"
         }
+      },
+      "zod@3.23.8": {
+        "integrity": "sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==",
+        "dependencies": {}
       }
     }
   },

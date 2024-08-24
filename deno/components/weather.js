@@ -1,6 +1,12 @@
-import { z } from "zod";
+import { z } from "npm:zod";
 
-const cities = /** @type {const} */ (["london", "montreal", "tokyo", "paris", "berlin"]);
+const cities = /** @type {const} */ ([
+	"london",
+	"montreal",
+	"tokyo",
+	"paris",
+	"berlin",
+]);
 
 /** @typedef {(typeof cities)[number]} City */
 
@@ -55,6 +61,7 @@ const weatherAPIResponseSchema = z.object({
  * @see https://openweathermap.org/current
  * @param {City} city
  * @param {string | undefined} api_key
+ * @returns {Promise<z.infer<typeof weatherAPIResponseSchema> | undefined>}
  */
 const getWeather = async (city, api_key) => {
 	if (!isValidCity(city)) return undefined;
@@ -69,14 +76,15 @@ const getWeather = async (city, api_key) => {
 
 	return fetch(url.toString())
 		.then((r) => r.json())
-		.then((json) => weatherAPIResponseSchema.parseAsync(json));
+		.then((json) => weatherAPIResponseSchema.parseAsync(json))
+		.catch(() => undefined);
 };
 
 /**
  * Get condition as adjective. Works in fr
  * @see https://openweathermap.org/weather-conditions
  * @param {number} id
- * @param {import("./lang").Lang} lang
+ * @param {import("./lang.js").Lang} lang
  */
 const getCondition = (id, lang) => {
 	const fr = lang === "fr";
@@ -99,4 +107,4 @@ const getCondition = (id, lang) => {
 	}
 };
 
-export { getWeather, getCondition };
+export { getCondition, getWeather };
