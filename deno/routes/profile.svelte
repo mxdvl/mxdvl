@@ -1,48 +1,64 @@
-<h1>Le profil de Max</h1>
+<script>
+	import Layout from "../components/Layout.svelte";
+</script>
+
+<Layout lang="en">
+<h1>Max’s profile</h1>
+
+<p>Here’s the part where I talk about myself in the third person:</p>
+
+<blockquote>
+	Building resilient & accessible websites since 2007.<br />
+	Designing tools & workflows that empower others to build with confidence.<br />
+	Transforming complex ideas into functional and elegant products.<br />
+	Mentoring colleagues and aspiring developers.
+</blockquote>
 
 <p>
-	En tant qu’ingénieur logiciel et designer, je bâti des modèles complexes à l’aide de médiums numériques et
-	tangibles. Constamment en train d’esquisser une idée, tant avec un stylo qu’un écran, je cherche de nouvelles façons
-	de créer des choses inspirantes et interactives. Mon travail est ancré dans une fascination pour les motifs, la
-	géométrie et la simplicité.
+	I’m a designer &amp; developer by trade, and I fancy the title of “digital toolmaker”. I am deeply fascinated by
+	simplifying the complexities of our world through excellent tools and visualisations that enhance the way we think
+	and interact. Having discovered so much from the generous people that shared their craft before my, <a
+		href="https://github.com/mxdvl">most of what I build is open-source</a
+	> for anyone to peruse.
 </p>
 
-<p>
-	J’ai fait <a href="https://www.theguardian.com/info/2021/jun/25/a-day-in-the-life"
-		>une entrevue en anglais pour le blog d’ingénierie du Guardian</a
-	>.
-</p>
+<p>Here’s the list of my professional endeavours:</p>
 
 <section id="cv">
 	<ul>
 		<li>
 			<h2>Hometrack</h2>
 			<h3>2024-now</h3>
-			<p>Ingénieur logiciel sénior & responsable technique. Plus de détails à venir…</p>
+			<p>Senior software engineer & tech lead. More details to come…</p>
 		</li>
 
 		<li>
 			<h2>The Guardian</h2>
 			<h3>2020-2024</h3>
 			<p>
-				Ingénieur logiciel sénior, je travaille sur la plateforme web,
-				<a href="https://www.theguardian.com/">TheGuardian.com</a>. Initialement sur l’équipe controllant le
-				code commercial, puis au sein de l’équipe Dotcom, qui gère la plateforme web dans son ensemble.
+				I work on <a href="https://www.theguardian.com/">TheGuardian.com</a> web platform, as a Senior Software Engineer.
+				Starting out on the Commercial Development team, I played a key role in modernising the codebase. 2022 will
+				see me joining the Dotcom team which oversees the web platform in its entirety.
 			</p>
 			<p>
-				Mes réalisation principales sont: la modernisation de code JavaScript, une conversion de Flow à
-				TypeScript; optimisation des images vectiorielles
-				<abbr title="Scalable Vector Graphics">(SVG)</abbr>; visualisations diverses.
+				My main focus has been: modernisation JavaScript code, moving from Flow to TypeScript; optimisation of
+				vector images <abbr title="Scalable Vector Graphics">(SVG)</abbr>; various visualisations;
+			</p>
+			<p>
+				In the summer of 2021, I’ve done
+				<a href="https://www.theguardian.com/info/2021/jun/25/a-day-in-the-life">
+					a short interview for the Guardian’s “day in the life of an engineer”</a
+				>
 			</p>
 		</li>
 
-		<li lang="en">
+		<li>
 			<h2>MXDVL</h2>
 			<h3>2010-2020</h3>
 			<p>
 				With over 10 years of experience building for the web, I have offered services ranging from fully
 				managed websites to transitioning away from legacy platforms. In the last 5 years, I have focussed on
-				bringing a single source of truth and 2D and 3D visualisation.
+				bringing a single source of truth to 2D and 3D visualisation.
 			</p>
 			<p>
 				Designed and built entire websites with news, portfolio and forms. Improved Google page speed insight by
@@ -54,11 +70,11 @@
 			</p>
 		</li>
 
-		<li lang="en">
+		<li>
 			<h2>Allies and Morrison LLP</h2>
 			<h3>2018-2020</h3>
 			<p>
-				Assuming a role of building information modelling lead (BIM), I developed internal tooling workflow,
+				Assuming a role of building information modelling lead (BIM), I developed internal workflows and tools,
 				oversaw data exchange with consultants and advised on technical improvements to the <a
 					href="https://www.alliesandmorrison.com">company website</a
 				>.
@@ -71,12 +87,12 @@
 			</p>
 		</li>
 
-		<li lang="en">
+		<li>
 			<h2>Florian Busch Architects</h2>
 			<h3>2016-2018</h3>
 			<p>
-				Assuming a role of technical lead, I helped defined and implement data-driven design within the
-				practice, an internal wiki and the <a href="https://www.florianbusch.com">public website</a>.
+				Assuming a role of technical lead, I helped define and implement data-driven design within the practice,
+				an internal wiki and the <a href="https://www.florianbusch.com">public website</a>.
 			</p>
 			<p>
 				Developed GIS analysis tools for development of a ski resort in Hokkaido. Produced pictures of an
@@ -93,7 +109,7 @@
 			</p>
 		</li>
 
-		<li lang="en">
+		<li>
 			<h2>Provencher_Roy</h2>
 			<h3>2015-2016</h3>
 			<p>
@@ -103,6 +119,11 @@
 		</li>
 	</ul>
 </section>
+
+<p>
+	Prior to full-time employment, I gather a Masters in Architecture from McGill University in 2015 and a Bachelors of
+	Arts in Design at UQÀM in 2011.
+</p>
 
 <style>
 	ul {
@@ -121,13 +142,11 @@
 		padding: 0 0 calc(3 * var(--grid));
 	}
 
-	ul > li:nth-last-child(1) {
-		padding-bottom: 0;
-	}
-	ul > li:nth-last-child(n + 2)::after {
+	ul > li::after {
 		content: " ";
 		width: 100%;
 		position: absolute;
+		top: 0;
 		border-bottom: 2px solid var(--skies);
 		bottom: calc(var(--grid-double) - 1px);
 	}
@@ -136,3 +155,4 @@
 		width: 100%;
 	}
 </style>
+</Layout>
