@@ -3,7 +3,7 @@
 	import Footer from "./Footer.svelte";
 	import Analytics from "./Analytics.island.svelte";
 	import { capitalise } from "./capitalise.js";
-	import { grid } from "../styles/grid.js";
+	import { grid } from "./grid.js";
 
 	export let url = new URL("https://www.mxdvl.com/");
 

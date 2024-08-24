@@ -1,5 +1,5 @@
 <script>
-	import { HORIZONTAL_GRID } from "../styles/grid.js";
+	import { HORIZONTAL_GRID } from "./grid.js";
 	import { keyframes } from "./keyframes.js";
 
 	const GRID_SIZE = HORIZONTAL_GRID;
