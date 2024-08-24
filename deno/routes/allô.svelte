@@ -7,7 +7,7 @@
 
 <Alternates en="/hi" fr="/allô" />
 
-<Layout lang="fr">
+<Layout lang="fr" url={new URL("https://www.mxdvl.com/allô")}>
   <h1>Allô, c’est <strong>Max</strong>.</h1>
 
   <p>

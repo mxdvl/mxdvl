@@ -1,18 +1,18 @@
 {
-  "imports": {
-    "image-magick": "https://deno.land/x/imagemagick_deno@0.0.19/mod.ts",
-    "lightningcss-wasm": "https://esm.sh/v128/lightningcss-wasm@1.19.0",
-    "preact-render-to-string": "https://esm.sh/v128/*preact-render-to-string@6.1.0",
-    "preact-render-to-string/": "https://esm.sh/v128/*preact-render-to-string@6.1.0/",
-    "preact": "https://esm.sh/v128/preact@10.13.2",
-    "preact/": "https://esm.sh/v128/preact@10.13.2/",
-    "resvg": "https://deno.land/x/resvg_wasm@0.2.0/mod.ts"
-  },
-  "scopes": {
-    "https://esm.sh/v128/": {
-      "canvas": "https://deno.land/x/canvas@v1.4.1/mod.ts",
-      "napi-wasm": "https://esm.sh/v128/napi-wasm@1.0.1",
-      "pretty-format": "https://esm.sh/v128/pretty-format@3.8.0"
-    }
-  }
+	"imports": {
+		"image-magick": "https://deno.land/x/imagemagick_deno@0.0.19/mod.ts",
+		"lightningcss-wasm": "https://esm.sh/v128/lightningcss-wasm@1.19.0",
+		"preact-render-to-string": "https://esm.sh/v128/*preact-render-to-string@6.1.0",
+		"preact-render-to-string/": "https://esm.sh/v128/*preact-render-to-string@6.1.0/",
+		"preact": "https://esm.sh/v128/preact@10.13.2",
+		"preact/": "https://esm.sh/v128/preact@10.13.2/",
+		"resvg": "https://deno.land/x/resvg_wasm@0.2.0/mod.ts"
+	},
+	"scopes": {
+		"https://esm.sh/v128/": {
+			"canvas": "https://deno.land/x/canvas@v1.4.1/mod.ts",
+			"napi-wasm": "https://esm.sh/v128/napi-wasm@1.0.1",
+			"pretty-format": "https://esm.sh/v128/pretty-format@3.8.0"
+		}
+	}
 }
