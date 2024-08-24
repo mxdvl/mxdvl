@@ -1,9 +1,9 @@
 <script context="module">
 	const date = "2016-04";
 
-	const electricCables = "dd-electric_cables.jpg";
-	const d12 = "d12.jpg";
-	const ochanomizu = "img_2692.jpg";
+	const electricCables = "daily-doodles/dd-electric_cables.jpg";
+	const d12 = "daily-doodles/d12.jpg";
+	const ochanomizu = "daily-doodles/img_2692.jpg";
 
 	export { date, electricCables, d12, ochanomizu };
 </script>

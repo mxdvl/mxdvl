@@ -10,6 +10,4 @@ const media = new URL("../build/media/", base);
 
 await ensureDir(media);
 
-for await (const { path, name } of walk(new URL("../dotcom/src", base), { includeFiles: true, match })) {
-	copy(path, new URL(name, media), { overwrite: true });
-}
+copy(new URL("./media", base), media, { overwrite: true });
