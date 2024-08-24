@@ -5,7 +5,7 @@
 
 	import Control from "./Control.svelte";
 	import Button from "../Button.svelte";
-	import { add_pattern, animate, selected } from "./store.js";
+	import { add_pattern, animate, selected } from "./Store.svelte";
 
 	/** @typedef {import('./data.js').Pattern} Pattern */
 

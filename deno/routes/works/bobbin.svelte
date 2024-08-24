@@ -1,5 +1,5 @@
 <script>
-	import Bobbin from "../../components/bobbin/Bobbin.island.svelte";
+	// import Bobbin from "../../components/bobbin/Bobbin.island.svelte";
 	import Layout from "../../components/Layout.svelte";
 </script>
 
@@ -11,7 +11,8 @@
 <h4>Note: JavaScript is required to edit the shape</h4>
 </noscript>
 
-<Bobbin />
+<!-- TODO: make it work… -->
+<!-- <Bobbin /> -->
 
 <article>
 	<h1>About <em>Bobbin</em></h1>
@@ -41,3 +42,10 @@
 	</p>
 </article>
 </Layout>
+
+<style>
+    h2 {
+		margin: 0;
+		grid-column: 1 / -1;
+	}
+</style>

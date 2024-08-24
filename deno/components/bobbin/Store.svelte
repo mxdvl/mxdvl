@@ -1,6 +1,7 @@
-import { derived, writable } from "npm:svelte@4.2.12/store";
+<script context="module">
+import { derived, writable } from "svelte/store";
 import { loop } from "./weaving.js";
-/** @template T @typedef {import("npm:svelte@4.2.12/store").Writable<T>} Writable<T> */
+/** @template T @typedef {import("svelte/store").Writable<T>} Writable<T> */
 /** @typedef {import("./data.js").Pattern} Pattern */
 
 /** @type {Writable<string | undefined>} */
@@ -70,3 +71,4 @@ export const basic_map = new Map(
 		},
 	].map(({ id, count, mirror, position, d }) => [id, writable({ id, count, mirror, position, d: d.join(" ") })]),
 );
+</script>

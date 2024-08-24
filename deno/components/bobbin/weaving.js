@@ -1,25 +1,21 @@
 const { cos, sin, PI } = Math;
 export const tau = PI * 2;
 
-export const on_circle =
-	(offset = 1 / 4) =>
-	/** @param {number} radius */
-	(radius) =>
-	/** @param {number} count */
-	(count) =>
-		Array.from({ length: count }, (_, index) => {
-			const position = tau * (index / count - offset);
-			return /** @type {const} */ ([cos(position) * radius, sin(position) * radius]);
-		});
+export const on_circle = (offset = 1 / 4) =>
+/** @param {number} radius */
+(radius) =>
+/** @param {number} count */
+(count) =>
+	Array.from({ length: count }, (_, index) => {
+		const position = tau * (index / count - offset);
+		return /** @type {const} */ ([cos(position) * radius, sin(position) * radius]);
+	});
 
 export const back_and_forth =
 	/** @param {[string, string]} pair */
-
-
-		([left, right]) =>
-		/** @param {number} n */
-		(n) =>
-			Array.from({ length: n * 2 }, (_, i) => (i < n ? left : right));
+	([left, right]) =>
+	/** @param {number} n */
+	(n) => Array.from({ length: n * 2 }, (_, i) => (i < n ? left : right));
 
 /** @param {readonly [number, number][]} deltas */
 export const mirror = (...deltas) =>

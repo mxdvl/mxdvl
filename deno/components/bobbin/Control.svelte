@@ -3,7 +3,7 @@
 	import { fly } from "svelte/transition";
 
 	import Button from "../Button.svelte";
-	import { selected, toggle, uid } from "./store.js";
+	import { selected, toggle, uid } from "./Store.svelte";
 
 	/** @typedef {import('./data.js').Pattern} Pattern */
 

@@ -4,7 +4,7 @@
 	import Use from "./Use.svelte";
 	import Path from "./Path.svelte";
 	import Spread from "./Spread.svelte";
-	import { animate, selected } from "./store.js";
+	import { animate, selected } from "./Store.svelte";
 
 	/** @typedef {import('./data').Pattern} Pattern */
 

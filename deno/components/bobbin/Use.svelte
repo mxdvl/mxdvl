@@ -1,5 +1,5 @@
 <script>
-	import { debug, selected, selected_index } from "./store.js";
+	import { debug, selected, selected_index } from "./Store.svelte";
 
 	/** @type {string} */
 	export let id;

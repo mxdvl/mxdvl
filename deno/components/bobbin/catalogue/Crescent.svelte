@@ -1,7 +1,7 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, current } from "../store.js";
+	import { add_pattern, current } from "../Store.svelte";
 
 	let radius = 6;
 
