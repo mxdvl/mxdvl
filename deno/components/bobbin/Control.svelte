@@ -2,10 +2,10 @@
 	import { writable } from "svelte/store";
 	import { fly } from "svelte/transition";
 
-	import Button from "$lib/Button.svelte";
-	import { selected, toggle, uid } from "./store";
+	import Button from "../Button.svelte";
+	import { selected, toggle, uid } from "./store.js";
 
-	/** @typedef {import('./data').Pattern} Pattern */
+	/** @typedef {import('./data.js').Pattern} Pattern */
 
 	/** @type {import("svelte/store").Writable<Pattern>} */
 	export let pattern;

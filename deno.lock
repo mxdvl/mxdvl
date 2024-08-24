@@ -37,8 +37,10 @@
       "npm:d3-force": "npm:d3-force@3.0.0",
       "npm:esbuild@0.20.2": "npm:esbuild@0.20.2",
       "npm:lz-string": "npm:lz-string@1.5.0",
+      "npm:lz-string@1.5.0": "npm:lz-string@1.5.0",
       "npm:prettier": "npm:prettier@3.0.2",
       "npm:prettier@3.0.2": "npm:prettier@3.0.2",
+      "npm:svelte": "npm:svelte@4.2.12",
       "npm:svelte@4.2.12": "npm:svelte@4.2.12",
       "npm:zod": "npm:zod@3.23.8"
     },

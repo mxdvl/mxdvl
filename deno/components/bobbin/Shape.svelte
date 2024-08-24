@@ -1,10 +1,10 @@
 <script>
+	import { onMount } from "svelte";
 	import Mirror from "./Mirror.svelte";
 	import Use from "./Use.svelte";
 	import Path from "./Path.svelte";
 	import Spread from "./Spread.svelte";
-	import { animate, selected } from "./store";
-	import { onMount } from "svelte";
+	import { animate, selected } from "./store.js";
 
 	/** @typedef {import('./data').Pattern} Pattern */
 

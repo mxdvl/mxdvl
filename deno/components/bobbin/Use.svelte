@@ -1,5 +1,5 @@
 <script>
-	import { debug, selected, selected_index } from "./store";
+	import { debug, selected, selected_index } from "./store.js";
 
 	/** @type {string} */
 	export let id;

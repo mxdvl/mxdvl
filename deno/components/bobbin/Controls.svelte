@@ -1,13 +1,13 @@
 <script>
 	import { fade } from "svelte/transition";
 	import { flip } from "svelte/animate";
-	import { fileSave } from "browser-fs-access";
+	import { fileSave } from "npm:browser-fs-access";
 
 	import Control from "./Control.svelte";
-	import Button from "$lib/Button.svelte";
-	import { add_pattern, animate, selected } from "./store";
+	import Button from "../Button.svelte";
+	import { add_pattern, animate, selected } from "./store.js";
 
-	/** @typedef {import('./data').Pattern} Pattern */
+	/** @typedef {import('./data.js').Pattern} Pattern */
 
 	/** @type {import("svelte/store").Writable<Map<string, import("svelte/store").Writable<Pattern>>>} */
 	export let patterns;

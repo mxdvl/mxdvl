@@ -1,7 +1,7 @@
-import { derived, writable } from "svelte/store";
+import { derived, writable } from "npm:svelte@4.2.12/store";
 import { loop } from "./weaving.js";
-/** @template T @typedef {import("svelte/store").Writable<T>} Writable<T> */
-/** @typedef {import("./data").Pattern} Pattern */
+/** @template T @typedef {import("npm:svelte@4.2.12/store").Writable<T>} Writable<T> */
+/** @typedef {import("./data.js").Pattern} Pattern */
 
 /** @type {Writable<string | undefined>} */
 export const selected = writable(undefined);

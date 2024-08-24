@@ -1,6 +1,6 @@
 <script>
-	import Bobbin from "../../components/bobbin/Bobbin.svelte";
-import Layout from "../../components/Layout.svelte";
+	import Bobbin from "../../components/bobbin/Bobbin.island.svelte";
+	import Layout from "../../components/Layout.svelte";
 </script>
 
 <Layout lang="en">

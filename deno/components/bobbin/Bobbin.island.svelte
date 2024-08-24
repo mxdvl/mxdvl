@@ -4,8 +4,8 @@
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
-	import { animate, debug, patterns, selected, selected_index } from "./store";
-	import { patterns_to_string, string_to_patterns } from "./data";
+	import { animate, debug, patterns, selected, selected_index } from "./store.js";
+	import { patterns_to_string, string_to_patterns } from "./data.js";
 	import Polygon from "./catalogue/Polygon.svelte";
 	import Loop from "./catalogue/Loop.svelte";
 	import Crescent from "./catalogue/Crescent.svelte";
@@ -133,6 +133,8 @@
 		},
 	});
 
+	search = "";
+
 	onMount(async () => {
 		debug.set(window.location.hostname === "localhost");
 
@@ -169,7 +171,7 @@
 		>
 			<defs>
 				<text>Generated with @mxdvl’s Rosace</text>
-				<text>https://www.mxdvl.com/works/rosace{$page.url.search}</text>
+				<text>https://www.mxdvl.com/works/rosace{$state}</text>
 			</defs>
 
 			{#each [...$patterns.entries()] as [id, pattern] (id)}
