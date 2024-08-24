@@ -291,8 +291,8 @@ deno run dotcom/src/lib/grid.ts | pbcopy
   </style>
 
   <script>
-    const html = document.querySelector("html");
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const html = document.documentElement;
+    const media_query = window.matchMedia("(prefers-color-scheme: dark)");
     try {
       const { theme } = localStorage;
       if (theme) {
@@ -312,13 +312,15 @@ deno run dotcom/src/lib/grid.ts | pbcopy
               : "rgb(0% 14.37% 13.78%)",
           );
       } else {
-        html.classList.toggle("dark", mq.matches);
-        html.classList.toggle("light", !mq.matches);
+        html.classList.toggle("dark", media_query.matches);
+        html.classList.toggle("light", !media_query.matches);
         document
           .querySelector("link[rel=mask-icon]")
           ?.setAttribute(
             "color",
-            mq.matches ? "rgb(93.44% 98.82% 100%)" : "rgb(0% 14.37% 13.78%)",
+            media_query.matches
+              ? "rgb(93.44% 98.82% 100%)"
+              : "rgb(0% 14.37% 13.78%)",
           );
       }
     } catch (error) {
