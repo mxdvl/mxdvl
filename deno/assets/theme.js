@@ -1,6 +1,7 @@
 /** @typedef {"light" | "dark"} Theme  */
 
 /** @type {() => Theme} */
+// deno-lint-ignore no-window
 const systemTheme = () => window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
 /** @type {(theme: Theme) => void} */
