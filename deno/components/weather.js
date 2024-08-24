@@ -74,10 +74,14 @@ const getWeather = async (city, api_key) => {
 		})}`,
 	);
 
-	return fetch(url.toString())
+	/** @type {unknown} */
+	const data = await fetch(url.toString())
 		.then((r) => r.json())
-		.then((json) => weatherAPIResponseSchema.parseAsync(json))
 		.catch(() => undefined);
+
+	const result = weatherAPIResponseSchema.safeParse(data);
+
+	return result.success ? result.data : undefined;
 };
 
 /**
