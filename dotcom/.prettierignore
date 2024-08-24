@@ -1,8 +1,0 @@
-# Dotfiles
-.*
-
-# Lock files
-pnpm-lock.yaml
-
-# Build files
-build
