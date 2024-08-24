@@ -1,18 +1,21 @@
 <script>
-	import Alternates from "$lib/Alternates.svelte";
+	import Alternates from "../components/Alternates.svelte";
+	import Layout from "../components/Layout.svelte";
 
-	const tools = /** @type {const} */ (["cadence", "facteurs", "calendrier", "diaporama"]);
+	const tools = /** @type {const} */ (["pace", "factors", "calendar", "slideshow", "svg"]);
 </script>
 
 <Alternates en="/tools" fr="/outils" />
 
-<h2>Some tools!</h2>
+<Layout lang="en" url={new URL("https://www.mxdvl.com/tools")}>
+	<h2>Some tools!</h2>
 
-<ul>
-	{#each tools as tool}
-		<li><a href={`/outils/${tool}`}>{tool}</a></li>
-	{/each}
-</ul>
+	<ul>
+		{#each tools as tool}
+			<li><a href={`/tools/${tool}`}>{tool}</a></li>
+		{/each}
+	</ul>
+</Layout>
 
 <style>
 	ul {

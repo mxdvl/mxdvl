@@ -1,7 +1,7 @@
 <script>
-	import Button from "$lib/Button.svelte";
-	import EditablePath from "./EditablePath.svelte";
-	import SVGPathCommander from "svg-path-commander";
+	import Button from "../../components/Button.svelte";
+	import EditablePath from "../../components/EditablePath.svelte";
+	import SVGPathCommander from "npm:svg-path-commander";
 	import { onMount } from "svelte";
 
 	export let data;

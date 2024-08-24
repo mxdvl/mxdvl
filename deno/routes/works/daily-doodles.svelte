@@ -30,9 +30,7 @@
 		<Image ratio={12 / 6} src={d12} alt="Last night in Shibuya" />
 
 		<p>
-			Prints are available, <a href="mailto:hi+prints@mxdvl.com"
-				>drop me a line</a
-			> for details.
+			Prints are available, <a href="mailto:hi+prints@mxdvl.com">drop me a line</a> for details.
 		</p>
 
 		<Image ratio={3 / 6} src={ochanomizu} alt="Ochanimizu" />

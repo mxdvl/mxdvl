@@ -1,6 +1,7 @@
 <script>
-	import Alternates from "$lib/Alternates.svelte";
-	import { toKilometre, toMiles, toMinuteSeconds } from "../../outils/cadence/+page.svelte";
+	import Alternates from "../../components/Alternates.svelte";
+	import Layout from "../../components/Layout.svelte";
+	import { toKilometre, toMiles, toMinuteSeconds } from "../outils/cadence.svelte";
 
 	const initial = 4 * 60 + 21;
 	const step = 1;
@@ -25,13 +26,15 @@
 
 <Alternates en="/tools/pace" fr="/outils/cadence" />
 
-<input type="range" bind:value={perKilometre} {min} {max} {step} />
+<Layout lang="en">
+	<input type="range" bind:value={perKilometre} {min} {max} {step} />
 
-<p>A running pace of <strong>{toMinuteSeconds(perKilometre)} min / km…</strong></p>
+	<p>A running pace of <strong>{toMinuteSeconds(perKilometre)} min / km…</strong></p>
 
-<p>Is equivalent to <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
+	<p>Is equivalent to <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
 
-<input type="range" bind:value={perMile} {min} {max} {step} />
+	<input type="range" bind:value={perMile} {min} {max} {step} />
+</Layout>
 
 <style>
 	p {

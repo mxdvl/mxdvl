@@ -1,5 +1,5 @@
 <script>
-	import SVGPathCommander from "svg-path-commander";
+	import SVGPathCommander from "npm:svg-path-commander";
 
 	/** @type {import('svg-path-commander').NormalArray} */
 	export let normalisedSegments;

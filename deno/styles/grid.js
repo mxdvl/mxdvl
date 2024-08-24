@@ -1,4 +1,4 @@
-const HORIZONTAL_GRID = 18;
+export const HORIZONTAL_GRID = 18;
 const BASE = 6;
 
 /** CSS for generating grid widths */

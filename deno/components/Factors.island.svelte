@@ -1,14 +1,30 @@
 <script>
-	import Alternates from "$lib/Alternates.svelte";
-	import Number from "$lib/Number.svelte";
-	import { getFactors, max } from "../../tools/factors/+page.svelte";
+	import Number from "./Number.svelte";
+
+	/** @type {import('./lang.js').Lang} */
+	export let lang = "en";
+
+	/** @param {number} n */
+	const getFactors = (n) => {
+		const factors = [n];
+
+		for (var i = 2; i <= Math.sqrt(n); i++) {
+			if (n % i == 0) {
+				factors.push(i);
+
+				if (n / i != i) factors.push(n / i);
+			}
+		}
+
+		return factors.sort((a, b) => a - b);
+	};
+
+	const max = 100_000_000_003;
 
 	let number = 12_000;
 
 	$: factors = getFactors(number);
 </script>
-
-<Alternates en="/tools/factors" fr="/outils/facteurs" />
 
 <p>
 	<Number min={1} {max} bind:value={number} />
@@ -16,7 +32,14 @@
 
 <ul>
 	{#if factors.length === 1}
-		<li>{factors[0]} est un nombre premier!</li>
+		<li>
+			{factors[0]}
+			{#if lang === "fr"}
+				est premier!
+			{:else}
+				is prime!
+			{/if}
+		</li>
 	{:else}
 		{#each factors as factor}
 			<li>{factor}</li>

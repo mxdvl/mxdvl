@@ -24,17 +24,11 @@
 		<h3>{date}</h3>
 
 		<p>
-			The drawings of illustrator Manshen Lo needed to be presented in
-			pristine visual quality, without compromising how quickly <a
-				href="https://www.manshenlo.com/">her online gallery</a
-			> would load. A 90+ Pagespeed score was achieved with lazy-loading and
-			CSS rules to prevent content from jumping on load.
+			The drawings of illustrator Manshen Lo needed to be presented in pristine visual quality, without
+			compromising how quickly <a href="https://www.manshenlo.com/">her online gallery</a> would load. A 90+ Pagespeed
+			score was achieved with lazy-loading and CSS rules to prevent content from jumping on load.
 		</p>
 
-		<Image
-			ratio={12 / 6}
-			src={screenshot}
-			alt="mobile screenshot of Manshen's portfolio"
-		/>
+		<Image ratio={12 / 6} src={screenshot} alt="mobile screenshot of Manshen's portfolio" />
 	</section>
 </Layout>

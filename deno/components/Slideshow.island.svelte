@@ -1,7 +1,8 @@
 <script>
-	import Alternates from "$lib/Alternates.svelte";
-	import { GRID_SIZE } from "$lib/grid.js";
+	import { HORIZONTAL_GRID } from "../styles/grid.js";
 	import { keyframes } from "./keyframes.js";
+
+	const GRID_SIZE = HORIZONTAL_GRID;
 
 	/** in degrees */
 	let angle = 24;
@@ -31,8 +32,6 @@
 	{@html "<sty" + "le>@keyframes middle-slide { " + middle_slide_keyframes + "}</sty" + "le>"}
 	{@html "<sty" + "le>@keyframes last-slide { " + last_slide_keyframes + "}</sty" + "le>"}
 </svelte:head>
-
-<Alternates en="tools/slideshow" fr="outils/diaporama" />
 
 <div style={`--angle:${angle}deg;--offset:${offset}px;--duration:${slides.length * (display + fade)}s`}>
 	{#each slides as slide, index (Math.random())}
