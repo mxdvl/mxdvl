@@ -1,5 +1,4 @@
 <script>
-
 	import Image from "../../components/Image.svelte";
 	import Alternates from "../../components/Alternates.svelte";
 	import { date, d12, electricCables, ochanomizu } from "../works/daily-doodles.svelte";

@@ -59,7 +59,7 @@
 			const width = String(number.value).length;
 			const within_x = number.x - 1 <= x && x <= number.x + width;
 			const within_y = number.y - 1 <= y && y <= number.y + 1;
-			console.log(number.value, { within_x, within_y });
+			// console.log(number.value, { within_x, within_y });
 			return within_x && within_y;
 		});
 

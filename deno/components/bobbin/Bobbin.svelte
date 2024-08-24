@@ -1,8 +1,6 @@
 <script>
 	import { derived, get, writable } from "svelte/store";
 	import { onMount } from "svelte";
-	import { page } from "$app/stores";
-	import { goto } from "$app/navigation";
 
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
@@ -13,8 +11,6 @@
 	import Crescent from "./catalogue/Crescent.svelte";
 	import Curve from "./catalogue/Curve.svelte";
 	import Star from "./catalogue/Star.svelte";
-
-	export let data;
 
 	const size = 20 * 18 * 2;
 
@@ -77,7 +73,10 @@
 		},
 	});
 
-	if (data.state) state.set(data.state);
+	/** A seven-sided shape that illustrates advanced features */
+    const default_state = "NoIgpgTAxgdghgWwF4A4DmBrAPgRgCxYCyWAtDgGwDsWADETQDQkDMNAOjAMIQQMCsATgAEAxjmGiGNEAxAIAVjgCezAGYwaARwGqs1YuIhY8zelI5QWYvjSHlyDHLfLWUHDjJB9mmmJqQATlB4ACZKWBAoWAD6ERAEdISMNHAoDChCtrY4Qji8KWkZWblCZPkAWp4hABZQAG4ANgDOcACWAPbkYBE4MRHM5LhRSVKp6ZkTOXmjhRPZpdM0lbIw6nB1AXiOAC5QULgEsfEEJHyDI+zws8VTvCwcY0WTC7zMHMsgqgGUSPJoITAUBBNHo+hA+NRTgIzJdHnMSrk7m8ruMbi8GMwPnAMBgcKlqpQYDgAA4RKJHSjURLJOFoxa055lKQfACu5GqqigIQgLLgACN9vpSIMcChhmIUABBUWOJ7zRhkKVpUXwrKyyoAXSAA";
+
+	state.set(default_state);
 
 	const drag = /** @type {const} @satisfies {Record<string, (event: PointerEvent) => void>} */ ({
 		start: (event) => {
@@ -158,13 +157,6 @@
 	});
 </script>
 
-<h1>Bobbin</h1>
-<h2>delicate circular symmetries</h2>
-
-<noscript>
-	<h4>Note: JavaScript is required to edit the shape</h4>
-</noscript>
-
 <div id="workspace">
 	<div id="canvas" class="border">
 		<svg
@@ -226,41 +218,13 @@
 	</ul>
 </div>
 
-{#if $page.url.host !== "www.mxdvl.com"}
+<!-- {#if $page.url.host !== "www.mxdvl.com"}
 	<h3>
 		<a href={`https://www.mxdvl.com/works/rosace${$page.url.search}`}
 			>Currently on a develop branch, see www.mxdvl.com version</a
 		>
 	</h3>
-{/if}
-
-<article>
-	<h1>About <em>Bobbin</em></h1>
-
-	<p>
-		Weaving together technologies of the past and future, <em>Bobbin</em> invites us to explore the delicate
-		intricacies of circular patterns. Mimicking the delicacy found in traditional crafts, <em>Bobbin</em> leverages Svelte
-		to enable us all to become artists. Like modern day lace makers, we are invited to create our own designs and step
-		back and admire the possibilities of the web as a design tool. This tool celebrates the advancements we have made
-		on seeing speedy results, without compromising on elegance or beauty.
-	</p>
-	<p>
-		All the editing features use the web platform’s native toolset, which made Svelte & SvelteKit an ideal
-		environment for development:
-	</p>
-	<ul>
-		<li>The design is encoded as state search parameter</li>
-		<li>Undo and redo rely on the web history</li>
-		<li>Patterns can be seen without without JavaScript with SSR</li>
-		<li>The resulting SVG can be exported as-is and used as the basis for further work</li>
-		<li>Animations are built with CSS and the Web Animation API</li>
-	</ul>
-
-	<p>
-		<a href="https://en.wikipedia.org/wiki/Bobbin_lace#Bobbins">Bobbins</a> are used to hold the thread to create lace,
-		which was the inspiration for this tool.
-	</p>
-</article>
+{/if} -->
 
 <style>
 	#workspace {

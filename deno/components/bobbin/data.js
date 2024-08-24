@@ -1,4 +1,4 @@
-import * as lz from "lz-string";
+import * as lz from "npm:lz-string@1.5.0";
 /**
  * @typedef Point
  * @property {number} x

@@ -28,7 +28,7 @@
 		const final = derivatives.reduceRight((final, next) => {
 			return final + (next.at(-1) ?? 0);
 		}, 0);
-		console.log(final);
+		// console.log(final);
 
 		return { derivatives, final };
 	});
@@ -52,7 +52,7 @@
 				const higher = stack[index - 1];
 				const past = (higher?.at(0) ?? 0) + (derivative.at(0) ?? 0);
 				const future = (higher?.at(-1) ?? 0) + (derivative.at(-1) ?? 0);
-				console.log({ past, higher, derivative, future });
+				// console.log({ past, higher, derivative, future });
 
 				return [past, ...derivative, future];
 			})

@@ -120,7 +120,7 @@
 
 	$: {
 		let g = bfs(`0,0`, heatmap, 1);
-		console.log([...g], g.next(), g.next(-1));
+		// console.log([...g], g.next(), g.next(-1));
 	}
 </script>
 

@@ -13,7 +13,7 @@
 		let value = 0;
 		for (const character of sequence) {
 			value += character.charCodeAt(0);
-			console.log({ character, ascii: character.charCodeAt(0) });
+			// console.log({ character, ascii: character.charCodeAt(0) });
 			value *= 17;
 			value %= 256;
 		}

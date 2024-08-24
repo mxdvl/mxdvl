@@ -141,7 +141,7 @@ humidity-to-location map:
 										to: last_range.to + mapping.difference,
 									},
 								];
-								console.info("range fully inside mapping", { last_range, mapping, next });
+								// console.info("range fully inside mapping", { last_range, mapping, next });
 								return slice.concat(...next);
 							}
 
@@ -155,7 +155,7 @@ humidity-to-location map:
 									{ from: mapping.from + mapping.difference, to: mapping.to + mapping.difference },
 									{ from: mapping.to + 1, to: last_range.to },
 								];
-								console.info("range contains the mapping", { last_range, mapping, next });
+								// console.info("range contains the mapping", { last_range, mapping, next });
 								return slice.concat(...next);
 							}
 
@@ -168,7 +168,7 @@ humidity-to-location map:
 									{ from: last_range.from + mapping.difference, to: mapping.to + mapping.difference },
 									{ from: mapping.to + 1, to: last_range.to },
 								];
-								console.info("range lower half intersects with mapping", { last_range, mapping, next });
+								// console.info("range lower half intersects with mapping", { last_range, mapping, next });
 								return slice.concat(...next);
 							}
 
@@ -181,11 +181,11 @@ humidity-to-location map:
 									{ from: last_range.from, to: mapping.from - 1 },
 									{ from: mapping.from + mapping.difference, to: last_range.to + mapping.difference },
 								];
-								console.info("range higher half intersect with mapping", { last_range, mapping, next });
+								// console.info("range higher half intersect with mapping", { last_range, mapping, next });
 								return slice.concat(...next);
 							}
 
-							console.log({ ranges_accumulator, last_range, mapping });
+							// console.log({ ranges_accumulator, last_range, mapping });
 							throw "There is an unhandled case";
 						},
 						[range],
@@ -196,7 +196,7 @@ humidity-to-location map:
 			.reduce((ranges, next_range, _, all_ranges) => {
 				const last_range = ranges.at(-1);
 
-				if (next_range.from === 0) console.log({ last_range, next_range, all_ranges });
+				// if (next_range.from === 0) console.log({ last_range, next_range, all_ranges });
 
 				// we need to consolidate overlapping ranges
 				if (last_range && last_range.to >= next_range.from - 1) {

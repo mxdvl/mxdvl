@@ -165,9 +165,6 @@ L7JLJL-JLJLJL--JLJ.L
 				const coord = move(start, direction);
 				const pipe = pipes.get(coord);
 				if (!pipe) return [];
-
-				console.log();
-
 				return { direction, pipe, coord: start };
 			})
 			.find(({ direction, pipe }) => connects(direction, pipe));
@@ -185,7 +182,7 @@ L7JLJL-JLJLJL--JLJ.L
 
 			const next_coord = move(coord, direction);
 			const next_pipe = pipes.get(next_coord);
-			console.log({ coord, pipe, next_coord, next_pipe });
+			// console.log({ coord, pipe, next_coord, next_pipe });
 			if (!next_pipe) break;
 			const next_direction = redirect(next_pipe, direction);
 			if (!next_direction) break;
@@ -291,7 +288,7 @@ L7JLJL-JLJLJL--JLJ.L
 				const { x, y } = parse(coord);
 				return 0 <= x && x <= cols && 0 <= y && y <= rows;
 			});
-			console.log({ adjacents });
+			// console.log({ adjacents });
 			for (const close of adjacents) {
 				inside.add(close);
 			}
@@ -302,7 +299,7 @@ L7JLJL-JLJLJL--JLJ.L
 
 	$: ({ loop, inside, side } = get_loop(pipes, start));
 
-	$: console.log({ pipes, inside });
+	// $: console.log({ pipes, inside });
 </script>
 
 <textarea cols="24" rows="12" bind:value={input}></textarea>
