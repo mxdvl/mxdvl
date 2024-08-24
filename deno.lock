@@ -5,6 +5,7 @@
       "jsr:@luca/esbuild-deno-loader@^0.10.3": "jsr:@luca/esbuild-deno-loader@0.10.3",
       "jsr:@mxdvl/mononykus@0.7.5": "jsr:@mxdvl/mononykus@0.7.5",
       "jsr:@mxdvl/mononykus@0.7.6": "jsr:@mxdvl/mononykus@0.7.6",
+      "jsr:@mxdvl/mononykus@0.7.7": "jsr:@mxdvl/mononykus@0.7.7",
       "jsr:@std/assert@^0.213.1": "jsr:@std/assert@0.213.1",
       "jsr:@std/assert@^0.224.0": "jsr:@std/assert@0.224.0",
       "jsr:@std/assert@^0.226.0": "jsr:@std/assert@0.226.0",
@@ -63,6 +64,19 @@
       },
       "@mxdvl/mononykus@0.7.6": {
         "integrity": "48179ae6d38c2e4c8dce92ba077e1ef8e291cef0b220f4ddd0098a973f8fc4cf",
+        "dependencies": [
+          "jsr:@luca/esbuild-deno-loader@^0.10.3",
+          "jsr:@std/cli@^0.224.7",
+          "jsr:@std/fs@^0.229.3",
+          "jsr:@std/http@^0.224.5",
+          "jsr:@std/path@^0.225.2",
+          "npm:esbuild@0.20.2",
+          "npm:prettier@3.0.2",
+          "npm:svelte@4.2.12"
+        ]
+      },
+      "@mxdvl/mononykus@0.7.7": {
+        "integrity": "bbcd12fd1462927b32193a49f3d5da41f7917469ff70bdeaf07a049f544ae9a5",
         "dependencies": [
           "jsr:@luca/esbuild-deno-loader@^0.10.3",
           "jsr:@std/cli@^0.224.7",
