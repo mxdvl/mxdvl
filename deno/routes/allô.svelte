@@ -1,5 +1,5 @@
 <script>
-	import Alternates from "../../dotcom/src/lib/Alternates.svelte";
+	import Alternates from "../components/Alternates.svelte";
 	import Layout from "../components/Layout.svelte";
 
 	const { id } = { id: 999 };
