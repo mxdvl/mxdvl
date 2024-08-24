@@ -44,13 +44,13 @@
 <Alternates en="/tools/pace" fr="/outils/cadence" />
 
 <Layout lang="fr">
-	<input type="range" bind:value={perKilometre} {min} {max} {step} />
+<input type="range" bind:value={perKilometre} {min} {max} {step} />
 
-	<p>Une cadence de <strong>{toMinuteSeconds(perKilometre)} min / km</strong>…</p>
+<p>Une cadence de <strong>{toMinuteSeconds(perKilometre)} min / km</strong>…</p>
 
-	<p>Équivaut <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
+<p>Équivaut <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
 
-	<input type="range" bind:value={perMile} {min} {max} {step} />
+<input type="range" bind:value={perMile} {min} {max} {step} />
 </Layout>
 
 <style>

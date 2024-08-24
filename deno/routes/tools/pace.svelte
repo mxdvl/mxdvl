@@ -27,13 +27,13 @@
 <Alternates en="/tools/pace" fr="/outils/cadence" />
 
 <Layout lang="en">
-	<input type="range" bind:value={perKilometre} {min} {max} {step} />
+<input type="range" bind:value={perKilometre} {min} {max} {step} />
 
-	<p>A running pace of <strong>{toMinuteSeconds(perKilometre)} min / km…</strong></p>
+<p>A running pace of <strong>{toMinuteSeconds(perKilometre)} min / km…</strong></p>
 
-	<p>Is equivalent to <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
+<p>Is equivalent to <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
 
-	<input type="range" bind:value={perMile} {min} {max} {step} />
+<input type="range" bind:value={perMile} {min} {max} {step} />
 </Layout>
 
 <style>

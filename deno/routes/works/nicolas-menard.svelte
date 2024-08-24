@@ -3,6 +3,7 @@
 
 	import Image from "../../components/Image.svelte";
 	import Alternates from "../../components/Alternates.svelte";
+	import Layout from "../../components/Layout.svelte";
 
 	const date = "2020-01";
 
@@ -14,6 +15,7 @@
 
 <Alternates {en} {fr} />
 
+<Layout lang="en">
 <section>
 	<h2>Nicolas Ménard’s website</h2>
 
@@ -29,3 +31,4 @@
 
 	<Image ratio={13 / 6} src={projects} alt="screenshot of Nicolas’s website" />
 </section>
+</Layout>

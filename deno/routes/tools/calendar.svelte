@@ -11,13 +11,13 @@
 </script>
 
 <Layout {lang}>
-	<div>
-		<Calendar {lang} {today} year={year - 1} />
+<div>
+	<Calendar {lang} {today} year={year - 1} />
 
-		<Calendar {lang} {today} {year} />
+	<Calendar {lang} {today} {year} />
 
-		<Calendar {lang} {today} year={year + 1} />
-	</div>
+	<Calendar {lang} {today} year={year + 1} />
+</div>
 </Layout>
 
 <style>

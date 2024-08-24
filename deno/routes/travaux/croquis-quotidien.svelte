@@ -3,12 +3,12 @@
 	import Image from "../../components/Image.svelte";
 	import Alternates from "../../components/Alternates.svelte";
 	import { date, d12, electricCables, ochanomizu } from "../works/daily-doodles.svelte";
-
-	const lang = "en";
+	import Layout from "../../components/Layout.svelte";
 </script>
 
 <Alternates en="/works/daily-doodles" fr="/travaux/croquis-quotidien" />
 
+<Layout lang="fr">
 <section>
 	<h2>Daily Doodles</h2>
 	<h3>{date}</h3>
@@ -29,3 +29,4 @@
 
 	<Image ratio={3 / 6} src={ochanomizu} alt="Ochanimizu" />
 </section>
+</Layout>

@@ -5,5 +5,5 @@
 </script>
 
 <Layout {lang}>
-    <SVG />
+<SVG />
 </Layout>

@@ -7,5 +7,5 @@
 <Alternates en="/tools/factors" fr="/outils/facteurs" />
 
 <Layout lang="fr">
-	<Factors lang="fr">JavaScript nécessaire…</Factors>
+<Factors lang="fr">JavaScript nécessaire…</Factors>
 </Layout>

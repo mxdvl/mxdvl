@@ -19,20 +19,20 @@
 
 <Alternates en="/works/emergences" fr="/travaux/émergences" />
 
-<Layout>
-	<section>
-		<h2>Emergences</h2>
+<Layout lang="en">
+<section>
+	<h2>Emergences</h2>
 
-		<h3>{date}</h3>
+	<h3>{date}</h3>
 
-		Four research projects lead by Börkur Bergmann in the north of Québec.
+	Four research projects lead by Börkur Bergmann in the north of Québec.
 
-		{#each photographs as src}
-			<Image ratio={2 / 3} {src} alt={`Picture of the exhibition`} />
-		{/each}
+	{#each photographs as src}
+		<Image ratio={2 / 3} {src} alt={`Picture of the exhibition`} />
+	{/each}
 
-		<p>
-			<em>made with Émélie DT</em>
-		</p>
-	</section>
+	<p>
+		<em>made with Émélie DT</em>
+	</p>
+</section>
 </Layout>

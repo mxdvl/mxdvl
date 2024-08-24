@@ -2,10 +2,12 @@
 	import Image from "../../components/Image.svelte";
 	import Alternates from "../../components/Alternates.svelte";
 	import { date, en, fr, screenshot } from "../works/manshen-lo.svelte";
+	import Layout from "../../components/Layout.svelte";
 </script>
 
 <Alternates {en} {fr} />
 
+<Layout lang="fr">
 <section>
 	<h2>Site web de Manshen Lo</h2>
 
@@ -19,3 +21,4 @@
 
 	<Image ratio={12 / 6} src={screenshot} alt="mobile screenshot of Manshen's portfolio" />
 </section>
+</Layout>

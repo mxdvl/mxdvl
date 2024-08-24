@@ -15,7 +15,7 @@
 
 <Alternates {en} {fr} />
 
-<Layout>
+<Layout lang="en">
 <section>
 	<h2>Florian Busch Architects’ website</h2>
 

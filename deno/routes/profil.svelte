@@ -2,7 +2,7 @@
 	import Layout from "../components/Layout.svelte";
 </script>
 
-<Layout>
+<Layout lang="fr">
 <h1>Le profil de Max</h1>
 
 <p>
@@ -108,6 +108,7 @@
 		</li>
 	</ul>
 </section>
+</Layout>
 
 <style>
 	ul {
@@ -141,4 +142,3 @@
 		width: 100%;
 	}
 </style>
-</Layout>

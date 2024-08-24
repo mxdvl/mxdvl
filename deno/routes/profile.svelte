@@ -124,6 +124,7 @@
 	Prior to full-time employment, I gather a Masters in Architecture from McGill University in 2015 and a Bachelors of
 	Arts in Design at UQÀM in 2011.
 </p>
+</Layout>
 
 <style>
 	ul {
@@ -155,4 +156,3 @@
 		width: 100%;
 	}
 </style>
-</Layout>

@@ -9,5 +9,5 @@
 <Alternates en="tools/slideshow" fr="outils/diaporama" />
 
 <Layout {lang}>
-	<Slideshow>Javascript required…</Slideshow>
+<Slideshow>Javascript required…</Slideshow>
 </Layout>

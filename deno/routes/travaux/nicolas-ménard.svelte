@@ -2,10 +2,12 @@
 	import Image from "../../components/Image.svelte";
 	import Alternates from "../../components/Alternates.svelte";
 	import { date, en, fr, projects } from "../works/nicolas-menard.svelte";
+	import Layout from "../../components/Layout.svelte";
 </script>
 
 <Alternates {en} {fr} />
 
+<Layout lang="fr">
 <section>
 	<h2>Site web de Nicolas Ménard</h2>
 
@@ -21,3 +23,4 @@
 
 	<Image ratio={13 / 6} src={projects} alt="capture d’écran du site web de Nicolas" />
 </section>
+</Layout>

@@ -8,13 +8,13 @@
 <Alternates en="/tools" fr="/outils" />
 
 <Layout lang="fr" url={new URL("https://www.mxdvl.com/outils")}>
-	<h2>Some tools!</h2>
+<h2>Some tools!</h2>
 
-	<ul>
-		{#each tools as tool}
-			<li><a href={`/outils/${tool}`}>{tool}</a></li>
-		{/each}
-	</ul>
+<ul>
+	{#each tools as tool}
+		<li><a href={`/outils/${tool}`}>{tool}</a></li>
+	{/each}
+</ul>
 </Layout>
 
 <style>

@@ -8,10 +8,12 @@
 <script>
 	import Image from "../../components/Image.svelte";
 	import Alternates from "../../components/Alternates.svelte";
+	import Layout from "../../components/Layout.svelte";
 </script>
 
 <Alternates en="/works/solemn-silence" fr="/travaux/silence-solennel" />
 
+<Layout lang="fr">
 <section>
 	<h2>Silence Solennel</h2>
 
@@ -40,3 +42,4 @@
 		que j’ai montée pour l’occasion.
 	</p>
 </section>
+</Layout>

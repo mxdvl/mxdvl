@@ -12,10 +12,12 @@
 <script>
 	import Image from "../../components/Image.svelte";
 	import Alternates from "../../components/Alternates.svelte";
+	import Layout from "../../components/Layout.svelte";
 </script>
 
 <Alternates en="/works/emergences" fr="/travaux/émergences" />
 
+<Layout lang="fr">
 <section>
 	<h2>émergences</h2>
 
@@ -31,3 +33,4 @@
 		<em>fait avec Émélie DT</em>
 	</p>
 </section>
+</Layout>

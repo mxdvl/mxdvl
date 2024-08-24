@@ -16,7 +16,7 @@
 
 <Alternates fr="/travaux/1x-expo" en="/works/1x-expo" />
 
-<Layout>
+<Layout lang="en">
 <section>
 	<h2>{title}</h2>
 	<h3>{date}</h3>
