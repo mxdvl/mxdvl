@@ -21,6 +21,7 @@
 	const duration = 3600;
 	$: to = 360 / $pattern.count;
 
+/*
 	onMount(() => {
 		animate.subscribe(($animate) => {
 			if (!g) return;
@@ -53,6 +54,7 @@
 			}
 		});
 	});
+*/
 
 	$: active = $selected === $pattern.id && guides;
 </script>
