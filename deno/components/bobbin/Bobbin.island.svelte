@@ -137,7 +137,7 @@
 	onMount(async () => {
 		debug.set(window.location.hostname === "localhost");
 
-		/** handle legacy hash states */
+		// handle legacy hash states
 		const prefix = "#shape/";
 		if (window.location.hash.startsWith(prefix)) {
 			window.location.href = window.location.href.replace(prefix, "?state=");
