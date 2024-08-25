@@ -1,0 +1,56 @@
+{
+	"languages": {
+		"JavaScript": {
+			"language_servers": [
+				"deno",
+				"!typescript-language-server",
+				"!vtsls",
+				"!eslint",
+				"..."
+			],
+			"format_on_save": "off",
+			"formatter": {
+				"external": { "command": "deno", "arguments": ["fmt", "-"] }
+			}
+		},
+		"JSON": {
+			"format_on_save": "on",
+			"formatter": {
+				"external": { "command": "deno", "arguments": ["fmt", "-"] }
+			}
+		},
+		"JSONC": {
+			"formatter": {
+				"external": { "command": "deno", "arguments": ["fmt", "-"] }
+			}
+		},
+		"Svelte": {
+			"language_servers": ["deno", "..."],
+			"format_on_save": "off"
+		},
+		"TSX": {
+			"language_servers": [
+				"deno",
+				"!typescript-language-server",
+				"!vtsls",
+				"!eslint",
+				"..."
+			],
+			"format_on_save": {
+				"external": { "command": "deno", "arguments": ["fmt", "-"] }
+			}
+		},
+		"TypeScript": {
+			"language_servers": [
+				"deno",
+				"!typescript-language-server",
+				"!vtsls",
+				"!eslint",
+				"..."
+			],
+			"format_on_save": {
+				"external": { "command": "deno", "arguments": ["fmt", "-"] }
+			}
+		}
+	}
+}

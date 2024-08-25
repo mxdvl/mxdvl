@@ -1,10 +1,5 @@
 import { render } from "resvg";
-import {
-	ImageMagick,
-	IMagickImage,
-	initializeImageMagick,
-	MagickFormat,
-} from "image-magick";
+import { ImageMagick, IMagickImage, initializeImageMagick, MagickFormat } from "image-magick";
 
 // Heavily inspired by https://github.com/itgalaxy/favicons/blob/3d200b6e8b9f84adc321a7302b9e7bbb2c7c9103/src/ico.ts#L1
 
