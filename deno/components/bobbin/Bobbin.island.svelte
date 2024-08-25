@@ -133,6 +133,7 @@
 
 	search = "";
 
+/*
 	onMount(async () => {
 		debug.set(window.location.hostname === "localhost");
 
@@ -144,7 +145,6 @@
 
 		state.set(default_state);
 
-/*
 		patterns.subscribe(() => {
 			state.write();
 		});
@@ -152,13 +152,13 @@
 		selected.subscribe((selected) => {
 			selected === undefined && selected_index.set(0);
 		});
-*/
 
 		window.addEventListener("popstate", () => {
 			const previous_state = new URLSearchParams(window.location.search).get("state");
 			if (previous_state) state.set(previous_state);
 		});
 	});
+*/
 </script>
 
 <div id="workspace">
