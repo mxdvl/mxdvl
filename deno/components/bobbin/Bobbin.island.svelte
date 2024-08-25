@@ -62,7 +62,7 @@
 			const search = "?" + new URLSearchParams({ state: state.get() });
 
 			if (window.location.search !== search) {
-				goto(search, { noScroll: true });
+				//goto(search, { noScroll: true });
 			}
 		},
 		copy: () => {
