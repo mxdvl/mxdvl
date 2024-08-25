@@ -1,5 +1,5 @@
 <script>
-	// import Bobbin from "../../components/bobbin/Bobbin.island.svelte";
+	import Bobbin from "../../components/bobbin/Bobbin.island.svelte";
 	import Layout from "../../components/Layout.svelte";
 </script>
 
@@ -12,7 +12,7 @@
 </noscript>
 
 <!-- TODO: make it work… -->
-<!-- <Bobbin /> -->
+<Bobbin />
 
 <article>
 	<h1>About <em>Bobbin</em></h1>
