@@ -68,8 +68,8 @@ importers:
         specifier: 9.1.0
         version: 9.1.0(eslint@9.10.0)
       eslint-plugin-svelte:
-        specifier: 2.43.0
-        version: 2.43.0(eslint@9.10.0)(svelte@4.2.19)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2))
+        specifier: 2.44.0
+        version: 2.44.0(eslint@9.10.0)(svelte@4.2.19)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2))
       fathom-client:
         specifier: 3.7.2
         version: 3.7.2
@@ -96,7 +96,7 @@ importers:
         version: 4.0.2(svelte@4.2.19)(typescript@5.6.2)
       svelte-preprocess:
         specifier: 6.0.2
-        version: 6.0.2(postcss-load-config@3.1.4(postcss@8.4.39)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2)))(postcss@8.4.39)(svelte@4.2.19)(typescript@5.6.2)
+        version: 6.0.2(postcss-load-config@3.1.4(postcss@8.4.45)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2)))(postcss@8.4.45)(svelte@4.2.19)(typescript@5.6.2)
       svg-path-commander:
         specifier: 2.0.10
         version: 2.0.10
@@ -1159,8 +1159,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-svelte@2.43.0:
-    resolution: {integrity: sha512-REkxQWvg2pp7QVLxQNa+dJ97xUqRe7Y2JJbSWkHSuszu0VcblZtXkPBPckkivk99y5CdLw4slqfPylL2d/X4jQ==}
+  eslint-plugin-svelte@2.44.0:
+    resolution: {integrity: sha512-wav4MOs02vBb1WjvTCYItwJCxMkuk2Z4p+K/eyjL0N/z7ahXLP+0LtQQjiKc2ezuif7GnZLbD1F3o1VHzSvdVg==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0-0 || ^9.0.0-0
@@ -1636,10 +1636,6 @@ packages:
     resolution: {integrity: sha512-UMz42UD0UY0EApS0ZL9o1XnLhSTtvvvLe5Dc2H2O56fvRZi+KulDyf5ctDhhtYJBGKStV2FL1fy6253cmLgqVQ==}
     engines: {node: '>=4'}
 
-  postcss@8.4.39:
-    resolution: {integrity: sha512-0vzE+lAiG7hZl1/9I8yzKLx3aR9Xbof3fBHKunvMfOCYAtMhrsnccJY2iTURb9EZd5+pLuiNV9/c/GZJOHsgIw==}
-    engines: {node: ^10 || ^12 || >=14}
-
   postcss@8.4.45:
     resolution: {integrity: sha512-7KTLTdzdZZYscUc65XmjFiB73vBhBfbPztCYdUNvlaso9PrzjzcmjqBPR0lNGkcVlcO4BjiO5rK/qNz+XAen1Q==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1797,8 +1793,8 @@ packages:
       svelte: ^4.0.0 || ^5.0.0-next.0
       typescript: '>=5.0.0'
 
-  svelte-eslint-parser@0.41.0:
-    resolution: {integrity: sha512-L6f4hOL+AbgfBIB52Z310pg1d2QjRqm7wy3kI1W6hhdhX5bvu7+f0R6w4ykp5HoDdzq+vGhIJmsisaiJDGmVfA==}
+  svelte-eslint-parser@0.41.1:
+    resolution: {integrity: sha512-08ndI6zTghzI8SuJAFpvMbA/haPSGn3xz19pjre19yYMw8Nw/wQJ2PrZBI/L8ijGTgtkWCQQiLLy+Z1tfaCwNA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       svelte: ^3.37.0 || ^4.0.0 || ^5.0.0-next.191
@@ -2979,7 +2975,7 @@ snapshots:
     dependencies:
       eslint: 9.10.0
 
-  eslint-plugin-svelte@2.43.0(eslint@9.10.0)(svelte@4.2.19)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2)):
+  eslint-plugin-svelte@2.44.0(eslint@9.10.0)(svelte@4.2.19)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2)):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@9.10.0)
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -2987,12 +2983,12 @@ snapshots:
       eslint-compat-utils: 0.5.1(eslint@9.10.0)
       esutils: 2.0.3
       known-css-properties: 0.34.0
-      postcss: 8.4.39
-      postcss-load-config: 3.1.4(postcss@8.4.39)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2))
-      postcss-safe-parser: 6.0.0(postcss@8.4.39)
+      postcss: 8.4.45
+      postcss-load-config: 3.1.4(postcss@8.4.45)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2))
+      postcss-safe-parser: 6.0.0(postcss@8.4.45)
       postcss-selector-parser: 6.1.0
       semver: 7.6.2
-      svelte-eslint-parser: 0.41.0(svelte@4.2.19)
+      svelte-eslint-parser: 0.41.1(svelte@4.2.19)
     optionalDependencies:
       svelte: 4.2.19
     transitivePeerDependencies:
@@ -3413,32 +3409,26 @@ snapshots:
 
   picomatch@2.3.1: {}
 
-  postcss-load-config@3.1.4(postcss@8.4.39)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2)):
+  postcss-load-config@3.1.4(postcss@8.4.45)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2)):
     dependencies:
       lilconfig: 2.1.0
       yaml: 1.10.2
     optionalDependencies:
-      postcss: 8.4.39
+      postcss: 8.4.45
       ts-node: 10.9.1(@types/node@20.16.5)(typescript@5.6.2)
 
-  postcss-safe-parser@6.0.0(postcss@8.4.39):
+  postcss-safe-parser@6.0.0(postcss@8.4.45):
     dependencies:
-      postcss: 8.4.39
+      postcss: 8.4.45
 
-  postcss-scss@4.0.9(postcss@8.4.39):
+  postcss-scss@4.0.9(postcss@8.4.45):
     dependencies:
-      postcss: 8.4.39
+      postcss: 8.4.45
 
   postcss-selector-parser@6.1.0:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
-
-  postcss@8.4.39:
-    dependencies:
-      nanoid: 3.3.7
-      picocolors: 1.0.1
-      source-map-js: 1.2.0
 
   postcss@8.4.45:
     dependencies:
@@ -3611,13 +3601,13 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-eslint-parser@0.41.0(svelte@4.2.19):
+  svelte-eslint-parser@0.41.1(svelte@4.2.19):
     dependencies:
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
-      postcss: 8.4.39
-      postcss-scss: 4.0.9(postcss@8.4.39)
+      postcss: 8.4.45
+      postcss-scss: 4.0.9(postcss@8.4.45)
     optionalDependencies:
       svelte: 4.2.19
 
@@ -3625,12 +3615,12 @@ snapshots:
     dependencies:
       svelte: 4.2.19
 
-  svelte-preprocess@6.0.2(postcss-load-config@3.1.4(postcss@8.4.39)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2)))(postcss@8.4.39)(svelte@4.2.19)(typescript@5.6.2):
+  svelte-preprocess@6.0.2(postcss-load-config@3.1.4(postcss@8.4.45)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2)))(postcss@8.4.45)(svelte@4.2.19)(typescript@5.6.2):
     dependencies:
       svelte: 4.2.19
     optionalDependencies:
-      postcss: 8.4.39
-      postcss-load-config: 3.1.4(postcss@8.4.39)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2))
+      postcss: 8.4.45
+      postcss-load-config: 3.1.4(postcss@8.4.45)(ts-node@10.9.1(@types/node@20.16.5)(typescript@5.6.2))
       typescript: 5.6.2
 
   svelte@4.2.19:
