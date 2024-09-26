@@ -43,7 +43,7 @@
 		"prettier-plugin-svelte": "3.2.7",
 		"svelte": "4.2.19",
 		"svelte-check": "4.0.3",
-		"svelte-preprocess": "6.0.2",
+		"svelte-preprocess": "6.0.3",
 		"svg-path-commander": "2.0.10",
 		"typescript": "5.6.2",
 		"typescript-eslint": "7.18.0",
