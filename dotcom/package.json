@@ -26,7 +26,7 @@
 		"@types/node": "20.16",
 		"@typescript-eslint/eslint-plugin": "7.18.0",
 		"@typescript-eslint/parser": "7.18.0",
-		"@vercel/node": "3.2.16",
+		"@vercel/node": "3.2.17",
 		"browser-fs-access": "0.35.0",
 		"d3-drag": "3.0.0",
 		"d3-force": "3.0.0",
