@@ -17,7 +17,7 @@
 	"dependencies": {
 		"@eslint/js": "9.11.1",
 		"@sveltejs/adapter-vercel": "5.4.4",
-		"@sveltejs/kit": "2.5.28",
+		"@sveltejs/kit": "2.6.0",
 		"@sveltejs/vite-plugin-svelte": "3.1.2",
 		"@types/d3-drag": "3.0.7",
 		"@types/d3-force": "3.0.10",
