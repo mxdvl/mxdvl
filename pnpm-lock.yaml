@@ -92,8 +92,8 @@ importers:
         specifier: 4.2.19
         version: 4.2.19
       svelte-check:
-        specifier: 4.0.3
-        version: 4.0.3(svelte@4.2.19)(typescript@5.6.2)
+        specifier: 4.0.4
+        version: 4.0.4(svelte@4.2.19)(typescript@5.6.2)
       svelte-preprocess:
         specifier: 6.0.3
         version: 6.0.3(postcss-load-config@3.1.4(postcss@8.4.45)(ts-node@10.9.1(@types/node@20.16.10)(typescript@5.6.2)))(postcss@8.4.45)(svelte@4.2.19)(typescript@5.6.2)
@@ -1776,8 +1776,8 @@ packages:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
 
-  svelte-check@4.0.3:
-    resolution: {integrity: sha512-V2eqOEuNrPi1jGf307opR1JZ+ITP6/7R8ALKSw4Uw3NWp6GfA+fe7tYtEvZc7QHCavYKBizCK4JFwYjbuPCeXQ==}
+  svelte-check@4.0.4:
+    resolution: {integrity: sha512-AcHWIPuZb1mh/jKoIrww0ebBPpAvwWd1bfXCnwC2dx4OkydNMaiG//+Xnry91RJMHFH7CiE+6Y2p332DRIaOXQ==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
     peerDependencies:
@@ -2029,7 +2029,7 @@ snapshots:
   '@ampproject/remapping@2.2.1':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
-      '@jridgewell/trace-mapping': 0.3.18
+      '@jridgewell/trace-mapping': 0.3.25
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -3564,7 +3564,7 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  svelte-check@4.0.3(svelte@4.2.19)(typescript@5.6.2):
+  svelte-check@4.0.4(svelte@4.2.19)(typescript@5.6.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 4.0.1
