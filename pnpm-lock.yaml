@@ -98,8 +98,8 @@ importers:
         specifier: 6.0.3
         version: 6.0.3(postcss-load-config@3.1.4(postcss@8.4.45)(ts-node@10.9.1(@types/node@20.16.12)(typescript@5.6.3)))(postcss@8.4.45)(svelte@4.2.19)(typescript@5.6.3)
       svg-path-commander:
-        specifier: 2.1.1
-        version: 2.1.1
+        specifier: 2.1.2
+        version: 2.1.2
       typescript:
         specifier: 5.6.3
         version: 5.6.3
@@ -1844,8 +1844,8 @@ packages:
     resolution: {integrity: sha512-IY1rnGr6izd10B0A8LqsBfmlT5OILVuZ7XsI0vdGPEvuonFV7NYEUK4dAkm9Zg2q0Um92kYjTpS1CAP3Nh/KWw==}
     engines: {node: '>=16'}
 
-  svg-path-commander@2.1.1:
-    resolution: {integrity: sha512-caHTl28R6xdzKSEMeISPN4WNMpCgoWpF9Uq5lyfWs4ieO7vnftQcsuIM/ComolEEsvZB80Z+6RM9Wb3U94KYog==}
+  svg-path-commander@2.1.2:
+    resolution: {integrity: sha512-CKo5jTG7YXmZ7LxAqm0ZB5s2my+d9F65bCRidfdqMo5N6ecLhR/NHhqsUVnrzTJtaBDc2w0o1DkNtHiKYPL39w==}
     engines: {node: '>=16', pnpm: '>=8.6.0'}
 
   tar@6.1.12:
@@ -3622,7 +3622,7 @@ snapshots:
       magic-string: 0.30.10
       periscopic: 3.1.0
 
-  svg-path-commander@2.1.1:
+  svg-path-commander@2.1.2:
     dependencies:
       '@thednp/dommatrix': 2.0.8
 
