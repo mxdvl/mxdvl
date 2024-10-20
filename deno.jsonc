@@ -1,6 +1,6 @@
 {
 	"tasks": {
-		"dev": "deno run --watch -A --allow-net deno/mononykus.ts --watch",
+		"dev": "deno run --watch -A deno/mononykus.ts --watch",
 		"build": "rm -rf deno/static & deno task build:mononykus && mkdir -p deno/static & deno task build:icons && deno task build:media",
 		"build:assets": "deno run --allow-read --allow-write=deno/static deno/scripts/copy_assets.ts",
 		"build:icons": "deno run --allow-read --allow-write=cmps/build,deno/static --allow-net deno/scripts/process_icons.ts",
