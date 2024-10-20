@@ -12,8 +12,7 @@ const cwd = await Deno.realPath(cmps);
 
 await Deno.mkdir(`${cwd}/build`, { recursive: true });
 
-for await (const { name, path } of walk(cwd, { includeDirs: false, match: [/\.svg$/] })) {
-	if (path.includes("/build/")) continue;
+for await (const { name } of walk(cwd, { includeDirs: false, match: [/\.svg$/], maxDepth: 1 })) {
 	const start = performance.now();
 	let errors = 0;
 
