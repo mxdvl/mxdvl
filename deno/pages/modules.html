@@ -1,11 +1,11 @@
 <h1>Modules three way down</h1>
 
 <p>
-	This is an experiment with JS modules.
-	The dependency graph looks like below:
+	This is an experiment with JS modules. The dependency graph looks like below:
 </p>
 
-<pre>
+<pre
+>
            modules.html
          /      |      \
         /       |       \
@@ -13,7 +13,8 @@
                      \ /
                       |
                  vendor.js
-</pre>
+</pre
+>
 
 <ul>
 	<li depth="1"></li>
@@ -22,7 +23,7 @@
 </ul>
 
 <script type="module">
-	import { depth } from "./0-depth.js"
+	import { depth } from "./0-depth.js";
 
 	depth();
 

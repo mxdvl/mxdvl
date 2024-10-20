@@ -1,5 +1,4 @@
 import { DOMParser, Element, Node } from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
-import { Handler, serve } from "https://deno.land/std@0.193.0/http/server.ts";
 import { crypto } from "https://deno.land/std@0.193.0/crypto/mod.ts";
 import { typeByExtension } from "https://deno.land/std@0.193.0/media_types/type_by_extension.ts";
 import { isDynamic, manifest } from "./deps/manifest.ts";
@@ -174,7 +173,7 @@ const getDynamicFile = async (pathname: string, match?: string) => {
 	});
 };
 
-const handler: Handler = async ({ url, headers }) => {
+const handler: Deno.ServeHandler = async ({ url, headers }) => {
 	performance.clearMarks();
 	const { startTime: reqStartTime } = performance.mark("start");
 
@@ -218,4 +217,4 @@ const handler: Handler = async ({ url, headers }) => {
 	});
 };
 
-await serve(handler, { port });
+Deno.serve({ port }, handler);
