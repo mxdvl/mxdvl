@@ -20,7 +20,7 @@ export async function handler(request: Request) {
 		);
 	}
 
-	if (url.pathname.startsWith("/media/")) {
+	if (url.pathname.startsWith("/media/") || url.pathname.startsWith("/.well-known/")) {
 		const filepath = fromFileUrl(import.meta.resolve("." + url.pathname));
 		return serveFile(request, filepath);
 	}
