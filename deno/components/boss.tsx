@@ -1,4 +1,4 @@
-const shadows = [];
+const _shadows = [];
 
 const size = 3600;
 
@@ -6,7 +6,7 @@ const size = 3600;
 // <path d="M 42 -10 Q 42 -30 42 0 T 43 60 T 41 90 T 43 120 T 42 180 " />
 // <path d="M 72 -10 Q 72 -12 72 0 T 72 60 T 72 90 T 72 120 T 72 180 " />
 // <path d="M 99 -10 Q 99 -12 98 0 T 97 60 T 98 90 T 97 120 T 99 180 " />
-const horizontal = (
+const _horizontal = (
 	<path
 		transform="translate(900,1200)"
 		fill="none"
