@@ -12,7 +12,7 @@
 </noscript>
 
 <!-- TODO: make it work… -->
-<Bobbin />
+<!-- <Bobbin /> -->
 
 <article>
 	<h1>About <em>Bobbin</em></h1>
