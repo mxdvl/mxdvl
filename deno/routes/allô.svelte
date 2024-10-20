@@ -16,7 +16,7 @@
 </p>
 
 <p>
-	Je fabrique actuellement une <a href="https://www.hometrack.com/products/opportunity-insight/"
+	Je fabrique actuellement une <a href="https://www.hometrack.com/data-services/data-hub/"
 		>platforme web de données chez Hometrack</a
 	>. J’ai aussi contribué au <a href="https://www.theguardian.com/uk">site du Guardian</a>. Il est possible d’en voir
 	plus sur mon parcours professionel sur <a href="/profil">mon profil</a>.

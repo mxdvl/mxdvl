@@ -7,8 +7,6 @@
 		"build:styles": "deno run --allow-read=. --allow-write --allow-net deno/styles/styles.css.ts",
 		"build:media": "deno run --allow-read=deno/media,build/media --allow-write=build deno/media.ts",
 		"build:mononykus": "deno run -A deno/mononykus.ts",
-		// Annoyingly, this does not work when invoked via the tasks…
-		"fmt:svelte": "npx prettier --config dotcom/.prettierrc --write deno/**/*.svelte",
 		"serve": "deno run --allow-read --allow-net deno/server.ts"
 	},
 	"compilerOptions": {

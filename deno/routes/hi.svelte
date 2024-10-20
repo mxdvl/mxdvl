@@ -17,7 +17,7 @@
 </p>
 
 <p>
-	Currently building a <a href="https://www.hometrack.com/products/opportunity-insight/"
+	Currently building a <a href="https://www.hometrack.com/data-services/data-hub/"
 		>web data hub at Hometrack</a
 	>. Previously contributed to
 	<a href="https://www.theguardian.com/uk">the Guardian’s website</a>. You can read more about my professional
