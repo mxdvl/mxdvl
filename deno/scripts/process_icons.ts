@@ -14,23 +14,22 @@ await Deno.mkdir(`${cwd}/build`, { recursive: true });
 
 for await (const { name } of walk(cwd, { includeDirs: false, match: [/\.svg$/], maxDepth: 1 })) {
 	const start = performance.now();
-	let errors = 0;
+	const errors: string[] = [];
 
 	const svg = await Deno.readTextFile(`${cwd}/${name}`);
 	const png = await render(svg);
 
-	await Deno.writeFile(`${cwd}/build/${name.replace(".svg", ".png")}`, png);
+	await Deno.writeFile(`${cwd}/build/${name.replace(".svg", ".png")}`, png)
+		.catch((error) => errors.push(error instanceof Error ? error.message : String(error)));
 
 	if (name === "cmps.svg") {
-		errors += await generate_favicon(`${cwd}/build/favicon.ico`, png)
-			.then(() => 0)
-			// __dirname is not defined
-			.catch(() => 1);
+		await generate_favicon(`${cwd}/build/favicon.ico`, png)
+			.catch((error) => errors.push(error instanceof Error ? error.message : String(error)));
 	}
 
-	const status = errors === 0 ? green("○") : red("×");
+	const status = errors.length === 0 ? green("○") : red("×");
 
-	console.info(status, cyan(name), "\t in", Math.ceil(performance.now() - start), "ms");
+	console.info(status, cyan(name), "\t in", Math.ceil(performance.now() - start), "ms", "\t", errors.join(","));
 }
 
 await copy(`${cwd}/build`, new URL("../static", import.meta.url), {
