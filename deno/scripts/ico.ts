@@ -1,5 +1,5 @@
 import { render } from "resvg";
-import { ImageMagick, IMagickImage, initializeImageMagick, MagickFormat } from "image-magick";
+import { ImageMagick, IMagickImage, initialize as initialise, MagickFormat } from "image-magick";
 
 // Heavily inspired by https://github.com/itgalaxy/favicons/blob/3d200b6e8b9f84adc321a7302b9e7bbb2c7c9103/src/ico.ts#L1
 
@@ -55,13 +55,12 @@ const resize = (image: IMagickImage, size: number) =>
 	new Promise<readonly [directory: Uint8Array, image: Uint8Array]>((resolve) => {
 		image.clone((cloned) => {
 			cloned.resize(size, size);
-			cloned.format = MagickFormat.Ico;
-			cloned.write((data) => {
+			cloned.write(MagickFormat.Ico, (data) => {
 				resolve([
 					data.slice(HEADER_SIZE, HEADER_SIZE + DIRECTORY_SIZE),
 					data.slice(HEADER_SIZE + DIRECTORY_SIZE),
 				]);
-			}, MagickFormat.Ico);
+			});
 		});
 	});
 
@@ -75,7 +74,7 @@ const resize = (image: IMagickImage, size: number) =>
  * deno run -A ./ico.ts input.svg output.ico
  */
 export const generate_favicon = async (path: string, data: Uint8Array) => {
-	await initializeImageMagick();
+	await initialise();
 
 	ImageMagick.read(data, async (image) => {
 		const sizes = [16, 32, 64, 128] as const;
