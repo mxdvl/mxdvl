@@ -1,4 +1,3 @@
-import { copy } from "https://deno.land/std@0.193.0/fs/copy.ts";
 import { cyan, green, red } from "https://deno.land/std@0.193.0/fmt/colors.ts";
 import { walk } from "jsr:@std/fs";
 import { render } from "resvg";
