@@ -1,10 +1,10 @@
-import { ensureDir } from "jsr:@std/fs/ensure-dir";
-import { copy } from "jsr:@std/fs/copy";
+import { copy, ensureDir } from "jsr:@std/fs";
+import { dirname, fromFileUrl, resolve } from "jsr:@std/path";
 
-const base = import.meta.url;
+const dir = dirname(fromFileUrl(import.meta.url));
 
-const media = new URL("../build/media/", base);
+const media = resolve(dir, "..", "build", "media");
 
 await ensureDir(media);
 
-copy(new URL("./media", base), media, { overwrite: true });
+await copy(resolve(dir, "media"), media, { overwrite: true });

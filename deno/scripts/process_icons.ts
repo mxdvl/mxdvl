@@ -18,13 +18,18 @@ await Deno.mkdir(build, { recursive: true });
 const files = walk(cmps, { includeDirs: false, match: [/\.svg$/], maxDepth: 1 });
 const processor = pooledMap(6, files, ({ name }) => process(name));
 let count = 0;
+/** the code to exit with */
+let code = 0;
 for await (const { errors, name } of processor) {
 	const status = errors.length === 0 ? green("○") : red("×");
 	console.info(status, cyan(name), "\t", errors.join(","));
 	count++;
+	code += errors.length;
 }
 
 console.log("took", Math.ceil(performance.now() - start), "ms for", count, "icons");
+
+Deno.exit(code);
 
 /** convert an SVG file to PNG and ICO as necessary */
 async function process(name: string) {
