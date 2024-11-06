@@ -1,32 +1,47 @@
-import { cyan, green, red } from "https://deno.land/std@0.193.0/fmt/colors.ts";
+import { cyan, green, red } from "jsr:@std/fmt/colors";
 import { walk } from "jsr:@std/fs";
-import { render } from "resvg";
+import { Resvg } from "npm:@resvg/resvg-js";
 import { generate_favicon } from "./ico.ts";
-import { fromFileUrl } from "jsr:@std/path";
+import { dirname, fromFileUrl, resolve } from "jsr:@std/path";
+import { pooledMap } from "jsr:@std/async";
 
 console.log("Generating all favicons");
+const start = performance.now();
 
-const cmps = fromFileUrl(new URL("../../cmps", import.meta.url));
-const build = fromFileUrl(new URL("../../build", import.meta.url));
+const directory = dirname(fromFileUrl(import.meta.url));
+
+const cmps = resolve(directory, "..", "..", "cmps");
+const build = resolve(directory, "..", "..", "build");
 
 await Deno.mkdir(build, { recursive: true });
 
-for await (const { name } of walk(cmps, { includeDirs: false, match: [/\.svg$/], maxDepth: 1 })) {
-	const start = performance.now();
+const files = walk(cmps, { includeDirs: false, match: [/\.svg$/], maxDepth: 1 });
+const processor = pooledMap(6, files, ({ name }) => process(name));
+let count = 0;
+for await (const { errors, name } of processor) {
+	const status = errors.length === 0 ? green("○") : red("×");
+	console.info(status, cyan(name), "\t", errors.join(","));
+	count++;
+}
+
+console.log("took", Math.ceil(performance.now() - start), "ms for", count, "icons");
+
+/** convert an SVG file to PNG and ICO as necessary */
+async function process(name: string) {
 	const errors: string[] = [];
 
 	const svg = await Deno.readTextFile(`${cmps}/${name}`);
-	const png = await render(svg);
+	const resvg = new Resvg(svg, { font: { loadSystemFonts: false } });
+
+	const png = resvg.render().asPng();
 
 	await Deno.writeFile(`${build}/${name.replace(".svg", ".png")}`, png)
-		.catch((error) => errors.push(error instanceof Error ? error.message : String(error)));
+		.catch((error) => errors.push(String(error)));
 
 	if (name === "cmps.svg") {
 		await generate_favicon(`${build}/favicon.ico`, png)
-			.catch((error) => errors.push(error instanceof Error ? error.message : String(error)));
+			.catch((error) => errors.push(String(error)));
 	}
 
-	const status = errors.length === 0 ? green("○") : red("×");
-
-	console.info(status, cyan(name), "\t in", Math.ceil(performance.now() - start), "ms", "\t", errors.join(","));
+	return { name, errors };
 }

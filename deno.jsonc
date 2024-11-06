@@ -1,9 +1,9 @@
 {
 	"tasks": {
 		"dev": "deno run --watch -A deno/mononykus.ts --watch",
-		"build": "rm -rf deno/static & deno task build:mononykus && mkdir -p deno/static & deno task build:icons && deno task build:media",
+		"build": "rm -rf deno/static && deno task build:mononykus && mkdir -p deno/static && deno task build:icons && deno task build:media",
 		"build:assets": "deno run --allow-read --allow-write=deno/static deno/scripts/copy_assets.ts",
-		"build:icons": "deno run --allow-read --allow-write=build --allow-net deno/scripts/process_icons.ts",
+		"build:icons": "deno run --allow-read --allow-write=build --allow-net --allow-ffi --allow-sys deno/scripts/process_icons.ts",
 		"build:styles": "deno run --allow-read=. --allow-write --allow-net deno/styles/styles.css.ts",
 		"build:media": "deno run --allow-read=deno/media,build/media --allow-write=build deno/media.ts",
 		"build:mononykus": "deno run -A deno/mononykus.ts",
