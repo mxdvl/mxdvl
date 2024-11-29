@@ -1,8 +1,8 @@
-<script>
+<script context="module">
 	import Layout from "../../components/aoc/Layout.svelte";
 
-	const year = 2024;
-	const days = /** @type {const} */ (
+	export const year = 2024;
+	export const days = /** @type {const} */ (
 		[
 			// all them days…
 		]

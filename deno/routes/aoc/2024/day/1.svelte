@@ -1,11 +1,9 @@
 <script>
-	let input = ``;
-
-
+	import Layout from "../../../../components/aoc/Layout.svelte";
+	import Solution from "../../../../components/aoc/Solution-2024-01.island.svelte";
+	import { year, days } from "../../2024.svelte";
 </script>
 
-<textarea rows="7" bind:value={input}></textarea>
-
-
-<style>
-</style>
+<Layout {year} {days}>
+	<Solution />
+</Layout>
