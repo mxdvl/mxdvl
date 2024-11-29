@@ -18,7 +18,6 @@
 		const difference = Math.round(
 			(new Date("2024-12-01T05:00:00Z").getTime() - epoch) / 1000,
 		);
-		console.log(difference);
 		const seconds = difference % 60;
 		const minutes = Math.floor(difference / 60 % 60);
 		const hours = Math.floor(difference / 3600);
