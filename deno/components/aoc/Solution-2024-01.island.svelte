@@ -1,31 +1,69 @@
 <script>
-	import { onMount } from "svelte";
+	let input = $state('');
 
-	let input = `Nothing to see here yet!`;
+	let part = $state('two');
 
-	let now = Date.now();
+	let lists = $derived.by(() => {
+		const lists = [[], []];
 
-	/** @type {number} */
-	let interval;
-	onMount(() => {
-		interval = setInterval(() => (now = Date.now()), 1000);
+    for (let line of input.split('\n')) {
+    	const [left, right] = line.split('   ').map(Number)
+			lists[0].push(left)
+			lists[1].push(right)
+    }
 
-		return () => clearInterval(interval);
+		for (let list of lists) { list.sort(); }
+
+		return lists;
 	});
 
-	/** @param {number} epoch */
-	function formattedTime(epoch) {
-		const difference = Math.round(
-			(new Date("2024-12-01T05:00:00Z").getTime() - epoch) / 1000,
-		);
-		const seconds = difference % 60;
-		const minutes = Math.floor(difference / 60 % 60);
-		const hours = Math.floor(difference / 3600);
+	let part_one = $derived.by(() => {
+		let distance = 0;
 
-		return [hours, minutes, seconds].join(":");
-	}
+		for (let index = 0; index < lists[0].length; index++) {
+			distance += Math.abs(lists[0][index] - lists[1][index]);
+		}
+
+		return distance;
+	});
+
+	let part_two = $derived.by(() => {
+		let similarity = 0;
+		for (let left of lists[0]) {
+			const count = lists[1].filter(right => right === left).length;
+			similarity += left * count;
+		}
+		return similarity;
+	});
 </script>
 
-<textarea rows="7" bind:value={input}></textarea>
+<textarea>{input}</textarea>
 
-{formattedTime(now)} before puzzle launch…
+<details open={part === "one"}>
+	<summary>Part 1</summary>
+	<p>{part_one}</p>
+	<ol>
+	{#each lists[0] as left, index}
+		{@const right = lists[1][index]}
+		<li>{left} – {right} : {Math.abs(left - right)}</li>
+	{/each}
+	</ol>
+</details>
+
+<details open={part === "two"}>
+	<summary>Part 2</summary>
+	<p>{part_two}</p>
+	<ol>
+		{#each lists[0] as left}
+			{@const count = lists[1].filter(right => right === left).length}
+			<li class:some={count > 0}>{left} &times; {count}  = {left * count}</li>
+		{/each}
+	</ol>
+</details>
+
+<style>
+	.some {
+		color: tomato;
+		font-weight: bold;
+	}
+</style>
