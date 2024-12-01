@@ -5,12 +5,18 @@
 	export const days = /** @type {const} */ (
 		[
 			// all them days…
+			1,
 		]
 	);
 </script>
 
 <Layout {days} {year}>
+	<ul>
+	{#each days as day}
+		<li><a href="/aoc/2024/day/{day}">Day {String(day).padStart(2, '0')}</a></li>
+	{/each}
+	<ul>
 	<p>
-		Check back soon… or have <a href="/aoc/2023">a look at 2023</a>
+		Some of these will not work as it’s using Svelte 5 syntax… so <a href="/aoc/2023">have a look at 2023</a>.
 	</p>
 </Layout>

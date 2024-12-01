@@ -14,9 +14,8 @@
 	<menu>
 		Days:
 		{#each days as list_day}
-			{@const href = `/aoc/${year}/${list_day}`}
-			<li class:current={list_day === day}>
-				<a {href}>{String(list_day).replace("day/", "")}</a>
+			<li class:current={day === list_day}>
+				<a href="/aoc/{year}/day/{list_day}">{list_day}</a>
 			</li>
 		{/each}
 	</menu>
@@ -31,15 +30,15 @@
 				rel="noopener">day {day} input &nearrow;</a
 			>…
 		</p>
+		<p class="right">
+			See the <a
+				href="https://github.com/mxdvl/mxdvl/blob/main/deno/routes/aoc/{year}/day{day}.svelte"
+				>source code for this page</a
+			>.
+		</p>
 	{:else}
 		<p>Pick a day &UpDownArrow; above or below</p>
 	{/if}
-	<p class="right">
-		See the <a
-			href="https://github.com/mxdvl/mxdvl/blob/main/deno/routes/aoc/{year}/day{day}.svelte"
-			>source code for this page</a
-		>.
-	</p>
 </header>
 
 <slot />
