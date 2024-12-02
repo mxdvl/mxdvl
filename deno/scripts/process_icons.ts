@@ -4,6 +4,7 @@ import { Resvg } from "npm:@resvg/resvg-js";
 import { generate_favicon } from "./ico.ts";
 import { dirname, fromFileUrl, resolve } from "jsr:@std/path";
 import { pooledMap } from "jsr:@std/async";
+import { ensureDir } from "jsr:@std/fs/ensure-dir";
 
 console.log("Generating all favicons");
 const start = performance.now();
@@ -13,7 +14,7 @@ const directory = dirname(fromFileUrl(import.meta.url));
 const cmps = resolve(directory, "..", "..", "cmps");
 const build = resolve(directory, "..", "..", "build");
 
-await Deno.mkdir(build, { recursive: true });
+await ensureDir(build);
 
 const files = walk(cmps, { includeDirs: false, match: [/\.svg$/], maxDepth: 1 });
 const processor = pooledMap(6, files, ({ name }) => process(name));
