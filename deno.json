@@ -1,0 +1,35 @@
+{
+	"tasks": {
+		"dev": "deno run --watch -A deno/mononykus.ts --watch",
+		"build": "deno task build:mononykus && deno task build:icons && deno task build:media",
+		"build:icons": "deno run --allow-read --allow-write=build --allow-net --allow-ffi --allow-sys deno/scripts/process_icons.ts",
+		"build:media": "deno run --allow-read=deno/media,build/media --allow-write=build/media deno/media.ts",
+		"build:mononykus": {
+			"command": "deno run -A deno/mononykus.ts",
+			"dependencies": ["clean"]
+		},
+		"clean": "rm -rf build",
+		"serve": {
+			"command": "deno run --allow-read --allow-net deno/server.ts",
+			"dependencies": ["build"]
+		}
+	},
+	"compilerOptions": {
+		"lib": ["deno.ns", "dom", "dom.asynciterable"],
+		"checkJs": true,
+		"useUnknownInCatchVariables": true,
+		"noUncheckedIndexedAccess": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "preact"
+	},
+	"importMap": "deno/import-map.json",
+	"fmt": {
+		"include": ["deno", "deno.json", ".zed"],
+		"lineWidth": 120,
+		"indentWidth": 4,
+		"useTabs": true
+	},
+	"lint": {
+		"include": ["deno", "deno.json"]
+	}
+}
