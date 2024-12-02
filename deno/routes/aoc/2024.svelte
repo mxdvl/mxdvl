@@ -6,6 +6,7 @@
 		[
 			// all them days…
 			1,
+			2,
 		]
 	);
 </script>

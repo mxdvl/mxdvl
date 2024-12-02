@@ -1,9 +1,9 @@
 <script>
 	import Layout from "../../../../components/aoc/Layout.svelte";
-	import Solution from "../../../../components/aoc/Solution-2024-01.island.svelte";
+	import Solution from "../../../../components/aoc/Solution-2024-02.island.svelte";
 	import { year, days } from "../../2024.svelte";
 </script>
 
-<Layout {year} {days} day={1}>
+<Layout {year} {days} day={2}>
 	<Solution />
 </Layout>
