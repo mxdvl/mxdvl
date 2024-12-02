@@ -96,4 +96,8 @@
 		color: forestgreen;
 		font-weight: bold;
 	}
+
+	ol {
+		padding-left: 6ch;
+	}
 </style>
