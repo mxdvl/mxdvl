@@ -1,4 +1,6 @@
 <script>
+	/** @typedef {`${number},${number}`} Coordinates */
+
 	let input = `MMMSXXMASM
 MSAMXMSMSA
 AMXSXMAAMM
@@ -10,201 +12,171 @@ SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX`;
 
+	let debug = false;
+
 	let part = "two";
 
-	const word = "XMAS";
+	/** @type {ReadonlyMap<Coordinates, 'X' | 'M' | 'A' | 'S'>} */
+	$: map = new Map(
+		input
+			.split("\n")
+			.flatMap((line, y) =>
+				line.split("").map((letter, x) => [`${x},${y}`, letter]),
+			),
+	);
 
 	const directions = /** @type {const} */ ([
-		"→",
-		"←",
-		"↑",
-		"↓",
-		"↖",
-		"↗",
-		"↘",
-		"↙",
+		{ direction: "→", dx: 1, dy: 0 },
+		{ direction: "←", dx: -1, dy: 0 },
+		{ direction: "↑", dx: 0, dy: -1 },
+		{ direction: "↓", dx: 0, dy: 1 },
+		{ direction: "↖", dx: -1, dy: -1 },
+		{ direction: "↗", dx: 1, dy: -1 },
+		{ direction: "↘", dx: 1, dy: 1 },
+		{ direction: "↙", dx: -1, dy: 1 },
 	]);
 
 	$: matches = input.split("\n").reduce((accumulator, line, y) => {
-		const at = get_letter(input);
 		for (let [x, letter] of line.split("").entries()) {
 			if (letter !== "X") {
 				continue;
 			}
-			for (const direction of directions) {
-				switch (direction) {
-					case "→": {
-						if (
-							at(x + 1, y) === "M" &&
-							at(x + 2, y) === "A" &&
-							at(x + 3, y) === "S"
-						) {
-							accumulator.push({ x, y, direction });
-						}
-						continue;
-					}
-					case "←": {
-						if (
-							at(x - 1, y) === "M" &&
-							at(x - 2, y) === "A" &&
-							at(x - 3, y) === "S"
-						) {
-							accumulator.push({ x, y, direction });
-						}
-						continue;
-					}
-					case "↑": {
-						if (
-							at(x, y - 1) === "M" &&
-							at(x, y - 2) === "A" &&
-							at(x, y - 3) === "S"
-						) {
-							accumulator.push({ x, y, direction });
-						}
-						continue;
-					}
-					case "↓": {
-						if (
-							at(x, y + 1) === "M" &&
-							at(x, y + 2) === "A" &&
-							at(x, y + 3) === "S"
-						) {
-							accumulator.push({ x, y, direction });
-						}
-						continue;
-					}
-					case "↖": {
-						if (
-							at(x - 1, y - 1) === "M" &&
-							at(x - 2, y - 2) === "A" &&
-							at(x - 3, y - 3) === "S"
-						) {
-							accumulator.push({ x, y, direction });
-						}
-						continue;
-					}
-					case "↗": {
-						if (
-							at(x + 1, y - 1) === "M" &&
-							at(x + 2, y - 2) === "A" &&
-							at(x + 3, y - 3) === "S"
-						) {
-							accumulator.push({ x, y, direction });
-						}
-						continue;
-					}
-					case "↘": {
-						if (
-							at(x + 1, y + 1) === "M" &&
-							at(x + 2, y + 2) === "A" &&
-							at(x + 3, y + 3) === "S"
-						) {
-							accumulator.push({ x, y, direction });
-						}
-						continue;
-					}
-					case "↙": {
-						if (
-							at(x - 1, y + 1) === "M" &&
-							at(x - 2, y + 2) === "A" &&
-							at(x - 3, y + 3) === "S"
-						) {
-							accumulator.push({ x, y, direction });
-						}
-						continue;
-					}
+			for (const { direction, dx, dy } of directions) {
+				const first = `${x},${y}`;
+				const second = `${x + dx * 1},${y + dy * 1}`;
+				const third = `${x + dx * 2},${y + dy * 2}`;
+				const fourth = `${x + dx * 3},${y + dy * 3}`;
+				if (
+					map.get(second) === "M" &&
+					map.get(third) === "A" &&
+					map.get(fourth) === "S"
+				) {
+					accumulator.set(first, {
+						directions:
+							accumulator.get(first)?.directions.add(direction) ??
+							new Set(direction),
+						letter: "X",
+					});
+					accumulator.set(second, {
+						directions:
+							accumulator
+								.get(second)
+								?.directions.add(direction) ??
+							new Set(direction),
+						letter: "MAS",
+					});
+					accumulator.set(third, {
+						directions:
+							accumulator.get(third)?.directions.add(direction) ??
+							new Set(direction),
+						letter: "MAS",
+					});
+					accumulator.set(fourth, {
+						directions:
+							accumulator
+								.get(fourth)
+								?.directions.add(direction) ??
+							new Set(direction),
+						letter: "MAS",
+					});
 				}
 			}
 		}
 		return accumulator;
-	}, /** @type {Array<{x: number, y: number, direction: typeof directions[number]}>} */ ([]));
+	}, /** @type {Map<Coordinates, { letter: 'X' | 'MAS', directions: Set<typeof directions[number]['direction']>}>} */ (new Map()));
 
 	$: crosses = input.split("\n").reduce((accumulator, line, y) => {
-		const at = get_letter(input);
 		for (let [x, letter] of line.split("").entries()) {
 			if (letter !== "A") {
 				continue;
 			}
-			const up_right = [at(x - 1, y + 1), at(x + 1, y - 1)]
+
+			const up_right = [
+				map.get(`${x - 1},${y + 1}`),
+				map.get(`${x + 1},${y - 1}`),
+			]
 				.sort()
 				.join("A");
-			const down_right = [at(x - 1, y - 1), at(x + 1, y + 1)]
+
+			const down_right = [
+				map.get(`${x - 1},${y - 1}`),
+				map.get(`${x + 1},${y + 1}`),
+			]
 				.sort()
 				.join("A");
 
 			if (up_right === "MAS" && down_right === "MAS") {
-				accumulator.push({ x, y });
+				accumulator.set(`${x},${y}`, "A");
+				accumulator.set(`${x - 1},${y - 1}`, "MS");
+				accumulator.set(`${x + 1},${y - 1}`, "MS");
+				accumulator.set(`${x + 1},${y + 1}`, "MS");
+				accumulator.set(`${x - 1},${y + 1}`, "MS");
 			}
 		}
 		return accumulator;
-	}, /** @type {Array<{x: number, y: number}>} */ ([]));
-
-	/**
-	 * @param {string} input
-	 * @returns {(x: number, y: number) => string} position
-	 */
-	function get_letter(input) {
-		const width = input.indexOf("\n") + 1;
-		return function (x, y) {
-			if (x < 0 || x >= width - 1 || y < 0) {
-				return "<";
-			}
-			return input[x + y * width] ?? ">";
-		};
-	}
+	}, /** @type {Map<Coordinates, 'A' | 'MS'>} */ (new Map()));
 </script>
 
 <textarea rows="7" bind:value={input}></textarea>
 
+<label>
+	<input type="checkbox" bind:checked={debug} /> debug
+</label>
+
 <details open={part === "one"}>
-	<summary>Part 1 – {matches.length}</summary>
+	<summary
+		>Part 1 – {[...matches.values()].reduce(
+			(accumulator, { letter, directions }) =>
+				letter === "X" ? accumulator + directions.size : accumulator,
+			0,
+		)}</summary
+	>
 
 	<div
 		class="grid"
 		style="grid-template-columns: repeat({input.indexOf('\n')},1ch);"
 	>
-		{#each input.split("\n") as line, y}
-			{#each line.split("") as character, x}
-				<span
-					{x}
-					{y}
-					class:green={matches.some(
-						(match) => match.x === x && match.y === y,
-					)}>{character}</span
-				>
-			{/each}
+		{#each map as [coordinates, letter]}
+			{@const match = matches.get(coordinates)}
+			<span
+				class:red={match?.letter === "MAS"}
+				class:green={match?.letter === "X"}>{letter}</span
+			>
 		{/each}
 	</div>
 
-	<ol>
-		{#each matches as { x, y, direction }}
-			<li>{x},{y} {direction}</li>
-		{/each}
-	</ol>
+	{#if debug}
+		<ol>
+			{#each matches as [coordinates, { directions, letter }]}
+				{#if letter === "X"}
+					<li>
+						{coordinates}
+						<span class="green">
+							{letter}
+						</span>
+						{[...directions].join("")}
+					</li>
+				{/if}
+			{/each}
+		</ol>
+	{/if}
 </details>
 
 <details open={part === "two"}>
-	<summary>Part 2 – {crosses.length}</summary>
+	<summary
+		>Part 2 – {[...crosses.values()].filter((letter) => letter === "A")
+			.length}</summary
+	>
 
 	<div
 		class="grid"
 		style="grid-template-columns: repeat({input.indexOf('\n')},1ch);"
 	>
-		{#each input.split("\n") as line, y}
-			{#each line.split("") as character, x}
-				<span
-					{x}
-					{y}
-					class:green={crosses.some(
-						(match) =>
-							Math.abs(match.x - x) === 1 &&
-							Math.abs(match.y - y) === 1,
-					)}
-					class:red={crosses.some(
-						(match) => match.x === x && match.y === y,
-					)}>{character}</span
-				>
-			{/each}
+		{#each map as [coordinates, letter]}
+			{@const match = crosses.get(coordinates)}
+			<span class:green={match === "MS"} class:red={match === "A"}
+				>{letter}</span
+			>
 		{/each}
 	</div>
 </details>
@@ -223,7 +195,7 @@ MXMXAXMASX`;
 	}
 
 	span:not(.green, .red) {
-		opacity: 0.24;
+		font-weight: 100;
 	}
 
 	.green,
