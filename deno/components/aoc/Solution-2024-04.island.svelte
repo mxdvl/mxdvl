@@ -195,6 +195,11 @@ MXMXAXMASX`;
 				<span
 					{x}
 					{y}
+					class:green={crosses.some(
+						(match) =>
+							Math.abs(match.x - x) === 1 &&
+							Math.abs(match.y - y) === 1,
+					)}
 					class:red={crosses.some(
 						(match) => match.x === x && match.y === y,
 					)}>{character}</span
@@ -210,11 +215,20 @@ MXMXAXMASX`;
 	}
 
 	.green {
-		color: forestgreen;
+		color: var(--green);
 	}
 
 	.red {
-		color: firebrick;
+		color: var(--red);
+	}
+
+	span:not(.green, .red) {
+		opacity: 0.24;
+	}
+
+	.green,
+	.red {
+		font-weight: bold;
 	}
 
 	ol {
