@@ -10,7 +10,7 @@ SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX`;
 
-	let part = "one";
+	let part = "two";
 
 	const word = "XMAS";
 
@@ -119,6 +119,26 @@ MXMXAXMASX`;
 		return accumulator;
 	}, /** @type {Array<{x: number, y: number, direction: typeof directions[number]}>} */ ([]));
 
+	$: crosses = input.split("\n").reduce((accumulator, line, y) => {
+		const at = get_letter(input);
+		for (let [x, letter] of line.split("").entries()) {
+			if (letter !== "A") {
+				continue;
+			}
+			const up_right = [at(x - 1, y + 1), at(x + 1, y - 1)]
+				.sort()
+				.join("A");
+			const down_right = [at(x - 1, y - 1), at(x + 1, y + 1)]
+				.sort()
+				.join("A");
+
+			if (up_right === "MAS" && down_right === "MAS") {
+				accumulator.push({ x, y });
+			}
+		}
+		return accumulator;
+	}, /** @type {Array<{x: number, y: number}>} */ ([]));
+
 	/**
 	 * @param {string} input
 	 * @returns {(x: number, y: number) => string} position
@@ -139,7 +159,10 @@ MXMXAXMASX`;
 <details open={part === "one"}>
 	<summary>Part 1 – {matches.length}</summary>
 
-	<div class="grid" style="grid-template-columns: repeat({input.indexOf("\n")},1ch);">
+	<div
+		class="grid"
+		style="grid-template-columns: repeat({input.indexOf('\n')},1ch);"
+	>
 		{#each input.split("\n") as line, y}
 			{#each line.split("") as character, x}
 				<span
@@ -150,7 +173,6 @@ MXMXAXMASX`;
 					)}>{character}</span
 				>
 			{/each}
-
 		{/each}
 	</div>
 
@@ -162,7 +184,24 @@ MXMXAXMASX`;
 </details>
 
 <details open={part === "two"}>
-	<summary>Part 2 – ???</summary>
+	<summary>Part 2 – {crosses.length}</summary>
+
+	<div
+		class="grid"
+		style="grid-template-columns: repeat({input.indexOf('\n')},1ch);"
+	>
+		{#each input.split("\n") as line, y}
+			{#each line.split("") as character, x}
+				<span
+					{x}
+					{y}
+					class:red={crosses.some(
+						(match) => match.x === x && match.y === y,
+					)}>{character}</span
+				>
+			{/each}
+		{/each}
+	</div>
 </details>
 
 <style>
