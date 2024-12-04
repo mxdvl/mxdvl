@@ -1,4 +1,5 @@
 <script>
+	import { create_map, parse_coordinates } from "./helpers";
 	/** @typedef {`${number},${number}`} Coordinates */
 
 	let input = `MMMSXXMASM
@@ -16,14 +17,7 @@ MXMXAXMASX`;
 
 	let part = "two";
 
-	/** @type {ReadonlyMap<Coordinates, 'X' | 'M' | 'A' | 'S'>} */
-	$: map = new Map(
-		input
-			.split("\n")
-			.flatMap((line, y) =>
-				line.split("").map((letter, x) => [`${x},${y}`, letter]),
-			),
-	);
+	$: map = create_map(input);
 
 	const directions = /** @type {const} */ ([
 		{ direction: "→", dx: 1, dy: 0 },
@@ -36,11 +30,13 @@ MXMXAXMASX`;
 		{ direction: "↙", dx: -1, dy: 1 },
 	]);
 
-	$: matches = input.split("\n").reduce((accumulator, line, y) => {
-		for (let [x, letter] of line.split("").entries()) {
+	$: matches = [...map].reduce(
+		(accumulator, [coordinates, letter]) => {
 			if (letter !== "X") {
-				continue;
+				return accumulator;
 			}
+			const { x, y } = parse_coordinates(coordinates);
+
 			for (const { direction, dx, dy } of directions) {
 				const first = `${x},${y}`;
 				const second = `${x + dx * 1},${y + dy * 1}`;
@@ -81,38 +77,42 @@ MXMXAXMASX`;
 					});
 				}
 			}
+
+			return accumulator;
+		},
+		/** @type {Map<Coordinates, { letter: 'X' | 'MAS', directions: Set<typeof directions[number]['direction']>}>} */ (
+			new Map()
+		),
+	);
+
+	$: crosses = [...map].reduce((accumulator, [coordinates, letter]) => {
+		if (letter !== "A") {
+			return accumulator;
 		}
-		return accumulator;
-	}, /** @type {Map<Coordinates, { letter: 'X' | 'MAS', directions: Set<typeof directions[number]['direction']>}>} */ (new Map()));
+		const { x, y } = parse_coordinates(coordinates);
 
-	$: crosses = input.split("\n").reduce((accumulator, line, y) => {
-		for (let [x, letter] of line.split("").entries()) {
-			if (letter !== "A") {
-				continue;
-			}
+		const up_right = [
+			map.get(`${x - 1},${y + 1}`),
+			map.get(`${x + 1},${y - 1}`),
+		]
+			.sort()
+			.join("A");
 
-			const up_right = [
-				map.get(`${x - 1},${y + 1}`),
-				map.get(`${x + 1},${y - 1}`),
-			]
-				.sort()
-				.join("A");
+		const down_right = [
+			map.get(`${x - 1},${y - 1}`),
+			map.get(`${x + 1},${y + 1}`),
+		]
+			.sort()
+			.join("A");
 
-			const down_right = [
-				map.get(`${x - 1},${y - 1}`),
-				map.get(`${x + 1},${y + 1}`),
-			]
-				.sort()
-				.join("A");
-
-			if (up_right === "MAS" && down_right === "MAS") {
-				accumulator.set(`${x},${y}`, "A");
-				accumulator.set(`${x - 1},${y - 1}`, "MS");
-				accumulator.set(`${x + 1},${y - 1}`, "MS");
-				accumulator.set(`${x + 1},${y + 1}`, "MS");
-				accumulator.set(`${x - 1},${y + 1}`, "MS");
-			}
+		if (up_right === "MAS" && down_right === "MAS") {
+			accumulator.set(`${x},${y}`, "A");
+			accumulator.set(`${x - 1},${y - 1}`, "MS");
+			accumulator.set(`${x + 1},${y - 1}`, "MS");
+			accumulator.set(`${x + 1},${y + 1}`, "MS");
+			accumulator.set(`${x - 1},${y + 1}`, "MS");
 		}
+
 		return accumulator;
 	}, /** @type {Map<Coordinates, 'A' | 'MS'>} */ (new Map()));
 </script>
