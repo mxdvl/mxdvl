@@ -1,5 +1,5 @@
 <script>
-	import { create_map, parse_coordinates } from "./helpers";
+	import { create_map, parse_coordinates } from "./helpers.js";
 	/** @typedef {`${number},${number}`} Coordinates */
 
 	let input = `MMMSXXMASM
@@ -140,7 +140,7 @@ MXMXAXMASX`;
 			{@const match = matches.get(coordinates)}
 			<span
 				class:red={match?.letter === "MAS"}
-				class:green={match?.letter === "X"}>{letter}</span
+				class:green={match?.letter === "X"}>{match ? letter : '·'}</span
 			>
 		{/each}
 	</div>
@@ -175,7 +175,7 @@ MXMXAXMASX`;
 		{#each map as [coordinates, letter]}
 			{@const match = crosses.get(coordinates)}
 			<span class:green={match === "MS"} class:red={match === "A"}
-				>{letter}</span
+				>{match ? letter : '·'}</span
 			>
 		{/each}
 	</div>
