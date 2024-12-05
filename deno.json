@@ -5,7 +5,7 @@
 		"build:icons": "deno run --allow-read --allow-write=build --allow-net --allow-ffi --allow-sys deno/scripts/process_icons.ts",
 		"build:media": "deno run --allow-read=deno/media,build/media --allow-write=build/media deno/media.ts",
 		"build:mononykus": {
-			"command": "deno run -A deno/mononykus.ts",
+			"command": "NODE_ENV=production deno run -A deno/mononykus.ts",
 			"dependencies": ["clean"]
 		},
 		"clean": "rm -rf build",
