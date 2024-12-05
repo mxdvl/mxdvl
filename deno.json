@@ -22,7 +22,6 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "preact"
 	},
-	"importMap": "deno/import-map.json",
 	"fmt": {
 		"include": ["deno", "deno.json", ".zed"],
 		"lineWidth": 120,
