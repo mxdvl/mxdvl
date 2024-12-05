@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from "svelte";
 	import Layout from "../components/Layout.svelte";
 	import Alternates from "../components/Alternates.svelte";
 	import Tracking from "../components/Tracking.island.svelte";
