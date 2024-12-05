@@ -1,5 +1,5 @@
-import { render } from "resvg";
-import { ImageMagick, IMagickImage, initialize as initialise, MagickFormat } from "image-magick";
+import { Resvg } from "npm:@resvg/resvg-js";
+import { ImageMagick, IMagickImage, initializeImageMagick, MagickFormat } from "npm:@imagemagick/magick-wasm@0.0.32";
 
 // Heavily inspired by https://github.com/itgalaxy/favicons/blob/3d200b6e8b9f84adc321a7302b9e7bbb2c7c9103/src/ico.ts#L1
 
@@ -74,7 +74,11 @@ const resize = (image: IMagickImage, size: number) =>
  * deno run -A ./ico.ts input.svg output.ico
  */
 export const generate_favicon = async (path: string, data: Uint8Array) => {
-	await initialise();
+	await initializeImageMagick(
+		new URL(
+			"https://cdn.jsdelivr.net/npm/@imagemagick/magick-wasm@0.0.32/dist/magick.wasm",
+		),
+	);
 
 	ImageMagick.read(data, async (image) => {
 		const sizes = [16, 32, 64, 128] as const;
@@ -109,6 +113,7 @@ if (import.meta.main) {
 	}
 
 	const svg = await Deno.readTextFile(input);
-	const png = await render(svg);
+	const resvg = new Resvg(svg, { font: { loadSystemFonts: false } });
+	const png = resvg.render().asPng();
 	generate_favicon(output, png);
 }

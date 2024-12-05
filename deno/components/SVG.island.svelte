@@ -2,13 +2,14 @@
 	import Button from "./Button.svelte";
 	import EditablePath from "./EditablePath.svelte";
 	import SVGPathCommander from "npm:svg-path-commander";
-	import { onMount } from "svelte";
 
 	/** @param {import('svg-path-commander').PathArray} segments */
-	const format = (segments) => segments.map((segment) => segment.join(" ")).join("\n");
+	function format(segments) {
+		return segments.map((segment) => segment.join(" ")).join("\n");
+	}
 
 	/** @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d */
-	let d =
+	let d = $state(
 		format([
 			["M", 30, 140],
 			["v", 40],
@@ -35,12 +36,13 @@
 			["l", 20, -20],
 			["l", -10, -10],
 			["l", 10, -20],
-		]);
+		]),
+	);
 
 	const size = 360;
 
 	/** @type {HTMLTextAreaElement | undefined} */
-	let textArea = undefined;
+	let textArea = $state(undefined);
 
 	/** @type {(path: string, method: 'relative' | 'absolute') => string} */
 	const formatPath = (path, method) => {
@@ -54,32 +56,46 @@
 		}
 	};
 
-	let selected = -1;
+	let selected = $state(-1);
 
-	$: disabled = !SVGPathCommander.isValidPath(d);
+	const disabled = $derived(!SVGPathCommander.isValidPath(d));
 
-	$: normalised = !disabled && (d === formatPath(d, "relative") || d === formatPath(d, "absolute"));
+	const normalised = $derived(
+		!disabled &&
+			(d === formatPath(d, "relative") ||
+				d === formatPath(d, "absolute")),
+	);
 
-	$: updateLine = () => {
+	function updateLine() {
 		if (!textArea) return;
 		if (!normalised) return;
 		selected = d.slice(0, textArea.selectionStart).split("\n").length - 1;
-	};
+	}
 
-	onMount(() => {
+	$effect(() => {
 		const params = new URLSearchParams(window.location.search);
 		const path = params.get("d");
 		if (!path) return;
 		if (!SVGPathCommander.isValidPath(path)) return;
 		d = path;
-		const s = parseInt(params.get("s") ?? '-1', 10);
-		if(s >= 0) selected = s;
+		const s = parseInt(params.get("s") ?? "-1", 10);
+		if (s >= 0) selected = s;
 	});
 </script>
 
-<svg viewBox={`0,0 ${size},${size}`} width={size} height={size} stroke="var(--earth)" stroke-width={2} fill="none">
+<svg
+	viewBox={`0,0 ${size},${size}`}
+	width={size}
+	height={size}
+	stroke="var(--earth)"
+	stroke-width={2}
+	fill="none"
+>
 	{#if !disabled}
-		<EditablePath normalisedSegments={SVGPathCommander.normalizePath(d)} bind:selected />
+		<EditablePath
+			normalisedSegments={SVGPathCommander.normalizePath(d)}
+			bind:selected
+		/>
 	{/if}
 </svg>
 
@@ -89,8 +105,10 @@
 	cols="30"
 	rows={Math.max(12, d.split("\n").length + 1)}
 	bind:value={d}
-	on:keyup={() => updateLine()}
-	on:click={() => updateLine()}
+	onkeyup={() => updateLine()}
+	onkeydown={() => updateLine()}
+	onkeypress={() => updateLine()}
+	onclick={() => updateLine()}
 	class:normalised
 	style={`background-position-y: calc(${selected} * var(--grid-y) + 0.25rem);`}
 ></textarea>
@@ -120,8 +138,8 @@
 
 {#if !normalised}
 	<p>
-		If you normalise & format the path, you can higlight a line in the text area and get the corresponding segment
-		higlighted
+		If you normalise & format the path, you can higlight a line in the text
+		area and get the corresponding segment higlighted
 	</p>
 {/if}
 
@@ -151,7 +169,11 @@
 	}
 
 	textarea.normalised {
-		background-image: linear-gradient(var(--skies), var(--skies) var(--grid-y), transparent var(--grid-y));
+		background-image: linear-gradient(
+			var(--skies),
+			var(--skies) var(--grid-y),
+			transparent var(--grid-y)
+		);
 	}
 
 	textarea:focus {
