@@ -17,7 +17,7 @@
 #.........
 ......#...`);
 
-	let part = $state("one");
+	let part = $state("two");
 
 	let { map, width, height, starting_position } = $derived.by(() => {
 		const map = create_map(input);
@@ -45,15 +45,23 @@
 	let part_one = $derived.by(() => {
 		let position = { ...starting_position };
 		let direction = "↑";
-		const visited = new Map([[format_coordinates(position), direction]]);
+		const visited = new Map([
+			[format_coordinates(position), new Set([direction])],
+		]);
 		while (
 			0 <= position.x &&
 			position.x <= width &&
 			0 <= position.y &&
 			position.y < height
 		) {
-			console.log(visited);
-			visited.set(format_coordinates(position), direction);
+			const coordinates = format_coordinates(position);
+			const directions = visited.get(coordinates) ?? new Set([direction]);
+			if(directions.has(direction)) {
+				// we’re going in a loop!
+				break;
+			}
+			directions.add(direction);
+			visited.set(coordinates, directions);
 			const [dx, dy] = {
 				"↑": [0, -1],
 				"→": [1, -0],
@@ -77,6 +85,36 @@
 		}
 		return { visited };
 	});
+
+	let part_two = $derived.by(() => {
+		const { visited } = part_one;
+		for (const [coordinates, directions] of visited) {
+			const { x, y } = parse_coordinates(coordinates);
+			if (x === starting_position.x && y === starting_position.y) {
+				continue;
+			}
+			for (const direction of directions) {
+				const [dx, dy] = {
+					"↑": [0, -1],
+					"→": [1, -0],
+					"↓": [-0, 1],
+					"←": [-1, 0],
+				}[direction];
+				const prev = visited.get(
+					format_coordinates({ x: x - dx, y: y - dy }),
+				);
+				if(!prev?.has(direction)) {
+					// we only check when adding a new obstactle in
+					// the direction we’re currently going
+					continue;
+				}
+				const adjusted_map = new Map(map);
+				adjusted_map.set(coordinates, '█');
+				// let’s see if turning now joins us back to a visited path
+				// …
+			}
+		}
+	});
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
@@ -91,21 +129,39 @@
 				{cell}
 			</li>
 		{/each}
-		{#each part_one.visited as [coordinates, direction]}
+		{#each part_one.visited as [coordinates, directions]}
 			{@const { x, y } = parse_coordinates(coordinates)}
 			{@const green =
 				x === starting_position.x && y === starting_position.y}
-			<li class:green style="grid-area:{y + 1}/{x + 1}">{direction}</li>
+			{@const [direction] = directions}
+			<li class:green style="grid-area:{y + 1}/{x + 1}">
+				{direction}
+			</li>
 		{/each}
 	</ul>
 </details>
 
 <details open={part === "two"}>
-	<summary>Part 2 – {"???"}</summary>
+	<summary>Part 2 – {part_two}</summary>
 
-	<ul>
-		{#each [] as _}
-			<li></li>
+	<ul class="grid" style="--width:{width};--height={height}">
+		{#each map as [coordinates, cell]}
+			{@const { x, y } = parse_coordinates(coordinates)}
+			<li style="grid-area:{y + 1}/{x + 1}">
+				{cell}
+			</li>
+		{/each}
+		{#each part_one.visited as [coordinates, directions]}
+			{@const { x, y } = parse_coordinates(coordinates)}
+			{@const green =
+				x === starting_position.x && y === starting_position.y}
+			<li class:green style="grid-area:{y + 1}/{x + 1}">
+				{directions.size === 2
+					? "┼"
+					: directions.has("↑") || directions.has("↓")
+						? "│"
+						: "─"}
+			</li>
 		{/each}
 	</ul>
 </details>
