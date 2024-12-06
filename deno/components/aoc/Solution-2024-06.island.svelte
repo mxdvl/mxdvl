@@ -42,14 +42,23 @@
 		return { map, width, height, starting_position };
 	});
 
-	/** @typedef {"↑" | "↓" | "→" | "←"} Direction */
+	/** @typedef {"↑" | "↓" | "→" | "←" | "↻"} Direction */
 
-	let part_one = $derived.by(() => {
+	/**
+	 * @param {Object} options
+	 * @param {Map<Coordinates, string>} options.map
+	 * @param {number} options.width
+	 * @param {number} options.height
+	 * @param {{x :number, y :number}} options.starting_position
+	 * @returns {{ visited: Map<Coordinates, Set<Direction>>, loop: boolean }}
+	 */
+	function visit_map({ map, width, height, starting_position }) {
 		let position = { ...starting_position };
 		/** @type {Direction} */
 		let direction = "↑";
 		/** @type {Map<Coordinates, Set<Direction>>} */
 		const visited = new Map();
+
 		while (
 			0 <= position.x &&
 			position.x <= width &&
@@ -60,7 +69,7 @@
 			const directions = visited.get(coordinates) ?? new Set();
 			if (directions.has(direction)) {
 				// we’re going in a loop!
-				break;
+				return { visited, loop: true };
 			}
 			directions.add(direction);
 			visited.set(coordinates, directions);
@@ -80,43 +89,69 @@
 					"↓": "←",
 					"←": "↑",
 				}[direction];
+				directions.add("↻");
 				continue;
 			}
 			position.x += dx;
 			position.y += dy;
 		}
-		return { visited };
-	});
+		return { visited, loop: false };
+	}
+
+	let part_one = $derived(
+		visit_map({ map, width, height, starting_position }),
+	);
 
 	let part_two = $derived.by(() => {
-		const { visited } = part_one;
+		const { visited } = visit_map({
+			map,
+			width,
+			height,
+			starting_position,
+		});
+
+		/** @type {Set<Coordinates>} */
+		const loop_positions = new Set();
+
 		for (const [coordinates, directions] of visited) {
 			const { x, y } = parse_coordinates(coordinates);
 			if (x === starting_position.x && y === starting_position.y) {
+				// we cannot place a block where the guard is currently
 				continue;
 			}
-			for (const direction of directions) {
-				const [dx, dy] = {
-					"↑": [0, -1],
-					"→": [1, -0],
-					"↓": [-0, 1],
-					"←": [-1, 0],
-				}[direction];
-				const prev = visited.get(
-					format_coordinates({ x: x - dx, y: y - dy }),
-				);
-				if (!prev?.has(direction)) {
-					// we only check when adding a new obstactle in
-					// the direction we’re currently going
-					continue;
-				}
-				const adjusted_map = new Map(map);
-				adjusted_map.set(coordinates, "█");
-				// let’s see if turning now joins us back to a visited path
-				// …
-			}
+			const adjusted_map = new Map(map);
+			adjusted_map.set(coordinates, "█");
+			const { loop } = visit_map({
+				map: adjusted_map,
+				width,
+				height,
+				starting_position,
+			});
+
+			loop && loop_positions.add(coordinates);
 		}
+
+		return { visited, loop_positions };
 	});
+
+	/** @param {Set<Direction>} directions */
+	function display_directions(directions) {
+		return (
+			{
+				"↑↻→": "┏",
+				"→↻↓": "┓",
+				"↓↻←": "┛",
+				"←↻↑": "┗",
+				"↑": "┃",
+				"↓": "┃",
+				"→": "━",
+				"←": "━",
+			}[[...directions].join("")] ?? "╋"
+		);
+	}
+
+	/** @type {Coordinates | undefined} */
+	let hovered = $state();
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
@@ -144,7 +179,7 @@
 </details>
 
 <details open={part === "two"}>
-	<summary>Part 2 – {part_two}</summary>
+	<summary>Part 2 – {part_two.loop_positions.size}</summary>
 
 	<ul class="grid" style="--width:{width};--height={height}">
 		{#each map as [coordinates, cell]}
@@ -153,16 +188,20 @@
 				{cell}
 			</li>
 		{/each}
-		{#each part_one.visited as [coordinates, directions]}
+		{#each part_two.visited as [coordinates, directions]}
 			{@const { x, y } = parse_coordinates(coordinates)}
 			{@const green =
 				x === starting_position.x && y === starting_position.y}
-			<li class:green style="grid-area:{y + 1}/{x + 1}">
-				{directions.size === 2
-					? "┼"
-					: directions.has("↑") || directions.has("↓")
-						? "│"
-						: "─"}
+			{@const red = part_two.loop_positions.has(coordinates)}
+			<li
+				class:green
+				class:red
+				style="grid-area:{y + 1}/{x + 1};"
+				data-directions={[...directions].join(" ")}
+				onmouseenter={() => hovered = coordinates}
+				onmouseleave={() => hovered = undefined}
+			>
+				{display_directions(directions)}
 			</li>
 		{/each}
 	</ul>
@@ -175,6 +214,10 @@
 		list-style-type: none;
 		grid-template-columns: repeat(var(--width), 1rem);
 		grid-template-rows: repeat(var(--height), 1rem);
+	}
+
+	.grid li:hover {
+		color: var(--blue);
 	}
 
 	.green {
