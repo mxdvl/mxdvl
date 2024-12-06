@@ -4,6 +4,11 @@
 	import { year, days } from "../../2024.svelte";
 </script>
 
-<Layout {year} {days} day={2}>
+<Layout
+	{year}
+	{days}
+	day={2}
+	source="https://github.com/mxdvl/mxdvl/blob/aoc-2024/deno/components/aoc/Solution-{year}-02.island.svelte"
+>
 	<Solution />
 </Layout>

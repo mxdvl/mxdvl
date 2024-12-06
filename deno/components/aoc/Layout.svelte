@@ -5,6 +5,8 @@
 	export let day;
 	/** @type {readonly number[]} */
 	export let days;
+
+	export let source = `https://github.com/mxdvl/mxdvl/blob/main/deno/routes/aoc/${year}/day/${day}.svelte`;
 </script>
 
 <header>
@@ -31,10 +33,7 @@
 			>…
 		</p>
 		<p class="right">
-			See the <a
-				href="https://github.com/mxdvl/mxdvl/blob/main/deno/routes/aoc/{year}/day{day}.svelte"
-				>source code for this page</a
-			>.
+			See the <a href={source}>source code for this page</a>.
 		</p>
 	{:else}
 		<p>Pick a day &UpDownArrow; above or below</p>
