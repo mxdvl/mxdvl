@@ -134,19 +134,22 @@
 		return { visited, loop_positions };
 	});
 
-	/** @param {Set<Direction>} directions */
+	/**
+	 * @param {Set<Direction>} directions
+	 * @returns {"╭" | "╮" | "╯" | "╰" | "│" | "─" | "┼"}
+	 */
 	function display_directions(directions) {
 		return (
 			{
-				"↑↻→": "┏",
-				"→↻↓": "┓",
-				"↓↻←": "┛",
-				"←↻↑": "┗",
-				"↑": "┃",
-				"↓": "┃",
-				"→": "━",
-				"←": "━",
-			}[[...directions].join("")] ?? "╋"
+				"↑↻→": "╭", //┏
+				"→↻↓": "╮", // ┓
+				"↓↻←": "╯", // ┛
+				"←↻↑": "╰", // ┗
+				"↑": "│", // ┃
+				"↓": "│", // ┃
+				"→": "─", // ━
+				"←": "─", // ━
+			}[[...directions].join("")] ?? "┼" // ╋
 		);
 	}
 
@@ -159,29 +162,29 @@
 <details open={part === "one"}>
 	<summary>Part 1 – {part_one.visited.size}</summary>
 
-	<ul class="grid" style="--width:{width};--height={height}">
+	<div class="grid" style="--width:{width};--height:{height};--col:1rem">
 		{#each map as [coordinates, cell]}
 			{@const { x, y } = parse_coordinates(coordinates)}
-			<li style="grid-area:{y + 1}/{x + 1}">
+			<span style="grid-area:{y + 1}/{x + 1}">
 				{cell}
-			</li>
+			</span>
 		{/each}
 		{#each part_one.visited as [coordinates, directions]}
 			{@const { x, y } = parse_coordinates(coordinates)}
 			{@const green =
 				x === starting_position.x && y === starting_position.y}
 			{@const [direction] = directions}
-			<li class:green style="grid-area:{y + 1}/{x + 1}">
+			<span class:green style="grid-area:{y + 1}/{x + 1}">
 				{direction}
-			</li>
+			</span>
 		{/each}
-	</ul>
+	</div>
 </details>
 
 <details open={part === "two"}>
 	<summary>Part 2 – {part_two.loop_positions.size}</summary>
 
-	<ul class="grid" style="--width:{width};--height={height}">
+	<div class="grid" style="--width:{width};--height:{height}">
 		{#each map as [coordinates, cell]}
 			{@const { x, y } = parse_coordinates(coordinates)}
 			<li style="grid-area:{y + 1}/{x + 1}">
@@ -193,18 +196,23 @@
 			{@const green =
 				x === starting_position.x && y === starting_position.y}
 			{@const red = part_two.loop_positions.has(coordinates)}
-			<li
+			<span
 				class:green
 				class:red
 				style="grid-area:{y + 1}/{x + 1};"
 				data-directions={[...directions].join(" ")}
-				onmouseenter={() => hovered = coordinates}
-				onmouseleave={() => hovered = undefined}
+				onmouseenter={() => (hovered = coordinates)}
+				onmouseleave={() => (hovered = undefined)}
 			>
 				{display_directions(directions)}
-			</li>
+			</span>
+			{#if directions.size === 1}
+				<span class:red style="grid-area:{y + 1}/{x + 1};"
+					>{[...directions]}</span
+				>
+			{/if}
 		{/each}
-	</ul>
+	</div>
 </details>
 
 <style>
@@ -212,8 +220,8 @@
 		display: grid;
 		padding: 0;
 		list-style-type: none;
-		grid-template-columns: repeat(var(--width), 1rem);
-		grid-template-rows: repeat(var(--height), 1rem);
+		grid-template-columns: repeat(var(--width), var(--col, 1ch));
+		grid-template-rows: repeat(var(--height), 1.25rem);
 	}
 
 	.grid li:hover {
