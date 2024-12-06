@@ -42,5 +42,4 @@ export const sum = (a, b) => a + b;
 /** @type {(a: number, b: number) => number}*/
 export const product = (a, b) => a * b;
 
-
-const arrows = '→←↑↓↖↗↘↙';
+export const arrows = '→←↑↓↖↗↘↙';
