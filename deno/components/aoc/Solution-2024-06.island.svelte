@@ -42,12 +42,14 @@
 		return { map, width, height, starting_position };
 	});
 
+	/** @typedef {"↑" | "↓" | "→" | "←"} Direction */
+
 	let part_one = $derived.by(() => {
 		let position = { ...starting_position };
+		/** @type {Direction} */
 		let direction = "↑";
-		const visited = new Map([
-			[format_coordinates(position), new Set([direction])],
-		]);
+		/** @type {Map<Coordinates, Set<Direction>>} */
+		const visited = new Map();
 		while (
 			0 <= position.x &&
 			position.x <= width &&
@@ -55,8 +57,8 @@
 			position.y < height
 		) {
 			const coordinates = format_coordinates(position);
-			const directions = visited.get(coordinates) ?? new Set([direction]);
-			if(directions.has(direction)) {
+			const directions = visited.get(coordinates) ?? new Set();
+			if (directions.has(direction)) {
 				// we’re going in a loop!
 				break;
 			}
@@ -103,13 +105,13 @@
 				const prev = visited.get(
 					format_coordinates({ x: x - dx, y: y - dy }),
 				);
-				if(!prev?.has(direction)) {
+				if (!prev?.has(direction)) {
 					// we only check when adding a new obstactle in
 					// the direction we’re currently going
 					continue;
 				}
 				const adjusted_map = new Map(map);
-				adjusted_map.set(coordinates, '█');
+				adjusted_map.set(coordinates, "█");
 				// let’s see if turning now joins us back to a visited path
 				// …
 			}
