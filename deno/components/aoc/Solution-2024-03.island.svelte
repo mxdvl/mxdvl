@@ -74,15 +74,15 @@
 
 <style>
 	.yes {
-		color: forestgreen;
+		color: var(--green);
 	}
 
 	.no {
-		color: firebrick;
+		color: var(--red);
 	}
 
 	.disabled {
-		color: firebrick;
+		color: var(--red);
 		font-weight: lighter;
 	}
 

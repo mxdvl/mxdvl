@@ -88,12 +88,12 @@
 
 <style>
 	.tolerance {
-		color: firebrick;
+		color: var(--red);
 		font-weight: bold;
 	}
 
 	.safe {
-		color: forestgreen;
+		color: var(--green);
 		font-weight: bold;
 	}
 
