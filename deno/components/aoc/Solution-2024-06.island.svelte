@@ -50,12 +50,19 @@
 	 * @param {number} options.width
 	 * @param {number} options.height
 	 * @param {{x :number, y :number}} options.starting_position
+	 * @param {Direction} [options.starting_direction]
 	 * @returns {{ visited: Map<Coordinates, Set<Direction>>, loop: boolean }}
 	 */
-	function visit_map({ map, width, height, starting_position }) {
+	function visit_map({
+		map,
+		width,
+		height,
+		starting_position,
+		starting_direction = "↑",
+	}) {
 		let position = { ...starting_position };
 		/** @type {Direction} */
-		let direction = "↑";
+		let direction = starting_direction;
 		/** @type {Map<Coordinates, Set<Direction>>} */
 		const visited = new Map();
 
@@ -110,25 +117,40 @@
 			starting_position,
 		});
 
-		/** @type {Set<Coordinates>} */
-		const loop_positions = new Set();
+		/** @type {Map<Coordinates, Set<Coordinates>>} */
+		const loop_positions = new Map();
 
 		for (const [coordinates, directions] of visited) {
 			const { x, y } = parse_coordinates(coordinates);
-			if (x === starting_position.x && y === starting_position.y) {
-				// we cannot place a block where the guard is currently
-				continue;
-			}
-			const adjusted_map = new Map(map);
-			adjusted_map.set(coordinates, "█");
-			const { loop } = visit_map({
-				map: adjusted_map,
-				width,
-				height,
-				starting_position,
-			});
+			for (const direction of directions) {
+				if (direction === "↻") continue;
+				const [dx, dy] = {
+					"↑": [0, -1],
+					"→": [1, -0],
+					"↓": [-0, 1],
+					"←": [-1, 0],
+				}[direction];
+				const next = format_coordinates({ x: x + dx, y: y + dy });
+				if (!visited.has(next)) continue;
+				if (
+					x + dx === starting_position.x &&
+					y + dy === starting_position.y
+				) {
+					// we cannot place a block where the guard is currently
+					continue;
+				}
+				const adjusted_map = new Map(map);
+				adjusted_map.set(next, "█");
+				const { visited: loopy, loop } = visit_map({
+					map: adjusted_map,
+					width,
+					height,
+					starting_position,
+				});
 
-			loop && loop_positions.add(coordinates);
+				if (loop) loop_positions.set(next, new Set(loopy.keys()));
+				// if (loop) console.log({ loopy });
+			}
 		}
 
 		return { visited, loop_positions };
@@ -196,21 +218,29 @@
 			{@const green =
 				x === starting_position.x && y === starting_position.y}
 			{@const red = part_two.loop_positions.has(coordinates)}
-			<span
-				class:green
-				class:red
-				style="grid-area:{y + 1}/{x + 1};"
-				data-directions={[...directions].join(" ")}
-				onmouseenter={() => (hovered = coordinates)}
-				onmouseleave={() => (hovered = undefined)}
-			>
-				{display_directions(directions)}
-			</span>
 			{#if directions.size === 1}
 				<span class:red style="grid-area:{y + 1}/{x + 1};"
 					>{[...directions]}</span
 				>
 			{/if}
+			<span
+				class:green
+				class:red
+				style="grid-area:{y + 1}/{x + 1};"
+				data-directions={[...directions].join(" ")}
+				onmouseenter={() => {
+					hovered = coordinates;
+				}}
+				onmouseleave={() => {
+					hovered = undefined;
+				}}
+			>
+				{display_directions(directions)}
+			</span>
+		{/each}
+		{#each part_two.loop_positions.get(hovered) ?? new Set() as coordinates}
+			{@const { x, y } = parse_coordinates(coordinates)}
+			<span class="blue" style="grid-area:{y + 1}/{x + 1};">╬</span>
 		{/each}
 	</div>
 </details>
@@ -230,6 +260,10 @@
 
 	.green {
 		color: var(--green);
+	}
+
+	.blue {
+		color: var(--blue);
 	}
 
 	.red {
