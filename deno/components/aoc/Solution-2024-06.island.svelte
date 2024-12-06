@@ -177,6 +177,8 @@
 
 	/** @type {Coordinates | undefined} */
 	let hovered = $state();
+
+	let loop = $derived(part_two.loop_positions.get(hovered) ?? new Set());
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
@@ -213,6 +215,10 @@
 				{cell}
 			</li>
 		{/each}
+		{#if part_two.loop_positions.has(hovered)}
+			{@const { x, y } = parse_coordinates(hovered)}
+			<span class="blue" style="grid-area:{y + 1}/{x + 1}">█</span>
+		{/if}
 		{#each part_two.visited as [coordinates, directions]}
 			{@const { x, y } = parse_coordinates(coordinates)}
 			{@const green =
@@ -226,6 +232,7 @@
 			<span
 				class:green
 				class:red
+				class="pointer"
 				style="grid-area:{y + 1}/{x + 1};"
 				data-directions={[...directions].join(" ")}
 				onmouseenter={() => {
@@ -238,9 +245,14 @@
 				{display_directions(directions)}
 			</span>
 		{/each}
-		{#each part_two.loop_positions.get(hovered) ?? new Set() as coordinates}
+		{#each loop as coordinates, index}
 			{@const { x, y } = parse_coordinates(coordinates)}
-			<span class="blue" style="grid-area:{y + 1}/{x + 1};">╬</span>
+			{@const delay = (index - loop.size) * 60}
+			<span
+				class="blue pulse"
+				style="grid-area:{y + 1}/{x + 1};animation-delay:{delay}ms;"
+				>╬</span
+			>
 		{/each}
 	</div>
 </details>
@@ -254,8 +266,8 @@
 		grid-template-rows: repeat(var(--height), 1.25rem);
 	}
 
-	.grid li:hover {
-		color: var(--blue);
+	.grid .pointer:hover {
+		cursor: pointer;
 	}
 
 	.green {
@@ -268,5 +280,24 @@
 
 	.red {
 		color: var(--red);
+	}
+
+	.pulse {
+		animation: 1800ms pulse ease infinite;
+	}
+
+	@keyframes pulse {
+		0% {
+			opacity: 1;
+		}
+		72% {
+			opacity: 1;
+		}
+		84% {
+			opacity: 0.2;
+		}
+		96% {
+			opacity: 1;
+		}
 	}
 </style>
