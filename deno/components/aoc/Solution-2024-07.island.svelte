@@ -102,7 +102,8 @@
 						: [];
 				}
 				case "||": {
-					const accumulated = parseInt(`${accumulator}${next}`, 10);
+					const factor = 10 ** Math.ceil(Math.log10(next + 1));
+					const accumulated = accumulator * factor + next;
 					return accumulated <= total
 						? find_valid_solutions(
 								total,
