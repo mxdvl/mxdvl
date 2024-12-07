@@ -9,11 +9,8 @@
 
 	/** @typedef {import('./data.js').Pattern} Pattern */
 
-	/** @type {import("svelte/store").Writable<Map<string, import("svelte/store").Writable<Pattern>>>} */
-	export let patterns;
-
-	/** @type {SVGSVGElement} */
-	export let svg;
+	/** @type {{ patterns: SvelteMap<string, Pattern>, svg: SVGSVGElement}} */
+	let { patterns, svg = $bindable() } = $props();
 
 	const duration = 240;
 

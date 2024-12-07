@@ -3,7 +3,7 @@
 	import { fly } from "svelte/transition";
 
 	import Button from "../Button.svelte";
-	import { state, uid } from "./store.svelte.js";
+	import { uid } from "./store.svelte.js";
 
 	/** @typedef {import('./data.js').Pattern} Pattern */
 
@@ -40,9 +40,8 @@
 			case "Backspace": {
 				event.preventDefault();
 
-				$patterns.delete($pattern.id);
+				patterns.delete($pattern.id);
 				selected.set(undefined);
-				$patterns = $patterns;
 
 				break;
 			}
@@ -52,7 +51,7 @@
 
 <h3>
 	<Button on:click={toggle_selected} type={"flex"} subdued={true}>
-		#path-{$pattern.id}
+		#path-{pattern.id}
 
 		{#if current}
 			<span class="close">&times;</span>
@@ -98,7 +97,7 @@
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 		<li tabindex={0} onkeydown={handle_keydown}>
-			{Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
+			{Math.round(pattern.position.x)},{Math.round($pattern.position.y)}
 		</li>
 
 		<li class="path">
@@ -116,16 +115,14 @@
 						id,
 						position: { x: x + 12, y },
 					});
-					$patterns.set(id, copy);
+					patterns.set(id, copy);
 					selected.set(id);
-					$patterns = $patterns;
 				}}>duplicate</Button
 			>
 			<Button
 				on:click={() => {
 					selected.set(undefined);
-					$patterns.delete($pattern.id);
-					$patterns = $patterns;
+					patterns.delete($pattern.id);
 				}}>remove</Button
 			>
 		</li>

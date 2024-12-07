@@ -1,5 +1,5 @@
 <script>
-	import { derived, get, writable } from "svelte/store";
+	import { get, writable } from "svelte/store";
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
 	import { state as store_state } from "./store.svelte.js";
@@ -66,7 +66,8 @@
 			return patterns_to_string(patterns_snapshot);
 		},
 		write: () => {
-			const search = "?" + new URLSearchParams({ state: bobbin_state.get() });
+			const search =
+				"?" + new URLSearchParams({ state: bobbin_state.get() });
 
 			if (window.location.search !== search) {
 				//goto(search, { noScroll: true });
@@ -98,7 +99,7 @@
 					if (!Number.isNaN(numeric_index))
 						store_state.selected_index.set(numeric_index);
 
-					if (store_state.selected !== '') {
+					if (store_state.selected !== "") {
 						current_matrix.set(
 							DOMMatrixReadOnly.fromMatrix(
 								event.target.transform.baseVal.consolidate()
@@ -266,7 +267,7 @@
 		</svg>
 	</div>
 
-	<Controls {patterns} {svg} />
+	<!-- <Controls {patterns} {svg} /> -->
 
 	<ul id="shapes">
 		<li><Polygon /></li>
