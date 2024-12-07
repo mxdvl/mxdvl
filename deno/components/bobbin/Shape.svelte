@@ -3,12 +3,13 @@
 	import Use from "./Use.svelte";
 	import Path from "./Path.svelte";
 	import Spread from "./Spread.svelte";
-	import { state as bobbin_state } from "./store.svelte.js";
+	import { bobbin } from "./store.svelte.js";
 
 	/** @typedef {import('./data').Pattern} Pattern */
 
 	/** @type {{ pattern: Pattern, guides: boolean }} */
 	let { pattern, guides = false } = $props();
+
 
 	/** @type {SVGElement | undefined} */
 	let g = $state();
@@ -53,20 +54,24 @@
 	});
 */
 
-	const active = $derived(bobbin_state.selected === pattern.id && guides);
+	const active = $derived(bobbin.selected === pattern.id && guides);
 </script>
 
-<g id={pattern.id} style={`--end:${360 / $pattern.count}deg;`} bind:this={g}>
+<g id={pattern.id} style={`--end:${360 / pattern.count}deg;`} bind:this={g}>
 	<defs>
 		<Path {...pattern} />
 	</defs>
-	<Spread count={pattern.count} let:angle>
-		{#if active}
-			<Path {angle} d={`M0,0V-600`} colour="var(--skies)" />
-		{/if}
+	<Spread count={pattern.count}>
+		{#snippet snippet(angle)}
+			{#if active}
+				<Path {angle} d={`M0,0V-600`} colour="var(--skies)" />
+			{/if}
 
-		<Mirror scales={pattern.mirror ? [-1, 1] : [1]} let:scale>
-			<Use {...pattern} {angle} {scale} />
+		<Mirror scales={pattern.mirror ? [-1, 1] : [1]}>
+			{#snippet snippet(scale)}
+				<Use {...pattern} {angle} {scale} />
+			{/snippet}
 		</Mirror>
+		{/snippet}
 	</Spread>
 </g>

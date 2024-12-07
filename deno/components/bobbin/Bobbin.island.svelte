@@ -1,15 +1,13 @@
 <script>
-	import { get, writable } from "svelte/store";
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
-	import { state as store_state } from "./store.svelte.js";
+	import { bobbin, get_current } from "./store.svelte.js";
 	import { patterns_to_string, string_to_patterns } from "./data.js";
 	import Polygon from "./catalogue/Polygon.svelte";
 	import Loop from "./catalogue/Loop.svelte";
 	import Crescent from "./catalogue/Crescent.svelte";
 	import Curve from "./catalogue/Curve.svelte";
 	import Star from "./catalogue/Star.svelte";
-	import { SvelteMap } from "svelte/reactivity";
 
 	const size = 20 * 18 * 2;
 
@@ -40,31 +38,26 @@
 
 	// const current = $derived(selected && patterns.get(selected));
 
-	/** @type {import("svelte/store").Writable<DOMMatrixReadOnly | undefined>}*/
-	const current_matrix = writable();
+	/** @type {DOMMatrixReadOnly | undefined}*/
+	let current_matrix = $state();
 
 	const bobbin_state = /** @type {const} */ ({
 		/** @param {string} state */
 		set: (state) => {
-			const saved_patterns = string_to_patterns(state);
+			const patterns = string_to_patterns(state);
 
-			store_state.patterns.clear();
-			for (const saved_pattern of saved_patterns) {
-				store_state.patterns.set(saved_pattern.id, saved_pattern);
+			console.log({ patterns });
+
+			bobbin.patterns.clear();
+			for (const pattern of patterns) {
+				bobbin.patterns.set(pattern.id, pattern);
 			}
 
 			// $patterns = $patterns;
 		},
-		get: () => {
-			/** @type {import('./data').Pattern[]} */
-			const patterns_snapshot = [];
-
-			for (const [, pattern] of store_state.patterns) {
-				patterns_snapshot.push(get(pattern));
-			}
-
-			return patterns_to_string(patterns_snapshot);
-		},
+		/** get serialised pattern representation */
+		get: () => patterns_to_string([...bobbin.patterns.values()]),
+		/** save serialised representation to the URL */
 		write: () => {
 			const search =
 				"?" + new URLSearchParams({ state: bobbin_state.get() });
@@ -73,11 +66,12 @@
 				//goto(search, { noScroll: true });
 			}
 		},
+		/** get the serialised state to the clipboard */
 		copy: () => {
 			navigator.clipboard.writeText(bobbin_state.get());
 		},
 		clear: () => {
-			store_state.patterns = new SvelteMap();
+			bobbin.patterns.clear();
 		},
 	});
 
@@ -90,28 +84,27 @@
 			start: (event) => {
 				if (event.target instanceof SVGUseElement) {
 					event.preventDefault();
-					animate.set(false);
+					bobbin.animate = false;
 
 					const { id, index } = event.target.dataset;
-					store_state.selected.set(id);
+					bobbin.selected = id;
 
 					const numeric_index = Number(index);
 					if (!Number.isNaN(numeric_index))
-						store_state.selected_index.set(numeric_index);
+						bobbin.selected_index = numeric_index;
 
-					if (store_state.selected !== "") {
-						current_matrix.set(
-							DOMMatrixReadOnly.fromMatrix(
-								event.target.transform.baseVal.consolidate()
-									?.matrix,
-							),
+					if (bobbin.selected !== "") {
+						current_matrix = DOMMatrixReadOnly.fromMatrix(
+							event.target.transform.baseVal.consolidate()
+								?.matrix,
 						);
+
 						const point = point_from_event(event);
 						const offset = new DOMPointReadOnly(
 							0,
 							0,
-						).matrixTransform($current_matrix);
-						dragOffset = offset;
+						).matrixTransform(current_matrix);
+						drag_points.offset = offset;
 
 						drag_points.start = point;
 						drag_points.end = point;
@@ -120,11 +113,11 @@
 						dragging = true;
 					}
 				} else {
-					selected.set(undefined);
+					bobbin.selected = "";
 				}
 			},
 			update: (event) => {
-				if (dragging && $current_matrix) {
+				if (dragging && current_matrix) {
 					event.preventDefault();
 					const point = point_from_event(event);
 					drag_points.end = point;
@@ -138,16 +131,21 @@
 						drag_points.offset.x + delta.x,
 						drag_points.offset.y + delta.y,
 					).matrixTransform(
-						$current_matrix
+						current_matrix
 							.inverse()
-							.translate(dragOffset.x, dragOffset.y),
+							.translate(
+								drag_points.offset.x,
+								drag_points.offset.y,
+							),
 					);
 					drag_points.final_position = position;
 
-					// $current?.update((current) => ({
-					// 	...current,
-					// 	position,
-					// }));
+					const current = get_current();
+					console.log(current.id, position.x, position.y);
+					if (current) {
+						current.position = position;
+						// bobbin.patterns.set(current.id, current)
+					}
 				}
 			},
 			stop: () => {
@@ -158,32 +156,35 @@
 
 	// search = "";
 
-	/*
-	onMount(async () => {
-		debug.set(window.location.hostname === "localhost");
-
+	$effect.root(() => {
 		// handle legacy hash states
 		const prefix = "#shape/";
 		if (window.location.hash.startsWith(prefix)) {
-			window.location.href = window.location.href.replace(prefix, "?state=");
+			window.location.href = window.location.href.replace(
+				prefix,
+				"?state=",
+			);
 		}
 
-		state.set(default_state);
+		bobbin.debug = window.location.hostname === "localhost";
 
-		patterns.subscribe(() => {
-			state.write();
-		});
+		bobbin_state.set(default_state);
 
-		selected.subscribe((selected) => {
-			selected === undefined && selected_index.set(0);
-		});
+		function listener() {
+			const previous_state = new URLSearchParams(
+				window.location.search,
+			).get("state");
+			if (previous_state) bobbin_state.set(previous_state);
+		}
+		window.addEventListener("popstate", listener);
 
-		window.addEventListener("popstate", () => {
-			const previous_state = new URLSearchParams(window.location.search).get("state");
-			if (previous_state) state.set(previous_state);
-		});
+		return () => window.removeEventListener("popstate", listener);
 	});
-*/
+
+	$effect(() => {
+		console.log(bobbin);
+		bobbin_state.write();
+	});
 </script>
 
 <div id="workspace">
@@ -191,28 +192,28 @@
 		<svg
 			bind:this={svg}
 			viewBox={`-${size / 2},-${size / 2} ${size},${size}`}
-			on:pointerdown={drag.start}
-			on:pointermove={drag.update}
-			on:pointerup={drag.stop}
-			on:pointercancel={drag.stop}
+			onpointerdown={drag.start}
+			onpointermove={drag.update}
+			onpointerup={drag.stop}
+			onpointercancel={drag.stop}
 		>
 			<defs>
 				<text>Generated with @mxdvl’s Rosace</text>
 				<text>https://www.mxdvl.com/works/rosace{bobbin_state}</text>
 			</defs>
 
-			{#each [...store_state.patterns.entries()] as [id, pattern] (id)}
+			{#each [...bobbin.patterns] as [id, pattern] (id)}
 				<Shape {pattern} {guides} />
 			{/each}
 
-			{#if store_state.debug && dragging}
+			{#if bobbin.debug && dragging}
 				<g style="pointer-event: none;">
 					<text
 						x={-size / 2}
 						y={size / 2}
 						font-size={12}
 						fill="currentColor"
-						stroke="none">{$current_matrix?.toString()}</text
+						stroke="none">{current_matrix?.toString()}</text
 					>
 					<circle
 						cx={drag_points.start.x}
@@ -267,7 +268,7 @@
 		</svg>
 	</div>
 
-	<!-- <Controls {patterns} {svg} /> -->
+	<Controls {svg} />
 
 	<ul id="shapes">
 		<li><Polygon /></li>

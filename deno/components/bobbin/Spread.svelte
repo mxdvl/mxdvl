@@ -1,15 +1,12 @@
 <script>
-	/** @type {{count: number, import('svelte').Snippet}} */
-	let { count, children } = $props();
+	/** @type {{count: number, snippet: import('svelte').Snippet<[number]>}} */
+	let { count, snippet } = $props();
+
+	const angles = $derived(Array.from({ length: count }, (_, index) => (360 / count) * index))
 </script>
 
 <g data-count={count}>
-	{#each Array.from({ length: count }, (_, index) => (360 / count) * index) as angle (angle)}
-		{#if children}
-			{@render children({ angle })}
-		{:else}
-			<text>Missing element</text>
-		{/if}
-
+	{#each angles as angle (angle)}
+		{@render snippet?.(angle)}
 	{/each}
 </g>

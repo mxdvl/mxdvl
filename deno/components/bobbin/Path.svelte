@@ -16,6 +16,7 @@
 	id={id ? `shape-${id}` : undefined}
 	{transform}
 	stroke={colour}
+	fill="var(--skies)"
 	{d}
 	pathLength={12}
 />

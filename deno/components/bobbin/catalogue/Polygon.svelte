@@ -4,8 +4,8 @@
 	import { add_pattern, get_current } from "../store.svelte.js";
 	import { on_circle } from "../weaving.js";
 
-	let radius = 12;
-	let sides = 5;
+	let radius = $state(12);
+	let sides = $state(5);
 
 	const [first, ...rest] = $derived(on_circle()(radius)(sides));
 	const d = $derived(

@@ -1,12 +1,8 @@
 <script>
-	/** @type {{ scales: [1] | [-1, 1] }} */
-	let { scales } = $props();
+	/** @type {{ scales: [1] | [-1, 1], snippet: import('svelte').Snippet<[number]>  }} */
+	let { scales, snippet } = $props();
 </script>
 
 {#each scales as scale}
-	{#if children}
-		{@render children({ scale, })}
-	{:else}
-		<text>Missing shape to mirror</text>
-	{/if}
+	{@render snippet(scale)}
 {/each}

@@ -5,8 +5,9 @@ import { loop } from "./weaving.js";
 
 export const uid = () => Math.random().toString(36).slice(2);
 
-export const state = $state({
+export const bobbin = $state({
 	selected: "",
+	selected_index: 0,
 	debug: false,
 	animate: false,
 	/** @type {SvelteMap<string, Pattern>} */
@@ -15,12 +16,12 @@ export const state = $state({
 
 /** @returns {Pattern | undefined} */
 export function get_current() {
-	return (state.patterns.get(state.selected));
+	return (bobbin.patterns.get(bobbin.selected));
 }
 
 /** @param {string} id */
 export function toggle(id) {
-	state.selected = state.selected === id ? "" : id;
+	bobbin.selected = bobbin.selected === id ? "" : id;
 }
 
 /** @param {string} [path] */
@@ -31,8 +32,8 @@ export function add_pattern(path) {
 	const mirror = Math.random() > 1 / 2;
 	const position = { x: Math.random() * 48, y: Math.random() * 48 - 24 };
 
-	state.patterns.set(id, { id, count, mirror, position, d });
-	state.selected = id;
+	bobbin.patterns.set(id, { id, count, mirror, position, d });
+	bobbin.selected = id;
 }
 
 /** a default map to start from */

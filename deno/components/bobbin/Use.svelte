@@ -1,5 +1,5 @@
 <script>
-	import { state as bobbin_state } from "./store.svelte.js";
+	import { bobbin } from "./store.svelte.js";
 
 	/** @type {{id: string, position?: import('./data').Point, angle?: number, scale?: number, colour?: string}} */
 	let {
@@ -9,18 +9,15 @@
 		scale = 1,
 		colour,
 	} = $props();
-	/** @type {}*/
 
 	const index = scale * angle;
 
 	const transform = $derived(
 		`scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`,
 	);
-	const current = $derived(bobbin_state.selected === id);
-	const active = $derived(current && bobbin_state.selected_index === index);
-	const angle_difference = $derived(
-		Math.abs((bobbin_state.selected_index ?? 0) - index),
-	);
+	const current = $derived(bobbin.selected === id);
+	const active = $derived(current && bobbin.selected_index === index);
+	const angle_difference = $derived(Math.abs(bobbin.selected_index - index));
 	const angle_distance = $derived(
 		angle_difference > 180 ? 360 - angle_difference : angle_difference,
 	);
@@ -35,8 +32,8 @@
 	class:active
 	style={`--delay: ${angle_distance * 3}ms`}
 	stroke={colour}
-	on:pointerover={() => {
-		if (active) selected_index.set(index);
+	onpointerover={() => {
+		if (active) bobbin.selected_index = index;
 	}}
 />
 
@@ -48,7 +45,7 @@
 		stroke-width={2}
 		class="do-not-point"
 	/>
-	{#if bobbin_state.debug}
+	{#if bobbin.debug}
 		<text x={30} y={-20} {transform} class="do-not-point"
 			>a:{Math.floor(angle)} s:{scale}</text
 		>

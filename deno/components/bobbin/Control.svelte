@@ -1,47 +1,47 @@
 <script>
-	import { writable } from "svelte/store";
 	import { fly } from "svelte/transition";
-
 	import Button from "../Button.svelte";
-	import { uid } from "./store.svelte.js";
+	import { uid, bobbin, get_current, toggle } from "./store.svelte.js";
 
 	/** @typedef {import('./data.js').Pattern} Pattern */
 
-	/** @type {{pattern: Pattern, patterns: SvelteMap<string, Pattern>}} */
-	let { pattern, patterns } = $props();
-
-	const current = $derived(pattern.id === selected);
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 
 	const toggle_selected = () => toggle(pattern.id);
 
 	/** @param {KeyboardEvent} event */
 	const handle_keydown = (event) => {
+		const current = get_current()
+		console.log("keydown", { current });
+		if (!current) {
+			return;
+		}
 		switch (event.key) {
 			case "ArrowRight": {
 				event.preventDefault();
-				$pattern.position.x++;
+				current.position.x++;
 				break;
 			}
 			case "ArrowLeft": {
 				event.preventDefault();
-				$pattern.position.x--;
+				current.position.x--;
 				break;
 			}
 			case "ArrowUp": {
 				event.preventDefault();
-				$pattern.position.y++;
+				current.position.y++;
 				break;
 			}
 			case "ArrowDown": {
 				event.preventDefault();
-				$pattern.position.y--;
+				current.position.y--;
 				break;
 			}
 			case "Backspace": {
 				event.preventDefault();
 
-				patterns.delete($pattern.id);
-				selected.set(undefined);
+				bobbin.patterns.delete(current.id);
+				bobbin.selected = "";
 
 				break;
 			}
@@ -51,7 +51,7 @@
 
 <h3>
 	<Button on:click={toggle_selected} type={"flex"} subdued={true}>
-		#path-{pattern.id}
+		#path-{current?.id ?? "?"}
 
 		{#if current}
 			<span class="close">&times;</span>
@@ -70,19 +70,19 @@
 			Count
 			<button
 				onclick={() => {
-					$pattern.count = Math.max(1, $pattern.count - 1);
+					current.count = Math.max(1, current.count - 1);
 				}}>-</button
 			>
 			<input
 				type="number"
-				bind:value={$pattern.count}
+				bind:value={current.count}
 				min="3"
 				max="120"
 				step="1"
 			/>
 			<button
 				onclick={() => {
-					$pattern.count = Math.min(120, $pattern.count + 1);
+					current.count = Math.min(120, current.count + 1);
 				}}>+</button
 			>
 		</li>
@@ -90,39 +90,38 @@
 		<li>
 			<label>
 				Mirror
-				<input type="checkbox" bind:checked={$pattern.mirror} />
+				<input type="checkbox" bind:checked={current.mirror} />
 			</label>
 		</li>
 
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 		<li tabindex={0} onkeydown={handle_keydown}>
-			{Math.round(pattern.position.x)},{Math.round($pattern.position.y)}
+			{Math.round(current.position.x)},{Math.round(current.position.y)}
 		</li>
 
 		<li class="path">
-			<textarea bind:value={$pattern.d} cols="20" rows="4"></textarea>
+			<textarea bind:value={current.d} cols="20" rows="4"></textarea>
 		</li>
 
 		<li class="buttons">
 			<Button
 				on:click={() => {
 					const id = uid();
-					const pattern_to_copy = $pattern;
-					const { x, y } = pattern_to_copy.position;
-					const copy = writable({
-						...pattern_to_copy,
+					const { x, y } = current.position;
+					const copy = {
+						...current,
 						id,
 						position: { x: x + 12, y },
-					});
-					patterns.set(id, copy);
-					selected.set(id);
+					};
+					bobbin.patterns.set(id, copy);
+					bobbin.selected = id;
 				}}>duplicate</Button
 			>
 			<Button
 				on:click={() => {
-					selected.set(undefined);
-					patterns.delete($pattern.id);
+					bobbin.selected = "";
+					bobbin.patterns.delete(current.id);
 				}}>remove</Button
 			>
 		</li>

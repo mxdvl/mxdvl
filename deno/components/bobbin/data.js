@@ -23,6 +23,7 @@ const pattern_to_string = ({ id, count, mirror, position, d }) =>
 /**
  * Serialise patterns definition
  * @param {Pattern[]} patterns
+ * @returns {string}
  */
 export const patterns_to_string = (patterns) =>
 	lz.compressToEncodedURIComponent(JSON.stringify(patterns.map(pattern_to_string)));
