@@ -1,7 +1,7 @@
 {
 	"tasks": {
 		"dev": {
-			"command": "deno run --watch -A deno/mononykus.ts --watch",
+			"command": "NODE_ENV=development deno run --watch -A deno/mononykus.ts --watch",
 			"dependencies": ["svelte:lsp"]
 		},
 		"build": "deno task build:mononykus && deno task build:icons && deno task build:media",
