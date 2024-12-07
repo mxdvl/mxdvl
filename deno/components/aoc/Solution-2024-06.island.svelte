@@ -225,20 +225,29 @@
 				x === starting_position.x && y === starting_position.y}
 			{@const red = part_two.loop_positions.has(coordinates)}
 			{#if directions.size === 1}
+				{@const [direction] = directions}
+				{@const display = {
+					"↑": "▲",
+					"→": "▶",
+					"↓": "▼",
+					"←": "◀",
+				}[direction]}
 				<span class:red style="grid-area:{y + 1}/{x + 1};"
-					>{[...directions]}</span
+					>{display}</span
 				>
 			{/if}
+			<!-- svelte-ignore a11y_no_noninteractive_tabindex -- it’s focusable! -->
 			<span
 				class:green
 				class:red
-				class="pointer"
+				class:pointer={red}
 				style="grid-area:{y + 1}/{x + 1};"
 				data-directions={[...directions].join(" ")}
-				onmouseenter={() => {
+				tabindex={red ? 0 : undefined}
+				onfocus={() => {
 					hovered = coordinates;
 				}}
-				onmouseleave={() => {
+				onblur={() => {
 					hovered = undefined;
 				}}
 			>
@@ -266,8 +275,23 @@
 		grid-template-rows: repeat(var(--height), 1.25rem);
 	}
 
-	.grid .pointer:hover {
-		cursor: pointer;
+	.grid {
+		.red {
+			background-color: Canvas;
+
+			&:focus {
+				background-color: var(--blue);
+				color: Canvas;
+			}
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		:not(.red) {
+			pointer-events: none;
+		}
 	}
 
 	.green {
