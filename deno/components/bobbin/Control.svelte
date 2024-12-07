@@ -49,7 +49,7 @@
 
 <h3>
 	<Button on:click={toggle_selected} type={"flex"} subdued={true}>
-		#path-{pattern.id ?? "?"}
+		#path-{pattern.id}
 
 		{#if current}
 			<span class="close">&times;</span>

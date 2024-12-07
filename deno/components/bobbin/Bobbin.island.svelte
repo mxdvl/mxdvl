@@ -1,8 +1,9 @@
 <script>
-	import Shape from "./Shape.svelte";
-	import Controls from "./Controls.svelte";
+	import { tick } from "svelte";
 	import { bobbin } from "./store.svelte.js";
 	import { patterns_to_string, string_to_patterns } from "./data.js";
+	import Shape from "./Shape.svelte";
+	import Controls from "./Controls.svelte";
 	import Polygon from "./catalogue/Polygon.svelte";
 	import Loop from "./catalogue/Loop.svelte";
 	import Crescent from "./catalogue/Crescent.svelte";
@@ -51,18 +52,21 @@
 				const reactive_pattern = $state(pattern);
 				bobbin.patterns.set(pattern.id, reactive_pattern);
 			}
-
-			// $patterns = $patterns;
 		},
 		/** get serialised pattern representation */
 		get: () => patterns_to_string([...bobbin.patterns.values()]),
 		/** save serialised representation to the URL */
-		write: () => {
+		write: async () => {
 			const search =
 				"?" + new URLSearchParams({ state: bobbin_state.get() });
 
 			if (window.location.search !== search) {
-				//goto(search, { noScroll: true });
+				await tick();
+				history.pushState(
+					null,
+					null,
+					window.location.href.replace(/^\??.*/, search),
+				);
 			}
 		},
 		/** get the serialised state to the clipboard */
@@ -74,8 +78,6 @@
 		},
 	});
 
-	const current = $derived(bobbin.patterns.get(bobbin.selected));
-
 	/** A seven-sided shape that illustrates advanced features */
 	const default_state =
 		"NoIgpgTAxgdghgWwF4A4DmBrAPgRgCxYCyWAtDgGwDsWADETQDQkDMNAOjAMIQQMCsATgAEAxjmGiGNEAxAIAVjgCezAGYwaARwGqs1YuIhY8zelI5QWYvjSHlyDHLfLWUHDjJB9mmmJqQATlB4ACZKWBAoWAD6ERAEdISMNHAoDChCtrY4Qji8KWkZWblCZPkAWp4hABZQAG4ANgDOcACWAPbkYBE4MRHM5LhRSVKp6ZkTOXmjhRPZpdM0lbIw6nB1AXiOAC5QULgEsfEEJHyDI+zws8VTvCwcY0WTC7zMHMsgqgGUSPJoITAUBBNHo+hA+NRTgIzJdHnMSrk7m8ruMbi8GMwPnAMBgcKlqpQYDgAA4RKJHSjURLJOFoxa055lKQfACu5GqqigIQgLLgACN9vpSIMcChhmIUABBUWOJ7zRhkKVpUXwrKyyoAXSAA";
@@ -83,7 +85,6 @@
 	const drag =
 		/** @type {const} @satisfies {Record<string, (event: PointerEvent) => void>} */ ({
 			start: (event) => {
-				console.log(current);
 				if (event.target instanceof SVGUseElement) {
 					event.preventDefault();
 					bobbin.animate = false;
@@ -151,7 +152,7 @@
 			},
 		});
 
-	// search = "";
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 
 	$effect.root(() => {
 		// handle legacy hash states
@@ -165,7 +166,10 @@
 
 		bobbin.debug = window.location.hostname === "localhost";
 
-		bobbin_state.set(default_state);
+		const initial_state =
+			new URLSearchParams(window.location.search).get("state") ??
+			default_state;
+		bobbin_state.set(initial_state);
 
 		function listener() {
 			const previous_state = new URLSearchParams(
@@ -176,11 +180,6 @@
 		window.addEventListener("popstate", listener);
 
 		return () => window.removeEventListener("popstate", listener);
-	});
-
-	$effect(() => {
-		console.log(bobbin);
-		bobbin_state.write();
 	});
 </script>
 

@@ -21,10 +21,6 @@
 	const angle_distance = $derived(
 		angle_difference > 180 ? 360 - angle_difference : angle_difference,
 	);
-
-	$effect(() => {
-		console.log(bobbin.selected_index)
-	})
 </script>
 
 <use
@@ -37,7 +33,6 @@
 	style={`--delay: ${angle_distance * 3}ms; fill: transparent;`}
 	stroke={colour}
 	onpointerover={() => {
-		console.log('POINTED')
 		if (active) bobbin.selected_index = index;
 	}}
 />

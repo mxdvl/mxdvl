@@ -54,12 +54,13 @@
 	});
 */
 
-	const active = $derived(bobbin.selected === pattern.id && guides);
+	let active = $derived(bobbin.selected === pattern.id && guides);
 </script>
 
 <g id={pattern.id} style={`--end:${360 / pattern.count}deg;`} bind:this={g}>
 	<defs>
-		<Path {...pattern} />
+		<!-- we must not pass any transformation! -->
+		<Path id={pattern.id} d={pattern.d} />
 	</defs>
 	<Spread count={pattern.count}>
 		{#snippet snippet(angle)}
