@@ -30,5 +30,8 @@
 	},
 	"lint": {
 		"include": ["deno", "deno.json"]
+	},
+	"imports": {
+		"svelte": "npm:svelte@5.7.1"
 	}
 }
