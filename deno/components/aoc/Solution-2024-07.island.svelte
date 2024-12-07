@@ -154,18 +154,6 @@
 </details>
 
 <style>
-	.grid {
-		display: grid;
-		padding: 0;
-		list-style-type: none;
-		grid-template-columns: repeat(var(--width), var(--col, 1ch));
-		grid-template-rows: repeat(var(--height), 1.25rem);
-	}
-
-	.blue {
-		color: var(--blue);
-	}
-
 	.green {
 		color: var(--green);
 	}
