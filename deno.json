@@ -1,6 +1,9 @@
 {
 	"tasks": {
-		"dev": "deno run --watch -A deno/mononykus.ts --watch",
+		"dev": {
+			"command": "deno run --watch -A deno/mononykus.ts --watch",
+			"dependencies": ["svelte:lsp"]
+		},
 		"build": "deno task build:mononykus && deno task build:icons && deno task build:media",
 		"build:icons": "deno run --allow-read --allow-write=build --allow-net --allow-ffi --allow-sys deno/scripts/process_icons.ts",
 		"build:media": "deno run --allow-read=deno/media,build/media --allow-write=build/media deno/media.ts",
@@ -9,6 +12,7 @@
 			"dependencies": ["clean"]
 		},
 		"clean": "rm -rf build",
+		"svelte:lsp": "deno install --node-modules-dir --no-lock",
 		"serve": {
 			"command": "deno run --allow-read --allow-net deno/server.ts",
 			"dependencies": ["build"]
