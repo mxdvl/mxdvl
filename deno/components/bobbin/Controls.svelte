@@ -42,8 +42,8 @@
 			transition:fade={{ duration }}
 			animate:flip={{ duration }}
 		>
-			{#if bobbin.selected}
-				<Control />
+			{#if pattern}
+				<Control {pattern} />
 			{:else if id === "animate"}
 				<Button
 					on:click={() => {

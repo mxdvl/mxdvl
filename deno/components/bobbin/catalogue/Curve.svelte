@@ -1,7 +1,7 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, get_current } from "../store.svelte.js";
+	import { add_pattern, bobbin } from "../store.svelte.js";
 
 	let width = $state(90);
 	let offset = $state(30);
@@ -17,7 +17,7 @@
 		].join(" "),
 	);
 
-	const current = $derived(get_current());
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 </script>
 
 <SVG size={18 * 6 - 2}>

@@ -1,7 +1,7 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, get_current } from "../store.svelte.js";
+	import { add_pattern, bobbin } from "../store.svelte.js";
 	import { on_circle } from "../weaving.js";
 
 	let radius = $state(12);
@@ -44,7 +44,7 @@
 				return `${n}-gon`;
 		}
 	};
-	const current = $derived(get_current());
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 </script>
 
 <SVG centre>

@@ -1,7 +1,7 @@
 <script>
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
-	import { bobbin, get_current } from "./store.svelte.js";
+	import { bobbin } from "./store.svelte.js";
 	import { patterns_to_string, string_to_patterns } from "./data.js";
 	import Polygon from "./catalogue/Polygon.svelte";
 	import Loop from "./catalogue/Loop.svelte";
@@ -46,11 +46,10 @@
 		set: (state) => {
 			const patterns = string_to_patterns(state);
 
-			console.log({ patterns });
-
 			bobbin.patterns.clear();
 			for (const pattern of patterns) {
-				bobbin.patterns.set(pattern.id, pattern);
+				const reactive_pattern = $state(pattern);
+				bobbin.patterns.set(pattern.id, reactive_pattern);
 			}
 
 			// $patterns = $patterns;
@@ -75,6 +74,8 @@
 		},
 	});
 
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
+
 	/** A seven-sided shape that illustrates advanced features */
 	const default_state =
 		"NoIgpgTAxgdghgWwF4A4DmBrAPgRgCxYCyWAtDgGwDsWADETQDQkDMNAOjAMIQQMCsATgAEAxjmGiGNEAxAIAVjgCezAGYwaARwGqs1YuIhY8zelI5QWYvjSHlyDHLfLWUHDjJB9mmmJqQATlB4ACZKWBAoWAD6ERAEdISMNHAoDChCtrY4Qji8KWkZWblCZPkAWp4hABZQAG4ANgDOcACWAPbkYBE4MRHM5LhRSVKp6ZkTOXmjhRPZpdM0lbIw6nB1AXiOAC5QULgEsfEEJHyDI+zws8VTvCwcY0WTC7zMHMsgqgGUSPJoITAUBBNHo+hA+NRTgIzJdHnMSrk7m8ruMbi8GMwPnAMBgcKlqpQYDgAA4RKJHSjURLJOFoxa055lKQfACu5GqqigIQgLLgACN9vpSIMcChhmIUABBUWOJ7zRhkKVpUXwrKyyoAXSAA";
@@ -82,6 +83,7 @@
 	const drag =
 		/** @type {const} @satisfies {Record<string, (event: PointerEvent) => void>} */ ({
 			start: (event) => {
+				console.log(current);
 				if (event.target instanceof SVGUseElement) {
 					event.preventDefault();
 					bobbin.animate = false;
@@ -117,7 +119,7 @@
 				}
 			},
 			update: (event) => {
-				if (dragging && current_matrix) {
+				if (dragging && current_matrix && current) {
 					event.preventDefault();
 					const point = point_from_event(event);
 					drag_points.end = point;
@@ -140,12 +142,7 @@
 					);
 					drag_points.final_position = position;
 
-					const current = get_current();
-					console.log(current.id, position.x, position.y);
-					if (current) {
-						current.position = position;
-						// bobbin.patterns.set(current.id, current)
-					}
+					current.position = position;
 				}
 			},
 			stop: () => {

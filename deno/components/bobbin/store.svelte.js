@@ -14,10 +14,6 @@ export const bobbin = $state({
 	patterns: new SvelteMap(),
 });
 
-/** @returns {Pattern | undefined} */
-export function get_current() {
-	return (bobbin.patterns.get(bobbin.selected));
-}
 
 /** @param {string} id */
 export function toggle(id) {
@@ -32,7 +28,8 @@ export function add_pattern(path) {
 	const mirror = Math.random() > 1 / 2;
 	const position = { x: Math.random() * 48, y: Math.random() * 48 - 24 };
 
-	bobbin.patterns.set(id, { id, count, mirror, position, d });
+	const reactive_pattern = $state({ id, count, mirror, position, d });
+	bobbin.patterns.set(id, reactive_pattern);
 	bobbin.selected = id;
 }
 

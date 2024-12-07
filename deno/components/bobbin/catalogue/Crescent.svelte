@@ -1,7 +1,7 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, get_current } from "../store.svelte.js";
+	import { add_pattern, bobbin } from "../store.svelte.js";
 
 	let radius = $state(6);
 
@@ -30,7 +30,7 @@
 	);
 	const name = $derived(get_name(radius));
 
-	const current = $derived(get_current());
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 </script>
 
 <SVG centre>

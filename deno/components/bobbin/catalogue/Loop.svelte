@@ -1,7 +1,7 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, get_current } from "../store.svelte.js";
+	import { add_pattern, bobbin } from "../store.svelte.js";
 	import { loop } from "../weaving.js";
 
 	let count = $state(2);
@@ -10,7 +10,7 @@
 
 	const d = $derived(["M0,0", ...loop(count, bulge, length), "Z"].join(""));
 	const name = $derived(bulge === 2 ? "circle" : "loop");
-	const current = $derived(get_current());
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 </script>
 
 <SVG centre>

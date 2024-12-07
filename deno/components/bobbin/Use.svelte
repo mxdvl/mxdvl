@@ -10,7 +10,7 @@
 		colour,
 	} = $props();
 
-	const index = scale * angle;
+	const index = Math.round(scale * angle);
 
 	const transform = $derived(
 		`scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`,
@@ -21,6 +21,10 @@
 	const angle_distance = $derived(
 		angle_difference > 180 ? 360 - angle_difference : angle_difference,
 	);
+
+	$effect(() => {
+		console.log(bobbin.selected_index)
+	})
 </script>
 
 <use
@@ -30,9 +34,10 @@
 	{transform}
 	class:current
 	class:active
-	style={`--delay: ${angle_distance * 3}ms`}
+	style={`--delay: ${angle_distance * 3}ms; fill: transparent;`}
 	stroke={colour}
 	onpointerover={() => {
+		console.log('POINTED')
 		if (active) bobbin.selected_index = index;
 	}}
 />
@@ -72,6 +77,7 @@
 	use[data-id]:hover {
 		cursor: move;
 	}
+
 	use.current {
 		stroke: var(--ocean);
 		animation: fill 180ms ease-out var(--delay) both;
