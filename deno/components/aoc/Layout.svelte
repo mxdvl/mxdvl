@@ -1,17 +1,18 @@
 <script>
-	/** @type {number} */
-	export let year;
-	/** @type {number | undefined} */
-	export let day;
-	/** @type {readonly number[]} */
-	export let days;
 
-	export let source = `https://github.com/mxdvl/mxdvl/blob/main/deno/routes/aoc/${year}/day/${day}.svelte`;
+	/** @type {{ year: number; day?: number; days: readonly number[], source?: string, children: import('svelte').Snippet }} */
+	const {
+		year,
+		day,
+		days,
+		source = `https://github.com/mxdvl/mxdvl/blob/main/deno/routes/aoc/${year}/day/${day}.svelte`,
+		children,
+	} = $props();
 </script>
 
 <header>
 	<h1>Advent of Code <a href="/aoc/{year}">{year}</a></h1>
-	<h2>solutions by <a href="/">@mxdvl</a></h2>
+	<h2>solutions by <a href="https://www.mxdvl.com/">@mxdvl</a></h2>
 
 	<menu>
 		Days:
@@ -26,11 +27,18 @@
 
 	{#if day}
 		<p>
-			Get <a
+			Get Day {day}
+			<a
+				href="https://adventofcode.com/{year}/day/{day}"
+				target="_blank"
+				rel="noopener">problem &nearrow;</a
+			>
+			&
+			<a
 				href="https://adventofcode.com/{year}/day/{day}/input"
 				target="_blank"
-				rel="noopener">day {day} input &nearrow;</a
-			>…
+				rel="noopener">input &nearrow;</a
+			>
 		</p>
 		<p class="right">
 			See the <a href={source}>source code for this page</a>.
@@ -40,7 +48,7 @@
 	{/if}
 </header>
 
-<slot />
+{@render children()}
 
 <svelte:head>
 	<style global>
