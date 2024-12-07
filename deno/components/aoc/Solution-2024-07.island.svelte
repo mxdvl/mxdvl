@@ -12,7 +12,7 @@
 21037: 9 7 18 13
 292: 11 6 16 20`);
 
-	let part = $state("one");
+	let part = $state("two");
 
 	const LINE_REGEX = /(^\d+):([ \d]+)/;
 
@@ -32,51 +32,15 @@
 	);
 
 	let part_one = $derived.by(() => {
-		/**
-		 * @param {number} total
-		 * @param {number} accumulator
-		 * @param {('+' | '*')[]} left
-		 * @param {number[]} right
-		 */
-		function find_valid_solutions(total, accumulator, left, right) {
-			const [next, ...rest] = right;
-			if (!next) return total === accumulator ? [left] : [];
-
-			return ["+", "*"].flatMap((operation) => {
-				switch (operation) {
-					case "+": {
-						const accumulated = accumulator + next;
-						console.log({ accumulated, total, left });
-						return accumulated <= total
-							? find_valid_solutions(
-									total,
-									accumulated,
-									left.concat("+"),
-									rest,
-								)
-							: [];
-					}
-					case "*": {
-						const accumulated = accumulator * next;
-						return accumulated <= total
-							? find_valid_solutions(
-									total,
-									accumulated,
-									left.concat("*"),
-									rest,
-								)
-							: [];
-					}
-				}
-			});
-		}
-
 		/** @type {Array<Array<'+' | '*'>>} */
 		const test_solutions = [];
 		let calibration = 0;
 		for (const { total, numbers } of tests) {
 			const [first, ...rest] = numbers;
-			const solutions = find_valid_solutions(total, first, [], rest);
+			const solutions = find_valid_solutions(total, first, [], rest, [
+				"+",
+				"*",
+			]);
 			test_solutions.push(solutions);
 			calibration += solutions.length > 0 ? total : 0;
 		}
@@ -84,8 +48,74 @@
 	});
 
 	let part_two = $derived.by(() => {
-		return "???";
+		/** @type {Array<Array<'+' | '*' | '||'>>} */
+		const test_solutions = [];
+		let calibration = 0;
+		for (const { total, numbers } of tests) {
+			const [first, ...rest] = numbers;
+			const solutions = find_valid_solutions(total, first, [], rest, [
+				"+",
+				"*",
+				"||",
+			]);
+			test_solutions.push(solutions);
+			calibration += solutions.length > 0 ? total : 0;
+		}
+		return { test_solutions, calibration };
 	});
+
+	/**
+	 * @param {number} total
+	 * @param {number} accumulator
+	 * @param {('+' | '*' | '||')[]} left
+	 * @param {number[]} right
+	 * @param {('+' | '*' | '||')[]} operations
+	 */
+	function find_valid_solutions(total, accumulator, left, right, operations) {
+		const [next, ...rest] = right;
+		if (!next) return total === accumulator ? [left] : [];
+
+		return operations.flatMap((operation) => {
+			switch (operation) {
+				case "+": {
+					const accumulated = accumulator + next;
+					return accumulated <= total
+						? find_valid_solutions(
+								total,
+								accumulated,
+								left.concat(operation),
+								rest,
+								operations,
+							)
+						: [];
+				}
+				case "*": {
+					const accumulated = accumulator * next;
+					return accumulated <= total
+						? find_valid_solutions(
+								total,
+								accumulated,
+								left.concat(operation),
+								rest,
+								operations,
+							)
+						: [];
+				}
+				case "||": {
+					const accumulated = parseInt(`${accumulator}${next}`, 10);
+					return accumulated <= total
+						? find_valid_solutions(
+								total,
+								accumulated,
+								left.concat(operation),
+								rest,
+								operations,
+							)
+						: [];
+				}
+			}
+		});
+	}
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
@@ -97,14 +127,29 @@
 		{#each tests as { total, numbers }, index}
 			{@const solutions = part_one.test_solutions[index]}
 			<li class:green={solutions?.length}>
-				{total} – {numbers.join(" ? ")} ({solutions?.length})
+				{total} – {numbers.reduce(
+					(accumulator, next, index) =>
+						`${accumulator} ${solutions[0]?.[index - 1] ?? "?"} ${next}`,
+				)} ({solutions?.length})
 			</li>
 		{/each}
 	</ul>
 </details>
 
 <details open={part === "two"}>
-	<summary>Part 2 – {part_two}</summary>
+	<summary>Part 2 – {part_two.calibration}</summary>
+
+	<ul>
+		{#each tests as { total, numbers }, index}
+			{@const solutions = part_two.test_solutions[index]}
+			<li class:green={solutions?.length}>
+				{total} – {numbers.reduce(
+					(accumulator, next, index) =>
+						`${accumulator} ${solutions[0]?.[index - 1] ?? "?"} ${next}`,
+				)} ({solutions?.length})
+			</li>
+		{/each}
+	</ul>
 </details>
 
 <style>
