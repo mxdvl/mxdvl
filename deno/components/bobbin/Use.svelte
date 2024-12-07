@@ -1,23 +1,29 @@
 <script>
-	import { debug, selected, selected_index } from "./Store.svelte";
+	import { state as bobbin_state } from "./store.svelte.js";
 
-	/** @type {string} */
-	export let id;
-	/** @type {import('./data').Point}*/
-	export let position = { x: 0, y: 0 };
-	export let angle = 0;
-	export let scale = 1;
-
-	/** @type {string | undefined} */
-	export let colour = undefined;
+	/** @type {{id: string, position?: import('./data').Point, angle?: number, scale?: number, colour?: string}} */
+	let {
+		id,
+		position = { x: 0, y: 0 },
+		angle = 0,
+		scale = 1,
+		colour,
+	} = $props();
+	/** @type {}*/
 
 	const index = scale * angle;
 
-	$: transform = `scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`;
-	$: current = $selected === id;
-	$: active = current && $selected_index === index;
-	$: angle_difference = Math.abs(($selected_index ?? 0) - index);
-	$: angle_distance = angle_difference > 180 ? 360 - angle_difference : angle_difference;
+	const transform = $derived(
+		`scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`,
+	);
+	const current = $derived(bobbin_state.selected === id);
+	const active = $derived(current && bobbin_state.selected_index === index);
+	const angle_difference = $derived(
+		Math.abs((bobbin_state.selected_index ?? 0) - index),
+	);
+	const angle_distance = $derived(
+		angle_difference > 180 ? 360 - angle_difference : angle_difference,
+	);
 </script>
 
 <use
@@ -35,10 +41,24 @@
 />
 
 {#if active}
-	<use {transform} href={`#shape-${id}`} class:current stroke-width={2} class="do-not-point" />
-	{#if $debug}
-		<text x={30} y={-20} {transform} class="do-not-point">a:{Math.floor(angle)} s:{scale}</text>
-		<line {transform} stroke="var(--ocean)" stroke-dasharray={[2, 6].join(" ")} x2={-position.x} y2={-position.y} />
+	<use
+		{transform}
+		href={`#shape-${id}`}
+		class:current
+		stroke-width={2}
+		class="do-not-point"
+	/>
+	{#if bobbin_state.debug}
+		<text x={30} y={-20} {transform} class="do-not-point"
+			>a:{Math.floor(angle)} s:{scale}</text
+		>
+		<line
+			{transform}
+			stroke="var(--ocean)"
+			stroke-dasharray={[2, 6].join(" ")}
+			x2={-position.x}
+			y2={-position.y}
+		/>
 	{/if}
 {/if}
 

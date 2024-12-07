@@ -1,19 +1,21 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@luca/esbuild-deno-loader@0.11": "0.11.0",
+    "jsr:@luca/esbuild-deno-loader@0.11": "0.11.1",
     "jsr:@mxdvl/mononykus@0.8.1": "0.8.1",
+    "jsr:@mxdvl/mononykus@0.8.3": "0.8.3",
     "jsr:@std/async@*": "1.0.9",
     "jsr:@std/bytes@^1.0.2": "1.0.4",
-    "jsr:@std/cli@^1.0.6": "1.0.7",
+    "jsr:@std/cli@^1.0.6": "1.0.8",
+    "jsr:@std/cli@^1.0.8": "1.0.8",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
     "jsr:@std/fmt@*": "1.0.3",
     "jsr:@std/fmt@^1.0.3": "1.0.3",
     "jsr:@std/fs@*": "1.0.6",
     "jsr:@std/fs@^1.0.6": "1.0.6",
     "jsr:@std/html@^1.0.3": "1.0.3",
-    "jsr:@std/http@*": "1.0.11",
-    "jsr:@std/http@^1.0.11": "1.0.11",
+    "jsr:@std/http@*": "1.0.12",
+    "jsr:@std/http@^1.0.11": "1.0.12",
     "jsr:@std/media-types@^1.1.0": "1.1.0",
     "jsr:@std/net@^1.0.4": "1.0.4",
     "jsr:@std/path@*": "1.0.8",
@@ -35,11 +37,32 @@
         "jsr:@std/path@^1.0.6"
       ]
     },
+    "@luca/esbuild-deno-loader@0.11.1": {
+      "integrity": "dc020d16d75b591f679f6b9288b10f38bdb4f24345edb2f5732affa1d9885267",
+      "dependencies": [
+        "jsr:@std/bytes",
+        "jsr:@std/encoding",
+        "jsr:@std/path@^1.0.6"
+      ]
+    },
     "@mxdvl/mononykus@0.8.1": {
       "integrity": "cfd79294955c49ac9c46a46c9f3e9526c8beb306c1b50ce6de386066b140b704",
       "dependencies": [
         "jsr:@luca/esbuild-deno-loader",
-        "jsr:@std/cli",
+        "jsr:@std/cli@^1.0.6",
+        "jsr:@std/fs@^1.0.6",
+        "jsr:@std/http@^1.0.11",
+        "jsr:@std/path@^1.0.6",
+        "npm:esbuild",
+        "npm:prettier",
+        "npm:svelte"
+      ]
+    },
+    "@mxdvl/mononykus@0.8.3": {
+      "integrity": "7807df13db38176a01e4f36ecb9c2ee74905b66c4d8810383f3fb567f9bd9dfc",
+      "dependencies": [
+        "jsr:@luca/esbuild-deno-loader",
+        "jsr:@std/cli@^1.0.6",
         "jsr:@std/fs@^1.0.6",
         "jsr:@std/http@^1.0.11",
         "jsr:@std/path@^1.0.6",
@@ -56,6 +79,9 @@
     },
     "@std/cli@1.0.7": {
       "integrity": "98359df9df586a69015ba570305183b0cb9e7d53c05ea2016ef9a3e77e82c7cd"
+    },
+    "@std/cli@1.0.8": {
+      "integrity": "3762d8dc9a373715c08d871c38d45e637b25266f013a1d0bbe560bca409de94e"
     },
     "@std/encoding@1.0.5": {
       "integrity": "ecf363d4fc25bd85bd915ff6733a7e79b67e0e7806334af15f4645c569fefc04"
@@ -75,7 +101,20 @@
     "@std/http@1.0.11": {
       "integrity": "f1928e69e7dcf1664e22d153934cb866bf31e1bbe4bc59f8ac1b4d0e98cb7558",
       "dependencies": [
-        "jsr:@std/cli",
+        "jsr:@std/cli@^1.0.6",
+        "jsr:@std/encoding",
+        "jsr:@std/fmt@^1.0.3",
+        "jsr:@std/html",
+        "jsr:@std/media-types",
+        "jsr:@std/net",
+        "jsr:@std/path@^1.0.8",
+        "jsr:@std/streams"
+      ]
+    },
+    "@std/http@1.0.12": {
+      "integrity": "85246d8bfe9c8e2538518725b158bdc31f616e0869255f4a8d9e3de919cab2aa",
+      "dependencies": [
+        "jsr:@std/cli@^1.0.8",
         "jsr:@std/encoding",
         "jsr:@std/fmt@^1.0.3",
         "jsr:@std/html",

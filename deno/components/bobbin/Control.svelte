@@ -3,18 +3,16 @@
 	import { fly } from "svelte/transition";
 
 	import Button from "../Button.svelte";
-	import { selected, toggle, uid } from "./Store.svelte";
+	import { state, uid } from "./store.svelte.js";
 
 	/** @typedef {import('./data.js').Pattern} Pattern */
 
-	/** @type {import("svelte/store").Writable<Pattern>} */
-	export let pattern;
-	/** @type {import("svelte/store").Writable<Map<string, import("svelte/store").Writable<Pattern>>>} */
-	export let patterns;
+	/** @type {{pattern: Pattern, patterns: SvelteMap<string, Pattern>}} */
+	let { pattern, patterns } = $props();
 
-	$: current = $pattern.id === $selected;
+	const current = $derived(pattern.id === selected);
 
-	const toggle_selected = () => toggle($pattern.id);
+	const toggle_selected = () => toggle(pattern.id);
 
 	/** @param {KeyboardEvent} event */
 	const handle_keydown = (event) => {
@@ -65,17 +63,26 @@
 </h3>
 
 {#if current}
-	<ul class="further-controls" transition:fly|local={{ y: -12, duration: 240 }}>
+	<ul
+		class="further-controls"
+		transition:fly|local={{ y: -12, duration: 240 }}
+	>
 		<li>
 			Count
 			<button
-				on:click={() => {
+				onclick={() => {
 					$pattern.count = Math.max(1, $pattern.count - 1);
 				}}>-</button
 			>
-			<input type="number" bind:value={$pattern.count} min="3" max="120" step="1" />
+			<input
+				type="number"
+				bind:value={$pattern.count}
+				min="3"
+				max="120"
+				step="1"
+			/>
 			<button
-				on:click={() => {
+				onclick={() => {
 					$pattern.count = Math.min(120, $pattern.count + 1);
 				}}>+</button
 			>
@@ -88,13 +95,14 @@
 			</label>
 		</li>
 
-		<!-- eslint-disable svelte/valid-compile -- this is a tool for myself -->
-		<li tabindex={0} on:keydown={handle_keydown}>
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+		<li tabindex={0} onkeydown={handle_keydown}>
 			{Math.round($pattern.position.x)},{Math.round($pattern.position.y)}
 		</li>
 
 		<li class="path">
-			<textarea bind:value={$pattern.d} cols="20" rows="4" />
+			<textarea bind:value={$pattern.d} cols="20" rows="4"></textarea>
 		</li>
 
 		<li class="buttons">
@@ -103,7 +111,11 @@
 					const id = uid();
 					const pattern_to_copy = $pattern;
 					const { x, y } = pattern_to_copy.position;
-					const copy = writable({ ...pattern_to_copy, id, position: { x: x + 12, y } });
+					const copy = writable({
+						...pattern_to_copy,
+						id,
+						position: { x: x + 12, y },
+					});
 					$patterns.set(id, copy);
 					selected.set(id);
 					$patterns = $patterns;
@@ -128,7 +140,11 @@
 		padding: 3px;
 		position: sticky;
 		top: 0;
-		background-image: linear-gradient(to bottom, var(--clouds) 60%, transparent);
+		background-image: linear-gradient(
+			to bottom,
+			var(--clouds) 60%,
+			transparent
+		);
 		z-index: 3;
 	}
 
@@ -167,7 +183,8 @@
 
 	textarea {
 		display: block;
-		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+			Consolas, "DejaVu Sans Mono", monospace;
 		background-color: inherit;
 		resize: none;
 		font-size: inherit;

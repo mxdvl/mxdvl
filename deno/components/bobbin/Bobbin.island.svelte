@@ -1,139 +1,163 @@
 <script>
 	import { derived, get, writable } from "svelte/store";
-	import { onMount } from "svelte";
-
 	import Shape from "./Shape.svelte";
 	import Controls from "./Controls.svelte";
-	import { animate, debug, patterns, selected, selected_index } from "./Store.svelte";
+	import { state as store_state } from "./store.svelte.js";
 	import { patterns_to_string, string_to_patterns } from "./data.js";
 	import Polygon from "./catalogue/Polygon.svelte";
 	import Loop from "./catalogue/Loop.svelte";
 	import Crescent from "./catalogue/Crescent.svelte";
 	import Curve from "./catalogue/Curve.svelte";
 	import Star from "./catalogue/Star.svelte";
+	import { SvelteMap } from "svelte/reactivity";
 
 	const size = 20 * 18 * 2;
 
 	/** @type {SVGSVGElement} */
-	let svg;
+	let svg = $state();
 
-	let guides = true;
+	let guides = $state(true);
 
-	let dragging = false;
+	let dragging = $state(false);
+
 	/** @type {import('./data').Point} */
 	const initial_point = { x: 0, y: 0 };
-	$: dragStart = initial_point;
-	$: dragEnd = initial_point;
-	$: dragOffset = initial_point;
-	$: dragDelta = initial_point;
-	$: final_position = initial_point;
+
+	let drag_points = $state({
+		start: initial_point,
+		end: initial_point,
+		offset: initial_point,
+		delta: initial_point,
+		final_position: initial_point,
+	});
 
 	/** @type {(event: MouseEvent) => DOMPointReadOnly} */
-	const point_from_event = (event) => new DOMPointReadOnly(event.offsetX - size / 2, event.offsetY - size / 2);
+	const point_from_event = (event) =>
+		new DOMPointReadOnly(
+			event.offsetX - size / 2,
+			event.offsetY - size / 2,
+		);
 
-	const current = derived([patterns, selected], ([$patterns, $selected]) => $patterns.get($selected ?? ""));
+	// const current = $derived(selected && patterns.get(selected));
 
 	/** @type {import("svelte/store").Writable<DOMMatrixReadOnly | undefined>}*/
 	const current_matrix = writable();
 
-	const state = /** @type {const} */ ({
+	const bobbin_state = /** @type {const} */ ({
 		/** @param {string} state */
 		set: (state) => {
 			const saved_patterns = string_to_patterns(state);
 
-			$patterns.clear();
+			store_state.patterns.clear();
 			for (const saved_pattern of saved_patterns) {
-				$patterns.set(saved_pattern.id, writable(saved_pattern));
+				store_state.patterns.set(saved_pattern.id, saved_pattern);
 			}
 
-			$patterns = $patterns;
+			// $patterns = $patterns;
 		},
 		get: () => {
 			/** @type {import('./data').Pattern[]} */
 			const patterns_snapshot = [];
 
-			for (const [, pattern] of $patterns) {
+			for (const [, pattern] of store_state.patterns) {
 				patterns_snapshot.push(get(pattern));
 			}
 
 			return patterns_to_string(patterns_snapshot);
 		},
 		write: () => {
-			const search = "?" + new URLSearchParams({ state: state.get() });
+			const search = "?" + new URLSearchParams({ state: bobbin_state.get() });
 
 			if (window.location.search !== search) {
 				//goto(search, { noScroll: true });
 			}
 		},
 		copy: () => {
-			navigator.clipboard.writeText(state.get());
+			navigator.clipboard.writeText(bobbin_state.get());
 		},
 		clear: () => {
-			$patterns = new Map();
+			store_state.patterns = new SvelteMap();
 		},
 	});
 
 	/** A seven-sided shape that illustrates advanced features */
-    const default_state = "NoIgpgTAxgdghgWwF4A4DmBrAPgRgCxYCyWAtDgGwDsWADETQDQkDMNAOjAMIQQMCsATgAEAxjmGiGNEAxAIAVjgCezAGYwaARwGqs1YuIhY8zelI5QWYvjSHlyDHLfLWUHDjJB9mmmJqQATlB4ACZKWBAoWAD6ERAEdISMNHAoDChCtrY4Qji8KWkZWblCZPkAWp4hABZQAG4ANgDOcACWAPbkYBE4MRHM5LhRSVKp6ZkTOXmjhRPZpdM0lbIw6nB1AXiOAC5QULgEsfEEJHyDI+zws8VTvCwcY0WTC7zMHMsgqgGUSPJoITAUBBNHo+hA+NRTgIzJdHnMSrk7m8ruMbi8GMwPnAMBgcKlqpQYDgAA4RKJHSjURLJOFoxa055lKQfACu5GqqigIQgLLgACN9vpSIMcChhmIUABBUWOJ7zRhkKVpUXwrKyyoAXSAA";
+	const default_state =
+		"NoIgpgTAxgdghgWwF4A4DmBrAPgRgCxYCyWAtDgGwDsWADETQDQkDMNAOjAMIQQMCsATgAEAxjmGiGNEAxAIAVjgCezAGYwaARwGqs1YuIhY8zelI5QWYvjSHlyDHLfLWUHDjJB9mmmJqQATlB4ACZKWBAoWAD6ERAEdISMNHAoDChCtrY4Qji8KWkZWblCZPkAWp4hABZQAG4ANgDOcACWAPbkYBE4MRHM5LhRSVKp6ZkTOXmjhRPZpdM0lbIw6nB1AXiOAC5QULgEsfEEJHyDI+zws8VTvCwcY0WTC7zMHMsgqgGUSPJoITAUBBNHo+hA+NRTgIzJdHnMSrk7m8ruMbi8GMwPnAMBgcKlqpQYDgAA4RKJHSjURLJOFoxa055lKQfACu5GqqigIQgLLgACN9vpSIMcChhmIUABBUWOJ7zRhkKVpUXwrKyyoAXSAA";
 
-	const drag = /** @type {const} @satisfies {Record<string, (event: PointerEvent) => void>} */ ({
-		start: (event) => {
-			if (event.target instanceof SVGUseElement) {
-				event.preventDefault();
-				animate.set(false);
+	const drag =
+		/** @type {const} @satisfies {Record<string, (event: PointerEvent) => void>} */ ({
+			start: (event) => {
+				if (event.target instanceof SVGUseElement) {
+					event.preventDefault();
+					animate.set(false);
 
-				const { id, index } = event.target.dataset;
-				selected.set(id);
+					const { id, index } = event.target.dataset;
+					store_state.selected.set(id);
 
-				const numeric_index = Number(index);
-				if (!Number.isNaN(numeric_index)) selected_index.set(numeric_index);
+					const numeric_index = Number(index);
+					if (!Number.isNaN(numeric_index))
+						store_state.selected_index.set(numeric_index);
 
-				if ($selected !== undefined) {
-					current_matrix.set(
-						DOMMatrixReadOnly.fromMatrix(event.target.transform.baseVal.consolidate()?.matrix),
-					);
-					const point = point_from_event(event);
-					const offset = new DOMPointReadOnly(0, 0).matrixTransform($current_matrix);
-					dragOffset = offset;
+					if (store_state.selected !== '') {
+						current_matrix.set(
+							DOMMatrixReadOnly.fromMatrix(
+								event.target.transform.baseVal.consolidate()
+									?.matrix,
+							),
+						);
+						const point = point_from_event(event);
+						const offset = new DOMPointReadOnly(
+							0,
+							0,
+						).matrixTransform($current_matrix);
+						dragOffset = offset;
 
-					dragStart = point;
-					dragEnd = point;
-					dragDelta = initial_point;
-					final_position = initial_point;
-					dragging = true;
+						drag_points.start = point;
+						drag_points.end = point;
+						drag_points.delta = initial_point;
+						drag_points.final_position = initial_point;
+						dragging = true;
+					}
+				} else {
+					selected.set(undefined);
 				}
-			} else {
-				selected.set(undefined);
-			}
-		},
-		update: (event) => {
-			if (dragging && $current_matrix) {
-				event.preventDefault();
-				const point = point_from_event(event);
-				dragEnd = point;
-				const delta = new DOMPointReadOnly(dragEnd.x - dragStart.x, dragEnd.y - dragStart.y);
-				dragDelta = delta;
+			},
+			update: (event) => {
+				if (dragging && $current_matrix) {
+					event.preventDefault();
+					const point = point_from_event(event);
+					drag_points.end = point;
+					const delta = new DOMPointReadOnly(
+						drag_points.end.x - drag_points.start.x,
+						drag_points.end.y - drag_points.start.y,
+					);
+					drag_points.delta = delta;
 
-				const position = new DOMPointReadOnly(dragOffset.x + delta.x, dragOffset.y + delta.y).matrixTransform(
-					$current_matrix.inverse().translate(dragOffset.x, dragOffset.y),
-				);
-				final_position = position;
+					const position = new DOMPointReadOnly(
+						drag_points.offset.x + delta.x,
+						drag_points.offset.y + delta.y,
+					).matrixTransform(
+						$current_matrix
+							.inverse()
+							.translate(dragOffset.x, dragOffset.y),
+					);
+					drag_points.final_position = position;
 
-				$current?.update((current) => ({
-					...current,
-					position,
-				}));
-			}
-		},
-		stop: () => {
-			dragging = false;
-			state.write();
-		},
-	});
+					// $current?.update((current) => ({
+					// 	...current,
+					// 	position,
+					// }));
+				}
+			},
+			stop: () => {
+				dragging = false;
+				bobbin_state.write();
+			},
+		});
 
-	search = "";
+	// search = "";
 
-/*
+	/*
 	onMount(async () => {
 		debug.set(window.location.hostname === "localhost");
 
@@ -163,7 +187,8 @@
 
 <div id="workspace">
 	<div id="canvas" class="border">
-		<svg bind:this={svg}
+		<svg
+			bind:this={svg}
 			viewBox={`-${size / 2},-${size / 2} ${size},${size}`}
 			on:pointerdown={drag.start}
 			on:pointermove={drag.update}
@@ -172,39 +197,70 @@
 		>
 			<defs>
 				<text>Generated with @mxdvl’s Rosace</text>
-				<text>https://www.mxdvl.com/works/rosace{$state}</text>
+				<text>https://www.mxdvl.com/works/rosace{bobbin_state}</text>
 			</defs>
 
-			{#each [...$patterns.entries()] as [id, pattern] (id)}
+			{#each [...store_state.patterns.entries()] as [id, pattern] (id)}
 				<Shape {pattern} {guides} />
 			{/each}
 
-			{#if $debug && dragging}
+			{#if store_state.debug && dragging}
 				<g style="pointer-event: none;">
-					<text x={-size / 2} y={size / 2} font-size={12} fill="currentColor" stroke="none"
-						>{$current_matrix?.toString()}</text
+					<text
+						x={-size / 2}
+						y={size / 2}
+						font-size={12}
+						fill="currentColor"
+						stroke="none">{$current_matrix?.toString()}</text
 					>
-					<circle cx={dragStart.x} cy={dragStart.y} r={3} fill="currentColor" />
-					<line x1={dragStart.x} y1={dragStart.y} x2={dragEnd.x} y2={dragEnd.y} />
-					<line x1={dragStart.x} y1={dragStart.y} x2={dragEnd.x} y2={dragEnd.y} />
+					<circle
+						cx={drag_points.start.x}
+						cy={drag_points.start.y}
+						r={3}
+						fill="currentColor"
+					/>
+					<line
+						x1={drag_points.start.x}
+						y1={drag_points.start.y}
+						x2={drag_points.end.x}
+						y2={drag_points.end.y}
+					/>
+					<line
+						x1={drag_points.start.x}
+						y1={drag_points.start.y}
+						x2={drag_points.end.x}
+						y2={drag_points.end.y}
+					/>
 
-					<circle cx={dragOffset.x} cy={dragOffset.y} r={2} fill="var(--glint)" stroke="none" />
+					<circle
+						cx={drag_points.offset.x}
+						cy={drag_points.offset.y}
+						r={2}
+						fill="var(--glint)"
+						stroke="none"
+					/>
 					<line
 						stroke="var(--glint)"
-						x1={dragOffset.x}
-						y1={dragOffset.y}
-						x2={dragOffset.x + dragDelta.x}
-						y2={dragOffset.y + dragDelta.y}
+						x1={drag_points.offset.x}
+						y1={drag_points.offset.y}
+						x2={drag_points.offset.x + drag_points.delta.x}
+						y2={drag_points.offset.y + drag_points.delta.y}
 					/>
 					<line
 						stroke="var(--glint)"
 						x1={0}
 						y1={0}
-						x2={dragOffset.x + dragDelta.x}
-						y2={dragOffset.y + dragDelta.y}
+						x2={drag_points.offset.x + drag_points.delta.x}
+						y2={drag_points.offset.y + drag_points.delta.y}
 					/>
 
-					<line stroke="var(--ocean)" x1={0} y1={0} x2={final_position.x} y2={final_position.y} />
+					<line
+						stroke="var(--ocean)"
+						x1={0}
+						y1={0}
+						x2={drag_points.final_position.x}
+						y2={drag_points.final_position.y}
+					/>
 				</g>
 			{/if}
 		</svg>

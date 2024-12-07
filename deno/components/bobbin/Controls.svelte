@@ -5,7 +5,7 @@
 
 	import Control from "./Control.svelte";
 	import Button from "../Button.svelte";
-	import { add_pattern, animate, selected } from "./Store.svelte";
+	import { add_pattern, state as bobbin_state } from "./store.svelte.js";
 
 	/** @typedef {import('./data.js').Pattern} Pattern */
 
@@ -40,7 +40,7 @@
 <ul>
 	{#each [animation, ...$patterns.entries(), extra] as [id, pattern] (id)}
 		<li
-			class:current={$selected === id}
+			class:current={bobbin_state.selected === id}
 			class:button={!pattern}
 			transition:fade={{ duration }}
 			animate:flip={{ duration }}
@@ -48,8 +48,11 @@
 			{#if pattern}
 				<Control {pattern} {patterns} />
 			{:else if id === "animate"}
-				<Button on:click={() => animate.update((_) => !_)}
-					>{#if $animate}
+				<Button
+					on:click={() => {
+						bobbin_state.animate = !bobbin_state.animate;
+					}}
+					>{#if bobbin_state.animate}
 						Pause
 					{:else}
 						Play

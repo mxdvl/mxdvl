@@ -1,21 +1,24 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, current } from "../Store.svelte";
+	import { add_pattern, get_current } from "../store.svelte.js";
 	import { on_circle } from "../weaving.js";
 
-	let inner_radius = 8;
-	let outer_radius = 18;
-	let count = 5;
+	let inner_radius = $state(8);
+	let outer_radius = $state(18);
+	let count = $state(5);
 
-	$: outer = on_circle()(outer_radius)(count);
-	$: inner = on_circle(1 / 4 - 0.5 / count)(inner_radius)(count);
+	const outer = $derived(on_circle()(outer_radius)(count));
+	const inner = $derived(on_circle(1 / 4 - 0.5 / count)(inner_radius)(count));
 
-	$: points = Array.from({ length: count }, (_, i) =>
-		i === 0 ? `M${outer[i]}L${inner[i]}` : ` ${outer[i]} ${inner[i]}`,
+	const points = $derived(
+		Array.from({ length: count }, (_, i) =>
+			i === 0 ? `M${outer[i]}L${inner[i]}` : ` ${outer[i]} ${inner[i]}`,
+		),
 	);
 
-	$: d = ["M0,0", ...points, "Z"].join("");
+	const d = $derived(["M0,0", ...points, "Z"].join(""));
+	const current = $derived(get_current());
 </script>
 
 <SVG centre>
@@ -29,12 +32,12 @@
 
 <Button
 	on:click={() => {
-		if ($current) {
-			$current.update((c) => ({ ...c, d }));
+		if (current) {
+			current.d = d;
 		} else {
 			add_pattern(d);
 		}
-	}}>{$current ? "set to" : "add"} star</Button
+	}}>{current ? "set to" : "add"} star</Button
 >
 
 <label>
