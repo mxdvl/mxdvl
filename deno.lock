@@ -354,5 +354,10 @@
     "zimmerframe@1.1.2": {
       "integrity": "sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w=="
     }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:svelte@5.7.1"
+    ]
   }
 }
