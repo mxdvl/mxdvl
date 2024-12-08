@@ -149,7 +149,7 @@
 				already_visited: visited.slice(0, index),
 			});
 
-			if (loop) loop_positions.set(next, loopy);
+			if (loop) loop_positions.set(next, loopy.slice(index));
 		}
 
 		return { visited, loop_positions };
