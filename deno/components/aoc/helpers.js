@@ -2,13 +2,19 @@
 
 /**
  * @param {string} input a 2D representation of items
+ * @param {(character: string) => string | undefined} input a 2D representation of items
  * @returns {ReadonlyMap<Coordinates, string>}
  */
-export function create_map(input) {
+export function create_map(input, remap = identity) {
 	return new Map(
 		input
 			.split("\n")
-			.flatMap((line, y) => line.split("").map((letter, x) => [`${x},${y}`, letter])),
+			.flatMap((line, y) =>
+				line.split("").flatMap((letter, x) => {
+					const remapped = remap(letter);
+					return remapped ? [[`${x},${y}`, letter]] : [];
+				})
+			),
 	);
 }
 
@@ -42,4 +48,12 @@ export const sum = (a, b) => a + b;
 /** @type {(a: number, b: number) => number}*/
 export const product = (a, b) => a * b;
 
-export const arrows = '→←↑↓↖↗↘↙';
+/**
+ * @template T
+ * @param {T} _
+ */
+function identity(_) {
+	return _;
+}
+
+export const arrows = "→←↑↓↖↗↘↙";
