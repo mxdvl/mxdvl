@@ -118,10 +118,13 @@
 
 	let part_two = $derived.by(() => {
 		const { visited } = part_one;
-		/** @type {Map<Coordinates, Set<Coordinates>>} */
+		/** @type {Map<Coordinates, Array<[Coordinates, Direction]>>} */
 		const loop_positions = new Map();
 
+		/** @type {Set<Coordinates>} */
+		const been = new Set();
 		for (const [index, [coordinates, direction]] of visited.entries()) {
+			been.add(coordinates);
 			const { x, y } = parse_coordinates(coordinates);
 			if (index === 0) continue;
 			if (direction === "↻") continue;
@@ -134,6 +137,7 @@
 			}[direction];
 			const next = format_coordinates({ x: x + dx, y: y + dy });
 			if (map.has(next)) continue;
+			if (been.has(next)) continue;
 			const adjusted_map = new Map(map);
 			adjusted_map.set(next, "█");
 			const { visited: loopy, loop } = visit_map({
@@ -145,13 +149,7 @@
 				already_visited: visited.slice(0, index),
 			});
 
-			if (loop)
-				loop_positions.set(
-					next,
-					new Set(
-						loopy.slice(index).map(([coordinates]) => coordinates),
-					),
-				);
+			if (loop) loop_positions.set(next, loopy);
 		}
 
 		return { visited, loop_positions };
@@ -159,10 +157,11 @@
 
 	/**
 	 * @param {Direction[]} directions
-	 * @returns {"╭" | "╮" | "╯" | "╰" | "│" | "─" | "┼"}
+	 * @returns {"╭" | "╮" | "╯" | "╰" | "│" | "─" | "┼" | undefined}
 	 */
 	function display_directions(directions) {
 		return {
+			"": "┼", // ╋
 			"↑↻→": "╭", //┏
 			"→↻↓": "╮", // ┓
 			"↓↻←": "╯", // ┛
@@ -173,14 +172,15 @@
 			"→→→": "─", // ━
 			"←←←": "─", // ━
 		}[directions.join("")];
-		// ?? "┼" // ╋
 	}
 
-	/** @type {Coordinates} */
-	let hovered = $state(`-1,-1`);
+	/** @type {number} */
+	let hovered_index = $state(Infinity);
 
-	/** @type {Set<Coordinates>} */
-	let loop = $derived(part_two.loop_positions.get(hovered) ?? new Set());
+	/** @type {Coordinates | undefined} */
+	let hovered = $derived(part_two.visited[hovered_index]?.[0]);
+
+	let loop = $derived(part_two.loop_positions.get(hovered) ?? []);
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
@@ -219,7 +219,7 @@
 				{cell}
 			</li>
 		{/each}
-		{#if part_two.loop_positions.has(hovered)}
+		{#if hovered}
 			{@const { x, y } = parse_coordinates(hovered)}
 			<span class="blue" style="grid-area:{y + 1}/{x + 1}">█</span>
 		{/if}
@@ -234,7 +234,9 @@
 			{@const display_direction = display_directions(directions)}
 			{#if display_direction}
 				{@const display_arrow =
-					display_direction === "─" || display_direction === "│"
+					(display_direction === "─" || display_direction === "│") &&
+					index % 3 === 0 &&
+					index <= hovered_index
 						? {
 								"↑": "▲",
 								"→": "▶",
@@ -253,23 +255,24 @@
 					class:green
 					class:red
 					class:pointer={red}
+					class:cut={index >= hovered_index}
 					style="grid-area:{y + 1}/{x + 1};"
 					data-direction={direction}
 					tabindex={red ? 0 : undefined}
 					onfocus={() => {
-						hovered = coordinates;
+						hovered_index = index;
 					}}
 					onblur={() => {
-						hovered = `-1,-1`;
+						hovered_index = Infinity;
 					}}
 				>
 					{display_directions(directions)}
 				</span>
 			{/if}
 		{/each}
-		{#each loop as coordinates, index}
+		{#each loop.slice() as [coordinates, index]}
 			{@const { x, y } = parse_coordinates(coordinates)}
-			{@const delay = (index - loop.size) * 60}
+			{@const delay = (index - loop.length) * 60}
 			<span
 				class="blue pulse"
 				style="grid-area:{y + 1}/{x + 1};animation-delay:{delay}ms;"
@@ -290,7 +293,7 @@
 
 	.grid {
 		.red {
-			background-color: Canvas;
+			background-color: transparent;
 
 			&:focus {
 				background-color: var(--blue);
@@ -304,6 +307,10 @@
 
 		:not(.red) {
 			pointer-events: none;
+		}
+
+		.cut {
+			opacity: 0.24;
 		}
 	}
 
