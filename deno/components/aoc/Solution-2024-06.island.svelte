@@ -46,12 +46,13 @@
 
 	/**
 	 * @param {Object} options
-	 * @param {Map<Coordinates, string>} options.map
+	 * @param {ReadonlyMap<Coordinates, string>} options.map
 	 * @param {number} options.width
 	 * @param {number} options.height
-	 * @param {{x :number, y :number}} options.starting_position
+	 * @param {{x: readonly number, y: readonly number}} options.starting_position
 	 * @param {Direction} [options.starting_direction]
-	 * @returns {{ visited: Map<Coordinates, Set<Direction>>, loop: boolean }}
+	 * @param {ReadonlArray<[Coordinates, Direction]>} [options.already_visited]
+	 * @returns {{ visited: Array<[Coordinates, Direction]>, loop: boolean }}
 	 */
 	function visit_map({
 		map,
@@ -59,12 +60,18 @@
 		height,
 		starting_position,
 		starting_direction = "↑",
+		already_visited = [],
 	}) {
 		let position = { ...starting_position };
 		/** @type {Direction} */
 		let direction = starting_direction;
-		/** @type {Map<Coordinates, Set<Direction>>} */
-		const visited = new Map();
+		/** @type {Array<[Coordinates, Direction]>} */
+		const visited = [...already_visited];
+		const been = new Set(
+			visited.map(
+				([coordinates, direction]) => `${coordinates}:${direction}`,
+			),
+		);
 
 		while (
 			0 <= position.x &&
@@ -73,13 +80,13 @@
 			position.y < height
 		) {
 			const coordinates = format_coordinates(position);
-			const directions = visited.get(coordinates) ?? new Set();
-			if (directions.has(direction)) {
+			const key = `${coordinates}:${direction}`;
+			if (been.has(key)) {
 				// we’re going in a loop!
 				return { visited, loop: true };
 			}
-			directions.add(direction);
-			visited.set(coordinates, directions);
+			visited.push([coordinates, direction]);
+			been.add(key);
 			const [dx, dy] = {
 				"↑": [0, -1],
 				"→": [1, -0],
@@ -96,7 +103,7 @@
 					"↓": "←",
 					"←": "↑",
 				}[direction];
-				directions.add("↻");
+				visited.push([coordinates, "↻"]);
 				continue;
 			}
 			position.x += dx;
@@ -110,81 +117,79 @@
 	);
 
 	let part_two = $derived.by(() => {
-		const { visited } = visit_map({
-			map,
-			width,
-			height,
-			starting_position,
-		});
-
+		const { visited } = part_one;
 		/** @type {Map<Coordinates, Set<Coordinates>>} */
 		const loop_positions = new Map();
 
-		for (const [coordinates, directions] of visited) {
+		for (const [index, [coordinates, direction]] of visited.entries()) {
 			const { x, y } = parse_coordinates(coordinates);
-			for (const direction of directions) {
-				if (direction === "↻") continue;
-				const [dx, dy] = {
-					"↑": [0, -1],
-					"→": [1, -0],
-					"↓": [-0, 1],
-					"←": [-1, 0],
-				}[direction];
-				const next = format_coordinates({ x: x + dx, y: y + dy });
-				if (!visited.has(next)) continue;
-				if (
-					x + dx === starting_position.x &&
-					y + dy === starting_position.y
-				) {
-					// we cannot place a block where the guard is currently
-					continue;
-				}
-				const adjusted_map = new Map(map);
-				adjusted_map.set(next, "█");
-				const { visited: loopy, loop } = visit_map({
-					map: adjusted_map,
-					width,
-					height,
-					starting_position,
-				});
+			if (index === 0) continue;
+			if (direction === "↻") continue;
 
-				if (loop) loop_positions.set(next, new Set(loopy.keys()));
-				// if (loop) console.log({ loopy });
-			}
+			const [dx, dy] = {
+				"↑": [0, -1],
+				"→": [1, -0],
+				"↓": [-0, 1],
+				"←": [-1, 0],
+			}[direction];
+			const next = format_coordinates({ x: x + dx, y: y + dy });
+			if (map.has(next)) continue;
+			const adjusted_map = new Map(map);
+			adjusted_map.set(next, "█");
+			const { visited: loopy, loop } = visit_map({
+				map: adjusted_map,
+				width,
+				height,
+				starting_position: { x, y },
+				starting_direction: direction,
+				already_visited: visited.slice(0, index),
+			});
+
+			if (loop)
+				loop_positions.set(
+					next,
+					new Set(
+						loopy.slice(index).map(([coordinates]) => coordinates),
+					),
+				);
 		}
 
 		return { visited, loop_positions };
 	});
 
 	/**
-	 * @param {Set<Direction>} directions
+	 * @param {Direction[]} directions
 	 * @returns {"╭" | "╮" | "╯" | "╰" | "│" | "─" | "┼"}
 	 */
 	function display_directions(directions) {
-		return (
-			{
-				"↑↻→": "╭", //┏
-				"→↻↓": "╮", // ┓
-				"↓↻←": "╯", // ┛
-				"←↻↑": "╰", // ┗
-				"↑": "│", // ┃
-				"↓": "│", // ┃
-				"→": "─", // ━
-				"←": "─", // ━
-			}[[...directions].join("")] ?? "┼" // ╋
-		);
+		return {
+			"↑↻→": "╭", //┏
+			"→↻↓": "╮", // ┓
+			"↓↻←": "╯", // ┛
+			"←↻↑": "╰", // ┗
+			"↑↑↑": "│", // ┃
+			"↓↓↓": "│", // ┃
+			"↓↓": "│", // ┃
+			"→→→": "─", // ━
+			"←←←": "─", // ━
+		}[directions.join("")];
+		// ?? "┼" // ╋
 	}
 
-	/** @type {Coordinates | undefined} */
-	let hovered = $state();
+	/** @type {Coordinates} */
+	let hovered = $state(`-1,-1`);
 
+	/** @type {Set<Coordinates>} */
 	let loop = $derived(part_two.loop_positions.get(hovered) ?? new Set());
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
 
 <details open={part === "one"}>
-	<summary>Part 1 – {part_one.visited.size}</summary>
+	<summary
+		>Part 1 – {new Set(part_one.visited.map(([coordinates]) => coordinates))
+			.size}</summary
+	>
 
 	<div class="grid" style="--width:{width};--height:{height};--col:1rem">
 		{#each map as [coordinates, cell]}
@@ -193,11 +198,10 @@
 				{cell}
 			</span>
 		{/each}
-		{#each part_one.visited as [coordinates, directions]}
+		{#each part_one.visited as [coordinates, direction]}
 			{@const { x, y } = parse_coordinates(coordinates)}
 			{@const green =
 				x === starting_position.x && y === starting_position.y}
-			{@const [direction] = directions}
 			<span class:green style="grid-area:{y + 1}/{x + 1}">
 				{direction}
 			</span>
@@ -219,40 +223,49 @@
 			{@const { x, y } = parse_coordinates(hovered)}
 			<span class="blue" style="grid-area:{y + 1}/{x + 1}">█</span>
 		{/if}
-		{#each part_two.visited as [coordinates, directions]}
+		{#each part_two.visited as [coordinates, direction], index}
 			{@const { x, y } = parse_coordinates(coordinates)}
 			{@const green =
 				x === starting_position.x && y === starting_position.y}
 			{@const red = part_two.loop_positions.has(coordinates)}
-			{#if directions.size === 1}
-				{@const [direction] = directions}
-				{@const display = {
-					"↑": "▲",
-					"→": "▶",
-					"↓": "▼",
-					"←": "◀",
-				}[direction]}
-				<span class:red style="grid-area:{y + 1}/{x + 1};"
-					>{display}</span
+			{@const directions = part_two.visited
+				.slice(index - 1, index + 2)
+				.map(([, direction]) => direction)}
+			{@const display_direction = display_directions(directions)}
+			{#if display_direction}
+				{@const display_arrow =
+					display_direction === "─" || display_direction === "│"
+						? {
+								"↑": "▲",
+								"→": "▶",
+								"↓": "▼",
+								"←": "◀",
+							}[direction]
+						: undefined}
+				{#if display_arrow}
+					<span class:red style="grid-area:{y + 1}/{x + 1};"
+						>{display_arrow}</span
+					>
+				{/if}
+
+				<!-- svelte-ignore a11y_no_noninteractive_tabindex -- it’s focusable! -->
+				<span
+					class:green
+					class:red
+					class:pointer={red}
+					style="grid-area:{y + 1}/{x + 1};"
+					data-direction={direction}
+					tabindex={red ? 0 : undefined}
+					onfocus={() => {
+						hovered = coordinates;
+					}}
+					onblur={() => {
+						hovered = `-1,-1`;
+					}}
 				>
+					{display_directions(directions)}
+				</span>
 			{/if}
-			<!-- svelte-ignore a11y_no_noninteractive_tabindex -- it’s focusable! -->
-			<span
-				class:green
-				class:red
-				class:pointer={red}
-				style="grid-area:{y + 1}/{x + 1};"
-				data-directions={[...directions].join(" ")}
-				tabindex={red ? 0 : undefined}
-				onfocus={() => {
-					hovered = coordinates;
-				}}
-				onblur={() => {
-					hovered = undefined;
-				}}
-			>
-				{display_directions(directions)}
-			</span>
 		{/each}
 		{#each loop as coordinates, index}
 			{@const { x, y } = parse_coordinates(coordinates)}
