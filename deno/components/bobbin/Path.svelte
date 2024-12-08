@@ -1,17 +1,21 @@
 <script>
-	/** @type {string} */
-	export let d;
-	/** @type {string | undefined} */
-	export let id = undefined;
-	/** @type {import('./data').Point} */
-	export let position = { x: 0, y: 0 };
-	export let angle = 0;
-	export let scale = 1;
-
-	/** @type {string | undefined} */
-	export let colour = undefined;
+	/** @type {{d: string, id?: string, position?: import('./data').Point, angle?: number, scale?: number, colour?: string}} */
+	let {
+		d,
+		id,
+		position = { x: 0, y: 0 },
+		angle = 0,
+		scale = 1,
+		colour,
+	} = $props();
 
 	const transform = `scale(${scale} 1) rotate(${angle}) translate(${position.x} ${position.y})`;
 </script>
 
-<path id={id ? `shape-${id}` : undefined} {transform} stroke={colour} {d} pathLength={12} />
+<path
+	id={id ? `shape-${id}` : undefined}
+	{transform}
+	stroke={colour}
+	{d}
+	pathLength={12}
+/>

@@ -1,27 +1,25 @@
 <script>
-	import { onMount } from "svelte";
 	import Mirror from "./Mirror.svelte";
 	import Use from "./Use.svelte";
 	import Path from "./Path.svelte";
 	import Spread from "./Spread.svelte";
-	import { animate, selected } from "./Store.svelte";
+	import { bobbin } from "./store.svelte.js";
 
 	/** @typedef {import('./data').Pattern} Pattern */
 
-	/** @type {import("svelte/store").Writable<Pattern>} */
-	export let pattern;
+	/** @type {{ pattern: Pattern, guides: boolean }} */
+	let { pattern, guides = false } = $props();
 
-	export let guides = false;
 
 	/** @type {SVGElement | undefined} */
-	let g;
+	let g = $state();
 	/** @type {Animation | undefined} */
-	let animation;
+	let animation = $state();
 
 	const duration = 3600;
-	$: to = 360 / $pattern.count;
+	const to = $derived(360 / pattern.count);
 
-/*
+	/*
 	onMount(() => {
 		animate.subscribe(($animate) => {
 			if (!g) return;
@@ -56,20 +54,25 @@
 	});
 */
 
-	$: active = $selected === $pattern.id && guides;
+	let active = $derived(bobbin.selected === pattern.id && guides);
 </script>
 
-<g id={$pattern.id} style={`--end:${360 / $pattern.count}deg;`} bind:this={g}>
+<g id={pattern.id} style={`--end:${360 / pattern.count}deg;`} bind:this={g}>
 	<defs>
-		<Path id={$pattern.id} d={$pattern.d} />
+		<!-- we must not pass any transformation! -->
+		<Path id={pattern.id} d={pattern.d} />
 	</defs>
-	<Spread count={$pattern.count} let:angle>
-		{#if active}
-			<Path {angle} d={`M0,0V-600`} colour="var(--skies)" />
-		{/if}
+	<Spread count={pattern.count}>
+		{#snippet snippet(angle)}
+			{#if active}
+				<Path {angle} d={`M0,0V-600`} colour="var(--skies)" />
+			{/if}
 
-		<Mirror scales={$pattern.mirror ? [-1, 1] : [1]} let:scale>
-			<Use position={$pattern.position} {angle} {scale} id={$pattern.id} />
+		<Mirror scales={pattern.mirror ? [-1, 1] : [1]}>
+			{#snippet snippet(scale)}
+				<Use {...pattern} {angle} {scale} />
+			{/snippet}
 		</Mirror>
+		{/snippet}
 	</Spread>
 </g>

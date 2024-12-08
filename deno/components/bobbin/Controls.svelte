@@ -5,15 +5,12 @@
 
 	import Control from "./Control.svelte";
 	import Button from "../Button.svelte";
-	import { add_pattern, animate, selected } from "./Store.svelte";
+	import { add_pattern, bobbin } from "./store.svelte.js";
 
 	/** @typedef {import('./data.js').Pattern} Pattern */
 
-	/** @type {import("svelte/store").Writable<Map<string, import("svelte/store").Writable<Pattern>>>} */
-	export let patterns;
-
-	/** @type {SVGSVGElement} */
-	export let svg;
+	/** @type {{ svg: SVGSVGElement }} */
+	let { svg = $bindable() } = $props();
 
 	const duration = 240;
 
@@ -38,18 +35,21 @@
 </script>
 
 <ul>
-	{#each [animation, ...$patterns.entries(), extra] as [id, pattern] (id)}
+	{#each [animation, ...bobbin.patterns, extra] as [id, pattern] (id)}
 		<li
-			class:current={$selected === id}
+			class:current={bobbin.selected === id}
 			class:button={!pattern}
 			transition:fade={{ duration }}
 			animate:flip={{ duration }}
 		>
 			{#if pattern}
-				<Control {pattern} {patterns} />
+				<Control {pattern} />
 			{:else if id === "animate"}
-				<Button on:click={() => animate.update((_) => !_)}
-					>{#if $animate}
+				<Button
+					on:click={() => {
+						bobbin.animate = !bobbin.animate;
+					}}
+					>{#if bobbin.animate}
 						Pause
 					{:else}
 						Play

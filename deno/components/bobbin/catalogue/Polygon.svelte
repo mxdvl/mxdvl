@@ -1,14 +1,22 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, current } from "../Store.svelte";
+	import { add_pattern, bobbin } from "../store.svelte.js";
 	import { on_circle } from "../weaving.js";
 
-	let radius = 12;
-	let sides = 5;
+	let radius = $state(12);
+	let sides = $state(5);
 
-	$: [first, ...rest] = on_circle()(radius)(sides);
-	$: d = ["M", first?.join(","), "L", ...rest.map(([x, y]) => `${x},${y} `), "Z"].join("");
+	const [first, ...rest] = $derived(on_circle()(radius)(sides));
+	const d = $derived(
+		[
+			"M",
+			first?.join(","),
+			"L",
+			...rest.map(([x, y]) => `${x},${y} `),
+			"Z",
+		].join(""),
+	);
 
 	/** @param {number} n */
 	const polygon = (n) => {
@@ -36,6 +44,7 @@
 				return `${n}-gon`;
 		}
 	};
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 </script>
 
 <SVG centre>
@@ -49,12 +58,12 @@
 
 <Button
 	on:click={() => {
-		if ($current) {
-			$current.update((c) => ({ ...c, d }));
+		if (current) {
+			current.d = d;
 		} else {
 			add_pattern(d);
 		}
-	}}>{$current ? "set to" : "add"} {polygon(sides)}</Button
+	}}>{current ? "set to" : "add"} {polygon(sides)}</Button
 >
 
 <label>

@@ -1,9 +1,9 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, current } from "../Store.svelte";
+	import { add_pattern, bobbin } from "../store.svelte.js";
 
-	let radius = 6;
+	let radius = $state(6);
 
 	/** @param {number} radius */
 	const get_name = (radius) => {
@@ -20,8 +20,17 @@
 		}
 	};
 
-	$: d = ["M0,18", "A18,18 0 0 1 0,-18", `A${Math.abs(radius)},18 0 0 ${radius > 0 ? "0" : "1"} 0,18`, "Z"].join("");
-	$: name = get_name(radius);
+	const d = $derived(
+		[
+			"M0,18",
+			"A18,18 0 0 1 0,-18",
+			`A${Math.abs(radius)},18 0 0 ${radius > 0 ? "0" : "1"} 0,18`,
+			"Z",
+		].join(""),
+	);
+	const name = $derived(get_name(radius));
+
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 </script>
 
 <SVG centre>
@@ -33,12 +42,12 @@
 
 <Button
 	on:click={() => {
-		if ($current) {
-			$current.update((c) => ({ ...c, d }));
+		if (current) {
+			current.d = d;
 		} else {
 			add_pattern(d);
 		}
-	}}>{$current ? "set to" : "add"} {name}</Button
+	}}>{current ? "set to" : "add"} {name}</Button
 >
 
 <label>
