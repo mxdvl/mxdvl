@@ -1,15 +1,16 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, current } from "../Store.svelte";
+	import { add_pattern, bobbin } from "../store.svelte.js";
 	import { loop } from "../weaving.js";
 
-	let count = 2;
-	let bulge = 3 / 2;
-	let length = 16;
+	let count = $state(2);
+	let bulge = $state(3 / 2);
+	let length = $state(16);
 
-	$: d = ["M0,0", ...loop(count, bulge, length), "Z"].join("");
-	$: name = bulge === 2 ? "circle" : "loop";
+	const d = $derived(["M0,0", ...loop(count, bulge, length), "Z"].join(""));
+	const name = $derived(bulge === 2 ? "circle" : "loop");
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 </script>
 
 <SVG centre>
@@ -23,12 +24,14 @@
 
 <Button
 	on:click={() => {
-		if ($current) {
-			$current.update((c) => ({ ...c, d }));
+		if (current) {
+			current.d = d;
 		} else {
 			add_pattern(d);
 		}
-	}}>{$current ? "set to" : "add"} {count > 1 ? `${count} ${name}s` : name}</Button
+	}}
+	>{current ? "set to" : "add"}
+	{count > 1 ? `${count} ${name}s` : name}</Button
 >
 
 <label>

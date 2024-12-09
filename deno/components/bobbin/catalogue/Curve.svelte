@@ -1,14 +1,23 @@
 <script>
 	import Button from "../../Button.svelte";
 	import SVG from "../SVG.svelte";
-	import { add_pattern, current } from "../Store.svelte";
+	import { add_pattern, bobbin } from "../store.svelte.js";
 
-	let width = 90;
-	let offset = 30;
-	let start = 59;
-	let end = 19;
+	let width = $state(90);
+	let offset = $state(30);
+	let start = $state(59);
+	let end = $state(19);
 
-	$: d = [`M0,${offset}`, `C0,${offset + start}`, `${width},${end}`, `${width},0`].join(" ");
+	const d = $derived(
+		[
+			`M0,${offset}`,
+			`C0,${offset + start}`,
+			`${width},${end}`,
+			`${width},0`,
+		].join(" "),
+	);
+
+	const current = $derived(bobbin.patterns.get(bobbin.selected));
 </script>
 
 <SVG size={18 * 6 - 2}>
@@ -27,12 +36,12 @@
 
 <Button
 	on:click={() => {
-		if ($current) {
-			$current.update((c) => ({ ...c, d }));
+		if (current) {
+			current.d = d;
 		} else {
 			add_pattern(d);
 		}
-	}}>{$current ? "set to" : "add"} curve</Button
+	}}>{current ? "set to" : "add"} curve</Button
 >
 
 <label>

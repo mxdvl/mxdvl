@@ -12,7 +12,9 @@
 </noscript>
 
 <!-- TODO: make it work… -->
-<!-- <Bobbin /> -->
+<svelte:boundary>
+	<Bobbin />
+</svelte:boundary>
 
 <article>
 	<h1>About <em>Bobbin</em></h1>

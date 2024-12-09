@@ -1,8 +1,8 @@
 <script>
-	/** @type {[1] | [-1, 1]} */
-	export let scales;
+	/** @type {{ scales: [1] | [-1, 1], snippet: import('svelte').Snippet<[number]>  }} */
+	let { scales, snippet } = $props();
 </script>
 
 {#each scales as scale}
-	<slot {scale}><text>Missing shape to mirror</text></slot>
+	{@render snippet(scale)}
 {/each}
