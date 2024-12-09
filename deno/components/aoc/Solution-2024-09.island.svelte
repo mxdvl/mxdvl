@@ -99,7 +99,11 @@
 				line.splice(free_idx, size, ...blocks);
 			}
 
-			lines.push({line: [...line], from: [start, end], to: [free_idx, free_idx + size]});
+			lines.push({
+				line: [...line],
+				from: [start, end],
+				to: [free_idx, free_idx + size],
+			});
 			id--;
 		}
 
