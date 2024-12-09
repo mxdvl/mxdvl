@@ -73,7 +73,7 @@
 		let id = max_id;
 		let cursor = line.length;
 		while (id >= 0) {
-			while (line[cursor] !== id) {
+			while (line[cursor] !== id && cursor > 0) {
 				cursor--;
 			}
 			// the current block
@@ -85,18 +85,20 @@
 			const size = end - start + 1;
 
 			let free_index = free_indices[size] ?? start;
+			let free_size = 0;
+			let can_move = false;
 			while (free_index < start) {
-				if (
-					line[free_index] === " " &&
-					line
-						.slice(free_index, free_index + size)
-						.every((block) => block === " ")
-				) {
+				if (line[free_index] === " ") {
+					free_size++;
+				} else {
+					free_size = 0;
+				}
+				if (free_size >= size) {
+					can_move = true;
 					break;
 				}
 				free_index++;
 			}
-			const can_move = free_index < start;
 			free_indices[size] = can_move ? free_index : undefined;
 
 			if (can_move) {
@@ -105,7 +107,7 @@
 					size,
 					...Array.from({ length: size }, () => " "),
 				);
-				line.splice(free_index, size, ...blocks);
+				line.splice(free_index - size + 1, size, ...blocks);
 			}
 
 			lines.push({
