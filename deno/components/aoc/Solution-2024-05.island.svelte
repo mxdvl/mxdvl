@@ -159,10 +159,6 @@
 </details>
 
 <style>
-	.grid {
-		display: grid;
-	}
-
 	.green {
 		color: var(--green);
 	}

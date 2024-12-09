@@ -142,12 +142,15 @@
 
 	<ul>
 		{#each tests as { total, numbers }, index}
-			{@const solutions = part_two.test_solutions[index]}
+			{@const solutions = part_two.test_solutions[index] ?? []}
 			<li class:green={solutions?.length}>
 				{total} – {numbers.reduce(
 					(accumulator, next, index) =>
 						`${accumulator} ${solutions[0]?.[index - 1] ?? "?"} ${next}`,
-				)} ({solutions?.length})
+				)}
+				<span class:red={solutions.length > 1}
+					>({solutions.length})</span
+				>
 			</li>
 		{/each}
 	</ul>

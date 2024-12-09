@@ -161,10 +161,6 @@
 		color: var(--blue);
 	}
 
-	.green {
-		color: var(--green);
-	}
-
 	.red {
 		color: var(--red);
 	}
