@@ -110,6 +110,8 @@
 
 		return { line, checksum, max_id, last_move: id + 1, moved };
 	});
+
+	let tiny = $state(true);
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
@@ -127,31 +129,39 @@
 <details open={part === "two"}>
 	<summary>Part 2 – {part_two.checksum}</summary>
 
-	<input type="range" bind:value={steps} min={0} {max} />
-	{steps}/{max}
+	<label>
+		<input type="range" bind:value={steps} min={0} {max} width={280} />
+		{steps}/{max}
+	</label>
 
-	<div class="grid" style="--width:{24};--col:{3}ch;--row:2rem;">
+	<br>
+
+	<label> <input type="checkbox" bind:checked={tiny} /> tiny?</label>
+
+	<hr>
+
+	<div class="flex">
 		{#each part_two.line as id}
 			{@const green = id == part_two.last_move}
 			{@const red = green && !part_two.moved}
-			<pre class="blue" class:green class:red>{id
-					.toString(36)
-					.padStart(3, " ")}</pre>
+			<pre class:blue={!tiny || id !== " "} class:green class:red>{tiny
+					? ""
+					: id.toString(36).padStart(3, " ")}</pre>
 		{/each}
 	</div>
 </details>
 
 <style>
-	.grid {
-		display: grid;
+	.flex {
+		display: flex;
+		width: 100%;
+		flex-wrap: wrap;
 		padding: 0;
 		list-style-type: none;
-		grid-template-columns: repeat(var(--width), var(--col, 1ch));
-		grid-template-rows: repeat(var(--height), var(--col, 1.25rem));
-		gap: 1ch;
+		gap: 1px;
 	}
 
-	.grid pre {
+	.flex pre {
 		margin: 0;
 		padding: 0.125em;
 	}
