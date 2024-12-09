@@ -134,11 +134,11 @@
 		{steps}/{max}
 	</label>
 
-	<br>
+	<br />
 
 	<label> <input type="checkbox" bind:checked={tiny} /> tiny?</label>
 
-	<hr>
+	<hr />
 
 	<div class="flex">
 		{#each part_two.line as id}
