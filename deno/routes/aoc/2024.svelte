@@ -13,6 +13,7 @@
 			6,
 			7,
 			8,
+			9,
 		]
 	);
 </script>
@@ -24,6 +25,6 @@
 	{/each}
 	<ul>
 	<p>
-		Some of these will not work as it’s using Svelte 5 syntax… so <a href="/aoc/2023">have a look at 2023</a>.
+		You can also<a href="/aoc/2023">have a peek at 2023</a>.
 	</p>
 </Layout>
