@@ -4,7 +4,7 @@
 
 	let input = $state(`2333133121414131402`);
 
-	let part = $state("two");
+	let part = $state({ one: false, two: true });
 
 	const numbers = $derived(
 		input.split("").flatMap((character) => {
@@ -64,14 +64,14 @@
 
 		const max_id = line.findLast((id) => typeof id === "number");
 
+		/** @type {[number, number]} */
+		const from = [-1, -1];
+		/** @type {[number, number]} */
+		const to = [-1, -1];
+		let lines = [{ line: [...line], from, to }];
 		let moved = false;
 		let id = max_id;
-		while (
-			id >= 0 &&
-			id > max_id - steps
-			// offset_index < line.length // prevent infinite loop
-			// && offset_index < steps * 2
-		) {
+		while (id >= 0) {
 			// the current block
 			const end = line.findLastIndex((block_id) => block_id === id);
 			const start = line
@@ -99,6 +99,7 @@
 				line.splice(free_idx, size, ...blocks);
 			}
 
+			lines.push({line: [...line], from: [start, end], to: [free_idx, free_idx + size]});
 			id--;
 		}
 
@@ -108,15 +109,17 @@
 			0,
 		);
 
-		return { line, checksum, max_id, last_move: id + 1, moved };
+		return { lines, checksum, max_id, moved };
 	});
+
+	const { line, from, to } = $derived(part_two.lines[steps]);
 
 	let tiny = $state(true);
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
 
-<details open={part === "one"}>
+<details bind:open={part.one}>
 	<summary>Part 1 – {part_one.checksum}</summary>
 
 	<ul>
@@ -126,7 +129,7 @@
 	</ul>
 </details>
 
-<details open={part === "two"}>
+<details bind:open={part.two}>
 	<summary>Part 2 – {part_two.checksum}</summary>
 
 	<label>
@@ -141,9 +144,9 @@
 	<hr />
 
 	<div class="flex">
-		{#each part_two.line as id}
-			{@const green = id == part_two.last_move}
-			{@const red = green && !part_two.moved}
+		{#each line as id, index (index)}
+			{@const green = to[0] !== -1 && to[0] <= index && index < to[1]}
+			{@const red = from[0] <= index && index < from[1]}
 			<pre class:blue={!tiny || id !== " "} class:green class:red>{tiny
 					? ""
 					: id.toString(36).padStart(3, " ")}</pre>
