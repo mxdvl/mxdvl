@@ -54,56 +54,61 @@
 		return { line, lines, checksum };
 	});
 
+	let steps = $state(1);
+	const max = $derived(Math.floor(input.length / 2));
+
 	let part_two = $derived.by(() => {
-		let line = numbers.flatMap((size, index) => ({
-			size,
-			id: index % 2 === 0 ? index / 2 : " ",
-			moved: false,
-		}));
+		let line = numbers.flatMap((length, index) =>
+			Array.from({ length }, () => (index % 2 === 0 ? index / 2 : " ")),
+		);
 
-		const lines = [[...line]];
+		const max_id = line.findLast((id) => typeof id === "number");
 
-		let offset_index = 0;
+		let moved = false;
+		let id = max_id;
 		while (
-			offset_index < line.length // prevent infinite loop
+			id >= 0 &&
+			id > max_id - steps
+			// offset_index < line.length // prevent infinite loop
+			// && offset_index < steps * 2
 		) {
-			const index = line.length - offset_index;
-			offset_index++;
-			const last = line.at(index);
-			console.log({ index, offset_index, last });
-			if (typeof last?.id !== "number") continue;
-			if (last.moved) continue;
+			// the current block
+			const end = line.findLastIndex((block_id) => block_id === id);
+			const start = line
+				.slice(0, end)
+				.findLastIndex((block_id) => block_id !== id);
+			const size = end - start;
 
-			const free_index = line.findIndex(
-				(file, i) =>
-					i < index && file.id === " " && file.size >= last.size,
+			// let’s find a spot!
+			const free_idx = line.findIndex(
+				(block_id, index) =>
+					block_id === " " &&
+					index < start &&
+					line
+						.slice(index, index + size)
+						.every((block_id) => block_id === " "),
 			);
-			if (free_index < 0) continue;
 
-			line.splice(index, 1, { id: " ", size: last.size });
-			const [free] = line.splice(free_index, 1, last);
-			last.moved = true;
-			const remaining = free.size - last.size;
-			console.log({ remaining });
-			if (remaining > 0) {
-				line.splice(free_index + 1, 0, { size: remaining, id: " " });
+			moved = free_idx !== -1;
+			if (moved) {
+				const blocks = line.splice(
+					start + 1,
+					size,
+					...Array.from({ length: size }, () => " "),
+				);
+				line.splice(free_idx, size, ...blocks);
 			}
 
-			// lines.push([...line]);
+			id--;
 		}
 
-		lines.push([...line]);
+		const checksum = line.reduce(
+			(accumulator, id, index) =>
+				id === " " ? accumulator : accumulator + id * index,
+			0,
+		);
 
-
-		const checksum = line
-			.flatMap(({ size, id }) => {
-				return Array.from({ length: size }, () =>
-					typeof id === "number" ? id : 0,
-				);
-			})
-			.reduce((accumulator, id, index) => accumulator + id * index, 0);
-
-		return { line, lines, checksum };
+		return { line, checksum, max_id, last_move: id + 1, moved };
 	});
 </script>
 
@@ -111,8 +116,6 @@
 
 <details open={part === "one"}>
 	<summary>Part 1 – {part_one.checksum}</summary>
-
-	<pre>{part_one.line}</pre>
 
 	<ul>
 		{#each part_one.lines as line}
@@ -124,15 +127,18 @@
 <details open={part === "two"}>
 	<summary>Part 2 – {part_two.checksum}</summary>
 
-	<ul>
-		{#each part_two.lines as line}
-			<li>
-				<pre>{line
-						.map(({ size, id }) => String(id).repeat(size))
-						.join("")}</pre>
-			</li>
+	<input type="range" bind:value={steps} min={0} {max} />
+	{steps}/{max}
+
+	<div class="grid" style="--width:{24};--col:{3}ch;--row:2rem;">
+		{#each part_two.line as id}
+			{@const green = id == part_two.last_move}
+			{@const red = green && !part_two.moved}
+			<pre class="blue" class:green class:red>{id
+					.toString(36)
+					.padStart(3, " ")}</pre>
 		{/each}
-	</ul>
+	</div>
 </details>
 
 <style>
@@ -141,18 +147,25 @@
 		padding: 0;
 		list-style-type: none;
 		grid-template-columns: repeat(var(--width), var(--col, 1ch));
-		grid-template-rows: repeat(var(--height), 1.25rem);
+		grid-template-rows: repeat(var(--height), var(--col, 1.25rem));
+		gap: 1ch;
+	}
+
+	.grid pre {
+		margin: 0;
+		padding: 0.125em;
 	}
 
 	.blue {
-		color: var(--blue);
+		background: var(--blue);
+		color: Canvas;
 	}
 
 	.green {
-		color: var(--green);
+		background: var(--green);
 	}
 
 	.red {
-		color: var(--red);
+		background: var(--red);
 	}
 </style>
