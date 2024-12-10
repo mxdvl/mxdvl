@@ -57,7 +57,9 @@
 
 	let part_two = $derived.by(() => {
 		let line = numbers.flatMap((length, index) =>
-			Array.from({ length }, () => (index % 2 === 0 ? index / 2 : " ")),
+			Array.from({ length }, () =>
+				index % 2 === 0 ? index / 2 : undefined,
+			),
 		);
 
 		const max_id = line.findLast((id) => typeof id === "number");
@@ -69,7 +71,7 @@
 		const from = [-1, -1];
 		/** @type {[number, number]} */
 		const to = [-1, -1];
-		let lines = [{ line: [...line], from, to }];
+		let step = { line: [...line], from, to };
 		let id = max_id;
 		let cursor = line.length;
 		while (id >= 0) {
@@ -88,7 +90,7 @@
 			let free_size = 0;
 			let can_move = false;
 			while (free_index < start) {
-				if (line[free_index] === " ") {
+				if (line[free_index] === undefined) {
 					free_size++;
 				} else {
 					free_size = 0;
@@ -101,33 +103,34 @@
 			}
 			free_indices[size] = can_move ? free_index : undefined;
 
+			let insertion = can_move ? free_index - size + 1 : start;
 			if (can_move) {
 				const blocks = line.splice(
 					start,
 					size,
-					...Array.from({ length: size }, () => " "),
+					...Array.from({ length: size }, () => undefined),
 				);
-				line.splice(free_index - size + 1, size, ...blocks);
+				line.splice(insertion, size, ...blocks);
 			}
 
-			lines.push({
-				line: [...line],
-				from: [start, end],
-				to: [free_index, free_index + size - 1],
-			});
+			if (max_id - steps + 1 === id) {
+				step = {
+					line: [...line],
+					from: [start, end],
+					to: [insertion, insertion + size - 1],
+				};
+			}
 			id--;
 		}
 
 		const checksum = line.reduce(
 			(accumulator, id, index) =>
-				id === " " ? accumulator : accumulator + id * index,
+				id === undefined ? accumulator : accumulator + id * index,
 			0,
 		);
 
-		return { lines, checksum, max_id };
+		return { step, checksum, max_id };
 	});
-
-	const { line, from, to } = $derived(part_two.lines[steps]);
 
 	let tiny = $state(false);
 </script>
@@ -159,12 +162,20 @@
 	<hr />
 
 	<div class="flex">
-		{#each line as id, index (index)}
-			{@const green = to[0] !== -1 && to[0] <= index && index <= to[1]}
-			{@const red = from[0] <= index && index <= from[1]}
-			<pre class:blue={!tiny || id !== " "} class:green class:red>{tiny
+		{#each part_two.step.line as id, index (index)}
+			{@const green =
+				part_two.step.to[0] !== -1 &&
+				part_two.step.to[0] <= index &&
+				index <= part_two.step.to[1]}
+			{@const red =
+				part_two.step.from[0] <= index &&
+				index <= part_two.step.from[1]}
+			<pre
+				class:blue={!tiny || id !== undefined}
+				class:green
+				class:red>{tiny
 					? ""
-					: id.toString(36).padStart(3, " ")}</pre>
+					: (id ?? "").toString(36).padStart(3, " ")}</pre>
 		{/each}
 	</div>
 </details>
