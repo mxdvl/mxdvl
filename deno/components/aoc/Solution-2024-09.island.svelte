@@ -32,7 +32,6 @@
 			let last = line.pop();
 			while (last === " " && line.length > 0) {
 				last = line.pop();
-				console.log("pop", last);
 			}
 
 			line.splice(count - 1, 1, last);
@@ -45,7 +44,6 @@
 		const checksum = line.reduce((accumulator, next, index) => {
 			const number = parseInt(next, 10);
 			if (Number.isNaN(number)) {
-				console.log({ number, next });
 				return accumulator;
 			}
 			return accumulator + number * index;
@@ -55,70 +53,86 @@
 	});
 
 	let steps = $state(1);
-	const max = $derived(Math.floor(input.length / 2));
+	const max = $derived(Math.ceil(input.length / 2));
 
 	let part_two = $derived.by(() => {
 		let line = numbers.flatMap((length, index) =>
-			Array.from({ length }, () => (index % 2 === 0 ? index / 2 : " ")),
+			Array.from({ length }, () =>
+				index % 2 === 0 ? index / 2 : undefined,
+			),
 		);
 
 		const max_id = line.findLast((id) => typeof id === "number");
+
+		/** keep track of where we last saw a free space of that size */
+		const free_indices = [undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 		/** @type {[number, number]} */
 		const from = [-1, -1];
 		/** @type {[number, number]} */
 		const to = [-1, -1];
-		let lines = [{ line: [...line], from, to }];
-		let moved = false;
+		let step = { line: [...line], from, to };
 		let id = max_id;
+		let cursor = line.length;
 		while (id >= 0) {
+			while (line[cursor] !== id && cursor > 0) {
+				cursor--;
+			}
 			// the current block
-			const end = line.findLastIndex((block_id) => block_id === id);
-			const start = line
-				.slice(0, end)
-				.findLastIndex((block_id) => block_id !== id);
-			const size = end - start;
+			const end = cursor;
+			while (line[cursor] === id) {
+				cursor--;
+			}
+			const start = cursor + 1;
+			const size = end - start + 1;
 
-			// let’s find a spot!
-			const free_idx = line.findIndex(
-				(block_id, index) =>
-					block_id === " " &&
-					index < start &&
-					line
-						.slice(index, index + size)
-						.every((block_id) => block_id === " "),
-			);
+			let free_index = free_indices[size] ?? start;
+			let free_size = 0;
+			let can_move = false;
+			while (free_index < start) {
+				if (line[free_index] === undefined) {
+					free_size++;
+				} else {
+					free_size = 0;
+				}
+				if (free_size >= size) {
+					can_move = true;
+					break;
+				}
+				free_index++;
+			}
+			free_indices[size] = can_move ? free_index : undefined;
 
-			moved = free_idx !== -1;
-			if (moved) {
+			let insertion = can_move ? free_index - size + 1 : start;
+			if (can_move) {
 				const blocks = line.splice(
-					start + 1,
+					start,
 					size,
-					...Array.from({ length: size }, () => " "),
+					...Array.from({ length: size }, () => undefined),
 				);
-				line.splice(free_idx, size, ...blocks);
+				line.splice(insertion, size, ...blocks);
 			}
 
-			lines.push({
-				line: [...line],
-				from: [start, end],
-				to: [free_idx, free_idx + size],
-			});
+			if (max_id - steps + 1 === id) {
+				step = {
+					line: [...line],
+					from: [start, end],
+					to: [insertion, insertion + size - 1],
+				};
+			}
 			id--;
 		}
 
 		const checksum = line.reduce(
 			(accumulator, id, index) =>
-				id === " " ? accumulator : accumulator + id * index,
+				id === undefined ? accumulator : accumulator + id * index,
 			0,
 		);
 
-		return { lines, checksum, max_id, moved };
+		return { step, checksum, max_id };
 	});
 
-	const { line, from, to } = $derived(part_two.lines[steps]);
-
-	let tiny = $state(true);
+	let tiny = $state(false);
 </script>
 
 <textarea rows="10" bind:value={input}></textarea>
@@ -148,12 +162,20 @@
 	<hr />
 
 	<div class="flex">
-		{#each line as id, index (index)}
-			{@const green = to[0] !== -1 && to[0] <= index && index < to[1]}
-			{@const red = from[0] <= index && index < from[1]}
-			<pre class:blue={!tiny || id !== " "} class:green class:red>{tiny
+		{#each part_two.step.line as id, index (index)}
+			{@const green =
+				part_two.step.to[0] !== -1 &&
+				part_two.step.to[0] <= index &&
+				index <= part_two.step.to[1]}
+			{@const red =
+				part_two.step.from[0] <= index &&
+				index <= part_two.step.from[1]}
+			<pre
+				class:blue={!tiny || id !== undefined}
+				class:green
+				class:red>{tiny
 					? ""
-					: id.toString(36).padStart(3, " ")}</pre>
+					: (id ?? "").toString(36).padStart(3, " ")}</pre>
 		{/each}
 	</div>
 </details>
