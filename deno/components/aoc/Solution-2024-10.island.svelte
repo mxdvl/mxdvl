@@ -179,7 +179,7 @@
 <details bind:open={part.two}>
 	<summary>Part 2 – {part_two.total}</summary>
 
-	<div class="grid" style="--width:{width};">
+	<div class="grid" style="--width:{width};--height:{height};">
 		{#each map as [coordinates, altitude]}
 			{@const { x, y } = parse_coordinates(coordinates)}
 			{@const green = altitude === 0}
