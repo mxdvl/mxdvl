@@ -1,10 +1,15 @@
 <script>
-	import {} from "./helpers.js";
+	import {
+		arrows,
+		create_map,
+		format_coordinates,
+		parse_coordinates,
+	} from "./helpers.js";
 	/** @typedef {`${number},${number}`} Coordinates */
 
 	let input = $state(``);
 
-	let part = $state("one");
+	let part = $state({ one: true, two: false });
 
 	let part_one = $derived.by(() => {
 		return "???";
@@ -17,13 +22,21 @@
 
 <textarea rows="10" bind:value={input}></textarea>
 
-<details open={part === "one"}>
+<details bind:open={part.one}>
 	<summary>Part 1 – {part_one}</summary>
 </details>
 
-<details open={part === "two"}>
+<details bind:open={part.two}>
 	<summary>Part 2 – {part_two}</summary>
 </details>
+
+<hr>
+
+<div class="grid">
+	<div class="red"></div>
+	<div class="green"></div>
+	<div class="blue"></div>
+</div>
 
 <style>
 	.grid {
