@@ -15,7 +15,7 @@
 01329801
 10456732`);
 
-	let part = $state({ one: one, two: true });
+	let part = $state({ one: true, two: true });
 
 	let { map, width, height, bases } = $derived.by(() => {
 		const map = create_map(input);
@@ -27,8 +27,9 @@
 			const { x, y } = parse_coordinates(coordinates);
 			width = Math.max(width, x);
 			height = Math.max(height, y);
-			map.set(coordinates, parseInt(altitude, 10));
-			altitude === "0" && bases.add(coordinates);
+			const integer = parseInt(altitude, 10);
+			Number.isInteger(integer) && map.set(coordinates, integer);
+			integer === 0 && bases.add(coordinates);
 		}
 
 		return { map, width, height, bases };
@@ -59,7 +60,6 @@
 	let part_one = $derived.by(() => {
 		let total = 0;
 		for (const base of bases) {
-			console.log("\n");
 			let altitude = 0;
 			let edge = new Set([base]);
 			while (altitude < 9 && edge.size > 0) {
@@ -68,10 +68,8 @@
 						get_next(map, coord, altitude),
 					),
 				);
-				// console.log(altitude, edge);
 				altitude++;
 			}
-			console.log(altitude, edge);
 			if (altitude === 9) {
 				total += edge.size;
 			}
@@ -80,7 +78,22 @@
 	});
 
 	let part_two = $derived.by(() => {
-		return "???";
+		let total = 0;
+		for (const base of bases) {
+			let altitude = 0;
+			let edge = get_next(map, base, altitude++);
+			while (altitude < 9 && edge.length > 0) {
+				const next = [...edge].flatMap((coord) =>
+					get_next(map, coord, altitude),
+				);
+				edge = next;
+				altitude++;
+			}
+			if (altitude >= 9) {
+				total += edge.length;
+			}
+		}
+		return { total };
 	});
 </script>
 
@@ -102,7 +115,9 @@
 </details>
 
 <details bind:open={part.two}>
-	<summary>Part 2 – {part_two}</summary>
+	<summary>Part 2 – {part_two.total}</summary>
+
+
 </details>
 
 <style>
