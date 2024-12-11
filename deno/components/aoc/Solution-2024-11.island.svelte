@@ -5,7 +5,6 @@
 
 	let part = $state({ one: false, two: true });
 
-	let steps = $state(25);
 
 	let stones = $derived(
 		input.split(" ").flatMap((stone) => {
@@ -14,11 +13,12 @@
 		}),
 	);
 
+	let part_one_steps = $state(25);
 	let part_one = $derived.by(() => {
 		let arrangement = [...stones];
 		let blinks = [[...arrangement]];
 		// console.log(...arrangement);
-		for (let step = 0; step < steps && step < 25; step++) {
+		for (let step = 0; step < part_one_steps; step++) {
 			let index = 0;
 			while (index < arrangement.length) {
 				const stone = arrangement[index];
@@ -49,48 +49,73 @@
 				index += 1;
 			}
 			// console.log(...arrangement);
-			// blinks.push([...arrangement]);
-			console.log(step, arrangement.length);
+			blinks.push([...arrangement]);
 		}
-
-		console.log(arrangement.length);
 
 		return { arrangement, blinks };
 	});
 
-	/** @type {Map<bigint, [bigint] | [bigint, bigint]>} */
-	const operations = new Map([
-		[0n, [1n]],
-		[1n, [2024n]],
-		[10n, [1n, 0n]],
-	]);
-	/** @param {bigint[]} stones */
-	function blink(stones) {
-		return stones.flatMap((stone) => {
-			let operation = operations.get(stone);
-			if (operation) return operation;
-			const digits = BigInt(String(stone).length);
-			if (digits % 2n === 0n) {
-				const factor = 10n ** (digits / 2n);
-				const [left, right] = [stone / factor, stone % factor];
-				operation = [left, right];
-			} else {
-				operation = [stone * 2024n];
+	/**
+	 * @template T
+	 * @template U
+	 * @param {(...args: U) => T} fn
+	 * @returns {(...args: U) => T}
+	 */
+	function memoise(fn) {
+		/** @type {Map<string, T>} */
+		const cache = new Map();
+
+		return function (...args) {
+			const key = JSON.stringify(args);
+			const cached = cache.get(key);
+			if (cached) {
+				return cached;
 			}
-			operations.set(stone, operation);
-
-			return operation;
-		});
+			const result = fn(...args);
+			cache.set(key, result);
+			return result;
+		};
 	}
+	/**
+	 * @param {number} stone
+	 * @param {steps} steps
+	 * @param {(stone: number, steps: number) => number} [fn]
+	 * @returns {number}
+	 */
+	function blink(stone, steps, fn = this) {
+		if (steps <= 0) return 1;
 
-	let part_two = $derived.by(() => {
-		let line = stones.slice(0, 1);
-		for (let step = 0; step < steps; step++) {
-			line = line.flatMap((stone) => blink([stone]));
-			console.log(line.length);
+		if (stone === 0) {
+			return fn(1, steps - 1, fn);
 		}
 
-		return { line };
+		const digits = String(stone).length;
+		if (digits % 2 === 0) {
+			const factor = 10 ** (digits / 2);
+			const [left, right] = [Math.floor(stone / factor), stone % factor];
+			return fn(left, steps - 1, fn) + fn(right, steps - 1, fn);
+		}
+		const result = fn(stone * 2024, steps - 1, fn);
+		return result;
+	}
+
+	const blink_fast = memoise((stone, steps) =>
+		blink(stone, steps, blink_fast),
+	);
+
+	let part_two_steps = $state(75);
+	let part_two = $derived.by(() => {
+		const cache = stones.map((stone) => ({
+			stone,
+			splits: blink_fast(Number(stone), part_two_steps),
+		}));
+
+		const count = cache.reduce(
+			(accumulator, { splits }) => accumulator + splits,
+			0,
+		);
+
+		return { cache, count };
 	});
 </script>
 
@@ -100,8 +125,8 @@
 	<summary>Part 1 – {part_one.arrangement.length}</summary>
 
 	<p>
-		<input type="range" bind:value={steps} max={25} />
-		{steps}
+		<input type="range" bind:value={part_one_steps} max={25} />
+		{part_one_steps}
 	</p>
 	<ul>
 		{#each part_one.blinks as blink}
@@ -111,12 +136,18 @@
 </details>
 
 <details bind:open={part.two}>
-	<summary>Part 2 – {part_two.line.length}</summary>
+	<summary>Part 2 – {part_two.count}</summary>
 
 	<p>
-		<input type="range" bind:value={steps} max={75} />
-		{steps}
+		<input type="range" bind:value={part_two_steps} max={75} />
+		{part_two_steps}
 	</p>
+
+	<ol>
+		{#each part_two.cache as { stone, splits }}
+			<li>{stone} &rarr; {splits} stones</li>
+		{/each}
+	</ol>
 </details>
 
 <hr />
