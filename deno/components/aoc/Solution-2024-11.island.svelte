@@ -1,16 +1,9 @@
 <script>
-	import {
-		arrows,
-		create_map,
-		format_coordinates,
-		parse_coordinates,
-	} from "./helpers.js";
 	/** @typedef {`${number},${number}`} Coordinates */
-
 
 	let input = $state(`125 17`);
 
-	let part = $state({ one: true, two: false });
+	let part = $state({ one: false, two: true });
 
 	let steps = $state(25);
 
@@ -25,7 +18,7 @@
 		let arrangement = [...stones];
 		let blinks = [[...arrangement]];
 		// console.log(...arrangement);
-		for (let step = 0; step < steps; step++) {
+		for (let step = 0; step < steps && step < 25; step++) {
 			let index = 0;
 			while (index < arrangement.length) {
 				const stone = arrangement[index];
@@ -65,8 +58,39 @@
 		return { arrangement, blinks };
 	});
 
+	/** @type {Map<bigint, [bigint] | [bigint, bigint]>} */
+	const operations = new Map([
+		[0n, [1n]],
+		[1n, [2024n]],
+		[10n, [1n, 0n]],
+	]);
+	/** @param {bigint[]} stones */
+	function blink(stones) {
+		return stones.flatMap((stone) => {
+			let operation = operations.get(stone);
+			if (operation) return operation;
+			const digits = BigInt(String(stone).length);
+			if (digits % 2n === 0n) {
+				const factor = 10n ** (digits / 2n);
+				const [left, right] = [stone / factor, stone % factor];
+				operation = [left, right];
+			} else {
+				operation = [stone * 2024n];
+			}
+			operations.set(stone, operation);
+
+			return operation;
+		});
+	}
+
 	let part_two = $derived.by(() => {
-		return "???";
+		let line = stones.slice(0, 1);
+		for (let step = 0; step < steps; step++) {
+			line = line.flatMap((stone) => blink([stone]));
+			console.log(line.length);
+		}
+
+		return { line };
 	});
 </script>
 
@@ -75,9 +99,10 @@
 <details bind:open={part.one}>
 	<summary>Part 1 – {part_one.arrangement.length}</summary>
 
-	<input type="range" bind:value={steps} max={25} />
-	{steps}
-	<!-- 185677 -->
+	<p>
+		<input type="range" bind:value={steps} max={25} />
+		{steps}
+	</p>
 	<ul>
 		{#each part_one.blinks as blink}
 			<li>{blink.slice(0, 24).join(" ")}</li>
@@ -86,7 +111,12 @@
 </details>
 
 <details bind:open={part.two}>
-	<summary>Part 2 – {part_two}</summary>
+	<summary>Part 2 – {part_two.line.length}</summary>
+
+	<p>
+		<input type="range" bind:value={steps} max={75} />
+		{steps}
+	</p>
 </details>
 
 <hr />
