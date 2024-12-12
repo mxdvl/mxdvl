@@ -44,16 +44,76 @@ EEEC`);
 			}
 			for (const neighbour of neighbours) {
 				to_visit.delete(neighbour);
-				// todo: calculate fence size
 			}
-			console.log(type, neighbours.size, neighbours);
 			plots.push({ type, size: neighbours.size, fence });
 		}
 		return { plots };
 	});
 
 	let part_two = $derived.by(() => {
-		return "???";
+		const to_visit = new Map(map);
+		/** @type {Array<{type: string, size: number, sides: number}>} */
+		const plots = [];
+		for (const [coordinates, type] of to_visit) {
+			// const directions = /** @type {const} */ (["→", "←", "↑", "↓"]);
+			/** @type {Set<`${Coordinates}:${Coordinates}`>} */
+			const fence = new Set();
+			const neighbours = new Set([coordinates]);
+			for (const neighbour of neighbours) {
+				const { x, y } = parse_coordinates(neighbour);
+				for (const [dx, dy, direction] of /** @type {const} */ ([
+					[0, -1, "↑"],
+					[1, -0, "→"],
+					[-0, 1, "↓"],
+					[-1, 0, "←"],
+				])) {
+					const next_coordinates = format_coordinates({
+						x: x + dx,
+						y: y + dy,
+					});
+					if (to_visit.get(next_coordinates) === type) {
+						neighbours.add(next_coordinates);
+						fence.delete(`${neighbour}:${next_coordinates}`);
+					} else {
+						fence.add(`${neighbour}:${next_coordinates}`);
+					}
+				}
+			}
+			for (const neighbour of neighbours) {
+				to_visit.delete(neighbour);
+			}
+			let [dx, dy] = [0, 0];
+			for (const side of fence) {
+				const [left, right] = side.split(":");
+				const { x: x1, y: y1 } = parse_coordinates(left);
+				const { x: x2, y: y2 } = parse_coordinates(right);
+				console.log(x1 - x2, y1 - y2);
+				// 	const [dx, dy] = {
+				// 		"↑": [0, -1],
+				// 		"→": [1, -0],
+				// 		"↓": [-0, 1],
+				// 		"←": [-1, 0],
+				// 	}[direction];
+				// 	const opposite = {
+				// 		"↑": "↓",
+				// 		"→": "←",
+				// 		"↓": "↑",
+				// 		"←": "→",
+				// 	}[direction];
+				// 	const facing = `${format_coordinates({ x: x + dx, y: y + dy })}:${opposite}`;
+				// 	console.log(side, facing);
+				// 	if (sides.has(facing)) {
+				// 		sides.delete(side);
+				// 		sides.delete(facing);
+				// 	}
+				// 	console.log(sides);
+			}
+			console.log();
+			console.log(type);
+			console.log(fence);
+			plots.push({ type, size: neighbours.size, sides: fence.size });
+		}
+		return { plots };
 	});
 </script>
 
@@ -75,7 +135,13 @@ EEEC`);
 </details>
 
 <details bind:open={part.two}>
-	<summary>Part 2 – {part_two}</summary>
+	<summary>Part 2 – {"???"}</summary>
+
+	<ul>
+		{#each part_two.plots as { type, size, sides }}
+			<li>area {type}: {size} &times; {sides} = {size * sides}</li>
+		{/each}
+	</ul>
 </details>
 
 <hr />
