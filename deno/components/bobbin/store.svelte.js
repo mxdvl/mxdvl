@@ -14,7 +14,6 @@ export const bobbin = $state({
 	patterns: new SvelteMap(),
 });
 
-
 /** @param {string} id */
 export function toggle(id) {
 	bobbin.selected = bobbin.selected === id ? "" : id;
