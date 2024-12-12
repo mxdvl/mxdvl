@@ -7,12 +7,51 @@
 	} from "./helpers.js";
 	/** @typedef {`${number},${number}`} Coordinates */
 
-	let input = $state(``);
+	let input = $state(`AAAA
+BBCD
+BBCC
+EEEC`);
 
-	let part = $state({ one: true, two: false });
+	let map = $derived(create_map(input));
+
+	let part = $state({ one: false, two: true });
 
 	let part_one = $derived.by(() => {
-		return "???";
+		const to_visit = new Map(map);
+		/** @type {Array<{type: string, size: number, fence: number}>} */
+		const plots = [];
+		for (const [coordinates, type] of to_visit) {
+			console.log();
+			console.log(type, coordinates);
+			let fence = 0;
+			const neighbours = new Set([coordinates]);
+			for (const neighbour of neighbours) {
+				const { x, y } = parse_coordinates(neighbour);
+				for (const [dx, dy] of [
+					[0, -1],
+					[1, -0],
+					[-0, 1],
+					[-1, 0],
+				]) {
+					const next_coordinates = format_coordinates({
+						x: x + dx,
+						y: y + dy,
+					});
+					if (to_visit.get(next_coordinates) === type) {
+						neighbours.add(next_coordinates);
+					} else {
+						fence++;
+					}
+				}
+			}
+			for (const neighbour of neighbours) {
+				to_visit.delete(neighbour);
+				// todo: calculate fence size
+			}
+			console.log(type, neighbours.size, neighbours);
+			plots.push({ type, size: neighbours.size, fence });
+		}
+		return { plots };
 	});
 
 	let part_two = $derived.by(() => {
@@ -23,14 +62,25 @@
 <textarea rows="10" bind:value={input}></textarea>
 
 <details bind:open={part.one}>
-	<summary>Part 1 – {part_one}</summary>
+	<summary
+		>Part 1 – {part_one.plots.reduce(
+			(accumulator, { size, fence }) => accumulator + size * fence,
+			0,
+		)}</summary
+	>
+
+	<ul>
+		{#each part_one.plots as { type, size, fence }}
+			<li>{type}: area {size} &times; {fence} = {size * fence}</li>
+		{/each}
+	</ul>
 </details>
 
 <details bind:open={part.two}>
 	<summary>Part 2 – {part_two}</summary>
 </details>
 
-<hr>
+<hr />
 
 <div class="grid">
 	<div class="red"></div>
