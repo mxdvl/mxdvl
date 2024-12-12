@@ -14,15 +14,13 @@ EEEC`);
 
 	let map = $derived(create_map(input));
 
-	let part = $state({ one: false, two: true });
+	let part = $state({ one: true, two: false });
 
 	let part_one = $derived.by(() => {
 		const to_visit = new Map(map);
 		/** @type {Array<{type: string, size: number, fence: number}>} */
 		const plots = [];
 		for (const [coordinates, type] of to_visit) {
-			console.log();
-			console.log(type, coordinates);
 			let fence = 0;
 			const neighbours = new Set([coordinates]);
 			for (const neighbour of neighbours) {
