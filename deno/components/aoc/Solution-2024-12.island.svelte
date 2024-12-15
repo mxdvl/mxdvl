@@ -54,6 +54,10 @@ EEEC`);
 		const to_visit = new Map(map);
 		/** @type {Array<{type: string, size: number, sides: number}>} */
 		const plots = [];
+
+		return {plots}
+		// FIXME: get this to work…
+
 		for (const [coordinates, type] of to_visit) {
 			// const directions = /** @type {const} */ (["→", "←", "↑", "↓"]);
 			/** @type {Set<`${Coordinates}:${Coordinates}`>} */
