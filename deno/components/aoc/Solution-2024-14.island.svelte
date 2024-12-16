@@ -20,7 +20,7 @@ p=7,3 v=-1,2
 p=2,4 v=2,-3
 p=9,5 v=-3,-3`);
 
-	let part = $state({ one: true, two: false });
+	let part = $state({ one: false, two: true });
 
 	let tiles = $derived.by(() => {
 		const REGEX =
@@ -63,7 +63,7 @@ p=9,5 v=-3,-3`);
 		let step = 0;
 		let { robots, width, height } = tiles;
 		robots = robots.map((robot) => ({ ...robot }));
-		while (step++ < steps) {
+		while (step++ < steps && part.one) {
 			for (const robot of robots) {
 				robot.x = (robot.x + robot.vx + width) % width;
 				robot.y = (robot.y + robot.vy + height) % height;
@@ -93,7 +93,18 @@ p=9,5 v=-3,-3`);
 	});
 
 	let part_two = $derived.by(() => {
-		return "???";
+		let { robots, width, height } = tiles;
+		// new objects
+		robots = robots.map((robot) => ({ ...robot }));
+		let step = 0;
+		while (step++ < steps && part.two) {
+			for (const robot of robots) {
+				robot.x = (robot.x + robot.vx + width) % width;
+				robot.y = (robot.y + robot.vy + height) % height;
+			}
+		}
+
+		return { robots };
 	});
 </script>
 
@@ -107,7 +118,10 @@ p=9,5 v=-3,-3`);
 		{steps}
 	</label>
 
-	<div class="grid" style="--width:{tiles.width};--height:{tiles.height};">
+	<div
+		class="grid"
+		style="--width:{tiles.width};--height:{tiles.height};gap: 1ch;"
+	>
 		<div
 			style="grid-area:{[
 				1,
@@ -135,6 +149,19 @@ p=9,5 v=-3,-3`);
 
 <details bind:open={part.two}>
 	<summary>Part 2 – {part_two}</summary>
+
+	<label>
+		<input type="number" bind:value={steps} />
+		{steps}
+	</label>
+
+	<div class="grid" style="--width:{tiles.width};--height:{tiles.height};">
+		{#each part_two.robots as { x, y }, index}
+			{@const red = index % 2 === 0}
+			{@const green = !red}
+			<div class:red class:green style="grid-area:{y + 1}/{x + 1}">█</div>
+		{/each}
+	</div>
 </details>
 
 <hr />
@@ -152,7 +179,6 @@ p=9,5 v=-3,-3`);
 		list-style-type: none;
 		grid-template-columns: repeat(var(--width), var(--col, 1ch));
 		grid-template-rows: repeat(var(--height), 1.25rem);
-		gap: 1ch;
 	}
 
 	.blue {
