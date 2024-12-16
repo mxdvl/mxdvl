@@ -12,7 +12,7 @@ export function create_map(input, remap = identity) {
 			.flatMap((line, y) =>
 				line.split("").flatMap((letter, x) => {
 					const remapped = remap(letter);
-					return remapped ? [[`${x},${y}`, letter]] : [];
+					return remapped ? [[`${x},${y}`, remapped]] : [];
 				})
 			),
 	);
