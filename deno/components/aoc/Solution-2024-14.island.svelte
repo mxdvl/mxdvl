@@ -22,31 +22,74 @@ p=9,5 v=-3,-3`);
 
 	let part = $state({ one: true, two: false });
 
-	const width = 101;
-	const height = 103;
-
-	let robots = $derived.by(() => {
+	let tiles = $derived.by(() => {
 		const REGEX =
 			/^p=(?<px>[-\d]+),(?<py>[-\d]+) v=(?<vx>[-\d]+),(?<vy>[-\d]+)$/;
 
-		return input.split("\n").flatMap((robot) => {
+		let width = 0;
+		let height = 0;
+		const robots = input.split("\n").flatMap((robot) => {
 			const matches = robot.match(REGEX);
 			if (!matches?.groups) return [];
 
-			const { px, py, vx, vy } = matches.groups;
+			const [x, y, vx, vy] = matches
+				.slice(1)
+				.map((coordinate) => parseInt(coordinate, 10));
 
-			return {
-				px: parseInt(px, 10),
-				py: parseInt(py, 10),
-				vx: parseInt(vx, 10),
-				vy: parseInt(vy, 10),
-			};
+			width = Math.max(width, x);
+			height = Math.max(height, y);
+
+			return [{ x, y, vx, vy }];
 		});
+
+		const row = height / 2;
+		const column = width / 2;
+
+		height++;
+		width++;
+
+		if (!Number.isInteger(row) || !Number.isInteger(column)) {
+			throw Error(`Invalid width (${width}) or height (${height})`);
+		}
+
+		console.log({ row, column });
+
+		return { robots, height, width, row, column, row, column };
 	});
 
+	let steps = $state(0);
+
 	let part_one = $derived.by(() => {
-		console.log(robots);
-		return "???";
+		let step = 0;
+		let { robots, width, height } = tiles;
+		robots = robots.map((robot) => ({ ...robot }));
+		while (step++ < steps) {
+			for (const robot of robots) {
+				robot.x = (robot.x + robot.vx + width) % width;
+				robot.y = (robot.y + robot.vy + height) % height;
+			}
+		}
+
+		let q1 = 0;
+		let q2 = 0;
+		let q3 = 0;
+		let q4 = 0;
+
+		for (const robot of robots) {
+			if (robot.x > tiles.column && robot.y < tiles.row) {
+				q1++;
+			} else if (robot.x > tiles.column && robot.y > tiles.row) {
+				q2++;
+			} else if (robot.x < tiles.column && robot.y > tiles.row) {
+				q3++;
+			} else if (robot.x < tiles.column && robot.y < tiles.row) {
+				q4++;
+			}
+		}
+
+		const score = q1 * q2 * q3 * q4;
+
+		return { robots, score };
 	});
 
 	let part_two = $derived.by(() => {
@@ -57,7 +100,37 @@ p=9,5 v=-3,-3`);
 <textarea rows="10" bind:value={input}></textarea>
 
 <details bind:open={part.one}>
-	<summary>Part 1 – {part_one}</summary>
+	<summary>Part 1 – {part_one.score}</summary>
+
+	<label>
+		<input type="range" bind:value={steps} />
+		{steps}
+	</label>
+
+	<div class="grid" style="--width:{tiles.width};--height:{tiles.height};">
+		<div
+			style="grid-area:{[
+				1,
+				tiles.column + 1,
+				tiles.height + 1,
+				tiles.column + 2,
+			].join('/')};background:var(--blue);"
+		></div>
+		<div
+			style="grid-area:{[
+				tiles.row + 1,
+				1,
+				tiles.row + 2,
+				tiles.width + 1,
+			].join('/')};background:var(--blue);"
+		></div>
+		{#each part_one.robots as { x, y }, index}
+			{@const red = x === tiles.column || y === tiles.row}
+			<div class:red style="grid-area:{y + 1}/{x + 1}">
+				{index.toString(36)}
+			</div>
+		{/each}
+	</div>
 </details>
 
 <details bind:open={part.two}>
@@ -79,6 +152,7 @@ p=9,5 v=-3,-3`);
 		list-style-type: none;
 		grid-template-columns: repeat(var(--width), var(--col, 1ch));
 		grid-template-rows: repeat(var(--height), 1.25rem);
+		gap: 1ch;
 	}
 
 	.blue {
