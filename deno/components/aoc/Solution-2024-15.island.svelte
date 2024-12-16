@@ -83,24 +83,57 @@ v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^`);
 		for (const [coordinates, character] of moved) {
 			if (character !== "×") continue;
 			position = parse_coordinates(coordinates);
-			moved.delete(coordinates);
 			break;
 		}
 		let step = 0;
 		while (step < steps && step < moves.length) {
 			const { dx, dy } = moves[step];
 
-			// FIXME: ensure we only move if possible,
-			// and handle boxes
-			position.x += dx;
-			position.y += dy;
+			let distance = 0;
+			while (distance < Math.max(width, height)) {
+				const next = format_coordinates({
+					x: position.x + dx * (distance + 1),
+					y: position.y + dy * (distance + 1),
+				});
+				const next_character = moved.get(next);
+				if (next_character === "█") {
+					distance = 0;
+					break;
+				}
+				distance++;
+				if (next_character === undefined) {
+					break;
+				}
+			}
+
+			if (distance > 0) {
+				moved.delete(format_coordinates(position));
+				if (distance > 1) {
+					moved.set(
+						format_coordinates({
+							x: position.x + dx * distance,
+							y: position.y + dy * distance,
+						}),
+						"▒",
+					);
+				}
+				position.x += dx;
+				position.y += dy;
+				moved.set(format_coordinates(position), "×");
+			}
 
 			step++;
 		}
 
-		moved.set(format_coordinates(position), "×");
+		let score = 0;
 
-		return { moved, position };
+		for (const [coordinates, character] of moved) {
+			if (character !== "▒") continue;
+			const { x, y } = parse_coordinates(coordinates);
+			score += x + 100 * y;
+		}
+
+		return { moved, position, score };
 	});
 
 	let part_two = $derived.by(() => {
@@ -111,7 +144,7 @@ v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^`);
 <textarea rows="10" bind:value={input}></textarea>
 
 <details bind:open={part.one}>
-	<summary>Part 1 – {part_one}</summary>
+	<summary>Part 1 – {part_one.score}</summary>
 
 	<input type="number" bind:value={steps} />
 
