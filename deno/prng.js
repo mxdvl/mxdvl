@@ -1,17 +1,43 @@
-import { assertEquals } from "jsr:@std/assert";
+import { assertLess, assertEquals, assertGreaterOrEqual } from "jsr:@std/assert";
 
 /**
  * Pseudo-random number generator of numbers in range [0, 1).
  * Not for crypo purposes
- * @param {number} [seed] defaults to Date.now()
+ * @param {bigint} [seed] defaults to Date.now()
  */
-export function* PRNG(seed = Date.now()) {
+export function* PRNG(seed = BigInt(Date.now())) {
 	const ceiling = 2 ** 32;
-	for(const int of pcg32(BigInt(seed))) {
-		yield Number(int) / ceiling
+	for (const int of pcg32(seed)) {
+		yield Number(int) / ceiling;
 	}
 }
 
+Deno.test({
+	name: "PNRG [0, 1)",
+	fn() {
+		assertEquals(Array.from(PRNG(42n).take(12)), [
+			0.7615582845173776,
+			0.41808728338219225,
+			0.4481155041139573,
+			0.2661335177253932,
+			0.9597071812022477,
+			0.4091600296087563,
+			0.7960081798955798,
+			0.8356900119688362,
+			0.48016405291855335,
+			0.996387166203931,
+			0.7091387419495732,
+			0.40304759168066084,
+		]);
+
+		for (const seed of [42n, 120n, 987654321n, 0n]) {
+			for (const value of PRNG(seed).take(2 ** 18)) {
+				assertGreaterOrEqual(value, 0)
+				assertLess(value, 1)
+			}
+		}
+	},
+});
 
 const MULTIPLIER = 6364136223846793005n;
 const INCREMENT = 1442695040888963407n;
@@ -22,34 +48,27 @@ const INCREMENT = 1442695040888963407n;
  */
 function* pcg32(seed = 5573589319906701683n) {
 	let state = seed + INCREMENT;
-	let x = state;
 	while (true) {
-		state = x * MULTIPLIER + INCREMENT;
-		x ^= x >> 18n;
-		yield rotate_right(x >> 27n, x >> 59n);
+		state = BigInt.asUintN(64, state * MULTIPLIER + INCREMENT);
+		/** XOR-shifted */
+		const xsh = BigInt.asUintN(32, ((state >> 18n) ^ state) >> 27n);
+		const rotation = BigInt.asUintN(32, state >> 59n);
+		yield BigInt.asUintN(32, xsh >> rotation | xsh << (-rotation & 31n));
 	}
 }
 
-/**
- * @param {bigint} x
- * @param {bigint} r
- */
-function rotate_right(x, r) {
-	return x >> r | x << (-r & 31n);
-}
-
 Deno.test({
-	name: "pcg",
+	name: "PCG32",
 	fn() {
 		const prng = pcg32().take(6);
 
 		assertEquals(Array.from(prng), [
-			54814512749133186n,
-			54814721573043634n,
-			54814512749133186n,
-			54814721573043634n,
-			54814512749133186n,
-			54814721573043634n,
+			1150555626n,
+			1699080561n,
+			1140875202n,
+			3036938165n,
+			1448871516n,
+			4110472253n,
 		]);
 	},
 });
@@ -70,7 +89,7 @@ function* lcg({ modulus, a, c, seed }) {
 }
 
 Deno.test({
-	name: "lcg",
+	name: "LCG",
 	fn() {
 		const prng = lcg({ modulus: 120n, a: 9n, c: 3n, seed: 97n }).take(4);
 
