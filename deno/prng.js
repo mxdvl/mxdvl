@@ -59,12 +59,9 @@ function* pcg32(seed = 42n, sequence = 0n) {
 	}
 }
 
-//
-console.log([...pcg32(42n, 54n).take(5)]);
-
 Deno.test({
 	name: "PCG32",
-	fn() {
+	async fn(t) {
 		const prng = pcg32().take(6);
 
 		assertEquals(Array.from(prng), [
@@ -75,14 +72,32 @@ Deno.test({
 			4026996297n,
 			2722332799n,
 		]);
+		await t.step({
+			name: "Rosetta 42, 54 first five",
+			fn() {
+				assertEquals(Array.from(pcg32(42n, 54n).take(5)), [
+					2707161783n,
+					2068313097n,
+					3122475824n,
+					2211639955n,
+					3215226955n,
+				]);
+			},
+		});
 
-		assertEquals(Array.from(pcg32(42n, 54n).take(5)), [
-			2707161783n,
-			2068313097n,
-			3122475824n,
-			2211639955n,
-			3215226955n,
-		]);
+		await t.step({
+			name: "Rosetta first 100,000",
+			fn() {
+				const counts = [0, 0, 0, 0, 0];
+				for (const integer of pcg32(987654321n, 1n).take(100_000)) {
+					const float = Number(integer) / 2 ** 32;
+					const bucket = Math.floor(5 * float);
+					counts[bucket] = (counts[bucket] ?? 0) + 1;
+				}
+
+				assertEquals(counts, [20049, 20022, 20115, 19809, 20005]);
+			},
+		});
 	},
 });
 
