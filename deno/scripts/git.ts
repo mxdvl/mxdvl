@@ -1,4 +1,4 @@
-import { assert } from "https://deno.land/std@0.193.0/testing/asserts.ts";
+import { assert } from "jsr:@std/assert";
 
 const nonempty_string = (d: string | undefined): d is string => typeof d === "string" && d.length > 0;
 
