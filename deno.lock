@@ -31,6 +31,7 @@
     "npm:@resvg/resvg-js@*": "2.6.2",
     "npm:esbuild@0.24": "0.24.0",
     "npm:lz-string@1.5.0": "1.5.0",
+    "npm:preact@*": "10.24.3",
     "npm:prettier@^3.0.2": "3.4.2",
     "npm:svelte@5.7.1": "5.7.1_acorn@8.14.0",
     "npm:svelte@5.9.0": "5.9.0_acorn@8.14.0",
@@ -494,6 +495,9 @@
         "@jridgewell/sourcemap-codec"
       ]
     },
+    "preact@10.24.3": {
+      "integrity": "sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA=="
+    },
     "prettier@3.4.2": {
       "integrity": "sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==",
       "bin": true
@@ -543,6 +547,7 @@
   },
   "workspace": {
     "dependencies": [
+      "npm:preact@*",
       "npm:svelte@5.7.1"
     ]
   }

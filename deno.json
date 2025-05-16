@@ -24,7 +24,7 @@
 		"useUnknownInCatchVariables": true,
 		"noUncheckedIndexedAccess": true,
 		"jsx": "react-jsx",
-		"jsxImportSource": "preact"
+		"jsxImportSource": "npm:preact"
 	},
 	"fmt": {
 		"include": ["deno", "deno.json", ".zed"],

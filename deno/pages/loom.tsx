@@ -1,4 +1,4 @@
-import type { JSX } from "preact/jsx-runtime";
+import type { JSX } from "npm:preact/jsx-runtime";
 const { cos, sin, PI } = Math;
 const tau = PI * 2;
 
@@ -21,7 +21,7 @@ const spread = (n: number) => (element: JSX.Element) => (
 	<g data-count={n}>
 		{Array.from(
 			{ length: n },
-			(_, i) => <g transform={`rotate(${360 / n * i})`}>{element}</g>,
+			(_, i) => <g key={i} transform={`rotate(${360 / n * i})`}>{element}</g>,
 		)}
 	</g>
 );
@@ -51,7 +51,7 @@ const on_circle = (turns = 1) => (radius: number) => (count: number) =>
 
 const polygon = (radius: number, n: number) => {
 	const [first, ...rest] = on_circle()(radius)(n);
-	if (!first) return <></>;
+	if (!first) return <g />;
 	return (
 		<path
 			d={[
@@ -87,7 +87,7 @@ export const loom = (
 		viewBox="-120 -120 240 240"
 		width="900px"
 		height="900px"
-		strokeLinejoin={"miter"}
+		strokeLinejoin="miter"
 	>
 		<style>{styles}</style>
 		<rect class="background" x={-300} y={-300} width="1000%" height="1000%" />
