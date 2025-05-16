@@ -49,7 +49,9 @@ export const Royal_Opera_House = (
 				/>
 			))}
 			<g transform="rotate(-90)">
-				{arc_dots(72).map(([cx, cy]) => <line x1={cx * 48} x2={cx * 50} y1={cy * 48} y2={cy * 50} />)}
+				{arc_dots(72).map(([cx, cy]) => (
+					<line key={[cx, cy].join()} x1={cx * 48} x2={cx * 50} y1={cy * 48} y2={cy * 50} />
+				))}
 			</g>
 
 			<path d="M-90,6 H90"></path>

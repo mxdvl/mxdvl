@@ -1,11 +1,11 @@
-import { DOMParser, initParser } from "https://deno.land/x/deno_dom@v0.1.36-alpha/deno-dom-wasm-noinit.ts";
+import { DOMParser } from "jsr:@b-fuze/deno-dom";
 import { gray, underline } from "jsr:@std/fmt/colors";
 
 const [url] = Deno.args;
 
 if (!url) throw new Error("Missing URL, please provide it as an argument");
 
-const [html] = await Promise.all([fetch(url).then((r) => r.text()), initParser()]);
+const html = await fetch(url).then((r) => r.text());
 
 const document = new DOMParser().parseFromString(html, "text/html");
 
