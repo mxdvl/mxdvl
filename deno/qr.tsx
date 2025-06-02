@@ -161,11 +161,13 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x},${y + 8}`,
-						"v-8",
-						"h2",
-						"a2,2 0 0 1 0,4",
-						"h-2",
+						`M ${x},${y + 8}`,
+						"v -8",
+						"h 2",
+						corner(2, 2),
+						"v 0.5",
+						corner(-2, 2),
+						"h -2",
 					].join(" ")}
 				/>
 			);
@@ -254,10 +256,11 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 						`M${x + 4},${y}`,
 						"h -4",
 						"v 3",
-						"h 2",
-						"c 2,0 2,1 2,3",
-						"c 0,1 -.5,2 -2,2",
-						"s -2,-1 -2,-2",
+						"h 1",
+						corner(3, 2),
+						"v 1",
+						corner(-2, 2),
+						corner(-2, -2),
 					].join(
 						" ",
 					)}
@@ -322,9 +325,10 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x + 4},${y + 2}`,
+						`M${x + 4},${y + 2.5}`,
 						corner(-2, 2),
 						corner(-2, -2),
+						"v -.5",
 						corner(2, -2),
 						corner(2, 2),
 						"v 4",
@@ -341,11 +345,13 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 }
 
 function corner(dx: number, dy: number, direction: "cw" | "ccw" = "cw") {
+	const y = 3 / 4;
+	const x = 2 / 3;
 	switch (direction) {
 		case "cw": {
 			return Math.sign(dx) === Math.sign(dy)
-				? `c ${2 * dx / 3},0 ${dx},${dy / 3} ${dx},${dy}`
-				: `c 0,${2 * dy / 3} ${dx / 3},${dy} ${dx},${dy}`;
+				? `c ${dx * x},0 ${dx},${dy * (1 - y)} ${dx},${dy}`
+				: `c 0,${dy * y} ${dx * (1 - x)},${dy} ${dx},${dy}`;
 		}
 		case "ccw": {
 			return `l${dx},${dy}`;
