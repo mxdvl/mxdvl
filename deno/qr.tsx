@@ -123,7 +123,21 @@ function Token({ position, x = 0, y = 0 }: { position: number; x: number; y: num
 	const [first, second, third, fourth] = input;
 	return (
 		<g transform={`translate(${x} ${y})`}>
-			<path fill="none" stroke="red" d={["M0,0", "H28", "V53", "H0", "Z"].join(" ")} />
+			<path
+				stroke="red"
+				d={[
+					"M0,6",
+					"A6,6 0 0 1 6,0",
+					"H22",
+					"A6,6 0 0 1 28,6",
+					"V52",
+					"A1,1 0 0 1 27,53",
+					"H1",
+					"A1,1 0 0 1 0,52",
+					"Z",
+				].join(" ")}
+			/>
+			<circle stroke="red" r={3} cx={6} cy={6} />
 			<g transform="translate(3 15)">
 				<Letter char={first ?? "P"} x={0} y={0} />
 				<Letter char={second ?? "0"} x={6} y={0} />
