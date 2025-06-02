@@ -14,7 +14,9 @@ if (import.meta.main) {
 					fill="none"
 					stroke-linecap="round"
 					stroke-linejoin="round"
+					stroke-width="0.2"
 				>
+					<script dangerouslySetInnerHTML={{ __html: `setTimeout(() => window.location.reload(), 1000)` }} />
 					<defs>
 						<symbol id="square">
 							<Square />
@@ -46,7 +48,6 @@ function Square() {
 		<path
 			fill="none"
 			stroke="blue"
-			stroke-width="0.2"
 			transform="scale(0.5)"
 			d={[
 				"M0,0L2,2",
@@ -119,9 +120,11 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 					stroke="blue"
 					d={[
 						`M${x},${y + 2}`,
-						"a2,2 0 0 1 4,0",
-						"v4",
-						"a2,2 0 0 1 -4,0",
+						corner(2, -2),
+						corner(2, 2),
+						"v 4",
+						corner(-2, 2),
+						corner(-2, -2),
 						"Z",
 					].join(" ")}
 				/>
@@ -131,8 +134,8 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x},${y + 2}`,
-						"a2,2 0 0 0 2,-2",
+						`M${x},${y + 1}`,
+						"c 1,0 2,-1 2,-1",
 						"v8",
 						"m-2,0",
 						"h4",
@@ -145,10 +148,12 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 					stroke="blue"
 					d={[
 						`M${x},${y + 2}`,
-						"a2,2 0 1 1 2,2",
-						"a2,2 0 0 0 -2,2",
-						"v2",
+						"c 0,-1 .5,-2 2,-2",
+						"s 2,1 2,2",
+						"c 0,4 -4,1 -4,6",
 						"h4",
+						// "a2,2 0 0 0 -2,2",
+						// "v2",
 					].join(" ")}
 				/>
 			);
@@ -157,16 +162,15 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x},${y}`,
-						"h4",
-						"v1.5",
-						"a2,2 0 0 1 -2,2",
-						"m-2,0",
-						"h2",
-						"a2,2 0 0 1 2,2",
-						"v0.5",
-						"a2,2 0 0 1 -2,2",
-						"h-2",
+						`M${x},${y + 2}`,
+						"c 0,-1 .5,-2 2,-2",
+						"s 2,1 2,2",
+						"c 0,0 0,2 -2,2",
+						// "h-1",
+						// "m1,0",
+						"c 2,0 2,1 2,2",
+						"c 0,1 -.5,2 -2,2",
+						"s -2,-1 -2,-2",
 					].join(
 						" ",
 					)}
@@ -177,10 +181,11 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x + 3},${y + 8}`,
-						"v-8",
-						"l-3,4",
-						"h4",
+						`M${x + 1},${y}`,
+						"c 0,2 -1,4.5 -1,4.5",
+						"h 4",
+						"m 0,-4.5",
+						"v 8",
 					].join(
 						" ",
 					)}
@@ -192,11 +197,12 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 					stroke="blue"
 					d={[
 						`M${x + 4},${y}`,
-						"h-4",
-						"v4",
-						"h2",
-						"a2,2 0 0 1 0,4",
-						"h-2",
+						"h -4",
+						"v 3",
+						"h 2",
+						"c 2,0 2,1 2,3",
+						"c 0,1 -.5,2 -2,2",
+						"s -2,-1 -2,-2",
 					].join(
 						" ",
 					)}
@@ -207,13 +213,15 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x + 4},${y}`,
-						"h-2",
-						"a2,2 0 0 0 -2,2",
-						"v4",
-						"a2,2 0 0 0 4,0",
-						"v-1",
-						"a2,2 0 0 0 -4,0",
+						`M${x},${y + 5.5}`,
+						"c 0,-1 0,-2 2,-2",
+						"c 2,0 2,1 2,2",
+						"v .5",
+						"c 0,1 -.5,2 -2,2",
+						"s -2,-1 -2,-2",
+						"v -4",
+						"c 0,-1 0.5,-2 2,-2",
+						"s 2,1 2,2",
 					].join(
 						" ",
 					)}
@@ -226,9 +234,7 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 					d={[
 						`M${x},${y}`,
 						"h4",
-						"v8",
-						"m-3,-4",
-						"h3",
+						"l-3,8",
 					].join(
 						" ",
 					)}
@@ -239,12 +245,18 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x},${y + 2}`,
-						"a2,2 0 0 1 4,0",
-						"a2,2 0 0 1 -4,0",
-						"m0,4",
-						"a2,2 0 0 1 4,0",
-						"a2,2 0 0 1 -4,0",
+						`M${x + 2},${y + 3.7}`,
+						corner(-2, -1.7),
+						corner(2, -2),
+						corner(2, 2),
+						corner(-2, 1.7),
+
+						corner(2, 2),
+						"v .3",
+						corner(-2, 2),
+						corner(-2, -2),
+						"v -.3",
+						corner(2, -2),
 					].join(
 						" ",
 					)}
@@ -256,10 +268,13 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 					stroke="blue"
 					d={[
 						`M${x + 4},${y + 2}`,
-						"a2,2 0 0 1 -4,0",
-						"a2,2 0 0 1 4,0",
-						"v4",
-						"a2,2 0 0 1 -4,0",
+						corner(-2, 2),
+						corner(-2, -2),
+						corner(2, -2),
+						corner(2, 2),
+						"v 4",
+						corner(-2, 2),
+						corner(-2, -2),
 					].join(
 						" ",
 					)}
@@ -267,5 +282,18 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 			);
 		default:
 			return null;
+	}
+}
+
+function corner(dx: number, dy: number, direction: "cw" | "ccw" = "cw") {
+	switch (direction) {
+		case "cw": {
+			return Math.sign(dx) === Math.sign(dy)
+				? `c ${2 * dx / 3},0 ${dx},${dy / 3} ${dx},${dy}`
+				: `c 0,${2 * dy / 3} ${dx / 3},${dy} ${dx},${dy}`;
+		}
+		case "ccw": {
+			return `l${dx},${dy}`;
+		}
 	}
 }
