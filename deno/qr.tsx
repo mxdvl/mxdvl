@@ -1,44 +1,99 @@
+import { delay } from "jsr:@std/async";
 import { qr } from "npm:headless-qr@1";
 import { renderToString } from "npm:preact-render-to-string";
 
 if (import.meta.main) {
-	const server = Deno.serve(() =>
-		new Response(
-			renderToString(
-				<svg
-					version="1.1"
-					xmlns="http://www.w3.org/2000/svg"
-					width="1200"
-					height="1600"
-					viewBox="-10 -10 300 400"
-					fill="none"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="0.2"
-				>
-					<script dangerouslySetInnerHTML={{ __html: `setTimeout(() => window.location.reload(), 1000)` }} />
-					<defs>
-						<symbol id="square">
-							<Square />
-						</symbol>
-						<style>
-							{`
-							text { font-family: system-ui; fill: green; }
-						`}
-						</style>
-					</defs>
+	const now = Date.now();
+	const server = Deno.serve(({ url }) => {
+		const { pathname } = new URL(url);
+		switch (pathname) {
+			case "/":
+				return new Response(
+					`
+<!doctype html>
+<html>
+	<head>
+		<title>Parkrun Laser</title>
+	</head>
+	<body>
+		<main><img src="/parkrun.svg"></main>
+		<script>
+			const img = document.querySelector('img');
+			const sse = new EventSource("/sse");
+			sse.addEventListener('update', ({ data }) => {
+				img.src = '/parkrun.svg?' + data
+			})
+		</script>
+	</body>
+<html>`,
+					{ headers: { "Content-Type": "text/html" } },
+				);
+			case "/parkrun.svg":
+				return new Response(
+					renderToString(
+						<svg
+							version="1.1"
+							xmlns="http://www.w3.org/2000/svg"
+							width="1200"
+							height="1600"
+							viewBox="-10 -10 300 400"
+							fill="none"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="0.2"
+						>
+							<defs>
+								<symbol id="square">
+									<Square />
+								</symbol>
+								<style>
+									{`
+									text { font-family: system-ui; fill: green; }
+								`}
+								</style>
+							</defs>
 
-					<Token position={12} x={0} y={0} />
-					<Token position={34} x={30} y={0} />
-					<Token position={567} x={60} y={0} />
-					<Token position={890} x={90} y={0} />
-				</svg>,
-			),
-			{
-				headers: { "Content-Type": " image/svg+xml" },
-			},
-		)
-	);
+							<Token position={12} x={0} y={0} />
+							<Token position={34} x={30} y={0} />
+							<Token position={567} x={60} y={0} />
+							<Token position={890} x={90} y={0} />
+						</svg>,
+					),
+					{
+						headers: { "Content-Type": " image/svg+xml" },
+					},
+				);
+			case "/sse": {
+				const encoder = new TextEncoder();
+				const controller = new AbortController();
+				const { signal } = controller;
+				const body = new ReadableStream({
+					async start(controller) {
+						while (!signal.aborted) {
+							const message = encoder.encode([
+								"event: update",
+								`data: ${now}`,
+								"retry: 120",
+								"",
+								"",
+							].join("\n"));
+							controller.enqueue(message);
+							await delay(120);
+						}
+					},
+					cancel() {
+						controller.abort();
+					},
+				});
+				return new Response(body, {
+					headers: { "Content-Type": "text/event-stream" },
+				});
+			}
+
+			default:
+				return new Response(`Not found: ${pathname}`, { status: 404 });
+		}
+	});
 
 	await server.finished;
 }
