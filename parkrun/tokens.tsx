@@ -4,7 +4,7 @@ export function Square() {
 	return (
 		<path
 			fill="none"
-			stroke="blue"
+			stroke="green"
 			transform="scale(0.5)"
 			d={[
 				"M0,0L2,2",
@@ -39,12 +39,12 @@ export function Token({ position, x = 0, y = 0 }: { position: number; x: number;
 				].join(" ")}
 			/>
 			<circle stroke="red" r={3} cx={6} cy={6} />
-			<Logo size={6} x={22} y={6} />
-			<g transform="translate(3 15)">
-				<Letter char={first ?? "P"} x={0} y={0} />
-				<Letter char={second ?? "0"} x={6} y={0} />
-				<Letter char={third ?? "0"} x={12} y={0} />
-				<Letter char={fourth ?? "0"} x={18} y={0} />
+			<g stroke="blue">
+				<Logo size={6} x={22} y={6} />
+				<Letter char={first ?? "P"} x={3} y={15} />
+				<Letter char={second ?? "0"} x={9} y={15} />
+				<Letter char={third ?? "0"} x={15} y={15} />
+				<Letter char={fourth ?? "0"} x={21} y={15} />
 			</g>
 			<QR input={input} x={4} y={28} />
 			{/* <text y={55} fontSize={6}>{input}</text> */}
@@ -75,7 +75,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "P":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M ${x},${y + 8}`,
 						"v -8",
@@ -90,7 +89,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "0":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x},${y + 2}`,
 						corner(2, -2),
@@ -105,7 +103,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "1":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x},${y + 1}`,
 						"c 1,0 2,-1 2,-1",
@@ -118,7 +115,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "2":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x},${y + 2}`,
 						"c 0,-1 .5,-2 2,-2",
@@ -133,7 +129,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "3":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x},${y + 2}`,
 						"c 0,-1 .5,-2 2,-2",
@@ -152,7 +147,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "4":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x + 1},${y}`,
 						"c 0,2 -1,4.5 -1,4.5",
@@ -167,7 +161,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "5":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x + 4},${y}`,
 						"h -4",
@@ -185,7 +178,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "6":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x},${y + 5.2}`,
 						corner(2, -1.7),
@@ -204,7 +196,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "7":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x},${y}`,
 						"h4",
@@ -217,7 +208,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "8":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x + 2},${y + 3.7}`,
 						corner(-2, -1.7),
@@ -239,7 +229,6 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		case "9":
 			return (
 				<path
-					stroke="blue"
 					d={[
 						`M${x + 4},${y + 2.3}`,
 						corner(-2, 1.7),
@@ -276,7 +265,6 @@ function Logo({ x, y, size }: { x: number; y: number; size: number }) {
 					`a${size / 99},${size / 99} 0 0 1 0,${size}`,
 					`a${size / 99},${size / 99} 0 0 1 0,${-size}`,
 				].join(" ")}
-				stroke="green"
 			/>
 		</g>
 	);
