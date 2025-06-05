@@ -39,6 +39,7 @@ export function Token({ position, x = 0, y = 0 }: { position: number; x: number;
 				].join(" ")}
 			/>
 			<circle stroke="red" r={3} cx={6} cy={6} />
+			<Logo size={6} x={22} y={6} />
 			<g transform="translate(3 15)">
 				<Letter char={first ?? "P"} x={0} y={0} />
 				<Letter char={second ?? "0"} x={6} y={0} />
@@ -256,6 +257,29 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 		default:
 			return null;
 	}
+}
+
+function Logo({ x, y, size }: { x: number; y: number; size: number }) {
+	return (
+		<g transform={`translate(${x} ${y})`}>
+			<path
+				d={[
+					// readable
+					`M0,${-0.1 * size}`,
+					`v${0.4 * size}`,
+					`m0,-${0.1 * size}`,
+					`a${0.1 * size},${0.1 * size} 0 0 1 ${0.1 * size},-${0.1 * size}`,
+					`m${-0.2 * size},0`,
+					`a${size / 99},${size / 99} 0 0 1 0,${-0.25 * size}`,
+					`a${size / 99},${size / 99} 0 0 1 ${0.2 * size},0`,
+					`M0,${-0.5 * size}`,
+					`a${size / 99},${size / 99} 0 0 1 0,${size}`,
+					`a${size / 99},${size / 99} 0 0 1 0,${-size}`,
+				].join(" ")}
+				stroke="green"
+			/>
+		</g>
+	);
 }
 
 function corner(dx: number, dy: number, direction: "cw" | "ccw" = "cw") {
