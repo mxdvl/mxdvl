@@ -1,104 +1,6 @@
-import { delay } from "jsr:@std/async";
 import { qr } from "npm:headless-qr@1";
-import { renderToString } from "npm:preact-render-to-string";
 
-if (import.meta.main) {
-	const now = Date.now();
-	const server = Deno.serve(({ url }) => {
-		const { pathname } = new URL(url);
-		switch (pathname) {
-			case "/":
-				return new Response(
-					`
-<!doctype html>
-<html>
-	<head>
-		<title>Parkrun Laser</title>
-	</head>
-	<body>
-		<main><img src="/parkrun.svg"></main>
-		<script>
-			const img = document.querySelector('img');
-			const sse = new EventSource("/sse");
-			sse.addEventListener('update', ({ data }) => {
-				img.src = '/parkrun.svg?' + data
-			})
-		</script>
-	</body>
-<html>`,
-					{ headers: { "Content-Type": "text/html" } },
-				);
-			case "/parkrun.svg":
-				return new Response(
-					renderToString(
-						<svg
-							version="1.1"
-							xmlns="http://www.w3.org/2000/svg"
-							width="1200"
-							height="1600"
-							viewBox="-10 -10 300 400"
-							fill="none"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="0.2"
-						>
-							<defs>
-								<symbol id="square">
-									<Square />
-								</symbol>
-								<style>
-									{`
-									text { font-family: system-ui; fill: green; }
-								`}
-								</style>
-							</defs>
-
-							<Token position={12} x={0} y={0} />
-							<Token position={34} x={30} y={0} />
-							<Token position={567} x={60} y={0} />
-							<Token position={890} x={90} y={0} />
-						</svg>,
-					),
-					{
-						headers: { "Content-Type": " image/svg+xml" },
-					},
-				);
-			case "/sse": {
-				const encoder = new TextEncoder();
-				const controller = new AbortController();
-				const { signal } = controller;
-				const body = new ReadableStream({
-					async start(controller) {
-						while (!signal.aborted) {
-							const message = encoder.encode([
-								"event: update",
-								`data: ${now}`,
-								"retry: 120",
-								"",
-								"",
-							].join("\n"));
-							controller.enqueue(message);
-							await delay(120);
-						}
-					},
-					cancel() {
-						controller.abort();
-					},
-				});
-				return new Response(body, {
-					headers: { "Content-Type": "text/event-stream" },
-				});
-			}
-
-			default:
-				return new Response(`Not found: ${pathname}`, { status: 404 });
-		}
-	});
-
-	await server.finished;
-}
-
-function Square() {
+export function Square() {
 	return (
 		<path
 			fill="none"
@@ -107,7 +9,6 @@ function Square() {
 			d={[
 				"M0,0L2,2",
 				"M0,2L2,0",
-
 				"M0,0",
 				"A1,1 0,0,0 2,0",
 				"A1,1 0,0,0 2,2",
@@ -118,7 +19,7 @@ function Square() {
 	);
 }
 
-function Token({ position, x = 0, y = 0 }: { position: number; x: number; y: number }) {
+export function Token({ position, x = 0, y = 0 }: { position: number; x: number; y: number }) {
 	const input = `P${String(position).padStart(3, "0")}`;
 	const [first, second, third, fourth] = input;
 	return (
@@ -269,10 +170,10 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 					d={[
 						`M${x + 4},${y}`,
 						"h -4",
-						"v 3",
+						"v 3.5",
 						"h 1",
 						corner(3, 2),
-						"v 1",
+						"v .5",
 						corner(-2, 2),
 						corner(-2, -2),
 					].join(
@@ -285,15 +186,15 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x},${y + 5.5}`,
-						"c 0,-1 0,-2 2,-2",
-						"c 2,0 2,1 2,2",
+						`M${x},${y + 5.2}`,
+						corner(2, -1.7),
+						corner(2, 2),
 						"v .5",
-						"c 0,1 -.5,2 -2,2",
-						"s -2,-1 -2,-2",
+						corner(-2, 2),
+						corner(-2, -2),
 						"v -4",
-						"c 0,-1 0.5,-2 2,-2",
-						"s 2,1 2,2",
+						corner(2, -2),
+						corner(2, 2),
 					].join(
 						" ",
 					)}
@@ -339,15 +240,14 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 				<path
 					stroke="blue"
 					d={[
-						`M${x + 4},${y + 2.5}`,
-						corner(-2, 2),
+						`M${x + 4},${y + 2.3}`,
+						corner(-2, 1.7),
 						corner(-2, -2),
-						"v -.5",
 						corner(2, -2),
 						corner(2, 2),
 						"v 4",
 						corner(-2, 2),
-						corner(-2, -2),
+						corner(-2, -1.7),
 					].join(
 						" ",
 					)}
