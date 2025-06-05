@@ -16,6 +16,9 @@
 		"serve": {
 			"command": "deno run --allow-read --allow-net deno/server.ts",
 			"dependencies": ["build"]
+		},
+		"parkrun": {
+			"command": "deno -NR --watch parkrun/server.tsx"
 		}
 	},
 	"compilerOptions": {

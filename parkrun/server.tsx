@@ -4,12 +4,8 @@ import { delay } from "jsr:@std/async";
 
 if (!import.meta.main) throw Error("What are you doing?");
 
-addEventListener("hmr", () => {
-	console.log("Hot module reloaded!");
-});
-
 const now = Date.now();
-const server = Deno.serve(({ url }) => {
+Deno.serve(({ url }) => {
 	const { pathname } = new URL(url);
 	switch (pathname) {
 		case "/":
@@ -98,5 +94,3 @@ const server = Deno.serve(({ url }) => {
 			return new Response(`Not found: ${pathname}`, { status: 404 });
 	}
 });
-
-await server.finished;
