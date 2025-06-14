@@ -1,5 +1,5 @@
 import { renderToString } from "npm:preact-render-to-string";
-import { Square, Token } from "./tokens.tsx";
+import { Pattern, Square, Token } from "./tokens.tsx";
 import { delay } from "jsr:@std/async";
 
 if (!import.meta.main) throw Error("What are you doing?");
@@ -47,6 +47,9 @@ Deno.serve(({ url }) => {
 							<symbol id="square">
 								<Square />
 							</symbol>
+							<symbol id="pattern">
+								<Pattern />
+							</symbol>
 							<style>
 								{`
 								text { font-family: system-ui; fill: green; }
@@ -54,8 +57,16 @@ Deno.serve(({ url }) => {
 							</style>
 						</defs>
 
-						{[12, 34, 567, 890, 312, 555].map((position, index) => (
-							<Token key={position + index} position={position} x={index * 30 % 300} y={0} />
+						<Token href="#square" position={176} x={0} y={0} />
+						<Token href="#pattern" position={324} x={30} y={0} />
+						{[12, 34, 567, 890, 312, 555].slice(0, 0).map((position, index) => (
+							<Token
+								href="#square"
+								key={position + index}
+								position={position}
+								x={index * 30 % 300}
+								y={300}
+							/>
 						))}
 					</svg>,
 				),

@@ -19,7 +19,37 @@ export function Square() {
 	);
 }
 
-export function Token({ position, x = 0, y = 0 }: { position: number; x: number; y: number }) {
+export function Pattern() {
+	return (
+		<path
+			fill="none"
+			stroke="green"
+			transform="scale(0.125)"
+			stroke-width={0.75}
+			d={[
+				"M0,4",
+				"H2V5H1V8",
+				"H2V6H3V5H3V4",
+				"H3V3H1V1H2V2H4V3",
+				"H8V2H6V2H5V1H3",
+				"L3,0",
+				"M6,1H7V2",
+				"M8,2V1",
+				"M3,8",
+				"V7H4V8H5V6H4",
+				"V5H4V4H5V5",
+				"H6V7H6V8H8",
+				"V7H7V6H8V5H7V4",
+				"L8,4",
+				"M5,4H6",
+			].join(" ")}
+		/>
+	);
+}
+
+export function Token(
+	{ position, x = 0, y = 0, href }: { position: number; x: number; y: number; href: `#${string}` },
+) {
 	const input = `P${String(position).padStart(3, "0")}`;
 	const [first, second, third, fourth] = input;
 	return (
@@ -46,13 +76,13 @@ export function Token({ position, x = 0, y = 0 }: { position: number; x: number;
 				<Letter char={third ?? "0"} x={15} y={15} />
 				<Letter char={fourth ?? "0"} x={21} y={15} />
 			</g>
-			<QR input={input} x={4} y={28} />
+			<QR input={input} x={4} y={28} href={href} />
 			{/* <text y={55} fontSize={6}>{input}</text> */}
 		</g>
 	);
 }
 
-function QR({ input, x = 0, y = 0 }: { input: string; x?: number; y?: number }) {
+function QR({ input, x = 0, y = 0, href }: { input: string; x?: number; y?: number; href: `#${string}` }) {
 	const positions = qr(input, { correction: "H" })
 		.flatMap((row, x) => row.flatMap((col, y) => col ? [{ x, y }] : []));
 
@@ -63,7 +93,7 @@ function QR({ input, x = 0, y = 0 }: { input: string; x?: number; y?: number }) 
 					key={[x, y].join(",")}
 					x={x}
 					y={y}
-					href="#square"
+					href={href}
 				/>
 			))}
 		</g>
