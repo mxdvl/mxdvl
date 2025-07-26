@@ -289,11 +289,11 @@ function Logo({ x, y, size }: { x: number; y: number; size: number }) {
 					`m0,-${0.1 * size}`,
 					`a${0.1 * size},${0.1 * size} 0 0 1 ${0.1 * size},-${0.1 * size}`,
 					`m${-0.2 * size},0`,
-					`a${size / 99},${size / 99} 0 0 1 0,${-0.25 * size}`,
-					`a${size / 99},${size / 99} 0 0 1 ${0.2 * size},0`,
+					`a${size / 8},${size / 8} 0 0 1 0,${-size / 4}`,
+					`a${size / 10},${size / 10} 0 0 1 ${size / 5},0`,
 					`M0,${-0.5 * size}`,
-					`a${size / 99},${size / 99} 0 0 1 0,${size}`,
-					`a${size / 99},${size / 99} 0 0 1 0,${-size}`,
+					`a${size / 2},${size / 2} 0 0 1 0,${size}`,
+					`a${size / 2},${size / 2} 0 0 1 0,${-size}`,
 				].join(" ")}
 			/>
 		</g>
