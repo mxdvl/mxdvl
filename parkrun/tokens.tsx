@@ -1,4 +1,5 @@
 import { qr } from "npm:headless-qr@1";
+import { JSX } from "npm:preact/jsx-runtime";
 
 export function Square() {
 	return (
@@ -47,9 +48,17 @@ export function Pattern() {
 	);
 }
 
-export function Token(
-	{ position, x = 0, y = 0, href }: { position: number; x: number; y: number; href: `#${string}` },
-) {
+export function Token({
+	position,
+	x = 0,
+	y = 0,
+	children,
+}: {
+	position: number;
+	x: number;
+	y: number;
+	children: JSX.Element;
+}) {
 	const input = `P${String(position).padStart(3, "0")}`;
 	const [first, second, third, fourth] = input;
 	return (
@@ -76,25 +85,35 @@ export function Token(
 				<Letter char={third ?? "0"} x={15} y={15} />
 				<Letter char={fourth ?? "0"} x={21} y={15} />
 			</g>
-			<QR input={input} x={4} y={28} href={href} />
+			<QR input={input} x={4} y={28}>
+				{children}
+			</QR>
 			{/* <text y={55} fontSize={6}>{input}</text> */}
 		</g>
 	);
 }
 
-function QR({ input, x = 0, y = 0, href }: { input: string; x?: number; y?: number; href: `#${string}` }) {
-	const positions = qr(input, { correction: "H" })
-		.flatMap((row, x) => row.flatMap((col, y) => col ? [{ x, y }] : []));
+function QR({
+	input,
+	x = 0,
+	y = 0,
+	children,
+}: {
+	input: string;
+	x?: number;
+	y?: number;
+	children: JSX.Element;
+}) {
+	const positions = qr(input, { correction: "H" }).flatMap((row, x) =>
+		row.flatMap((col, y) => (col ? [{ x, y }] : []))
+	);
 
 	return (
 		<g transform={`translate(${x - 0.5} ${y - 0.5})`}>
 			{positions.map(({ x, y }) => (
-				<use
-					key={[x, y].join(",")}
-					x={x}
-					y={y}
-					href={href}
-				/>
+				<g key={[x, y].join(",")} transform={`translate(${x} ${y})`}>
+					{children}
+				</g>
 			))}
 		</g>
 	);
@@ -169,9 +188,7 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 						"c 2,0 2,1 2,2",
 						"c 0,1 -.5,2 -2,2",
 						"s -2,-1 -2,-2",
-					].join(
-						" ",
-					)}
+					].join(" ")}
 				/>
 			);
 		case "4":
@@ -183,9 +200,7 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 						"h 4",
 						"m 0,-4.5",
 						"v 8",
-					].join(
-						" ",
-					)}
+					].join(" ")}
 				/>
 			);
 		case "5":
@@ -200,9 +215,7 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 						"v .5",
 						corner(-2, 2),
 						corner(-2, -2),
-					].join(
-						" ",
-					)}
+					].join(" ")}
 				/>
 			);
 		case "6":
@@ -218,9 +231,7 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 						"v -4",
 						corner(2, -2),
 						corner(2, 2),
-					].join(
-						" ",
-					)}
+					].join(" ")}
 				/>
 			);
 		case "7":
@@ -230,9 +241,7 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 						`M${x},${y}`,
 						"h4",
 						"l-3,8",
-					].join(
-						" ",
-					)}
+					].join(" ")}
 				/>
 			);
 		case "8":
@@ -251,9 +260,7 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 						corner(-2, -2),
 						"v -.3",
 						corner(2, -2),
-					].join(
-						" ",
-					)}
+					].join(" ")}
 				/>
 			);
 		case "9":
@@ -268,9 +275,7 @@ function Letter({ char, x, y }: { char: string; x: number; y: number }) {
 						"v 4",
 						corner(-2, 2),
 						corner(-2, -1.7),
-					].join(
-						" ",
-					)}
+					].join(" ")}
 				/>
 			);
 		default:

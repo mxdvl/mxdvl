@@ -44,12 +44,6 @@ Deno.serve(({ url }) => {
 						stroke-width="0.2"
 					>
 						<defs>
-							<symbol id="square">
-								<Square />
-							</symbol>
-							<symbol id="pattern">
-								<Pattern />
-							</symbol>
 							<style>
 								{`
 								text { font-family: system-ui; fill: green; }
@@ -57,17 +51,24 @@ Deno.serve(({ url }) => {
 							</style>
 						</defs>
 
-						<Token href="#square" position={176} x={0} y={0} />
-						<Token href="#pattern" position={324} x={30} y={0} />
-						{[12, 34, 567, 890, 312, 555].slice(0, 0).map((position, index) => (
-							<Token
-								href="#square"
-								key={position + index}
-								position={position}
-								x={index * 30 % 300}
-								y={300}
-							/>
-						))}
+						<Token position={176} x={0} y={0}>
+							<Square />
+						</Token>
+						<Token position={324} x={30} y={0}>
+							<Pattern />
+						</Token>
+						{[12, 34, 567, 890, 312, 555]
+							.filter(() => false)
+							.map((position, index) => (
+								<Token
+									key={position + index}
+									position={position}
+									x={(index * 30) % 300}
+									y={300}
+								>
+									<Square />
+								</Token>
+							))}
 					</svg>,
 				),
 				{
