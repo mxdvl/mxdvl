@@ -20,6 +20,99 @@ export function Square() {
 	);
 }
 
+export function Lines() {
+	return (
+		<path
+			fill="none"
+			stroke="green"
+			transform="scale(0.25)"
+			d={[
+				"M0,1H4",
+				"M0,3H4",
+				"M1,0V4",
+				"M3,0V4",
+			].join(" ")}
+		/>
+	);
+}
+
+export function Spiral() {
+	return (
+		<path
+			fill="none"
+			stroke="green"
+			transform="scale(0.125)"
+			d={[
+				"M7,8",
+				"H0",
+				"V1",
+				"H7",
+				"V7",
+				"H1",
+				"V2",
+				"H6",
+				"V6",
+				"H2",
+				"V3",
+				"H5",
+				"V5",
+				"H3",
+				"V4",
+				"H4",
+			].join(" ")}
+		/>
+	);
+}
+
+export function Cross() {
+	return (
+		<path
+			fill="none"
+			stroke="green"
+			transform="scale(0.333333)"
+			d={[
+				"M1,0",
+				"A2,2 0,0,0 3,2",
+				"A1,1 0,0,0 2,3",
+				"A2,2 0,0,0 0,1",
+				"A1,1 0,0,0 1,0",
+				"M2,0",
+				"A1,1 0,0,0 3,1",
+				"A2,2 0,0,0 1,3",
+				"A1,1 0,0,0 0,2",
+				"A2,2 0,0,0 2,0",
+			].join(" ")}
+		/>
+	);
+}
+
+export function TripleCross() {
+	return (
+		<path
+			fill="none"
+			stroke="green"
+			transform="scale(0.25)"
+			d={[
+				"M1,0",
+				"A3,3 0,0,0 4,3",
+				"A1,1 0,0,0 3,4",
+				"A3,3 0,0,0 0,1",
+				"A1,1 0,0,0 1,0",
+				"M3,0",
+				"A1,1 0,0,0 4,1",
+				"A3,3 0,0,0 1,4",
+				"A1,1 0,0,0 0,3",
+				"A3,3 0,0,0 3,0",
+				"M2,0",
+				"A2,2 0,0,0 4,2",
+				"A2,2 0,0,0 2,4",
+				"A2,2 0,0,0 0,2",
+				"A2,2 0,0,0 2,0",
+			].join(" ")}
+		/>
+	);
+}
+
 export function Pattern() {
 	return (
 		<path

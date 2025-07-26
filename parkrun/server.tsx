@@ -1,5 +1,5 @@
 import { renderToString } from "npm:preact-render-to-string";
-import { Pattern, Square, Token } from "./tokens.tsx";
+import { Cross, Lines, Pattern, Spiral, Square, Token, TripleCross } from "./tokens.tsx";
 import { delay } from "jsr:@std/async";
 
 if (!import.meta.main) throw Error("What are you doing?");
@@ -37,7 +37,7 @@ Deno.serve(({ url }) => {
 						xmlns="http://www.w3.org/2000/svg"
 						width="1200"
 						height="1600"
-						viewBox="-10 -10 300 400"
+						viewBox="-10 -10 120 120"
 						fill="none"
 						stroke-linecap="round"
 						stroke-linejoin="round"
@@ -56,6 +56,18 @@ Deno.serve(({ url }) => {
 						</Token>
 						<Token position={324} x={30} y={0}>
 							<Pattern />
+						</Token>
+						<Token position={338} x={60} y={0}>
+							<Spiral />
+						</Token>
+						<Token position={1} x={0} y={60}>
+							<Cross />
+						</Token>
+						<Token position={9} x={30} y={60}>
+							<TripleCross />
+						</Token>
+						<Token position={123} x={60} y={60}>
+							<Lines />
 						</Token>
 						{[12, 34, 567, 890, 312, 555]
 							.filter(() => false)
