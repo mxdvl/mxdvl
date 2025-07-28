@@ -30,9 +30,7 @@
     "npm:@imagemagick/magick-wasm@0.0.32": "0.0.32",
     "npm:@resvg/resvg-js@*": "2.6.2",
     "npm:esbuild@0.24": "0.24.0",
-    "npm:headless-qr@1": "1.0.3",
     "npm:lz-string@1.5.0": "1.5.0",
-    "npm:preact-render-to-string@*": "6.5.11_preact@10.24.3",
     "npm:preact@*": "10.24.3",
     "npm:prettier@^3.0.2": "3.4.2",
     "npm:svelte@5.7.1": "5.7.1_acorn@8.14.0",
@@ -478,9 +476,6 @@
         "@types/estree"
       ]
     },
-    "headless-qr@1.0.3": {
-      "integrity": "sha512-HHVwf1i++Ho2vFstHxAdfP0OjB7Di44nGXbh3VXciuzwkuFb1oeFDCrfOLjFgHip/Kbc/wq2GOaSTiKQ81K/Yg=="
-    },
     "is-reference@3.0.3": {
       "integrity": "sha512-ixkJoqQvAP88E6wLydLGGqCJsrFUnqoH6HnaczB8XmDH1oaWU+xxdptvikTgaEhtZ53Ky6YXiBuUI2WXLMCwjw==",
       "dependencies": [
@@ -498,12 +493,6 @@
       "integrity": "sha512-5c99P1WKTed11ZC0HMJOj6CDIue6F8ySu+bJL+85q1zBEIY8IklrJ1eiKC2NDRh3Ct3FcvmJPyQHb9erXMTJNw==",
       "dependencies": [
         "@jridgewell/sourcemap-codec"
-      ]
-    },
-    "preact-render-to-string@6.5.11_preact@10.24.3": {
-      "integrity": "sha512-ubnauqoGczeGISiOh6RjX0/cdaF8v/oDXIjO85XALCQjwQP+SB4RDXXtvZ6yTYSjG+PC1QRP2AhPgCEsM2EvUw==",
-      "dependencies": [
-        "preact"
       ]
     },
     "preact@10.24.3": {
