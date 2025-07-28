@@ -1,13 +1,13 @@
 import { assertEquals } from "jsr:@std/assert";
 
-const encoder = new TextEncoder()
+const encoder = new TextEncoder();
 
 /**
- * @param {string} input to hash
- * @returns {bigint} 64-bit uint hash
+ * @param {string} input UTF-8 string to hash
+ * @returns {bigint} 64-bit unsigned integer
  * @see https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function
  */
-export function fnv1a(input) {
+export function fnv1a64(input) {
 	/** 64-bit offset basis */
 	let hash = 0xcbf29ce484222325n;
 	/** http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param */
@@ -23,32 +23,34 @@ export function fnv1a(input) {
 }
 
 Deno.test({
-	name: "FNV-1a",
-	async fn({ step}) {
-		const input = "Hello World!";
+	name: "FNV-1a (64-bit)",
+	async fn({ step }) {
+		await step("foobar", () => {
+			assertEquals(fnv1a64("foobar"), 0x85944171f73967e8n);
+		});
 
-		const hashes = Array.from({ length: input.length }, (_, index) => fnv1a(input.slice(0, index)));
+		await step("Hello World!", () => {
+			assertEquals(fnv1a64("Hello World!"), 0x8c0ec8d1fb9e6e32n);
+		});
 
-		assertEquals(hashes.length, new Set(hashes).size);
+		await step("Uniqueness & spread", () => {
+			const hashes = [
+				"Hello",
+				"HELLO",
+				"hello",
+				"hell",
+				"HellO",
+				"ello",
+				"h_llo",
+				"world",
+				"worlds",
+				"WORLD",
+				"!",
+				"🌏",
+			].map((input) => murmur3(input));
 
-		assertEquals(hashes, [
-			14695981039346656037n,
-			12638232280532398647n,
-			659587163011907926n,
-			5283654859589719438n,
-			3830027638908563206n,
-			7201466553693376363n,
-			10530820969299836017n,
-			12598690710408361106n,
-			18425702632401914343n,
-			14754776955283277871n,
-			13238853374961289689n,
-			4420528118743043111n,
-		]);
-
-		await step('Reference', () => {
-			assertEquals(fnv1a('foobar'), 0x85944171F73967E8n)
-		})
+			assertEquals(hashes.length, new Set(hashes).size);
+		});
 	},
 });
 
@@ -112,7 +114,7 @@ Deno.test({
 			assertEquals(murmur3(""), 0);
 		});
 		await step("(empty, seeded)", () => {
-			assertEquals(murmur3("", 0x00000001), 0x514E28B7);
+			assertEquals(murmur3("", 0x00000001), 0x514e28b7);
 		});
 		await step("test", () => {
 			assertEquals(murmur3("test"), 0xba6bd213);
@@ -142,6 +144,52 @@ Deno.test({
 				"!",
 				"🌏",
 			].map((input) => murmur3(input));
+
+			assertEquals(hashes.length, new Set(hashes).size);
+		});
+	},
+});
+
+/**
+ * @param {string} input UTF-8 string to hash
+ * @returns {Promise<bigint>} 256-bit unsigned integer
+ * @see https://en.wikipedia.org/wiki/SHA-2
+ */
+export async function sha256(input) {
+	const buffer = await crypto.subtle.digest("SHA-256", encoder.encode(input));
+	return new Uint8Array(buffer)
+		.reduce((accumulator, next) => accumulator << 8n | BigInt(next), 0n);
+}
+
+Deno.test({
+	name: "SHA-256",
+	async fn({ step }) {
+		await step("(empty)", async () => {
+			assertEquals(await sha256(""), 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855n);
+		});
+
+		await step("Hello World!", async () => {
+			assertEquals(
+				await sha256("Hello World!"),
+				0x7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069n,
+			);
+		});
+
+		await step("Uniqueness & spread", async () => {
+			const hashes = await Promise.all([
+				"Hello",
+				"HELLO",
+				"hello",
+				"hell",
+				"HellO",
+				"ello",
+				"h_llo",
+				"world",
+				"worlds",
+				"WORLD",
+				"!",
+				"🌏",
+			].map((input) => sha256(input)));
 
 			assertEquals(hashes.length, new Set(hashes).size);
 		});
