@@ -36,11 +36,13 @@ export function murmur3Hash(str) {
 		let k = BigInt(view.getUint32(block, true));
 
 		k = BigInt.asUintN(32, k * 0xcc9e2d51n);
-		k = rotl32n(k, 15n);
+		// rotate left
+		k = BigInt.asUintN(32, (k << 15n) | (k >> (32n - 15n)))
 		k = BigInt.asUintN(32, k * 0x1b873593n);
 
-		hash ^= BigInt.asUintN(32, hash ^ k);
-		hash = rotl32n(hash, 13n);
+		hash = BigInt.asUintN(32, hash ^ k);
+		// rotate left
+		hash = BigInt.asUintN(32, (hash << 13n) | (hash >> (32n - 13n)))
 		hash = BigInt.asUintN(32, hash * 5n + 0xe6546b64n);
 	}
 
@@ -54,16 +56,4 @@ export function murmur3Hash(str) {
 	hash ^= hash >> 16n;
 
 	return BigInt.asUintN(32, hash);
-}
-
-/**
- * Rotate a 32-bit BigInt left by r bits.
- * @param {bigint} x
- * @param {bigint} r
- * @returns {bigint}
- */
-function rotl32n(x, r) {
-	x = BigInt.asUintN(32, x);
-	r &= 31n;
-	return BigInt.asUintN(32, (x << r) | (x >> (32n - r)));
 }
