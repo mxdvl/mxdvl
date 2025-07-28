@@ -53,57 +53,53 @@ Deno.test({
 export function murmur3(input) {
 	const cap = 2 ** 32;
 	const bytes = new TextEncoder().encode(input);
-	const blocks = Math.ceil(bytes.length / 4);
-	const padded = new Uint8Array(blocks * 4);
-	padded.set(bytes);
-	const view = new DataView(padded.buffer);
+	const blocks = Math.floor(bytes.length / 4);
+	const view = new DataView(bytes.buffer);
 
 	let hash = 0;
 
 	// Mixing
 	for (let block = 0; block < blocks; block++) {
-		let k = view.getUint32(block, true);
+		let k = view.getUint32(block * 4, true);
 
-		k *= 0xcc9e2d51;
-		// k %= cap;
+		k = Math.imul(k, 0xcc9e2d51);
 		// rotate left
 		k = (k << 15) | (k >> (32 - 15));
-		// k %= cap;
-		k *= 0x1b873593;
-		// k %= cap;
+		k = Math.imul(k, 0x1b873593);
 
 		hash = 32, hash ^ k;
-		// hash %= cap;
 		// rotate left
 		hash = 32, (hash << 13) | (hash >> (32 - 13));
-		// hash %= cap;
-		hash = hash * 5 + 0xe6546b64;
-		// hash %= cap;
+		hash = Math.imul(hash, 5) + 0xe6546b64;
+
 	}
 
 	// Finalization
 	hash ^= bytes.length;
 
 	hash ^= hash >> 16;
-	// hash %= cap;
-	hash *= 0x85ebca6b;
-	// hash %= cap;
+	hash = Math.imul(hash, 0x85ebca6b);
 	hash ^= hash >> 13;
-	// hash %= cap;
-	hash *= 0xc2b2ae35;
-	// hash %= cap;
+	hash = Math.imul(hash, 0xc2b2ae35);
 	hash ^= hash >> 16;
 	hash %= cap;
 
 	return hash;
 }
 
-console.log(murmur3("Hello, world!"));
-console.log(murmur3("The quick brown fox jumps over the lazy dog	"));
+
 
 Deno.test({
 	name: "Murmur3",
-	fn() {
+	async fn({step}) {
+
+		await step("Hello, world!", () => {
+			assertEquals(murmur3("Hello, world!"), 0xc0363e43)
+		})
+		await step("The quick brown fox jumps over the lazy dog", () => {
+			assertEquals(murmur3("The quick brown fox jumps over the lazy dog"), 0x2e4ff723)
+		})
+
 		const input = "Hello World!";
 
 		const hashes = Array.from({ length: input.length }, (_, index) => murmur3(input.slice(0, index)));
