@@ -19,11 +19,14 @@ jobs:
       - name: Format
         run: deno fmt
 
-      - name: Format
+      - name: Lint
         run: deno lint
 
       - name: Type-check
         run: deno check deno/**.ts
+
+      - name: Test
+        run: deno test deno/*.js
 
   deploy:
     runs-on: ubuntu-latest
