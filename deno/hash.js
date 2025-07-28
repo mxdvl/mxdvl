@@ -48,43 +48,58 @@ Deno.test({
 
 /**
  * @param {string} input to hash
- * @returns {bigint} 32-bit unsigned integer
+ * @returns {number} 32-bit unsigned integer
  */
 export function murmur3(input) {
+	const cap = 2 ** 32;
 	const bytes = new TextEncoder().encode(input);
 	const blocks = Math.ceil(bytes.length / 4);
 	const padded = new Uint8Array(blocks * 4);
 	padded.set(bytes);
 	const view = new DataView(padded.buffer);
 
-	let hash = 0n;
+	let hash = 0;
 
 	// Mixing
 	for (let block = 0; block < blocks; block++) {
-		let k = BigInt(view.getUint32(block, true));
+		let k = view.getUint32(block, true);
 
-		k = BigInt.asUintN(32, k * 0xcc9e2d51n);
+		k *= 0xcc9e2d51;
+		// k %= cap;
 		// rotate left
-		k = BigInt.asUintN(32, (k << 15n) | (k >> (32n - 15n)));
-		k = BigInt.asUintN(32, k * 0x1b873593n);
+		k = (k << 15) | (k >> (32 - 15));
+		// k %= cap;
+		k *= 0x1b873593;
+		// k %= cap;
 
-		hash = BigInt.asUintN(32, hash ^ k);
+		hash = 32, hash ^ k;
+		// hash %= cap;
 		// rotate left
-		hash = BigInt.asUintN(32, (hash << 13n) | (hash >> (32n - 13n)));
-		hash = BigInt.asUintN(32, hash * 5n + 0xe6546b64n);
+		hash = 32, (hash << 13) | (hash >> (32 - 13));
+		// hash %= cap;
+		hash = hash * 5 + 0xe6546b64;
+		// hash %= cap;
 	}
 
 	// Finalization
-	hash ^= BigInt(bytes.length);
+	hash ^= bytes.length;
 
-	hash ^= hash >> 16n;
-	hash = BigInt.asUintN(32, hash * 0x85ebca6bn);
-	hash ^= hash >> 13n;
-	hash = BigInt.asUintN(32, hash * 0xc2b2ae35n);
-	hash ^= hash >> 16n;
+	hash ^= hash >> 16;
+	// hash %= cap;
+	hash *= 0x85ebca6b;
+	// hash %= cap;
+	hash ^= hash >> 13;
+	// hash %= cap;
+	hash *= 0xc2b2ae35;
+	// hash %= cap;
+	hash ^= hash >> 16;
+	hash %= cap;
 
-	return BigInt.asUintN(32, hash);
+	return hash;
 }
+
+console.log(murmur3("Hello, world!"));
+console.log(murmur3("The quick brown fox jumps over the lazy dog	"));
 
 Deno.test({
 	name: "Murmur3",
@@ -96,18 +111,18 @@ Deno.test({
 		assertEquals(hashes.length, new Set(hashes).size);
 
 		assertEquals(hashes, [
-			0n, // that’s what happens when you seed with 0
-			3405263976n,
-			692646325n,
-			797178783n,
-			304929073n,
-			468051987n,
-			4031639869n,
-			4268711838n,
-			3614512431n,
-			648548498n,
-			2540593115n,
-			3930446081n,
+			0, // that’s what happens when you seed with 0
+			3405263976,
+			692646325,
+			797178783,
+			304929073,
+			468051987,
+			4031639869,
+			4268711838,
+			3614512431,
+			648548498,
+			2540593115,
+			3930446081,
 		]);
 	},
 });
