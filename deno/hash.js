@@ -1,5 +1,7 @@
 import { assertEquals } from "jsr:@std/assert";
 
+const encoder = new TextEncoder()
+
 /**
  * @param {string} input to hash
  * @returns {bigint} 64-bit uint hash
@@ -11,8 +13,8 @@ export function fnv1a(input) {
 	/** http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param */
 	const FNV_PRIME = 0x100000001b3n;
 
-	for (const char of input) {
-		hash ^= BigInt(char.codePointAt(0) ?? 0);
+	for (const char of encoder.encode(input)) {
+		hash ^= BigInt(char);
 		hash *= FNV_PRIME;
 		hash = BigInt.asUintN(64, hash);
 	}
@@ -22,7 +24,7 @@ export function fnv1a(input) {
 
 Deno.test({
 	name: "FNV-1a",
-	fn() {
+	async fn({ step}) {
 		const input = "Hello World!";
 
 		const hashes = Array.from({ length: input.length }, (_, index) => fnv1a(input.slice(0, index)));
@@ -43,6 +45,10 @@ Deno.test({
 			13238853374961289689n,
 			4420528118743043111n,
 		]);
+
+		await step('Reference', () => {
+			assertEquals(fnv1a('foobar'), 0x85944171F73967E8n)
+		})
 	},
 });
 
@@ -52,7 +58,7 @@ Deno.test({
  * @returns {number} 32-bit unsigned integer
  */
 export function murmur3(input, seed = 0) {
-	const bytes = new TextEncoder().encode(input);
+	const bytes = encoder.encode(input);
 	const remainder = bytes.length % 4;
 	const blocks = (bytes.length - remainder) / 4;
 	const padded = new Uint8Array(4 * (blocks + 1));
