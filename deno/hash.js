@@ -48,57 +48,76 @@ Deno.test({
 
 /**
  * @param {string} input to hash
+ * @param {number} [seed] optional 32-bit unsigned integer
  * @returns {number} 32-bit unsigned integer
  */
-export function murmur3(input) {
-	const cap = 2 ** 32;
+export function murmur3(input, seed = 0) {
 	const bytes = new TextEncoder().encode(input);
-	const blocks = Math.floor(bytes.length / 4);
-	const view = new DataView(bytes.buffer);
+	const remainder = bytes.length % 4;
+	const blocks = (bytes.length - remainder) / 4;
+	const { buffer } = new Uint8Array(bytes.length + 4 - remainder);
+	const view = new DataView(buffer);
 
-	let hash = 0;
+	let hash = seed >>> 0;
 
 	// Mixing
 	for (let block = 0; block < blocks; block++) {
-		let k = view.getUint32(block * 4, true);
-
-		k = Math.imul(k, 0xcc9e2d51);
+		hash ^= mix(view.getUint32(block * 4, true));
 		// rotate left
-		k = (k << 15) | (k >> (32 - 15));
-		k = Math.imul(k, 0x1b873593);
-
-		hash = 32, hash ^ k;
-		// rotate left
-		hash = 32, (hash << 13) | (hash >> (32 - 13));
+		hash = (hash << 13) | (hash >>> 19);
 		hash = Math.imul(hash, 5) + 0xe6546b64;
+	}
 
+	if (remainder) {
+		// tail logic
+		hash ^= mix(view.getUint32(blocks * 4, true));
 	}
 
 	// Finalization
 	hash ^= bytes.length;
-
-	hash ^= hash >> 16;
+	hash ^= hash >>> 16;
 	hash = Math.imul(hash, 0x85ebca6b);
-	hash ^= hash >> 13;
+	hash ^= hash >>> 13;
 	hash = Math.imul(hash, 0xc2b2ae35);
-	hash ^= hash >> 16;
-	hash %= cap;
+	hash ^= hash >>> 16;
+	hash >>>= 0;
 
 	return hash;
 }
 
-
+/**
+ * @param {number} uint8
+ * @returns {number} uint8
+ */
+function mix(uint8) {
+	let mixed = uint8;
+	mixed = Math.imul(mixed, 0xcc9e2d51);
+	mixed = (mixed << 15) | (mixed >>> 17);
+	mixed = Math.imul(mixed, 0x1b873593);
+	return mixed;
+}
 
 Deno.test({
 	name: "Murmur3",
-	async fn({step}) {
-
+	async fn({ step }) {
+		await step("(empty)", () => {
+			assertEquals(murmur3(""), 0);
+		});
+		await step("(empty, seeded)", () => {
+			assertEquals(murmur3("", 0x00000001), 0x514E28B7);
+		});
+		await step("test", () => {
+			assertEquals(murmur3("test"), 0xba6bd213);
+		});
+		await step("test (seeded)", () => {
+			assertEquals(murmur3("test", 0x9747b28c), 0x704b81dc);
+		});
 		await step("Hello, world!", () => {
-			assertEquals(murmur3("Hello, world!"), 0xc0363e43)
-		})
+			assertEquals(murmur3("Hello, world!"), 0xc0363e43);
+		});
 		await step("The quick brown fox jumps over the lazy dog", () => {
-			assertEquals(murmur3("The quick brown fox jumps over the lazy dog"), 0x2e4ff723)
-		})
+			assertEquals(murmur3("The quick brown fox jumps over the lazy dog"), 0x2e4ff723);
+		});
 
 		const input = "Hello World!";
 
