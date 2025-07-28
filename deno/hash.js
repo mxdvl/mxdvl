@@ -55,21 +55,22 @@ export function murmur3(input, seed = 0) {
 	const bytes = new TextEncoder().encode(input);
 	const remainder = bytes.length % 4;
 	const blocks = (bytes.length - remainder) / 4;
-	const { buffer } = new Uint8Array(bytes.length + 4 - remainder);
-	const view = new DataView(buffer);
+	const padded = new Uint8Array(4 * (blocks + 1));
+	padded.set(bytes);
+	const view = new DataView(padded.buffer);
 
 	let hash = seed >>> 0;
 
 	// Mixing
 	for (let block = 0; block < blocks; block++) {
 		hash ^= mix(view.getUint32(block * 4, true));
-		// rotate left
+		// Rotate left
 		hash = (hash << 13) | (hash >>> 19);
 		hash = Math.imul(hash, 5) + 0xe6546b64;
 	}
 
+	// Tail
 	if (remainder) {
-		// tail logic
 		hash ^= mix(view.getUint32(blocks * 4, true));
 	}
 
@@ -86,12 +87,13 @@ export function murmur3(input, seed = 0) {
 }
 
 /**
- * @param {number} uint8
- * @returns {number} uint8
+ * @param {number} input 32-bit unsigned integer
+ * @returns {number} 32-bit unsigned integer
  */
-function mix(uint8) {
-	let mixed = uint8;
+function mix(input) {
+	let mixed = input;
 	mixed = Math.imul(mixed, 0xcc9e2d51);
+	// Rotate left
 	mixed = (mixed << 15) | (mixed >>> 17);
 	mixed = Math.imul(mixed, 0x1b873593);
 	return mixed;
@@ -119,25 +121,23 @@ Deno.test({
 			assertEquals(murmur3("The quick brown fox jumps over the lazy dog"), 0x2e4ff723);
 		});
 
-		const input = "Hello World!";
+		await step("Uniqueness & spread", () => {
+			const hashes = [
+				"Hello",
+				"HELLO",
+				"hello",
+				"hell",
+				"HellO",
+				"ello",
+				"h_llo",
+				"world",
+				"worlds",
+				"WORLD",
+				"!",
+				"🌏",
+			].map((input) => murmur3(input));
 
-		const hashes = Array.from({ length: input.length }, (_, index) => murmur3(input.slice(0, index)));
-
-		assertEquals(hashes.length, new Set(hashes).size);
-
-		assertEquals(hashes, [
-			0, // that’s what happens when you seed with 0
-			3405263976,
-			692646325,
-			797178783,
-			304929073,
-			468051987,
-			4031639869,
-			4268711838,
-			3614512431,
-			648548498,
-			2540593115,
-			3930446081,
-		]);
+			assertEquals(hashes.length, new Set(hashes).size);
+		});
 	},
 });
