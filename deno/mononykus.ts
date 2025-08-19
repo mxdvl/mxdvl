@@ -42,7 +42,7 @@ export async function handler(request: Request) {
 
 if (import.meta.main) {
 	// ensure we do not import esbuild in Deno Deploy
-	const { build, rebuild } = await import("jsr:@mxdvl/mononykus@0.8.6");
+	const { build, rebuild } = await import("jsr:@mxdvl/mononykus@0.8.7");
 
 	const environment = Deno.args.some((arg) => arg === "--watch") ? "dev" : "prod";
 	if (environment === "dev") {
