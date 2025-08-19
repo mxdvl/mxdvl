@@ -138,7 +138,8 @@
 
 {#if !normalised}
 	<p>
-		If you normalise & format the path, you can higlight a line in the text
+		If you normalise &amp; format the path,
+		you can higlight a line in the text
 		area and get the corresponding segment higlighted
 	</p>
 {/if}
