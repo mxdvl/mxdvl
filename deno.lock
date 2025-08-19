@@ -3,10 +3,6 @@
   "specifiers": {
     "jsr:@b-fuze/deno-dom@*": "0.1.49",
     "jsr:@luca/esbuild-deno-loader@0.11": "0.11.1",
-    "jsr:@mxdvl/mononykus@0.8.1": "0.8.1",
-    "jsr:@mxdvl/mononykus@0.8.3": "0.8.3",
-    "jsr:@mxdvl/mononykus@0.8.5": "0.8.5",
-    "jsr:@mxdvl/mononykus@0.8.6": "0.8.6",
     "jsr:@mxdvl/mononykus@0.8.7": "0.8.7",
     "jsr:@std/assert@*": "1.0.8",
     "jsr:@std/async@*": "1.0.9",
@@ -71,58 +67,6 @@
         "jsr:@std/bytes",
         "jsr:@std/encoding@^1.0.5",
         "jsr:@std/path@^1.0.6"
-      ]
-    },
-    "@mxdvl/mononykus@0.8.1": {
-      "integrity": "cfd79294955c49ac9c46a46c9f3e9526c8beb306c1b50ce6de386066b140b704",
-      "dependencies": [
-        "jsr:@luca/esbuild-deno-loader",
-        "jsr:@std/cli@^1.0.6",
-        "jsr:@std/fs@^1.0.6",
-        "jsr:@std/http@^1.0.11",
-        "jsr:@std/path@^1.0.6",
-        "npm:esbuild",
-        "npm:prettier@^3.0.2",
-        "npm:svelte@5.7.1"
-      ]
-    },
-    "@mxdvl/mononykus@0.8.3": {
-      "integrity": "7807df13db38176a01e4f36ecb9c2ee74905b66c4d8810383f3fb567f9bd9dfc",
-      "dependencies": [
-        "jsr:@luca/esbuild-deno-loader",
-        "jsr:@std/cli@^1.0.6",
-        "jsr:@std/fs@^1.0.6",
-        "jsr:@std/http@^1.0.11",
-        "jsr:@std/path@^1.0.6",
-        "npm:esbuild",
-        "npm:prettier@^3.0.2",
-        "npm:svelte@5.7.1"
-      ]
-    },
-    "@mxdvl/mononykus@0.8.5": {
-      "integrity": "91b0fd8720687d6618dfa11732bb780e1c33f1d31057beb9f8dfe8eefeded4cd",
-      "dependencies": [
-        "jsr:@luca/esbuild-deno-loader",
-        "jsr:@std/cli@^1.0.6",
-        "jsr:@std/fs@^1.0.6",
-        "jsr:@std/http@^1.0.11",
-        "jsr:@std/path@^1.0.6",
-        "npm:esbuild",
-        "npm:prettier@^3.0.2",
-        "npm:svelte@5.7.1"
-      ]
-    },
-    "@mxdvl/mononykus@0.8.6": {
-      "integrity": "bde5d1c81ce9f1a59243657f5af7664d824946d8aa9ac765bec1df84524f0c7b",
-      "dependencies": [
-        "jsr:@luca/esbuild-deno-loader",
-        "jsr:@std/cli@^1.0.6",
-        "jsr:@std/fs@^1.0.6",
-        "jsr:@std/http@^1.0.11",
-        "jsr:@std/path@^1.0.6",
-        "npm:esbuild",
-        "npm:prettier@^3.0.2",
-        "npm:svelte@5.9.0"
       ]
     },
     "@mxdvl/mononykus@0.8.7": {
