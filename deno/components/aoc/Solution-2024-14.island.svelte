@@ -54,7 +54,7 @@ p=9,5 v=-3,-3`);
 
 		console.log({ row, column });
 
-		return { robots, height, width, row, column, row, column };
+		return { robots, height, width, row, column };
 	});
 
 	let steps = $state(0);
