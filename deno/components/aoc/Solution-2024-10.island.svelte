@@ -200,10 +200,6 @@
 		grid-template-rows: repeat(var(--height), 1.25rem);
 	}
 
-	.blue {
-		color: var(--blue);
-	}
-
 	.green {
 		color: var(--green);
 	}

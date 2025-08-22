@@ -52,9 +52,7 @@ p=9,5 v=-3,-3`);
 			throw Error(`Invalid width (${width}) or height (${height})`);
 		}
 
-		console.log({ row, column });
-
-		return { robots, height, width, row, column, row, column };
+		return { robots, height, width, row, column };
 	});
 
 	let steps = $state(0);
