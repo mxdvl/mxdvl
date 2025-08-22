@@ -3,7 +3,7 @@
   "specifiers": {
     "jsr:@b-fuze/deno-dom@*": "0.1.49",
     "jsr:@luca/esbuild-deno-loader@0.11": "0.11.1",
-    "jsr:@mxdvl/mononykus@0.8.7": "0.8.7",
+    "jsr:@mxdvl/mononykus@0.8.8": "0.8.8",
     "jsr:@std/assert@*": "1.0.8",
     "jsr:@std/async@*": "1.0.9",
     "jsr:@std/bytes@^1.0.2": "1.0.6",
@@ -69,8 +69,8 @@
         "jsr:@std/path@^1.0.6"
       ]
     },
-    "@mxdvl/mononykus@0.8.7": {
-      "integrity": "b7243abdbf43a1577d22fea0b332cacd92d5725ef07c88777682802e87ce5b41",
+    "@mxdvl/mononykus@0.8.8": {
+      "integrity": "a0e29aa7b5d03c9a967f16d6f1e5284cad8a865cc4de74bd62ad216a3d3a8521",
       "dependencies": [
         "jsr:@luca/esbuild-deno-loader",
         "jsr:@std/cli@1",
