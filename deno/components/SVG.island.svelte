@@ -10,7 +10,7 @@
 
 	/** @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d */
 	let d = $state(
-		format([
+		format(SVGPathCommander.pathToRelative([
 			["M", 30, 140],
 			["v", 40],
 			["a", 50, 50, 0, 0, 0, 50, 50],
@@ -36,7 +36,7 @@
 			["l", 20, -20],
 			["l", -10, -10],
 			["l", 10, -20],
-		]),
+		])),
 	);
 
 	const size = 360;
