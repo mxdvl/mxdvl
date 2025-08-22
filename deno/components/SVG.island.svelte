@@ -10,7 +10,7 @@
 
 	/** @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d */
 	let d = $state(
-		format(SVGPathCommander.pathToRelative([
+		formatPath(format([
 			["M", 30, 140],
 			["v", 40],
 			["a", 50, 50, 0, 0, 0, 50, 50],
@@ -36,7 +36,7 @@
 			["l", 20, -20],
 			["l", -10, -10],
 			["l", 10, -20],
-		])),
+		]), 'relative'),
 	);
 
 	const size = 360;
@@ -45,7 +45,7 @@
 	let textArea = $state(undefined);
 
 	/** @type {(path: string, method: 'relative' | 'absolute') => string} */
-	const formatPath = (path, method) => {
+	function formatPath(path, method) {
 		switch (method) {
 			case "relative": {
 				return format(SVGPathCommander.pathToRelative(path));
