@@ -4,16 +4,16 @@
 }
 
 main {
-	display: grid;
-	grid-template-columns: repeat(10, 1.8cm);
-	gap: 0.8cm;
+	font-size: 23px;
 	font-family: ui-monospace;
-	font-weight: 500;
+	font-weight: 420;
 	width: 28cm;
 
-	div {
+	div.hundred {
 		break-inside: avoid;
-		font-size: 20px;
+		display: grid;
+		grid-template-columns: repeat(10, min-content);
+		gap: 1cm;
 	}
 }
 

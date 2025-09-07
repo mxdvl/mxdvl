@@ -102,26 +102,33 @@ Deno.serve(({ url }) => {
 		<main>${
 					renderToString(
 						<>
-							{Array.from({ length: 600 }, (_, index) => `P${(index + 1).toString().padStart(4, "0")}`)
-								.map((input) => (
-									<div style={{ breakBefore: input.match(/\d01$/) ? "page" : "auto" }}>
-										<svg
-											class="qr"
-											version="1.1"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 21 21"
-											fill="none"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="0.2"
-										>
-											<QR x={0.5} y={0.5} input={input}>
-												<rect width={1} height={1} fill="#111" />
-											</QR>
-										</svg>
-										{input}
-									</div>
-								))}
+							{[0, 100, 200, 300, 400, 500].map((start) => (
+								<div key={start} class="hundred">
+									{Array.from(
+										{ length: 100 },
+										(_, index) => `P${(index + start).toString().padStart(4, "0")}`,
+									)
+										.map((input) => (
+											<div style={{ breakBefore: input.match(/\d01$/) ? "page" : "auto" }}>
+												<svg
+													class="qr"
+													version="1.1"
+													xmlns="http://www.w3.org/2000/svg"
+													viewBox="0 0 21 21"
+													fill="none"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="0.2"
+												>
+													<QR x={0.5} y={0.5} input={input}>
+														<rect width={1} height={1} fill="#111" />
+													</QR>
+												</svg>
+												{input}
+											</div>
+										))}
+								</div>
+							))}
 						</>,
 					)
 				}</main>
