@@ -186,7 +186,7 @@ export function Token({
 	);
 }
 
-function QR({
+export function QR({
 	input,
 	x = 0,
 	y = 0,

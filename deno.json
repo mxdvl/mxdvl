@@ -18,7 +18,7 @@
 			"dependencies": ["build"]
 		},
 		"parkrun": {
-			"command": "deno -NR --watch parkrun/server.tsx"
+			"command": "deno -NR --watch --unstable-raw-imports parkrun/server.tsx"
 		}
 	},
 	"compilerOptions": {

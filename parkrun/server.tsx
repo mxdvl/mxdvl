@@ -1,6 +1,7 @@
 import { renderToString } from "npm:preact-render-to-string";
-import { Cross, Lines, Pattern, Spiral, Square, Token, TripleCross } from "./tokens.tsx";
+import { Cross, Lines, Pattern, QR, Spiral, Square, Token, TripleCross } from "./tokens.tsx";
 import { delay } from "jsr:@std/async";
+import styles from "./styles.css" with { type: "text" };
 
 if (!import.meta.main) throw Error("What are you doing?");
 
@@ -14,6 +15,7 @@ Deno.serve(({ url }) => {
 <!doctype html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title>Parkrun Laser</title>
 	</head>
 	<body>
@@ -87,6 +89,49 @@ Deno.serve(({ url }) => {
 					headers: { "Content-Type": " image/svg+xml" },
 				},
 			);
+		case "/tokens": {
+			return new Response(
+				`<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Parkrun Tokens</title>
+		<style>${styles}</style>
+	</head>
+	<body>
+		<main>${
+					renderToString(
+						<>
+							{Array.from({ length: 600 }, (_, index) => `P${(index + 1).toString().padStart(4, "0")}`)
+								.map((input) => (
+									<div style={{ breakBefore: input.match(/\d01$/) ? "page" : "auto" }}>
+										<svg
+											class="qr"
+											version="1.1"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 21 21"
+											fill="none"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="0.2"
+										>
+											<QR x={0.5} y={0.5} input={input}>
+												<rect width={1} height={1} fill="#111" />
+											</QR>
+										</svg>
+										{input}
+									</div>
+								))}
+						</>,
+					)
+				}</main>
+	</body>
+<html>`,
+				{
+					headers: { "Content-Type": "text/html" },
+				},
+			);
+		}
 		case "/sse": {
 			const encoder = new TextEncoder();
 			const controller = new AbortController();
