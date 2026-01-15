@@ -1,0 +1,172 @@
+import { renderToString } from "npm:preact-render-to-string";
+import { Cross, Lines, Pattern, QR, Spiral, Square, Token, TripleCross } from "./tokens.tsx";
+import { delay } from "jsr:@std/async";
+import styles from "./styles.css" with { type: "text" };
+
+if (!import.meta.main) throw Error("What are you doing?");
+
+const now = Date.now();
+Deno.serve(({ url }) => {
+	const { pathname } = new URL(url);
+	switch (pathname) {
+		case "/":
+			return new Response(
+				`
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Parkrun Laser</title>
+	</head>
+	<body>
+		<main><img src="/parkrun.svg"></main>
+		<script>
+			const img = document.querySelector('img');
+			const sse = new EventSource("/sse");
+			sse.addEventListener('update', ({ data }) => {
+				img.src = '/parkrun.svg?' + data
+			})
+		</script>
+	</body>
+<html>`,
+				{ headers: { "Content-Type": "text/html" } },
+			);
+		case "/parkrun.svg":
+			return new Response(
+				renderToString(
+					<svg
+						version="1.1"
+						xmlns="http://www.w3.org/2000/svg"
+						width="1200"
+						height="1600"
+						viewBox="-10 -10 120 120"
+						fill="none"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="0.2"
+					>
+						<defs>
+							<style>
+								{`
+								text { font-family: system-ui; fill: green; }
+							`}
+							</style>
+						</defs>
+
+						<Token position={176} x={0} y={0}>
+							<Square />
+						</Token>
+						<Token position={324} x={30} y={0}>
+							<Pattern />
+						</Token>
+						<Token position={338} x={60} y={0}>
+							<Spiral />
+						</Token>
+						<Token position={1} x={0} y={60}>
+							<Cross />
+						</Token>
+						<Token position={9} x={30} y={60}>
+							<TripleCross />
+						</Token>
+						<Token position={123} x={60} y={60}>
+							<Lines />
+						</Token>
+						{[12, 34, 567, 890, 312, 555]
+							.filter(() => false)
+							.map((position, index) => (
+								<Token
+									key={position + index}
+									position={position}
+									x={(index * 30) % 300}
+									y={300}
+								>
+									<Square />
+								</Token>
+							))}
+					</svg>,
+				),
+				{
+					headers: { "Content-Type": " image/svg+xml" },
+				},
+			);
+		case "/tokens": {
+			return new Response(
+				`<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Parkrun Tokens</title>
+		<style>${styles}</style>
+	</head>
+	<body>
+		<main>${
+					renderToString(
+						<>
+							{[0, 100, 200, 300, 400, 500].map((start) => (
+								<div key={start} class="hundred">
+									{Array.from(
+										{ length: 100 },
+										(_, index) => `P${(index + start).toString().padStart(4, "0")}`,
+									)
+										.map((input) => (
+											<div style={{ breakBefore: input.match(/\d01$/) ? "page" : "auto" }}>
+												<svg
+													class="qr"
+													version="1.1"
+													xmlns="http://www.w3.org/2000/svg"
+													viewBox="0 0 21 21"
+													fill="none"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="0.2"
+												>
+													<QR x={0.5} y={0.5} input={input}>
+														<rect width={1} height={1} fill="#111" />
+													</QR>
+												</svg>
+												{input}
+											</div>
+										))}
+								</div>
+							))}
+						</>,
+					)
+				}</main>
+	</body>
+<html>`,
+				{
+					headers: { "Content-Type": "text/html" },
+				},
+			);
+		}
+		case "/sse": {
+			const encoder = new TextEncoder();
+			const controller = new AbortController();
+			const { signal } = controller;
+			const body = new ReadableStream({
+				async start(controller) {
+					while (!signal.aborted) {
+						const message = encoder.encode([
+							"event: update",
+							`data: ${now}`,
+							"retry: 120",
+							"",
+							"",
+						].join("\n"));
+						controller.enqueue(message);
+						await delay(120);
+					}
+				},
+				cancel() {
+					controller.abort();
+				},
+			});
+			return new Response(body, {
+				headers: { "Content-Type": "text/event-stream" },
+			});
+		}
+
+		default:
+			return new Response(`Not found: ${pathname}`, { status: 404 });
+	}
+});

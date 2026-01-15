@@ -16,6 +16,9 @@
 		"serve": {
 			"command": "deno run --allow-read --allow-net deno/server.ts",
 			"dependencies": ["build"]
+		},
+		"parkrun": {
+			"command": "deno -NR --watch --unstable-raw-imports parkrun/server.tsx"
 		}
 	},
 	"compilerOptions": {
@@ -27,7 +30,8 @@
 		"jsxImportSource": "npm:preact"
 	},
 	"fmt": {
-		"include": ["deno", "deno.json", ".zed"],
+		"include": ["deno", "deno.json", ".zed", "parkrun"],
+		"exclude": ["parkrun/qr/*"],
 		"lineWidth": 120,
 		"indentWidth": 4,
 		"useTabs": true
