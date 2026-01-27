@@ -31,11 +31,11 @@ date.toISOString(); // "2024-01-27T12:34:56.789Z"
 date.toUTCString(); // "Sat, 27 Jan 2024 12:34:56 GMT"
 
 // ✗ No setters exist
-date.setUTCFullYear; // undefined
+date.setUTCFullYear; // undefined (property doesn't exist)
 date.setTime; // undefined
 
 // ✗ No local timezone methods
-date.getFullYear; // undefined
+date.getFullYear; // undefined (property doesn't exist)
 date.getMonth; // undefined
 ```
 
