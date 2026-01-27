@@ -26,7 +26,7 @@ jobs:
         run: deno check deno/**.ts
 
       - name: Test
-        run: deno test deno/*.js
+        run: deno test deno/*.js lib/*.test.js
 
   deploy:
     runs-on: ubuntu-latest

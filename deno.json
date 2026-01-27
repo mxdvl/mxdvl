@@ -27,13 +27,13 @@
 		"jsxImportSource": "npm:preact"
 	},
 	"fmt": {
-		"include": ["deno", "deno.json", ".zed"],
+		"include": ["deno", "lib", "deno.json", ".zed"],
 		"lineWidth": 120,
 		"indentWidth": 4,
 		"useTabs": true
 	},
 	"lint": {
-		"include": ["deno", "deno.json"]
+		"include": ["deno", "lib", "deno.json"]
 	},
 	"imports": {
 		"svelte": "npm:svelte@5.7.1"
