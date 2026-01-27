@@ -1,6 +1,7 @@
 <script>
 	import Alternates from "../../components/Alternates.svelte";
 	import Layout from "../../components/Layout.svelte";
+	import DistanceTable from "../../components/pace/DistanceTable.island.svelte";
 	import { toKilometre, toMiles, toMinuteSeconds } from "../outils/cadence.svelte";
 
 	const initial = 4 * 60 + 21;
@@ -34,6 +35,8 @@
 <p>Is equivalent to <strong>{toMinuteSeconds(perMile)} min / mile</strong>!</p>
 
 <input type="range" bind:value={perMile} {min} {max} {step} />
+
+<DistanceTable {perKilometre} {perMile} />
 </Layout>
 
 <style>
