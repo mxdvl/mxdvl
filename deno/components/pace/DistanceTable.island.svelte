@@ -7,16 +7,18 @@
 	/** @type {number} */
 	export let perMile;
 
+	const one_mile_in_kilometres = 1.609344;
+
 	// Typical running distances
 	const distances = [
-		{ label: "1 km", km: 1, miles: 0.621371 },
-		{ label: "2 km", km: 2, miles: 1.242742 },
-		{ label: "3 km", km: 3, miles: 1.864114 },
-		{ label: "4 km", km: 4, miles: 2.485485 },
-		{ label: "5 km", km: 5, miles: 3.106856 },
-		{ label: "10 km", km: 10, miles: 6.213712 },
-		{ label: "Half", km: 21.0975, miles: 13.1094 },
-		{ label: "Marathon", km: 42.195, miles: 26.2188 },
+		{ label: "1 km", km: 1 },
+		{ label: "2 km", km: 2 },
+		{ label: "3 km", km: 3 },
+		{ label: "4 km", km: 4 },
+		{ label: "5 km", km: 5 },
+		{ label: "10 km", km: 10 },
+		{ label: "Half Marathon", km: 21.0975 },
+		{ label: "Marathon", km: 42.195 },
 	];
 
 	/**
@@ -39,11 +41,11 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each distances as { label, km, miles }}
+		{#each distances as { label, km }}
 			<tr>
 				<td>{label}</td>
 				<td>{calculateTime(km, perKilometre)}</td>
-				<td>{calculateTime(miles, perMile)}</td>
+				<td>{calculateTime(km / one_mile_in_kilometres, perMile)}</td>
 			</tr>
 		{/each}
 	</tbody>
