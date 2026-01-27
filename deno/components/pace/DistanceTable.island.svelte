@@ -1,8 +1,11 @@
 <script>
 	import { toMinuteSeconds } from "../../routes/outils/cadence.svelte";
 
-	/** @type {{ perKilometre: number, perMile: number }} */
-	let { perKilometre, perMile } = $props();
+	/** @type {number} */
+	export let perKilometre;
+
+	/** @type {number} */
+	export let perMile;
 
 	// Typical running distances
 	const distances = [
