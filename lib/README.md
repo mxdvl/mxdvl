@@ -2,6 +2,8 @@
 
 Immutable date wrapper that exposes only UTC getter methods—no setters, no timezone confusion.
 
+> **Note**: This is a temporary patch to ensure immutability when working with dates. For new projects, prefer the [Temporal API](https://tc39.es/proposal-temporal/docs/) which provides proper immutable date/time handling built into the language.
+
 ## Why?
 
 When working with dates across timezones, it's easy to introduce bugs through:
@@ -17,26 +19,30 @@ ReadonlyDate solves this by providing a strict subset of the Date API.
 ```js
 import { ReadonlyDate } from "./lib/readonly-date.js";
 
-const date = new ReadonlyDate("2024-01-27T12:34:56.789Z");
+// Constructor accepts:
+// 1. A timestamp in milliseconds
+const date1 = new ReadonlyDate(1706358896789);
+
+// 2. Year, month, and day (UTC)
+const date2 = new ReadonlyDate(2024, 0, 27); // January 27, 2024
 
 // ✓ UTC getters work
-date.getUTCFullYear(); // 2024
-date.getUTCMonth(); // 0 (January)
-date.getUTCDate(); // 27
-date.getUTCHours(); // 12
-date.getTime(); // 1706358896789
+date2.getUTCFullYear(); // 2024
+date2.getUTCMonth(); // 0 (January)
+date2.getUTCDate(); // 27
+date2.getTime(); // 1706313600000
 
 // ✓ String conversions
-date.toISOString(); // "2024-01-27T12:34:56.789Z"
-date.toUTCString(); // "Sat, 27 Jan 2024 12:34:56 GMT"
+date2.toISOString(); // "2024-01-27T00:00:00.000Z"
+date2.toUTCString(); // "Sat, 27 Jan 2024 00:00:00 GMT"
 
 // ✗ No setters exist
-date.setUTCFullYear; // undefined (property doesn't exist)
-date.setTime; // undefined
+date2.setUTCFullYear; // undefined (property doesn't exist)
+date2.setTime; // undefined
 
 // ✗ No local timezone methods
-date.getFullYear; // undefined (property doesn't exist)
-date.getMonth; // undefined
+date2.getFullYear; // undefined (property doesn't exist)
+date2.getMonth; // undefined
 ```
 
 ## API
