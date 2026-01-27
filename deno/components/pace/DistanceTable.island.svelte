@@ -7,20 +7,6 @@
 	/** @type {number} */
 	export let perMile;
 
-	const one_mile_in_kilometres = 1.609344;
-
-	// Typical running distances
-	const distances = [
-		{ label: "1 km", km: 1 },
-		{ label: "2 km", km: 2 },
-		{ label: "3 km", km: 3 },
-		{ label: "4 km", km: 4 },
-		{ label: "5 km", km: 5 },
-		{ label: "10 km", km: 10 },
-		{ label: "Half Marathon", km: 21.0975 },
-		{ label: "Marathon", km: 42.195 },
-	];
-
 	/**
 	 * Calculate time for a given distance
 	 * @param {number} distance - Distance in the unit
@@ -41,13 +27,44 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each distances as { label, km }}
-			<tr>
-				<td>{label}</td>
-				<td>{calculateTime(km, perKilometre)}</td>
-				<td>{calculateTime(km / one_mile_in_kilometres, perMile)}</td>
-			</tr>
-		{/each}
+		<tr>
+			<td>1</td>
+			<td>{calculateTime(1, perKilometre)}</td>
+			<td>{calculateTime(1, perMile)}</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>{calculateTime(2, perKilometre)}</td>
+			<td>{calculateTime(2, perMile)}</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>{calculateTime(3, perKilometre)}</td>
+			<td>{calculateTime(3, perMile)}</td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td>{calculateTime(4, perKilometre)}</td>
+			<td>{calculateTime(4, perMile)}</td>
+		</tr>
+		<tr>
+			<td>5</td>
+			<td>{calculateTime(5, perKilometre)}</td>
+			<td>{calculateTime(5, perMile)}</td>
+		</tr>
+		<tr>
+			<td>10</td>
+			<td>{calculateTime(10, perKilometre)}</td>
+			<td>{calculateTime(10, perMile)}</td>
+		</tr>
+		<tr>
+			<td>Half</td>
+			<td colspan="2">{calculateTime(21.0975, perKilometre)}</td>
+		</tr>
+		<tr>
+			<td>Marathon</td>
+			<td colspan="2">{calculateTime(42.195, perKilometre)}</td>
+		</tr>
 	</tbody>
 </table>
 
