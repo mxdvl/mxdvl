@@ -1,7 +1,7 @@
 <script>
 	import Button from "../components/Button.svelte";
 
-	/** @type {import('./lang.js').Lang} */
+	/** @type {{ lang: import('./lang.js').Lang }} */
 	let { lang = "en" } = $props();
 
 	let tracking = $state(false);
