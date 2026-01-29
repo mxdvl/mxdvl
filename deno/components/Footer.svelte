@@ -18,14 +18,16 @@
 		<p>
 			Online since 2007.<br />
 			Get in touch via <a href="mailto:hi@mxdvl.com">email</a>
+   the <a href="https://bsky.app/profile/mxdvl.com">atmosphere</>,
 			or <a href={signal}>signal</a>.<br />
 			Pronouns: he/him.
 		</p>
 	{:else}
 		<p>
 			En ligne depuis 2007.<br />
-			Faites-moi signe via <a href="mailto:allo@mxdvl.com">courriel</a>, ou
-			<a href={signal}>signal</a>.<br />
+			Faites-moi signe via <a href="mailto:allo@mxdvl.com">courriel</a>,
+   l’<a href="https://bsky.app/profile/mxdvl.com">atmosphère</>,
+   ou <a href={signal}>signal</a>.<br />
 			Pronoms: il/lui.
 		</p>
 	{/if}
