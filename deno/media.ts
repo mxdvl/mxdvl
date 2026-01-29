@@ -1,5 +1,5 @@
-import { ensureDir } from "jsr:@std/fs/ensure-dir";
-import { copy } from "jsr:@std/fs/copy";
+import { ensureDir } from "@std/fs/ensure-dir";
+import { copy } from "@std/fs/copy";
 
 const base = import.meta.url;
 

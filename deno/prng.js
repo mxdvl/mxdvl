@@ -1,4 +1,4 @@
-import { assertEquals, assertGreaterOrEqual, assertLess } from "jsr:@std/assert";
+import { assertEquals, assertGreaterOrEqual, assertLess } from "@std/assert";
 
 /**
  * Pseudo-random number generator of numbers in range [0, 1).

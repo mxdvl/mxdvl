@@ -36,6 +36,17 @@
 		"include": ["deno", "lib", "deno.json"]
 	},
 	"imports": {
-		"svelte": "npm:svelte@5.7.1"
+		"@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.56",
+		"@resvg/resvg-js": "npm:@resvg/resvg-js@2.6.2",
+		"@std/assert": "jsr:@std/assert@^1.0.17",
+		"@std/async": "jsr:@std/async@^1.1.0",
+		"@std/fmt": "jsr:@std/fmt@^1.0.9",
+		"@std/fs": "jsr:@std/fs@^1.0.22",
+		"@std/http": "jsr:@std/http@^1.0.23",
+		"@std/path": "jsr:@std/path@^1.1.4",
+		"lz-string": "npm:lz-string@1.5.0",
+		"preact": "npm:preact@10.28.2",
+		"svelte": "npm:svelte@~5.38",
+		"zod": "npm:zod@^4.3.6"
 	}
 }

@@ -14,7 +14,7 @@ jobs:
 
       - uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.3.x
+          deno-version: 2.6.x
 
       - name: Format
         run: deno fmt
@@ -41,7 +41,7 @@ jobs:
 
       - uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.3.x
+          deno-version: 2.6.x
 
       - name: Build
         run: deno task build
