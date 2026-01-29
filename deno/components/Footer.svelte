@@ -26,7 +26,7 @@
 		<p>
 			En ligne depuis 2007.<br />
 			Faites-moi signe via <a href="mailto:allo@mxdvl.com">courriel</a>,
-   l’<a href="https://bsky.app/profile/mxdvl.com">atmosphère</>,
+   l’<a href="https://bsky.app/profile/mxdvl.com">atmosphère</a>,
    ou <a href={signal}>signal</a>.<br />
 			Pronoms: il/lui.
 		</p>
