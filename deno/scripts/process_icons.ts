@@ -1,10 +1,10 @@
-import { cyan, green, red } from "jsr:@std/fmt/colors";
-import { walk } from "jsr:@std/fs";
-import { Resvg } from "npm:@resvg/resvg-js";
+import { cyan, green, red } from "@std/fmt/colors";
+import { walk } from "@std/fs";
+import { Resvg } from "@resvg/resvg-js";
 import { generate_favicon } from "./ico.ts";
-import { dirname, fromFileUrl, resolve } from "jsr:@std/path";
-import { pooledMap } from "jsr:@std/async";
-import { ensureDir } from "jsr:@std/fs/ensure-dir";
+import { dirname, fromFileUrl, resolve } from "@std/path";
+import { pooledMap } from "@std/async";
+import { ensureDir } from "@std/fs/ensure-dir";
 
 console.log("Generating all favicons");
 const start = performance.now();

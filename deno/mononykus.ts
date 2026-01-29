@@ -1,6 +1,6 @@
-import { serveFile } from "jsr:@std/http/file-server";
-import { dirname, fromFileUrl, normalize as normalise } from "jsr:@std/path";
-import { exists } from "jsr:@std/fs";
+import { serveFile } from "@std/http/file-server";
+import { dirname, fromFileUrl, normalize as normalise } from "@std/path";
+import { exists } from "@std/fs";
 import { langs } from "./components/lang.js";
 
 const options = {
@@ -42,6 +42,7 @@ export async function handler(request: Request) {
 
 if (import.meta.main) {
 	// ensure we do not import esbuild in Deno Deploy
+	// deno-lint-ignore no-import-prefix
 	const { build, rebuild } = await import("jsr:@mxdvl/mononykus@0.8.8");
 
 	const environment = Deno.args.some((arg) => arg === "--watch") ? "dev" : "prod";

@@ -1,4 +1,4 @@
-import { z } from "npm:zod";
+import { z } from "zod";
 
 const cities = /** @type {const} */ ([
 	"london",

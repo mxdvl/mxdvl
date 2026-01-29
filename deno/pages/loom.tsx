@@ -1,4 +1,4 @@
-import type { JSX } from "npm:preact/jsx-runtime";
+import type { JSX } from "preact/jsx-runtime";
 const { cos, sin, PI } = Math;
 const tau = PI * 2;
 

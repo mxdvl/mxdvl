@@ -1,5 +1,5 @@
-import { DOMParser } from "jsr:@b-fuze/deno-dom";
-import { gray, underline } from "jsr:@std/fmt/colors";
+import { DOMParser } from "@b-fuze/deno-dom";
+import { gray, underline } from "@std/fmt/colors";
 
 const [url] = Deno.args;
 

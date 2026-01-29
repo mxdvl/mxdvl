@@ -1,4 +1,4 @@
-import { assert } from "jsr:@std/assert";
+import { assert } from "@std/assert";
 
 const nonempty_string = (d: string | undefined): d is string => typeof d === "string" && d.length > 0;
 

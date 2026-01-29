@@ -1,4 +1,5 @@
-import { Resvg } from "npm:@resvg/resvg-js";
+import { Resvg } from "@resvg/resvg-js";
+// deno-lint-ignore no-import-prefix
 import { ImageMagick, IMagickImage, initializeImageMagick, MagickFormat } from "npm:@imagemagick/magick-wasm@0.0.32";
 
 // Heavily inspired by https://github.com/itgalaxy/favicons/blob/3d200b6e8b9f84adc321a7302b9e7bbb2c7c9103/src/ico.ts#L1
