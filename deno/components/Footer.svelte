@@ -18,7 +18,7 @@
 		<p>
 			Online since 2007.<br />
 			Get in touch via <a href="mailto:hi@mxdvl.com">email</a>
-   the <a href="https://bsky.app/profile/mxdvl.com">atmosphere</>,
+   the <a href="https://bsky.app/profile/mxdvl.com">atmosphere</a>,
 			or <a href={signal}>signal</a>.<br />
 			Pronouns: he/him.
 		</p>
