@@ -7,6 +7,8 @@
 	/** @type {URL} */
 	export let url;
 
+ const signal = "https://signal.me/#eu/wP1cBNPxXBa6dPwQjtUy57Qh_jX1Dcg_6NBG9niiGb8tmH9JdmtO1p4nl92PpJ8E";
+
 	/** @type {string} */
 	const path = url.pathname.replace("/travaux", "/works");
 </script>
@@ -16,14 +18,14 @@
 		<p>
 			Online since 2007.<br />
 			Get in touch via <a href="mailto:hi@mxdvl.com">email</a>
-			or <a href="https://t.me/mxdvl">telegram</a>.<br />
+			or <a href={signal}>signal</a>.<br />
 			Pronouns: he/him.
 		</p>
 	{:else}
 		<p>
 			En ligne depuis 2007.<br />
 			Faites-moi signe via <a href="mailto:allo@mxdvl.com">courriel</a>, ou
-			<a href="https://t.me/mxdvl">telegram</a>.<br />
+			<a href={signal}>signal</a>.<br />
 			Pronoms: il/lui.
 		</p>
 	{/if}
