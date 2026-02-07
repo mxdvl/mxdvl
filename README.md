@@ -19,8 +19,10 @@ Recent stuff I’m proud of having contributed to:
 
 ---
 
-Get in touch via [email][] or [telephone][].
+Peruse my [website][] and get in touch via the [atmosphere][], [email][] or [telephone][].
 
+[website]: https://mxdvl.com/hi
 [employer]: https://www.hometrack.com/
+[atmosphere]: https://bsky.app/profile/mxdvl.com
 [email]: hi@mxdvl.com
 [telephone]: tel:+44-7491-245-727
