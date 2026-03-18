@@ -79,7 +79,11 @@
 			</tr>
 			<tr>
 				<td>Marathon</td>
-				<td colspan="2">{format(42.195 * perKilometre)}</td>
+				<td colspan="2">
+					<button onclick={() => perKilometre = round(perKilometre * MARATHON - 20, 20) / MARATHON}>-</button>
+					{format(MARATHON * perKilometre)}
+					<button onclick={() => perKilometre = round(perKilometre * MARATHON + 20, 20) / MARATHON}>+</button>
+				</td>
 			</tr>
 			{#each [50,80,100] as distance}
 			<tr>
