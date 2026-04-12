@@ -246,6 +246,8 @@
 			console.error(error);
 		}
 	</script>
+	<link rel="me" href="https://bsky.app/profile/mxdvl.com">
+	<link rel="me" href="https://sifa.id/p/mxdvl.com">
 </svelte:head>
 
 <div id="grid">
