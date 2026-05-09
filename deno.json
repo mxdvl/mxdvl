@@ -48,5 +48,10 @@
 		"preact": "npm:preact@10.29.1",
 		"svelte": "npm:svelte@~5.55.0",
 		"zod": "npm:zod@^4.3.6"
+	},
+	"deploy": {
+		"org": "mx-dvl",
+		"app": "mxdvl"
 	}
 }
+

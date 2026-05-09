@@ -39,6 +39,7 @@
     "npm:lz-string@1.5.0": "1.5.0",
     "npm:preact@10.29.1": "10.29.1",
     "npm:prettier@3": "3.7.3",
+    "npm:svelte@5": "5.55.5",
     "npm:svelte@5.55": "5.55.5",
     "npm:zod@^4.3.6": "4.3.6"
   },
@@ -78,7 +79,8 @@
         "jsr:@std/http@1",
         "jsr:@std/path@1",
         "npm:esbuild",
-        "npm:prettier"
+        "npm:prettier",
+        "npm:svelte@5"
       ]
     },
     "@std/assert@1.0.8": {
