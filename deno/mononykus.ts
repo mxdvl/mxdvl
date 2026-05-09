@@ -38,7 +38,6 @@ export async function handler(request: Request) {
 	}
 
 	if (await exists(filePath + ".html", { isFile: true })) {
-		console.log(url);
 		return serveFile(request, filePath + ".html");
 	}
 
