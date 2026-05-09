@@ -1,12 +1,14 @@
 import { serveFile } from "@std/http/file-server";
-import { dirname, fromFileUrl, normalize as normalise } from "@std/path";
+import { dirname, fromFileUrl, join, normalize as normalise } from "@std/path";
 import { exists } from "@std/fs";
 import { langs } from "./components/lang.js";
 
+const directory = fromFileUrl(dirname(import.meta.url) + "/");
+
 const options = {
-	site_dir: fromFileUrl(dirname(import.meta.url) + "/"),
+	site_dir: directory,
 	base: "/",
-	out_dir: "build/",
+	out_dir: join(directory, "..", "build", "/"),
 	minify: false,
 } as const;
 
