@@ -19,6 +19,10 @@ export async function handler(request: Request) {
 	const lang = getPreferredLanguage(request.headers, langs);
 
 	if (url.pathname === "/") {
+		for await (const entry of walk(options.out_dir)) {
+			console.debug({ entry });
+		}
+
 		return Response.redirect(
 			new URL(lang === "en" ? "/hi" : "/allô", url.origin),
 		);
@@ -75,10 +79,6 @@ if (import.meta.main) {
 		}
 	} else {
 		await build(options);
-
-		for await (const entry of walk(options.out_dir)) {
-			console.debug({ entry });
-		}
 	}
 }
 
