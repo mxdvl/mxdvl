@@ -13,6 +13,11 @@ const options = {
 
 export async function handler(request: Request) {
 	const url = new URL(request.url);
+
+	if (url.hostname === "mxdvl.com") {
+		return Response.redirect(new URL(url.pathname + url.search + url.hash, "https://www.mxdvl.com/"));
+	}
+
 	const lang = getPreferredLanguage(request.headers, langs);
 
 	if (url.pathname === "/") {
