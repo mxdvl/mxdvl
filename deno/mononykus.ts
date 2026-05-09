@@ -4,12 +4,10 @@ import { exists } from "@std/fs";
 import { build, rebuild } from "@mxdvl/mononykus";
 import { langs } from "./components/lang.js";
 
-const directory = fromFileUrl(dirname(import.meta.url) + "/");
-
 const options = {
-	site_dir: directory,
+	site_dir: fromFileUrl(dirname(import.meta.url) + "/"),
 	base: "/",
-	out_dir: join(directory, "..", "build", "/"),
+	out_dir: "build/",
 	minify: false,
 } as const;
 
