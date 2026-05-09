@@ -30,15 +30,11 @@ export async function handler(request: Request) {
 
 	const filePath = normalise(options.out_dir + decodeURI(url.pathname));
 
-	console.debug({ filePath });
-
 	if (await exists(filePath, { isFile: true })) {
-		console.info("exists", filePath);
 		return serveFile(request, filePath);
 	}
 
 	if (await exists(filePath + ".html", { isFile: true })) {
-		console.info("exists + html", filePath);
 		return serveFile(request, filePath + ".html");
 	}
 
