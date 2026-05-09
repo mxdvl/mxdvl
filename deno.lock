@@ -525,6 +525,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@b-fuze/deno-dom@~0.1.56",
+      "jsr:@mxdvl/mononykus@0.8.8",
       "jsr:@std/assert@^1.0.17",
       "jsr:@std/async@^1.1.0",
       "jsr:@std/fmt@^1.0.9",

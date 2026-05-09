@@ -1,6 +1,7 @@
 import { serveFile } from "@std/http/file-server";
 import { dirname, fromFileUrl, join, normalize as normalise } from "@std/path";
-import { exists, walk } from "@std/fs";
+import { exists } from "@std/fs";
+import { build, rebuild } from "@mxdvl/mononykus";
 import { langs } from "./components/lang.js";
 
 const directory = fromFileUrl(dirname(import.meta.url) + "/");
@@ -12,18 +13,11 @@ const options = {
 	minify: false,
 } as const;
 
-const collator = new Intl.Collator("en-GB");
-
 export async function handler(request: Request) {
-	// console.debug(request, options, import.meta);
-
 	const url = new URL(request.url);
 	const lang = getPreferredLanguage(request.headers, langs);
 
 	if (url.pathname === "/") {
-		const entries = await Array.fromAsync(walk(options.out_dir, { includeDirs: false }));
-		console.debug(entries.map((entry) => entry.path).sort((a, b) => collator.compare(a, b)));
-
 		return Response.redirect(
 			new URL(lang === "en" ? "/hi" : "/allô", url.origin),
 		);
@@ -54,10 +48,6 @@ export async function handler(request: Request) {
 }
 
 if (import.meta.main) {
-	// ensure we do not import esbuild in Deno Deploy
-	// deno-lint-ignore no-import-prefix
-	const { build, rebuild } = await import("jsr:@mxdvl/mononykus@0.8.8");
-
 	const environment = Deno.args.some((arg) => arg === "--watch") ? "dev" : "prod";
 	if (environment === "dev") {
 		await rebuild(options);
