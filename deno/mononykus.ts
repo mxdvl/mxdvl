@@ -12,10 +12,6 @@ const options = {
 	minify: false,
 } as const;
 
-for await (const entry of walk(options.out_dir)) {
-	console.debug({ entry });
-}
-
 export async function handler(request: Request) {
 	// console.debug(request, options, import.meta);
 
@@ -79,6 +75,10 @@ if (import.meta.main) {
 		}
 	} else {
 		await build(options);
+
+		for await (const entry of walk(options.out_dir)) {
+			console.debug({ entry });
+		}
 	}
 }
 
