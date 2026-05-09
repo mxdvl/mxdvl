@@ -1,5 +1,5 @@
 import { serveFile } from "@std/http/file-server";
-import { dirname, fromFileUrl, join, normalize as normalise } from "@std/path";
+import { dirname, fromFileUrl, normalize as normalise } from "@std/path";
 import { exists } from "@std/fs";
 import { build, rebuild } from "@mxdvl/mononykus";
 import { langs } from "./components/lang.js";
