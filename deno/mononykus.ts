@@ -13,6 +13,8 @@ const options = {
 } as const;
 
 export async function handler(request: Request) {
+	console.debug(request, options, import.meta);
+
 	const url = new URL(request.url);
 	const lang = getPreferredLanguage(request.headers, langs);
 
