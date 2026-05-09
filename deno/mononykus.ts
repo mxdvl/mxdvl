@@ -1,6 +1,6 @@
 import { serveFile } from "@std/http/file-server";
 import { dirname, fromFileUrl, join, normalize as normalise } from "@std/path";
-import { exists } from "@std/fs";
+import { exists, walk } from "@std/fs";
 import { langs } from "./components/lang.js";
 
 const directory = fromFileUrl(dirname(import.meta.url) + "/");
@@ -11,6 +11,10 @@ const options = {
 	out_dir: join(directory, "..", "build", "/"),
 	minify: false,
 } as const;
+
+for await (const entry of walk(options.out_dir)) {
+	console.debug({ entry });
+}
 
 export async function handler(request: Request) {
 	// console.debug(request, options, import.meta);
