@@ -13,7 +13,7 @@ const options = {
 } as const;
 
 export async function handler(request: Request) {
-	console.debug(request, options, import.meta);
+	// console.debug(request, options, import.meta);
 
 	const url = new URL(request.url);
 	const lang = getPreferredLanguage(request.headers, langs);
@@ -31,11 +31,15 @@ export async function handler(request: Request) {
 
 	const filePath = normalise(options.out_dir + decodeURI(url.pathname));
 
+	console.debug({ filePath });
+
 	if (await exists(filePath, { isFile: true })) {
+		console.info("exists", filePath);
 		return serveFile(request, filePath);
 	}
 
 	if (await exists(filePath + ".html", { isFile: true })) {
+		console.info("exists + html", filePath);
 		return serveFile(request, filePath + ".html");
 	}
 
