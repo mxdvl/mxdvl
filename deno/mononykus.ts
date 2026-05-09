@@ -12,6 +12,8 @@ const options = {
 	minify: false,
 } as const;
 
+const collator = new Intl.Collator("en-GB");
+
 export async function handler(request: Request) {
 	// console.debug(request, options, import.meta);
 
@@ -19,9 +21,8 @@ export async function handler(request: Request) {
 	const lang = getPreferredLanguage(request.headers, langs);
 
 	if (url.pathname === "/") {
-		for await (const entry of walk(options.out_dir)) {
-			console.debug({ entry });
-		}
+		const entries = await Array.fromAsync(walk(options.out_dir, { includeDirs: false }));
+		console.debug(entries.map((entry) => entry.path).sort((a, b) => collator.compare(a, b)));
 
 		return Response.redirect(
 			new URL(lang === "en" ? "/hi" : "/allô", url.origin),
