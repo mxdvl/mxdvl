@@ -3,7 +3,7 @@
 	let { disabled = false, subdued = false, type = undefined, children, ...rest } = $props();
 </script>
 
-<button {...rest} {disabled} data-type={type} class:subdued>
+<button {disabled} data-type={type} class:subdued {...rest}>
 	{@render children?.()}
 </button>
 
