@@ -59,15 +59,15 @@
 {#if $lang === "fr"}
 	<p>
 		Changer de thème? Vous pouvez choisir
-		<Button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>clair</Button>
+		<Button disabled={!currentTheme || currentTheme === "light"} onclick={() => setTheme("light")}>clair</Button>
 		ou
-		<Button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>sombre</Button>.
+		<Button disabled={!currentTheme || currentTheme === "dark"} onclick={() => setTheme("dark")}>sombre</Button>.
 	</p>
 {:else}
 	<p>
 		Change the theme? You can choose
-		<Button disabled={!currentTheme || currentTheme === "light"} on:click={() => setTheme("light")}>light</Button>
+		<Button disabled={!currentTheme || currentTheme === "light"} onclick={() => setTheme("light")}>light</Button>
 		or
-		<Button disabled={!currentTheme || currentTheme === "dark"} on:click={() => setTheme("dark")}>dark</Button>.
+		<Button disabled={!currentTheme || currentTheme === "dark"} onclick={() => setTheme("dark")}>dark</Button>.
 	</p>
 {/if}

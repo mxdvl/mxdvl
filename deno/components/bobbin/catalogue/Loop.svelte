@@ -23,7 +23,7 @@
 </SVG>
 
 <Button
-	on:click={() => {
+	onclick={() => {
 		if (current) {
 			current.d = d;
 		} else {

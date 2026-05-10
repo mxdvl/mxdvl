@@ -48,7 +48,7 @@
 </script>
 
 <h3>
-	<Button on:click={toggle_selected} type={"flex"} subdued={true}>
+	<Button onclick={toggle_selected} type={"flex"} subdued={true}>
 		#path-{pattern.id}
 
 		{#if current}
@@ -104,7 +104,7 @@
 
 		<li class="buttons">
 			<Button
-				on:click={() => {
+				onclick={() => {
 					const id = uid();
 					const { x, y } = pattern.position;
 					const reactive_pattern = $state({
@@ -117,7 +117,7 @@
 				}}>duplicate</Button
 			>
 			<Button
-				on:click={() => {
+				onclick={() => {
 					bobbin.selected = "";
 					bobbin.patterns.delete(pattern.id);
 				}}>remove</Button

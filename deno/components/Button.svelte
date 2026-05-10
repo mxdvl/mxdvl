@@ -1,12 +1,10 @@
 <script>
-	export let disabled = false;
-	export let subdued = false;
-	/** @type {undefined | "flex"} */
-	export let type = undefined;
+	/** @type {{ disabled?: boolean, subdued?: boolean, type?: "flex" | undefined, children?: import("svelte").Snippet, [key: string]: unknown }} */
+	let { disabled = false, subdued = false, type = undefined, children, ...rest } = $props();
 </script>
 
-<button on:click {disabled} data-type={type} class:subdued>
-	<slot />
+<button {...rest} {disabled} data-type={type} class:subdued>
+	{@render children?.()}
 </button>
 
 <style>

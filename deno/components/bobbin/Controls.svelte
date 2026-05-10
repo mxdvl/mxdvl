@@ -46,7 +46,7 @@
 				<Control {pattern} />
 			{:else if id === "animate"}
 				<Button
-					on:click={() => {
+					onclick={() => {
 						bobbin.animate = !bobbin.animate;
 					}}
 					>{#if bobbin.animate}
@@ -57,11 +57,11 @@
 				</Button>
 			{:else if id === "extra"}
 				<Button
-					on:click={() => {
+					onclick={() => {
 						add_pattern();
 					}}>Add new shape</Button
 				>
-				<Button on:click={save_svg}>Save SVG</Button>
+				<Button onclick={save_svg}>Save SVG</Button>
 			{/if}
 		</li>
 	{/each}

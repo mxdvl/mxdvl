@@ -22,19 +22,19 @@
 <p>
 	{#if lang === "en"}
 		{#if tracking}
-			Anonymous tracking <strong>active</strong>. <Button on:click={block}
+			Anonymous tracking <strong>active</strong>. <Button onclick={block}
 				>Completely disable</Button
 			>.
 		{:else}
-			No tracking whatsoever. <Button on:click={unblock}
+			No tracking whatsoever. <Button onclick={unblock}
 				>Reactivate</Button
 			>.
 		{/if}
 	{:else if tracking}
-		Suivi anonyme <strong>actif</strong>. <Button on:click={block}
+		Suivi anonyme <strong>actif</strong>. <Button onclick={block}
 			>Désactiver complètement</Button
 		>.
 	{:else}
-		Aucun suivi. <Button on:click={unblock}>Réactiver</Button>.
+		Aucun suivi. <Button onclick={unblock}>Réactiver</Button>.
 	{/if}
 </p>

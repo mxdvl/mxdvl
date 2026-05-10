@@ -115,19 +115,19 @@
 
 <Button
 	disabled={disabled || d === formatPath(d, "relative")}
-	on:click={() => {
+	onclick={() => {
 		d = formatPath(d, "relative");
 	}}>format to relative</Button
 >
 <Button
 	disabled={disabled || d === formatPath(d, "absolute")}
-	on:click={() => {
+	onclick={() => {
 		d = formatPath(d, "absolute");
 	}}>format to absolute</Button
 >
 <Button
 	disabled={disabled || d === formatPath(d, "absolute")}
-	on:click={() => {
+	onclick={() => {
 		const params = new URLSearchParams({
 			d,
 		});
