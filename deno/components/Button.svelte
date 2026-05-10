@@ -1,9 +1,19 @@
-<script>
-	/** @type {{ disabled?: boolean, subdued?: boolean, type?: "flex" | undefined, children?: import("svelte").Snippet, [key: string]: unknown }} */
-	let { disabled = false, subdued = false, type = undefined, children, ...rest } = $props();
+<script lang="ts">
+	import type { Snippet } from "svelte";
+	import type { HTMLButtonAttributes } from "svelte/elements";
+
+	type Props = {
+		disabled?: boolean;
+		subdued?: boolean;
+		type?: "flex";
+		children?: Snippet;
+		onclick?: HTMLButtonAttributes["onclick"];
+	} & Omit<HTMLButtonAttributes, "children" | "disabled" | "onclick" | "type">;
+
+	let { disabled = false, subdued = false, type = undefined, children, onclick, ...rest }: Props = $props();
 </script>
 
-<button {disabled} data-type={type} class:subdued {...rest}>
+<button {disabled} data-type={type} class:subdued {onclick} {...rest}>
 	{@render children?.()}
 </button>
 
