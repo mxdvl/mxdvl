@@ -25,13 +25,15 @@
 </script>
 
 <p>
-	How much do you earn before taxes in GBP? £<input
-		type="number"
-		min={0}
-		max={500_000}
-		step={5_000}
-		bind:value={salary}
-	/>
+	<label>
+		How much do you earn before taxes in GBP? £<input
+			type="number"
+			min={0}
+			max={500_000}
+			step={5_000}
+			bind:value={salary}
+		/>
+	</label>
 </p>
 
 <p>
