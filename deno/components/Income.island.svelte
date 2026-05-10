@@ -38,11 +38,11 @@
 
 <p>
 	Jump to
-	the <Button on:click={() => (salary = percentiles[10])}>lower decile</Button>,
-	the <Button on:click={() => (salary = percentiles[25])}>lower quartile</Button>,
-	the <Button on:click={() => (salary = percentiles[50])}>median</Button>,
-	the <Button on:click={() => (salary = percentiles[75])}>upper quartile</Button>,
-	the <Button on:click={() => (salary = percentiles[90])}>upper decile</Button>,
+	the <Button on:click={() => (salary = percentiles[9])}>lower decile</Button>,
+	the <Button on:click={() => (salary = percentiles[24])}>lower quartile</Button>,
+	the <Button on:click={() => (salary = percentiles[49])}>median</Button>,
+	the <Button on:click={() => (salary = percentiles[74])}>upper quartile</Button>,
+	the <Button on:click={() => (salary = percentiles[89])}>upper decile</Button>,
 	the <Button on:click={() => (salary = percentiles[98] + 1000)}>top 1%</Button>.
 </p>
 
