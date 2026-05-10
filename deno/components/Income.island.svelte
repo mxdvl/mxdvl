@@ -19,7 +19,8 @@
 	let salary = $state(42_000);
 
 	let percentile = $derived.by(() => {
-		const percentile = percentiles.findIndex((income) => income >= salary);
+		const normalizedSalary = Number.isFinite(salary) ? salary : 0;
+		const percentile = percentiles.findIndex((income) => income >= normalizedSalary);
 		return percentile !== -1 ? percentile : 99;
 	});
 </script>
