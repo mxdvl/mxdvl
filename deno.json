@@ -37,7 +37,7 @@
 	},
 	"imports": {
 		"@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.56",
-		"@mxdvl/mononykus": "jsr:@mxdvl/mononykus@0.8.8",
+		"@mxdvl/mononykus": "jsr:@mxdvl/mononykus@0.8.9",
 		"@resvg/resvg-js": "npm:@resvg/resvg-js@2.6.2",
 		"@std/assert": "jsr:@std/assert@^1.0.17",
 		"@std/async": "jsr:@std/async@^1.1.0",
