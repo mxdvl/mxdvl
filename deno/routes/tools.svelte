@@ -2,7 +2,7 @@
 	import Alternates from "../components/Alternates.svelte";
 	import Layout from "../components/Layout.svelte";
 
-	const tools = /** @type {const} */ (["pace", "factors", "calendar", "slideshow", "svg"]);
+	const tools = /** @type {const} */ (["pace", "factors", "calendar", "slideshow", "svg", "income"]);
 </script>
 
 <Alternates en="/tools" fr="/outils" />
