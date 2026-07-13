@@ -46,7 +46,7 @@
 		"@std/http": "jsr:@std/http@^1.0.23",
 		"@std/path": "jsr:@std/path@^1.1.4",
 		"lz-string": "npm:lz-string@1.5.0",
-		"preact": "npm:preact@10.29.4",
+		"preact": "npm:preact@10.29.7",
 		"svelte": "npm:svelte@^5.55",
 		"zod": "npm:zod@^4.3.6"
 	},

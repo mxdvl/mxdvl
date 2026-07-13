@@ -38,7 +38,7 @@
     "npm:@resvg/resvg-js@2.6.2": "2.6.2",
     "npm:esbuild@0.24": "0.24.2",
     "npm:lz-string@1.5.0": "1.5.0",
-    "npm:preact@10.29.4": "10.29.4",
+    "npm:preact@10.29.7": "10.29.7",
     "npm:prettier@3": "3.8.3",
     "npm:svelte@5": "5.55.5",
     "npm:svelte@^5.55.0": "5.55.5",
@@ -505,8 +505,8 @@
         "@jridgewell/sourcemap-codec"
       ]
     },
-    "preact@10.29.4": {
-      "integrity": "sha512-GMpwh9+NJ8tSmqwIaVyFRQkiKfBEzQ+k7r7tle4W+kaJ+7wJiB9hFz9BixAomMtenPPSBfM4bZhXozGxhf0uFQ=="
+    "preact@10.29.7": {
+      "integrity": "sha512-DCHYrK/B10yUD3ZjLfhZ3WIE/9Vf9VFUODcRE2dRomTYDpJk6z6L9wecSfhfE6M9ZTHUdyQkoC46arIDhEV84Q=="
     },
     "prettier@3.8.3": {
       "integrity": "sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==",
@@ -553,7 +553,7 @@
       "npm:@resvg/resvg-js@2.6.2",
       "npm:lz-string@1.5.0",
       "npm:preact@*",
-      "npm:preact@10.29.4",
+      "npm:preact@10.29.7",
       "npm:svelte@^5.55.0",
       "npm:zod@^4.3.6"
     ]
