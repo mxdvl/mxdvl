@@ -45,6 +45,6 @@ jobs:
         run: deno task build
 
       - name: Deploy to Deno Deploy
-        run: deno deploy deno/server.ts
+        run: deno deploy
         env:
           DENO_DEPLOY_TOKEN: ${{ secrets.DENO_DEPLOY_TOKEN }}
