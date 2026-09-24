@@ -5,6 +5,15 @@
 	let hours = $state(now.getHours());
 	let minutes = $state(now.getMinutes());
 
+	/** How hour points under the arc are drawn */
+	const treatments = [
+		"gap",
+		"cut",
+		"numerals",
+		"hidden",
+	] as const;
+	type Treatment = typeof treatments[number];
+
 	function toPolar(percentage: number, radius: number) {
 		const radians = TAU * percentage;
 
@@ -46,72 +55,137 @@
 		return { length, direction } as const;
 	}
 
-	function arc(hour: number, start: number, end: number) {
-		const { length, direction } = span(hour, start, end);
-		const middle = toPolar(start + (direction * length) / 2, 48);
-		const finish = toPolar(start + direction * length, 48);
-		const flag = direction === 1 ? 1 : 0;
-
-		// split in two halves so it never needs the large-arc flag and can draw a full circle
-		return [
-			`A 48,48 0 0 ${flag} ${middle.x},${middle.y}`,
-			`A 48,48 0 0 ${flag} ${finish.x},${finish.y}`,
-		].join(" ");
+	/** Length of the ring to leave clear around each numeral */
+	function clearance(index: number) {
+		switch (index) {
+			case 0: return 12; // XII, the arc runs along it
+			case 6: return 10; // VI, the arc runs along it
+			case 3:
+			case 9: return 9; // III and IX, the arc runs through their height
+			default: return 0;
+		}
 	}
 
-	/** Whether the arc runs over `position`, ends included */
-	function covered(position: number, hour: number, start: number, end: number) {
+	/** Arc path, broken around the numerals when `clear` */
+	function arc(hour: number, start: number, end: number, clear = false) {
 		const { length, direction } = span(hour, start, end);
-		return mod(direction * (position - start), 1) <= length + 1e-4;
+		const flag = direction === 1 ? 1 : 0;
+
+		/** Distances along the arc to leave clear, in order */
+		const cuts = [0, 3, 6, 9]
+			.filter((index) => clear && index !== hour % 12)
+			.map((index) => {
+				const distance = mod(direction * ((index - 3) / 12 - start), 1);
+				const half = clearance(index) / 2 / (TAU * 48);
+				return [distance - half, distance + half] as const;
+			})
+			.sort(([a], [b]) => a - b);
+
+		const segments: [number, number][] = [];
+		let from = 0;
+		for (const [before, after] of cuts) {
+			segments.push([from, Math.min(before, length)]);
+			from = Math.max(from, after);
+		}
+		segments.push([from, length]);
+
+		// split each segment in two halves so it never needs the large-arc flag and can draw a full circle
+		return segments
+			.filter(([from, to]) => to > from)
+			.map(([from, to]) => {
+				const [a, b, c] = [from, (from + to) / 2, to].map((distance) => toPolar(start + direction * distance, 48));
+				return `M ${a.x},${a.y} A 48,48 0 0 ${flag} ${b.x},${b.y} A 48,48 0 0 ${flag} ${c.x},${c.y}`;
+			})
+			.join(" ");
+	}
+
+	/** Whether the arc runs over `position` and at least `beyond` past it, ends included */
+	function covered(position: number, hour: number, start: number, end: number, beyond = 0) {
+		const { length, direction } = span(hour, start, end);
+		return mod(direction * (position - start), 1) <= length - beyond + 1e-4;
+	}
+
+	/** Quarters the arc has run at least a minute past get a gap */
+	function gapped(index: number, hour: number, start: number, end: number) {
+		return numeral(index) !== undefined && index !== hour % 12
+			&& covered((index - 3) / 12, hour, start, end, 1 / 60);
 	}
 </script>
 
-{#snippet point(index: number, hour: number, start: number, end: number)}
+{#snippet point(index: number, hour: number, start: number, end: number, treatment: Treatment)}
 	{@const position = (index - 3) / 12}
 	{@const { x, y } = toPolar(position, 48)}
-	{#if index === hour % 12 || covered(position, hour, start, end)}
-		<!-- hidden under the arc or the hour bar -->
-	{:else if numeral(index)}
-		<text {x} {y} fill="#88A4AC" font-size="6" text-anchor="middle" dominant-baseline="central">
+	{@const under = covered(position, hour, start, end)}
+	{#if index === hour % 12}
+		<!-- under the hour bar -->
+	{:else if numeral(index) && (treatment === "numerals" || !under)}
+		<text {x} {y} style:fill={under ? "var(--craie)" : "var(--brume)"} font-size="5" text-anchor="middle" dominant-baseline="central">
 			{numeral(index)}
 		</text>
-	{:else}
-		<circle cx={x} cy={y} r="1" fill="#88A4AC" />
+	{:else if !under}
+		<circle cx={x} cy={y} r="1" style:fill="var(--brume)" />
 	{/if}
 {/snippet}
 
-{#snippet boussole(hour: number)}
+{#snippet mark(index: number, hour: number, start: number, end: number, treatment: Treatment)}
+	{@const position = (index - 3) / 12}
+	{#if index === hour % 12 || !covered(position, hour, start, end)}
+		<!-- drawn by `point`, or under the hour bar -->
+	{:else if treatment === "cut"}
+		{@const { x, y } = toPolar(position, 48)}
+		<circle cx={x} cy={y} r="0.75" style:fill="var(--encre)" />
+	{/if}
+{/snippet}
+
+{#snippet tick(index: number, hour: number, start: number, end: number, stroke: string, width: number)}
+	{#if gapped(index, hour, start, end)}
+		{@const inner = toPolar((index - 3) / 12, 46)}
+		{@const outer = toPolar((index - 3) / 12, 50)}
+		<line x1={inner.x} y1={inner.y} x2={outer.x} y2={outer.y} style:stroke={stroke} stroke-width={width} />
+	{/if}
+{/snippet}
+
+{#snippet boussole(hour: number, treatment: Treatment)}
 	{@const start = ((hour - 3) % 12) / 12}
 	{@const end = ((minutes - 15) % 60) / 60}
 	<svg viewBox="-60 -60 120 120" width="240" height="240">
-		<circle cx="0" cy="0" r="54" fill="#111" />
+		<circle cx="0" cy="0" r="54" style:fill="var(--encre)" />
 		{#each { length: 12 }, index}
-			{@render point(index, hour, start, end)}
+			{@render point(index, hour, start, end, treatment)}
 		{/each}
 		<path
-			stroke="white"
+			style:stroke="var(--craie)"
 			stroke-width="1.5"
 			fill="none"
-			d={[
-				`M ${toPolar(start, 48).x},${toPolar(start, 48).y}`,
-				arc(hour, start, end),
-			].join(" ")}
+			d={arc(hour, start, end, treatment === "numerals")}
 		/>
 		<line
 			x1={toPolar(start, 44).x}
 			y1={toPolar(start, 44).y}
 			x2={toPolar(start, 52).x}
 			y2={toPolar(start, 52).y}
-			stroke="white"
+			style:stroke="var(--craie)"
 			stroke-width="1.5"
 		/>
+		{#each { length: 12 }, index}
+			{@render mark(index, hour, start, end, treatment)}
+		{/each}
+		{#if treatment === "gap"}
+			{#each { length: 12 }, index}
+				{@render tick(index, hour, start, end, "var(--encre)", 3)}
+				{@render tick(index, hour, start, end, "var(--brume)", 0.75)}
+			{/each}
+		{/if}
 	</svg>
 {/snippet}
 
-{@render boussole(hours)}
-{@render boussole(hours + 3)}
-{@render boussole(hours + 6)}
-{@render boussole(hours + 9)}
+{#each treatments as treatment}
+	<p>{treatment}</p>
+	{@render boussole(hours, treatment)}
+	{@render boussole(hours + 3, treatment)}
+	{@render boussole(hours + 6, treatment)}
+	{@render boussole(hours + 9, treatment)}
+{/each}
 
 <br/>
 
@@ -125,6 +199,12 @@
 </label>
 
 <style>
+	svg {
+		--encre: #111;
+		--craie: white;
+		--brume: #88A4AC;
+	}
+
 	text {
 		font-weight: 600;
 	}
