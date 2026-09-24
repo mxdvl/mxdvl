@@ -3,6 +3,7 @@
 	"labels": ["dependencies"],
 	"schedule": ["after 10am and before 6pm every weekday"],
 	"prConcurrentLimit": 5,
+	"minimumReleaseAge": "4 days",
 	"packageRules": [
 		{
 			"matchUpdateTypes": ["minor", "patch"],

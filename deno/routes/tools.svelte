@@ -8,6 +8,7 @@
 		"calendar",
 		"slideshow",
 		"svg",
+		"income",
 		"boussole",
 	]);
 </script>
