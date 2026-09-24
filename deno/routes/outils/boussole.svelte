@@ -3,7 +3,7 @@
 	import Layout from "../../components/Layout.svelte";
 	import Boussole from "../../components/Boussole.island.svelte";
 
-	const lang = "en";
+	const lang = "fr";
 </script>
 
 <Alternates en="/tools/boussole" fr="/outils/boussole" />
