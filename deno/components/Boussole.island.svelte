@@ -1,4 +1,12 @@
 <script lang="ts">
+	import type { Lang } from "./lang.js";
+
+	type Props = {
+		lang: Lang;
+	};
+
+	let { lang = "en" }: Props = $props();
+
 	const TAU = Math.PI * 2;
 
 	let now = $state(Date.now());
@@ -10,12 +18,12 @@
 		return () => clearInterval(interval);
 	});
 
-	const cities = [
-		["NOW", undefined],
+	const cities = $derived([
+		[lang === "fr" ? "ICI" : "NOW", undefined],
 		["MTL", "America/Toronto"],
 		["LDN", "Europe/London"],
 		["TYO", "Asia/Tokyo"],
-	] as const;
+	] as const);
 
 	/** Hour and minute of the shifted time in `timeZone`, or locally */
 	function clock(timeZone: string | undefined) {
@@ -33,6 +41,19 @@
 	/** How hour points under the arc are drawn */
 	const treatments = ["gap", "cut", "numerals", "hidden"] as const;
 	type Treatment = (typeof treatments)[number];
+
+	function title(treatment: Treatment) {
+		switch (treatment) {
+			case "gap":
+				return lang === "fr" ? "brèche" : "gap";
+			case "cut":
+				return lang === "fr" ? "entaille" : "cut";
+			case "numerals":
+				return lang === "fr" ? "chiffres" : "numerals";
+			case "hidden":
+				return lang === "fr" ? "masqué" : "hidden";
+		}
+	}
 
 	function toPolar(percentage: number, radius: number) {
 		const radians = TAU * percentage;
@@ -296,7 +317,7 @@
 {/snippet}
 
 {#each treatments as treatment}
-	<p>{treatment}</p>
+	<p>{title(treatment)}</p>
 	{#each cities as [name, timeZone]}
 		{@const { hour, minute } = clock(timeZone)}
 		{@render boussole(name, hour, minute, treatment)}

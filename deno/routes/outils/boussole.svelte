@@ -9,5 +9,5 @@
 <Alternates en="/tools/boussole" fr="/outils/boussole" />
 
 <Layout {lang}>
-	<Boussole />
+	<Boussole {lang} />
 </Layout>
