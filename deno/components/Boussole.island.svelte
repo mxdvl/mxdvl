@@ -1,18 +1,38 @@
 <script lang="ts">
 	const TAU = Math.PI * 2;
 
-	const now: Omit<Date, `set${string}`> = new Date();
-	let hours = $state(now.getHours());
-	let minutes = $state(now.getMinutes());
+	let now = $state(Date.now());
+	/** Minutes to shift every clock by */
+	let delta = $state(0);
+
+	$effect(() => {
+		const interval = setInterval(() => (now = Date.now()), 1000);
+		return () => clearInterval(interval);
+	});
+
+	const cities = [
+		["NOW", undefined],
+		["MTL", "America/Toronto"],
+		["LDN", "Europe/London"],
+		["TYO", "Asia/Tokyo"],
+	] as const;
+
+	/** Hour and minute of the shifted time in `timeZone`, or locally */
+	function clock(timeZone: string | undefined) {
+		const parts = new Intl.DateTimeFormat("en-GB", {
+			timeZone,
+			hour: "numeric",
+			minute: "numeric",
+			hourCycle: "h23",
+		}).formatToParts(now + delta * 60_000);
+		const part = (type: "hour" | "minute") =>
+			Number(parts.find((part) => part.type === type)?.value);
+		return { hour: part("hour"), minute: part("minute") };
+	}
 
 	/** How hour points under the arc are drawn */
-	const treatments = [
-		"gap",
-		"cut",
-		"numerals",
-		"hidden",
-	] as const;
-	type Treatment = typeof treatments[number];
+	const treatments = ["gap", "cut", "numerals", "hidden"] as const;
+	type Treatment = (typeof treatments)[number];
 
 	function toPolar(percentage: number, radius: number) {
 		const radians = TAU * percentage;
@@ -25,11 +45,16 @@
 
 	function numeral(hour: number) {
 		switch (hour) {
-			case 0: return "XII";
-			case 3: return "III";
-			case 6: return "VI";
-			case 9: return "IX";
-			default: return undefined;
+			case 0:
+				return "XII";
+			case 3:
+				return "III";
+			case 6:
+				return "VI";
+			case 9:
+				return "IX";
+			default:
+				return undefined;
 		}
 	}
 
@@ -43,10 +68,10 @@
 	 * filling clockwise until the minute reaches the hour,
 	 * then draining anti-clockwise for the following hour.
 	 */
-	function span(hour: number, start: number, end: number) {
+	function span(hour: number, minute: number, start: number, end: number) {
 		/** Minutes the minute hand is past the hour hand, clockwise */
 		const past = mod(Math.round((end - start) * 60), 60);
-		const crossings = hour + (past <= minutes ? 1 : 0);
+		const crossings = hour + (past <= minute ? 1 : 0);
 		const filling = crossings % 2 === 1;
 
 		const length = filling ? past / 60 : 1 - past / 60;
@@ -58,17 +83,27 @@
 	/** Length of the ring to leave clear around each numeral */
 	function clearance(index: number) {
 		switch (index) {
-			case 0: return 12; // XII, the arc runs along it
-			case 6: return 10; // VI, the arc runs along it
+			case 0:
+				return 12; // XII, the arc runs along it
+			case 6:
+				return 10; // VI, the arc runs along it
 			case 3:
-			case 9: return 9; // III and IX, the arc runs through their height
-			default: return 0;
+			case 9:
+				return 9; // III and IX, the arc runs through their height
+			default:
+				return 0;
 		}
 	}
 
 	/** Arc path, broken around the numerals when `clear` */
-	function arc(hour: number, start: number, end: number, clear = false) {
-		const { length, direction } = span(hour, start, end);
+	function arc(
+		hour: number,
+		minute: number,
+		start: number,
+		end: number,
+		clear = false,
+	) {
+		const { length, direction } = span(hour, minute, start, end);
 		const flag = direction === 1 ? 1 : 0;
 
 		/** Distances along the arc to leave clear, in order */
@@ -93,33 +128,65 @@
 		return segments
 			.filter(([from, to]) => to > from)
 			.map(([from, to]) => {
-				const [a, b, c] = [from, (from + to) / 2, to].map((distance) => toPolar(start + direction * distance, 48));
+				const [a, b, c] = [from, (from + to) / 2, to].map((distance) =>
+					toPolar(start + direction * distance, 48),
+				);
 				return `M ${a.x},${a.y} A 48,48 0 0 ${flag} ${b.x},${b.y} A 48,48 0 0 ${flag} ${c.x},${c.y}`;
 			})
 			.join(" ");
 	}
 
 	/** Whether the arc runs over `position` and at least `beyond` past it, ends included */
-	function covered(position: number, hour: number, start: number, end: number, beyond = 0) {
-		const { length, direction } = span(hour, start, end);
+	function covered(
+		position: number,
+		hour: number,
+		minute: number,
+		start: number,
+		end: number,
+		beyond = 0,
+	) {
+		const { length, direction } = span(hour, minute, start, end);
 		return mod(direction * (position - start), 1) <= length - beyond + 1e-4;
 	}
 
 	/** Quarters the arc has run at least a minute past get a gap */
-	function gapped(index: number, hour: number, start: number, end: number) {
-		return numeral(index) !== undefined && index !== hour % 12
-			&& covered((index - 3) / 12, hour, start, end, 1 / 60);
+	function gapped(
+		index: number,
+		hour: number,
+		minute: number,
+		start: number,
+		end: number,
+	) {
+		return (
+			numeral(index) !== undefined &&
+			index !== hour % 12 &&
+			covered((index - 3) / 12, hour, minute, start, end, 1 / 60)
+		);
 	}
 </script>
 
-{#snippet point(index: number, hour: number, start: number, end: number, treatment: Treatment)}
+{#snippet point(
+	index: number,
+	hour: number,
+	minute: number,
+	start: number,
+	end: number,
+	treatment: Treatment,
+)}
 	{@const position = (index - 3) / 12}
 	{@const { x, y } = toPolar(position, 48)}
-	{@const under = covered(position, hour, start, end)}
+	{@const under = covered(position, hour, minute, start, end)}
 	{#if index === hour % 12}
 		<!-- under the hour bar -->
 	{:else if numeral(index) && (treatment === "numerals" || !under)}
-		<text {x} {y} style:fill={under ? "var(--craie)" : "var(--brume)"} font-size="5" text-anchor="middle" dominant-baseline="central">
+		<text
+			{x}
+			{y}
+			style:fill={under ? "var(--craie)" : "var(--brume)"}
+			font-size="5"
+			text-anchor="middle"
+			dominant-baseline="central"
+		>
 			{numeral(index)}
 		</text>
 	{:else if !under}
@@ -127,9 +194,16 @@
 	{/if}
 {/snippet}
 
-{#snippet mark(index: number, hour: number, start: number, end: number, treatment: Treatment)}
+{#snippet mark(
+	index: number,
+	hour: number,
+	minute: number,
+	start: number,
+	end: number,
+	treatment: Treatment,
+)}
 	{@const position = (index - 3) / 12}
-	{#if index === hour % 12 || !covered(position, hour, start, end)}
+	{#if index === hour % 12 || !covered(position, hour, minute, start, end)}
 		<!-- drawn by `point`, or under the hour bar -->
 	{:else if treatment === "cut"}
 		{@const { x, y } = toPolar(position, 48)}
@@ -137,27 +211,53 @@
 	{/if}
 {/snippet}
 
-{#snippet tick(index: number, hour: number, start: number, end: number, stroke: string, width: number)}
-	{#if gapped(index, hour, start, end)}
+{#snippet tick(
+	index: number,
+	hour: number,
+	minute: number,
+	start: number,
+	end: number,
+	stroke: string,
+	width: number,
+)}
+	{#if gapped(index, hour, minute, start, end)}
 		{@const inner = toPolar((index - 3) / 12, 46)}
 		{@const outer = toPolar((index - 3) / 12, 50)}
-		<line x1={inner.x} y1={inner.y} x2={outer.x} y2={outer.y} style:stroke={stroke} stroke-width={width} />
+		<line
+			x1={inner.x}
+			y1={inner.y}
+			x2={outer.x}
+			y2={outer.y}
+			style:stroke
+			stroke-width={width}
+		/>
 	{/if}
 {/snippet}
 
-{#snippet boussole(hour: number, treatment: Treatment)}
+{#snippet boussole(
+	name: string,
+	hour: number,
+	minute: number,
+	treatment: Treatment,
+)}
 	{@const start = ((hour - 3) % 12) / 12}
-	{@const end = ((minutes - 15) % 60) / 60}
+	{@const end = ((minute - 15) % 60) / 60}
 	<svg viewBox="-60 -60 120 120" width="240" height="240">
 		<circle cx="0" cy="0" r="54" style:fill="var(--encre)" />
+		<text
+			style:fill="var(--brume)"
+			font-size="5"
+			text-anchor="middle"
+			dominant-baseline="central">{name}</text
+		>
 		{#each { length: 12 }, index}
-			{@render point(index, hour, start, end, treatment)}
+			{@render point(index, hour, minute, start, end, treatment)}
 		{/each}
 		<path
 			style:stroke="var(--craie)"
 			stroke-width="1.5"
 			fill="none"
-			d={arc(hour, start, end, treatment === "numerals")}
+			d={arc(hour, minute, start, end, treatment === "numerals")}
 		/>
 		<line
 			x1={toPolar(start, 44).x}
@@ -168,12 +268,28 @@
 			stroke-width="1.5"
 		/>
 		{#each { length: 12 }, index}
-			{@render mark(index, hour, start, end, treatment)}
+			{@render mark(index, hour, minute, start, end, treatment)}
 		{/each}
 		{#if treatment === "gap"}
 			{#each { length: 12 }, index}
-				{@render tick(index, hour, start, end, "var(--encre)", 3)}
-				{@render tick(index, hour, start, end, "var(--brume)", 0.75)}
+				{@render tick(
+					index,
+					hour,
+					minute,
+					start,
+					end,
+					"var(--encre)",
+					3,
+				)}
+				{@render tick(
+					index,
+					hour,
+					minute,
+					start,
+					end,
+					"var(--brume)",
+					0.75,
+				)}
 			{/each}
 		{/if}
 	</svg>
@@ -181,28 +297,24 @@
 
 {#each treatments as treatment}
 	<p>{treatment}</p>
-	{@render boussole(hours, treatment)}
-	{@render boussole(hours + 3, treatment)}
-	{@render boussole(hours + 6, treatment)}
-	{@render boussole(hours + 9, treatment)}
+	{#each cities as [name, timeZone]}
+		{@const { hour, minute } = clock(timeZone)}
+		{@render boussole(name, hour, minute, treatment)}
+	{/each}
 {/each}
 
-<br/>
+<br />
 
 <label>
-	<input type="range" min="0" max="23" step="1" bind:value={hours} />
-	hours {hours}
-</label>
-<label>
-	<input type="range" min="0" max="59" step="1" bind:value={minutes} />
-	minutes {minutes}
+	<input type="range" min="-300" max="300" step="1" bind:value={delta} />
+	delta {delta > 0 ? "+" : ""}{delta} minutes
 </label>
 
 <style>
 	svg {
 		--encre: #111;
 		--craie: white;
-		--brume: #88A4AC;
+		--brume: #88a4ac;
 	}
 
 	text {
