@@ -28,6 +28,20 @@
 <p>I’m proud of these recents achievements and projects:</p>
 
 <ul>
+	<li>
+		<a href="https://github.com/mxdvl/clou">Clou</a>, a Garmin watch face where the hour hand is pinned like a nail through
+		the dial
+	</li>
+	<li>
+		<a href="https://github.com/mxdvl/geojson">Immutable GeoJSON</a>, a safer way to manipulate geography on the web
+	</li>
+	<li>
+		<a href="https://mxdvl.github.io/mascots/">mascots</a>, type-safe cuteness in Gleam
+	</li>
+	<li>
+		<a href="https://github.com/mxdvl/immutability">“On the merits of immutability”</a>, a talk at React Advanced London in
+		October 2025
+	</li>
 	<li>Deploying a real-time data collection pipeline focussed on privacy in April 2024</li>
 	<li>
 		Visualisating the <a href="https://observablehq.com/@mxdvl/equinoxe">journey of Equinoxe</a>

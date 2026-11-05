@@ -26,6 +26,20 @@
 
 <ul>
 	<li>
+		<a href="https://github.com/mxdvl/clou">Clou</a>, un cadran de montre Garmin dont l’aiguille des heures est fixée comme un
+		clou
+	</li>
+	<li>
+		<a href="https://github.com/mxdvl/geojson">Immutable GeoJSON</a> (en anglais), pour manipuler la géographie plus sûrement sur le web
+	</li>
+	<li>
+		<a href="https://mxdvl.github.io/mascots/">mascots</a> (en anglais), de la mignonnerie typée en Gleam
+	</li>
+	<li>
+		<a href="https://github.com/mxdvl/immutability">« On the merits of immutability »</a> (en anglais), une présentation à React Advanced London en
+		octobre 2025
+	</li>
+	<li>
 		Visualiser le <a href="https://observablehq.com/@mxdvl/equinoxe">trajet d’Equinoxe</a> vers la
 		<a href="https://transatqsm.com">Transat Québec–St-Malo</a>
 	</li>
