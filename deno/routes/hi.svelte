@@ -32,7 +32,7 @@
 		<a href="https://github.com/mxdvl/clou">Clou</a>, a Garmin watch face designed like a bent nail, with a head and a tail
 	</li>
 	<li>
-		<a href="https://github.com/mxdvl/geojson">Immutable GeoJSON</a>, a safer way to manipulate geography on the web
+		<a href="https://github.com/mxdvl/geojson">Immutable GeoJSON</a>, a work in progress towards a safer way to manipulate geography on the web
 	</li>
 	<li>
 		<a href="https://mxdvl.github.io/mascots/">mascots</a>, type-safe cuteness in Gleam

@@ -7,7 +7,7 @@
 		"facteurs",
 		"calendrier",
 		"diaporama",
-		"boussole",
+		"clou",
 	]);
 </script>
 
