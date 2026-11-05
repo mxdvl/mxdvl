@@ -26,7 +26,7 @@
 
 <ul>
 	<li>
-		<a href="https://github.com/mxdvl/clou">Clou</a>, un cadran de montre Garmin en forme de clou tordu, avec une tête et une queue
+		<a href="https://github.com/mxdvl/clou">Clou</a>, un <a href="https://apps.garmin.com/apps/62bde47f-25b3-4c7a-bbd9-fcbd482556f8">cadran de montre Garmin</a> en forme de clou tordu, avec une tête et une queue
 	</li>
 	<li>
 		<a href="https://github.com/mxdvl/geojson">Immutable GeoJSON</a> (en anglais), un travail en cours pour manipuler la géographie plus sûrement sur le web
