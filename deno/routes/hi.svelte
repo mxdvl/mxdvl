@@ -29,8 +29,7 @@
 
 <ul>
 	<li>
-		<a href="https://github.com/mxdvl/clou">Clou</a>, a Garmin watch face where the hour hand is pinned like a nail through
-		the dial
+		<a href="https://github.com/mxdvl/clou">Clou</a>, a Garmin watch face designed like a bent nail, with a head and a tail
 	</li>
 	<li>
 		<a href="https://github.com/mxdvl/geojson">Immutable GeoJSON</a>, a safer way to manipulate geography on the web
