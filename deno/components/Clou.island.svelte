@@ -255,7 +255,7 @@
 	{/if}
 {/snippet}
 
-{#snippet boussole(
+{#snippet clou(
 	name: string,
 	hour: number,
 	minute: number,
@@ -320,7 +320,7 @@
 	<p>{title(treatment)}</p>
 	{#each cities as [name, timeZone]}
 		{@const { hour, minute } = clock(timeZone)}
-		{@render boussole(name, hour, minute, treatment)}
+		{@render clou(name, hour, minute, treatment)}
 	{/each}
 {/each}
 

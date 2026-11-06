@@ -9,7 +9,7 @@
 		"slideshow",
 		"svg",
 		"income",
-		"boussole",
+		"clou",
 	]);
 </script>
 
