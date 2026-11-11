@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { qr } from "headless-qr";
+	import { qr as encode } from "headless-qr";
 	import { onMount } from "svelte";
 	import type { Lang } from "./lang.js";
 
@@ -8,34 +8,27 @@
 	const fallback = lang === "en" ?  'https://www.mxdvl.com/tools/square' : 'https://www.mxdvl.com/outils/square'
 	let input = $state(fallback)
 
-	// Client-side only: restore from, then keep in sync with, the `q` query param
-	let synced = false;
+	// Client-side only, so server and first client render match
 	onMount(() => {
-		input = new URL(location.href).searchParams.get("q") ?? fallback;
-		synced = true;
+		input = new URL(location.href).searchParams.get("q")?.trim() || fallback;
 	});
-	$effect(() => {
-		if (!synced) return;
-		const url = new URL(location.href);
-		if (input === fallback) url.searchParams.delete("q");
-		else url.searchParams.set("q", input);
-		history.replaceState(null, "", url);
-	});
+
+	let text = $derived(input.trim());
 
 	// Quiet zone, in modules (half a grid unit each)
 	const margin = 4;
-	let modules = $derived(input ? qr(input, { correction: "L" }) : []);
+	let modules = $derived(text ? encode(text, { correction: "L" }) : []);
 	// QR sizes are odd: add one module so the total is a whole number of grid units
 	let total = $derived(modules.length + 2 * margin + (modules.length % 2));
 </script>
 
 <label>
 	{lang === "en" ? "Enter Text" : "Entrer le texte"}
-	<input type="text" bind:value={input} />
+	<input type="text" bind:value={input} oninput={() => history.replaceState(null, "", `?q=${encodeURIComponent(input)}`)} />
 </label>
 
-{#if input}
-	<div class="qr" role="img" aria-label={input} style:--total={total}>
+{#if modules.length > 0}
+	<div class="qr" role="img" aria-label={text} style:--total={total}>
 		{#each modules as row, y}
 			{#each row as dark, x}
 				{#if dark}
