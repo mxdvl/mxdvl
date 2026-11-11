@@ -8,6 +8,7 @@
 		"calendrier",
 		"diaporama",
 		"clou",
+		"square",
 	]);
 </script>
 
