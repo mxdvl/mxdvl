@@ -37,6 +37,7 @@
     "npm:@imagemagick/magick-wasm@0.0.32": "0.0.32",
     "npm:@resvg/resvg-js@2.6.2": "2.6.2",
     "npm:esbuild@0.24": "0.24.2",
+    "npm:headless-qr@1.0.3": "1.0.3",
     "npm:lz-string@1.5.0": "1.5.0",
     "npm:preact@11.2.0": "11.2.0",
     "npm:prettier@3": "3.8.3",
@@ -486,6 +487,9 @@
         "@jridgewell/sourcemap-codec"
       ]
     },
+    "headless-qr@1.0.3": {
+      "integrity": "sha512-HHVwf1i++Ho2vFstHxAdfP0OjB7Di44nGXbh3VXciuzwkuFb1oeFDCrfOLjFgHip/Kbc/wq2GOaSTiKQ81K/Yg=="
+    },
     "is-reference@3.0.3": {
       "integrity": "sha512-ixkJoqQvAP88E6wLydLGGqCJsrFUnqoH6HnaczB8XmDH1oaWU+xxdptvikTgaEhtZ53Ky6YXiBuUI2WXLMCwjw==",
       "dependencies": [
@@ -551,6 +555,7 @@
       "jsr:@std/http@^1.0.23",
       "jsr:@std/path@^1.1.4",
       "npm:@resvg/resvg-js@2.6.2",
+      "npm:headless-qr@1.0.3",
       "npm:lz-string@1.5.0",
       "npm:preact@*",
       "npm:preact@11.2.0",

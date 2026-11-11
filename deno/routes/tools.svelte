@@ -10,6 +10,7 @@
 		"svg",
 		"income",
 		"clou",
+		"square",
 	]);
 </script>
 

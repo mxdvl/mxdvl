@@ -45,6 +45,7 @@
 		"@std/fs": "jsr:@std/fs@^1.0.22",
 		"@std/http": "jsr:@std/http@^1.0.23",
 		"@std/path": "jsr:@std/path@^1.1.4",
+		"headless-qr": "npm:headless-qr@1.0.3",
 		"lz-string": "npm:lz-string@1.5.0",
 		"preact": "npm:preact@11.2.0",
 		"svelte": "npm:svelte@^5.55",
