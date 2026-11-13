@@ -10,6 +10,7 @@
 	let input = $state(fallback)
 
 	const presets = [
+		{ label: "🔄", value: fallback },
 		{ label: "parkrun · P001", value: "P001" },
 		{ label: "Bluesky · @mxdvl.com", value: "https://bsky.app/profile/mxdvl.com" },
 		{ label: "Rickroll", value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
