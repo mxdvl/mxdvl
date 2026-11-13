@@ -20,11 +20,19 @@
 	let modules = $derived(text ? encode(text, { correction: "L" }) : []);
 	// QR sizes are odd: add one module so the total is a whole number of grid units
 	let total = $derived(modules.length + 2 * margin + (modules.length % 2));
+
+	$effect(() => {
+		history.replaceState(null, "", input !== fallback ? `?q=${encodeURIComponent(input)}` : "")
+	})
 </script>
 
 <label>
-	{lang === "en" ? "Enter Text" : "Entrer le texte"}
-	<input type="text" bind:value={input} oninput={() => history.replaceState(null, "", `?q=${encodeURIComponent(input)}`)} />
+	{#if lang === "en"}
+		Encode any text into a QR code
+	{:else if lang === "fr"}
+		Encoder tout texte en code QR
+	{/if}
+	<input type="text" bind:value={input} />
 </label>
 
 {#if modules.length > 0}
