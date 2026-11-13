@@ -1,12 +1,20 @@
 <script lang="ts">
 	import { qr as encode } from "headless-qr";
 	import { onMount } from "svelte";
+	import Button from "./Button.svelte";
 	import type { Lang } from "./lang.js";
 
 	let { lang = "en" }: { lang: Lang } = $props();
 
 	const fallback = lang === "en" ?  'https://www.mxdvl.com/tools/square' : 'https://www.mxdvl.com/outils/square'
 	let input = $state(fallback)
+
+	const presets = [
+		{ label: "parkrun · P001", value: "P001" },
+		{ label: "Bluesky · @mxdvl.com", value: "https://bsky.app/profile/mxdvl.com" },
+		{ label: "Rickroll", value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+		{ label: "¯\\_(ツ)_/¯", value: "¯\\_(ツ)_/¯" },
+	];
 
 	// Client-side only, so server and first client render match
 	onMount(() => {
@@ -34,6 +42,19 @@
 	{/if}
 	<input type="text" bind:value={input} />
 </label>
+
+<p>
+	{#if lang === "en"}
+		Presets:
+	{:else if lang === "fr"}
+		Préréglages&thinsp;:
+	{/if}
+</p>
+<ul>
+	{#each presets as { label, value } (value)}
+		<li><Button disabled={text === value} on:click={() => (input = value)}>{label}</Button></li>
+	{/each}
+</ul>
 
 {#if modules.length > 0}
 	<div class="qr" role="img" aria-label={text} style:--total={total}>
@@ -73,6 +94,7 @@
 	input:focus-visible {
 		outline-color: var(--ocean);
 	}
+
 
 	.qr {
 		--module: calc(var(--grid) / 2);
