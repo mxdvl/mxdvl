@@ -1,12 +1,21 @@
 <script lang="ts">
 	import { qr as encode } from "headless-qr";
 	import { onMount } from "svelte";
+	import Button from "./Button.svelte";
 	import type { Lang } from "./lang.js";
 
 	let { lang = "en" }: { lang: Lang } = $props();
 
 	const fallback = lang === "en" ?  'https://www.mxdvl.com/tools/square' : 'https://www.mxdvl.com/outils/square'
 	let input = $state(fallback)
+
+	const presets = [
+		{ label: "🔄", value: fallback },
+		{ label: "parkrun · P001", value: "P001" },
+		{ label: "Bluesky · @mxdvl.com", value: "https://bsky.app/profile/mxdvl.com" },
+		{ label: "Rickroll", value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+		{ label: "¯\\_(ツ)_/¯", value: "¯\\_(ツ)_/¯" },
+	];
 
 	// Client-side only, so server and first client render match
 	onMount(() => {
@@ -20,12 +29,33 @@
 	let modules = $derived(text ? encode(text, { correction: "L" }) : []);
 	// QR sizes are odd: add one module so the total is a whole number of grid units
 	let total = $derived(modules.length + 2 * margin + (modules.length % 2));
+
+	$effect(() => {
+		history.replaceState(null, "", input !== fallback ? `?q=${encodeURIComponent(input)}` : "")
+	})
 </script>
 
 <label>
-	{lang === "en" ? "Enter Text" : "Entrer le texte"}
-	<input type="text" bind:value={input} oninput={() => history.replaceState(null, "", `?q=${encodeURIComponent(input)}`)} />
+	{#if lang === "en"}
+		Encode any text into a QR code
+	{:else if lang === "fr"}
+		Encoder tout texte en code QR
+	{/if}
+	<input type="text" bind:value={input} />
 </label>
+
+<p>
+	{#if lang === "en"}
+		Presets:
+	{:else if lang === "fr"}
+		Préréglages&thinsp;:
+	{/if}
+</p>
+<ul>
+	{#each presets as { label, value } (value)}
+		<li><Button disabled={text === value} on:click={() => (input = value)}>{label}</Button></li>
+	{/each}
+</ul>
 
 {#if modules.length > 0}
 	<div class="qr" role="img" aria-label={text} style:--total={total}>
@@ -65,6 +95,7 @@
 	input:focus-visible {
 		outline-color: var(--ocean);
 	}
+
 
 	.qr {
 		--module: calc(var(--grid) / 2);
