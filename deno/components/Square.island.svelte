@@ -62,11 +62,11 @@
 		{#each modules as row, y}
 			{#each row as dark, x}
 				{#if dark}
-					<div style:grid-area="{y + margin + 1} / {x + margin + 1}"></i>
+					<div style:grid-area="{y + margin + 1} / {x + margin + 1}"></div>
 				{/if}
 			{/each}
 		{/each}
-	</div>
+	</figure>
 {/if}
 
 <style>
