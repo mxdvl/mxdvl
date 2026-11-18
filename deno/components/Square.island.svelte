@@ -6,8 +6,8 @@
 
 	let { lang = "en" }: { lang: Lang } = $props();
 
-	const fallback = lang === "en" ?  'https://www.mxdvl.com/tools/square' : 'https://www.mxdvl.com/outils/square'
-	let input = $state(fallback)
+	const fallback = lang === "en" ?  'www.mxdvl.com/tools/square' : 'www.mxdvl.com/outils/square';
+	let input = $state(fallback);
 
 	const presets = [
 		{ label: "🔄", value: fallback },
@@ -24,14 +24,14 @@
 
 	let text = $derived(input.trim());
 
-	// Quiet zone, in modules (half a grid unit each)
-	const margin = 4;
+	/** Quiet zone, in modules (half a grid unit each) */
+	const margin = 3;
 	let modules = $derived(text ? encode(text, { correction: "L" }) : []);
-	// QR sizes are odd: add one module so the total is a whole number of grid units
+	/** QR sizes are odd: add one module so the total is a whole number of grid units */
 	let total = $derived(modules.length + 2 * margin + (modules.length % 2));
 
 	$effect(() => {
-		history.replaceState(null, "", input !== fallback ? `?q=${encodeURIComponent(input)}` : "")
+		history.replaceState(null, "", input !== fallback ? `?q=${encodeURIComponent(input)}` : "");
 	})
 </script>
 
@@ -58,15 +58,15 @@
 </ul>
 
 {#if modules.length > 0}
-	<div class="qr" role="img" aria-label={text} style:--total={total}>
+	<figure aria-label={text} style:--total={total}>
 		{#each modules as row, y}
 			{#each row as dark, x}
 				{#if dark}
-					<i style:grid-area="{y + margin + 1} / {x + margin + 1}"></i>
+					<div style:grid-area="{y + margin + 1} / {x + margin + 1}"></div>
 				{/if}
 			{/each}
 		{/each}
-	</div>
+	</figure>
 {/if}
 
 <style>
@@ -97,7 +97,7 @@
 	}
 
 
-	.qr {
+	figure {
 		--module: calc(var(--grid) / 2);
 		display: grid;
 		position: relative;
@@ -114,7 +114,7 @@
 		outline-offset: -1px;
 	}
 
-	i {
+	div {
 		background: currentColor;
 	}
 </style>
