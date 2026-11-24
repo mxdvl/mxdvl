@@ -1,27 +1,36 @@
 # Postcode boundaries
 
-Approximate postcode **sector** (`E1 6`) and **district** (`E1`) polygons for England and Wales, built only from open
-data: the ONS National Statistics Postcode Lookup (NSPL) and census Output Area boundaries.
+Approximate postcode **sector** (`E1 6`) and **district** (`E1`) boundaries for England and Wales as GeoJSON, built
+only from open data: the ONS National Statistics Postcode Lookup (NSPL) and census Output Area boundaries.
 
-## How it works
+> **Status: not yet run against real data, and the core hypothesis is untested.** Every `TODO(reality)` in the code
+> is an assumption to check on the first run.
 
-Output Areas (OAs) are small (about 10–20 postcodes), clipped to the coastline, and follow roads, rivers and council
-boundaries. Most OAs sit entirely inside one postcode sector, so they make good building blocks:
+## The hypothesis
 
-1. Each live postcode in the NSPL has a centroid and an OA.
-2. An OA whose postcodes are all in one sector goes to that sector whole.
-3. An OA split between sectors is divided by a Voronoi diagram of its postcode centroids, clipped to the OA.
-4. OAs with no usable postcode join the neighbouring sector they share the longest edge with.
-5. Pieces are merged into sectors, and sectors into districts, so the two levels nest exactly.
+Output Areas (OAs) hold about 10–20 postcodes each and are built from whole postcodes. **If most OAs sit entirely
+inside one postcode sector**, sector boundaries can be approximated by:
 
-It's all SQL run by DuckDB (spatial extension) from Deno (or Node 24+, for `using`), in three stages: `loadInputs`,
-`computeBoundaries` and `writeOutputs`.
+1. giving each OA to the sector most of its postcodes belong to, then
+2. merging OAs into sectors, and sectors into districts.
+
+OA boundaries are clipped to the coastline and follow roads, rivers and council boundaries, so the result would
+inherit those edges.
+
+The first run tests this. The summary table reports `split_between_sectors`, the number of OAs whose postcodes span
+more than one sector, and `oa-lookup.csv` gives each OA's majority share. If many OAs are split, this approach needs
+OA splitting, or rethinking.
+
+Known gaps, on purpose:
+
+- **A split OA goes whole to its majority sector.**
+- **An OA with no postcodes belongs to no sector**, which leaves a hole.
 
 ## Data
 
 From the ONS Open Geography Portal:
 
-- **NSPL** (latest), CSV. Column names follow the 2025 renaming (`PCDS`, `EAST1M`, `OA21CD`…).
+- **NSPL** (latest), CSV, with the column names introduced in 2025 (`PCDS`, `OA21CD`…).
 - **Output Areas (December 2021) Boundaries EW BGC (V2)**: download the Shapefile and unzip it.
 
 ## Run
@@ -30,16 +39,15 @@ From the ONS Open Geography Portal:
 deno task postcodes --nspl data/NSPL_NOV_2025_UK.csv --oa data/OA_2021_EW_BGC_V2.shp --area E
 ```
 
-`--area` can be repeated; leave it out to build all of England and Wales. Other options: `--out <dir>`,
-`--db <file>` (keep the intermediate tables to inspect), `--large-users`.
+`--area` can be repeated; leave it out to build all of England and Wales. Other options: `--out <dir>`, and
+`--db <file>` to keep the tables for inspection.
 
 Writes to `out/`:
 
-- `sectors.geojson` and `districts.geojson` in WGS84, at full detail
-- `oa-lookup.csv`, which gives each OA's dominant sector and district and the share of its postcodes in each
+- `sectors.geojson` and `districts.geojson` in WGS84
+- `oa-lookup.csv`, which gives each OA's majority sector and district and the share of its postcodes in each
 
-In an `--area` run, OAs that are only partly in the area still use all of their postcodes, so the area's outer edge
-is the same as in a full run.
+For TopoJSON, which GDAL can't write, use `npx topojson-server geo2topo sectors=out/sectors.geojson`.
 
 ## Tests
 
@@ -47,30 +55,16 @@ is the same as in a full run.
 deno task postcodes:test
 ```
 
-The tests use tiny made-up OAs and postcodes in an in-memory DuckDB. They check:
+The tests run the real SQL on tiny made-up OAs and an NSPL-shaped CSV.
 
-- whole and split OAs
-- Voronoi gap filling
-- empty OAs joining a neighbour
-- area runs
-- the OA lookup
-- that sectors tile the OAs with no gaps or overlaps, and districts nest the sectors exactly
-- that every postcode falls inside its own sector
+## If it has legs
 
-## Left as an exercise
+- Split mixed OAs between their sectors, for example with a Voronoi diagram of postcode centroids clipped to each OA.
+- Give OAs without postcodes to a neighbouring sector.
+- Add Scotland (NRS 2022 OAs) and Northern Ireland (NISRA Data Zones).
+- Build vector tiles (PMTiles via tippecanoe).
 
-- **Scotland and Northern Ireland.** NRS publishes 2022 OAs (code column `code`). NISRA publishes Data Zones
-  (`DZ2021_cd`), and NI postcodes are in Irish Grid (EPSG:29903) with their own licence terms. Both need extra
-  boundary sources and some coordinate conversion.
-- **Validation.** NRS's 2022 Frozen Postcode boundaries are real postcode polygons for Scotland. Merge them into
-  sectors and compare with this method's output.
-- **Vector tiles.** Feed the GeoJSON to tippecanoe with `--detect-shared-borders` to get a PMTiles file that's
-  simplified per zoom level.
+## Attribution
 
-## Caveats
-
-- Postcode areas don't really tile the land. Treat these as estimates, not legal boundaries.
-- Converting from British National Grid to WGS84 uses PROJ's default transformation, which is accurate to within a
-  few metres.
-- Attribution: Contains OS data © Crown copyright and database right; Contains Royal Mail data © Royal Mail copyright
-  and database right; Source: Office for National Statistics licensed under the Open Government Licence v3.0.
+Contains OS data © Crown copyright and database right; Contains Royal Mail data © Royal Mail copyright and database
+right; Source: Office for National Statistics licensed under the Open Government Licence v3.0.

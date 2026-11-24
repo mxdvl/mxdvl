@@ -14,12 +14,11 @@ const { values } = parseArgs({
 		area: { type: "string", multiple: true },
 		out: { type: "string" },
 		db: { type: "string" },
-		"large-users": { type: "boolean" },
 	},
 });
 
 if (!values.nspl || !values.oa) {
-	console.error("Usage: cli.ts --nspl <csv> --oa <shp> [--area E …] [--out dir] [--db file] [--large-users]");
+	console.error("Usage: cli.ts --nspl <csv> --oa <shp> [--area E …] [--out dir] [--db file]");
 	process.exit(1);
 }
 
@@ -29,5 +28,4 @@ await buildPostcodeBoundaries({
 	areas: values.area?.map((area) => area.toUpperCase()),
 	outDir: values.out,
 	database: values.db,
-	includeLargeUsers: values["large-users"],
 });

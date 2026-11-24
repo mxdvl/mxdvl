@@ -2,22 +2,25 @@
  * Approximate postcode sector & district boundaries for England and Wales,
  * from open data only: the NSPL and census Output Area (OA) boundaries.
  *
- * Method — “OA-constrained Voronoi”:
- *   1. Every live NSPL postcode has a centroid and an OA code.
- *   2. An OA whose postcodes all sit in one sector goes to that sector whole.
- *   3. An OA split between sectors is divided by a Voronoi diagram of its
- *      postcode centroids, clipped to the OA.
- *   4. OAs with no usable postcode join the neighbouring sector they share
- *      the longest edge with.
- *   5. Pieces are dissolved into sectors, and sectors into districts.
+ * Hypothesis: most OAs sit entirely inside one postcode sector. If so:
+ *   1. give each OA to the sector most of its postcodes belong to,
+ *   2. merge OAs into sectors, and sectors into districts.
  *
- * OA boundaries are clipped to the coastline and follow real features, so the
- * result inherits those edges for free.
+ * TODO(reality): test the hypothesis first. The summary’s
+ * `split_between_sectors` and `oa_lookup.sector_share` say how many OAs
+ * straddle sectors, and by how much. If it’s many, this approach needs OA
+ * splitting, or a different approach.
  *
- * Three stages, each plain SQL run by DuckDB:
- *   loadInputs        files  → `postcodes`, `output_areas`
- *   computeBoundaries tables → `sectors`, `districts`, `oa_lookup`
- *   writeOutputs      tables → GeoJSON and CSV files
+ * OA boundaries are clipped to the coastline and follow roads, rivers and
+ * council boundaries, so the result inherits those edges.
+ *
+ * Known gaps, on purpose:
+ * - An OA split between sectors goes whole to its majority sector.
+ *   `oa_lookup.sector_share` says how often, and by how much.
+ * - An OA with no usable postcode belongs to no sector, leaving a hole.
+ *
+ * TODO(reality): none of this has been run against the real NSPL and OA files.
+ * Every `TODO(reality)` marks an assumption to check on the first run.
  */
 
 import { DuckDBInstance } from "@duckdb/node-api";
@@ -31,12 +34,10 @@ export type Options = {
 	nspl: string;
 	/** Output Areas (December 2021) Boundaries EW BGC — a Shapefile in British National Grid */
 	outputAreas: string;
-	/** Postcode areas to build, e.g. ["E"]. Empty means all of England and Wales. */
+	/** Postcode areas to keep, e.g. ["E"]. Empty keeps all of England and Wales. */
 	areas?: readonly string[];
-	/** Large-user postcodes often sit on the delivery office, so are off by default */
-	includeLargeUsers?: boolean;
 	outDir?: string;
-	/** DuckDB database file. Use a path to inspect intermediate tables afterwards. */
+	/** DuckDB database file. Use a path to inspect the tables afterwards. */
 	database?: string;
 	log?: Log;
 };
@@ -57,45 +58,45 @@ export async function buildPostcodeBoundaries(options: Options): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Stage 1: inputs
+// Inputs → `postcodes`, `output_areas`
 
-export async function loadInputs(db: Database, { nspl, outputAreas, includeLargeUsers = false }: Options): Promise<void> {
-	await step(db, "NSPL", nsplPostcodesSql(nspl, includeLargeUsers));
-	await step(db, "postcodes", derivePostcodes("nspl_postcodes"));
+export async function loadInputs(db: Database, { nspl, outputAreas }: Options): Promise<void> {
+	await loadPostcodes(db, nspl);
 	await step(db, "output areas", outputAreasSql(outputAreas));
 }
 
-/** Builds `postcodes` from any relation with columns postcode, oa, x, y (British National Grid). */
-export function derivePostcodes(relation: string): string {
-	return `
-CREATE OR REPLACE TABLE postcodes AS
-SELECT
-	postcode,
-	regexp_extract(postcode, '^[A-Z]+') AS area,
-	split_part(postcode, ' ', 1) AS district,
-	split_part(postcode, ' ', 1) || ' ' || left(split_part(postcode, ' ', 2), 1) AS sector,
-	oa,
-	x::DOUBLE AS x,
-	y::DOUBLE AS y
-FROM ${relation}`;
+export async function loadPostcodes(db: Database, nspl: string): Promise<void> {
+	await step(db, "postcodes", postcodesSql(nspl));
 }
 
 /**
- * Live, small-user postcodes in England and Wales with a good grid reference.
- * Grid quality runs from 1 (best) to 9 (none); 6 is a sector mean.
+ * Live, small-user postcodes in England and Wales.
+ *
+ * TODO(reality): check `read_csv` guesses the types we compare against:
+ * `doterm` empty → NULL, `usrtypind` numeric, `oa21cd` text.
+ * TODO(reality): check the column names after `normalize_names`.
+ * TODO(reality): should poor grid references (`gridind` 6+, e.g. sector means)
+ * be excluded? They could pull an OA towards the wrong sector.
  */
-function nsplPostcodesSql(nspl: string, includeLargeUsers: boolean): string {
+function postcodesSql(nspl: string): string {
 	return `
-CREATE OR REPLACE TEMP VIEW nspl_postcodes AS
-SELECT pcds AS postcode, oa21cd AS oa, east1m AS x, north1m AS y
+CREATE OR REPLACE TABLE postcodes AS
+SELECT
+	pcds AS postcode,
+	split_part(pcds, ' ', 1) AS district,
+	split_part(pcds, ' ', 1) || ' ' || left(split_part(pcds, ' ', 2), 1) AS sector,
+	oa21cd AS oa
 FROM read_csv(${literal(nspl)}, normalize_names = true)
 WHERE doterm IS NULL
-	AND (oa21cd LIKE 'E00%' OR oa21cd LIKE 'W00%')
-	AND east1m IS NOT NULL
-	AND gridind BETWEEN 1 AND 5
-	${includeLargeUsers ? "" : "AND usrtypind = 0"}`;
+	AND usrtypind = 0
+	AND (oa21cd LIKE 'E00%' OR oa21cd LIKE 'W00%')`;
 }
 
+/**
+ * TODO(reality): check `ST_Read` names the geometry column `geom`, and that
+ * the attribute is `OA21CD`.
+ * TODO(reality): check whether `ST_MakeValid` is needed, or just slow.
+ */
 function outputAreasSql(path: string): string {
 	return `
 CREATE OR REPLACE TABLE output_areas AS
@@ -104,84 +105,29 @@ FROM ST_Read(${literal(path)})`;
 }
 
 // ---------------------------------------------------------------------------
-// Stage 2: boundaries
+// Boundaries → `oa_lookup`, `sectors`, `districts`
 
-/** Needs `postcodes` and `output_areas`; creates `sectors`, `districts` and `oa_lookup`. */
+/** Needs `postcodes` and `output_areas`. */
 export async function computeBoundaries(
 	db: Database,
 	{ areas = [] }: { areas?: readonly string[] } = {},
 ): Promise<void> {
-	await step(db, "scope", scopeSql(areas));
-	await step(db, "sites", sitesSql());
-	await step(db, "sectors per OA", sectorsPerOutputAreaSql());
 	await step(db, "OA lookup", lookupSql());
-	await step(db, "whole OAs", wholeOutputAreasSql());
-	await step(db, "split OAs", splitOutputAreasSql());
-	await step(db, "Voronoi gaps", fillVoronoiGapsSql());
-
-	// an OA surrounded by empty OAs is only filled on a later pass
-	let before: number;
-	do {
-		before = await count(db, "pieces");
-		await step(db, "empty OAs", assignEmptyOutputAreasSql());
-	} while ((await count(db, "pieces")) > before);
-
 	await step(db, "sectors", sectorsSql(areas));
 	await step(db, "districts", districtsSql());
 }
 
 /**
- * Which OAs take part. For an area run: the OAs holding its postcodes, plus
- * empty OAs nearby so they can be assigned.
+ * Dominant sector and district of each OA, and the share of its postcodes in them.
+ *
+ * TODO(reality): `arg_max` picks arbitrarily between tied sectors. Count how
+ * many OAs tie before deciding whether a tie-break matters.
  */
-function scopeSql(areas: readonly string[]): string {
-	if (areas.length === 0) return `CREATE OR REPLACE TABLE scope AS SELECT oa FROM output_areas`;
-
-	return `
-CREATE OR REPLACE TABLE scope AS
-WITH holding AS (
-	SELECT DISTINCT oa FROM postcodes WHERE area IN (${list(areas)})
-),
-extent AS (
-	SELECT ST_MakeEnvelope(min(ST_XMin(geom)), min(ST_YMin(geom)), max(ST_XMax(geom)), max(ST_YMax(geom))) AS box
-	FROM output_areas WHERE oa IN (SELECT oa FROM holding)
-)
-SELECT oa FROM holding
-UNION
-SELECT o.oa FROM output_areas o, extent
-WHERE o.oa NOT IN (SELECT oa FROM postcodes) AND ST_Intersects(o.geom, extent.box)`;
-}
-
-/**
- * One site per distinct location in an OA; postcodes sharing a centroid vote.
- * All postcodes in a scoped OA count, whatever their area, so edges are right.
- */
-function sitesSql(): string {
-	return `
-CREATE OR REPLACE TABLE sites AS
-SELECT oa, x, y, mode(sector) AS sector
-FROM postcodes
-WHERE oa IN (SELECT oa FROM scope)
-GROUP BY oa, x, y`;
-}
-
-function sectorsPerOutputAreaSql(): string {
-	return `
-CREATE OR REPLACE TABLE oa_sectors AS
-SELECT oa, count(DISTINCT sector) AS sectors, any_value(sector) AS sector
-FROM sites
-GROUP BY oa`;
-}
-
-/** Dominant sector and district of each OA, and the share of its postcodes in them */
 function lookupSql(): string {
 	return `
 CREATE OR REPLACE TABLE oa_lookup AS
 WITH by_sector AS (
-	SELECT oa, sector, district, count(*) AS n
-	FROM postcodes
-	WHERE oa IN (SELECT oa FROM scope)
-	GROUP BY ALL
+	SELECT oa, sector, district, count(*) AS n FROM postcodes GROUP BY ALL
 ),
 by_district AS (
 	SELECT oa, district, sum(n) AS n FROM by_sector GROUP BY ALL
@@ -197,114 +143,35 @@ JOIN (
 ) USING (oa)`;
 }
 
-function wholeOutputAreasSql(): string {
-	return `
-CREATE OR REPLACE TABLE pieces AS
-SELECT o.oa, s.sector, o.geom
-FROM output_areas o
-JOIN oa_sectors s USING (oa)
-WHERE s.sectors = 1`;
-}
-
-function splitOutputAreasSql(): string {
-	return `
-INSERT INTO pieces
-WITH split AS (
-	SELECT oa, ST_Collect(list(ST_Point(x, y))) AS points
-	FROM sites
-	WHERE oa IN (SELECT oa FROM oa_sectors WHERE sectors > 1)
-	GROUP BY oa
-),
-cells AS (
-	SELECT oa, unnest(ST_Dump(ST_VoronoiDiagram(points)), recursive := true)
-	FROM split
-)
-SELECT c.oa, s.sector, ST_CollectionExtract(ST_Intersection(c.geom, o.geom), 3)
-FROM cells c
-JOIN output_areas o ON o.oa = c.oa
-JOIN sites s ON s.oa = c.oa AND ST_Intersects(c.geom, ST_Point(s.x, s.y))`;
-}
-
 /**
- * GEOS clips a Voronoi diagram to a box around its points, so a large OA with
- * clustered postcodes may be left partly uncovered. Leftovers go to the
- * nearest site. If the “clustered postcodes” test passes without this step,
- * delete it.
+ * TODO(reality): check `ST_Union_Agg` merges neighbouring OAs cleanly, without
+ * slivers along shared edges.
  */
-function fillVoronoiGapsSql(): string {
-	return `
-INSERT INTO pieces
-WITH covered AS (
-	SELECT oa, ST_Union_Agg(geom) AS geom
-	FROM pieces
-	WHERE oa IN (SELECT oa FROM oa_sectors WHERE sectors > 1)
-	GROUP BY oa
-),
-gaps AS (
-	SELECT oa, row_number() OVER () AS id, geom
-	FROM (
-		SELECT c.oa, unnest(ST_Dump(ST_CollectionExtract(ST_Difference(o.geom, c.geom), 3)), recursive := true)
-		FROM covered c
-		JOIN output_areas o USING (oa)
-	)
-	WHERE ST_Area(geom) > 1
-)
-SELECT any_value(g.oa), arg_min(s.sector, ST_Distance(g.geom, ST_Point(s.x, s.y))), any_value(g.geom)
-FROM gaps g
-JOIN sites s ON s.oa = g.oa
-GROUP BY g.id`;
-}
-
-function assignEmptyOutputAreasSql(): string {
-	return `
-INSERT INTO pieces
-WITH empty AS (
-	SELECT oa, geom FROM output_areas
-	WHERE oa IN (SELECT oa FROM scope) AND oa NOT IN (SELECT oa FROM pieces)
-),
-shared AS (
-	SELECT e.oa, p.sector, sum(ST_Length(ST_Intersection(ST_Boundary(e.geom), p.geom))) AS length
-	FROM empty e
-	JOIN pieces p ON ST_Intersects(e.geom, p.geom)
-	GROUP BY e.oa, p.sector
-)
-SELECT s.oa, arg_max(s.sector, s.length), any_value(e.geom)
-FROM shared s
-JOIN empty e USING (oa)
-WHERE s.length > 0
-GROUP BY s.oa`;
-}
-
 function sectorsSql(areas: readonly string[]): string {
 	return `
 CREATE OR REPLACE TABLE sectors AS
-WITH counts AS (
-	SELECT sector, count(*) AS postcodes FROM postcodes GROUP BY sector
-),
-shapes AS (
-	SELECT sector, ST_Union_Agg(geom) AS geom FROM pieces GROUP BY sector
-)
 SELECT
-	sector,
-	split_part(sector, ' ', 1) AS district,
-	regexp_extract(sector, '^[A-Z]+') AS area,
-	coalesce(counts.postcodes, 0) AS postcodes,
-	shapes.geom
-FROM shapes
-LEFT JOIN counts USING (sector)
-${areas.length === 0 ? "" : `WHERE regexp_extract(sector, '^[A-Z]+') IN (${list(areas)})`}`;
+	l.sector,
+	l.district,
+	sum(l.postcodes) AS postcodes,
+	count(*) AS output_areas,
+	ST_Union_Agg(o.geom) AS geom
+FROM oa_lookup l
+JOIN output_areas o USING (oa)
+${areas.length === 0 ? "" : `WHERE regexp_extract(l.sector, '^[A-Z]+') IN (${list(areas)})`}
+GROUP BY l.sector, l.district`;
 }
 
 function districtsSql(): string {
 	return `
 CREATE OR REPLACE TABLE districts AS
-SELECT district, area, sum(postcodes) AS postcodes, count(*) AS sectors, ST_Union_Agg(geom) AS geom
+SELECT district, sum(postcodes) AS postcodes, count(*) AS sectors, ST_Union_Agg(geom) AS geom
 FROM sectors
-GROUP BY district, area`;
+GROUP BY district`;
 }
 
 // ---------------------------------------------------------------------------
-// Stage 3: outputs
+// Outputs
 
 export async function writeOutputs(db: Database, outDir: string): Promise<void> {
 	await mkdir(outDir, { recursive: true });
@@ -314,6 +181,11 @@ export async function writeOutputs(db: Database, outDir: string): Promise<void> 
 	await step(db, "oa-lookup.csv", `COPY oa_lookup TO ${literal(`${outDir}/oa-lookup.csv`)} (HEADER)`);
 }
 
+/**
+ * TODO(reality): check the GDAL `COPY` options work in the installed DuckDB.
+ * TODO(reality): PROJ’s default British National Grid → WGS84 transformation
+ * is accurate to a few metres. Check that’s acceptable.
+ */
 function geoJsonSql(table: string, path: string): string {
 	return `
 COPY (
@@ -322,13 +194,15 @@ COPY (
 ) TO ${literal(path)} WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_CREATION_OPTIONS 'COORDINATE_PRECISION=6')`;
 }
 
+/** The numbers to look at first, to judge whether the simple method is good enough */
 function summarySql(): string {
 	return `
 SELECT
 	(SELECT count(*) FROM postcodes) AS postcodes,
-	(SELECT count(*) FROM postcodes WHERE oa NOT IN (SELECT oa FROM output_areas)) AS without_boundary,
-	(SELECT count(*) FROM oa_sectors WHERE sectors > 1) AS split_output_areas,
-	(SELECT count(*) FROM scope WHERE oa NOT IN (SELECT oa FROM pieces)) AS unassigned_output_areas,
+	(SELECT count(*) FROM output_areas) AS output_areas,
+	(SELECT count(*) FROM output_areas WHERE oa NOT IN (SELECT oa FROM oa_lookup)) AS without_postcodes,
+	(SELECT count(*) FROM oa_lookup WHERE sector_share < 1) AS split_between_sectors,
+	(SELECT count(*) FROM oa_lookup WHERE district_share < 1) AS split_between_districts,
 	(SELECT count(*) FROM sectors) AS sectors,
 	(SELECT count(*) FROM districts) AS districts`;
 }
@@ -353,14 +227,13 @@ export async function connect(
 	};
 }
 
+/**
+ * TODO(reality): check how `getRowObjectsJson` encodes DuckDB numbers
+ * (BIGINT may come back as a string).
+ */
 export async function rows(db: Database, sql: string): Promise<Record<string, unknown>[]> {
 	const reader = await db.connection.runAndReadAll(sql);
 	return reader.getRowObjectsJson() as Record<string, unknown>[];
-}
-
-async function count(db: Database, table: string): Promise<number> {
-	const [row] = await rows(db, `SELECT count(*) AS n FROM ${table}`);
-	return Number(row?.n);
 }
 
 async function step(db: Database, name: string, sql: string): Promise<void> {

@@ -1,193 +1,159 @@
+/**
+ * Tiny made-up OAs and postcodes, in metres, run through the real SQL.
+ *
+ * TODO(reality): these tests have never run. Check DuckDB accepts geometries
+ * in `VALUES`, and that `read_csv` reads the fixture CSV with the same types
+ * as the real NSPL.
+ */
+
 import { assertAlmostEquals, assertEquals } from "@std/assert";
-import { computeBoundaries, connect, derivePostcodes, literal, rows } from "./boundaries.ts";
-import type { Database } from "./boundaries.ts";
+import { computeBoundaries, connect, literal, loadPostcodes, rows } from "./boundaries.ts";
 
 type OutputArea = { oa: string; wkt: string };
-type Postcode = { postcode: string; oa: string; x: number; y: number };
+type Postcode = { postcode: string; oa: string; terminated?: string; largeUser?: boolean };
 
 Deno.test("an OA within one sector is kept whole", async () => {
 	using fixture = await build(
-		[{ oa: "OA1", wkt: square(0, 0, 100) }],
+		[{ oa: "E00000001", wkt: square(0, 0, 100) }],
+		[{ postcode: "E1 6AA", oa: "E00000001" }, { postcode: "E1 6AB", oa: "E00000001" }],
+	);
+
+	assertEquals(await fixture.query("SELECT sector FROM sectors"), [{ sector: "E1 6" }]);
+	assertAlmostEquals(await fixture.areaOf("sectors", "E1 6"), 10_000, 1e-6);
+});
+
+Deno.test("an OA split between sectors goes whole to its majority sector", async () => {
+	using fixture = await build(
+		[{ oa: "E00000001", wkt: square(0, 0, 100) }],
 		[
-			{ postcode: "E1 6AA", oa: "OA1", x: 20, y: 20 },
-			{ postcode: "E1 6AB", oa: "OA1", x: 80, y: 70 },
+			{ postcode: "E1 6AA", oa: "E00000001" },
+			{ postcode: "E1 6AB", oa: "E00000001" },
+			{ postcode: "E1 7AA", oa: "E00000001" },
 		],
 	);
 
 	assertEquals(await fixture.query("SELECT sector FROM sectors"), [{ sector: "E1 6" }]);
-	assertAlmostEquals(await fixture.areaOf("E1 6"), 10_000, 1e-6);
+
+	const [lookup] = await fixture.query("SELECT * FROM oa_lookup");
+	assertEquals(lookup?.sector, "E1 6");
+	assertAlmostEquals(Number(lookup?.sector_share), 2 / 3, 1e-9);
+	assertEquals(lookup?.district, "E1");
+	assertAlmostEquals(Number(lookup?.district_share), 1, 1e-9);
 });
 
-Deno.test("an OA split between sectors is divided between its postcodes", async () => {
+Deno.test("an OA without postcodes is left out", async () => {
 	using fixture = await build(
-		[{ oa: "OA1", wkt: square(0, 0, 100) }],
 		[
-			{ postcode: "E1 6AA", oa: "OA1", x: 25, y: 50 },
-			{ postcode: "E1 7AA", oa: "OA1", x: 75, y: 50 },
+			{ oa: "E00000001", wkt: square(0, 0, 100) },
+			{ oa: "E00000002", wkt: square(100, 0, 100) }, // no postcodes
+		],
+		[{ postcode: "E1 6AA", oa: "E00000001" }],
+	);
+
+	assertAlmostEquals(await fixture.areaOf("sectors", "E1 6"), 10_000, 1e-6);
+});
+
+Deno.test("terminated, large-user and Scottish postcodes are ignored", async () => {
+	using fixture = await build(
+		[{ oa: "E00000001", wkt: square(0, 0, 100) }],
+		[
+			{ postcode: "E1 6AA", oa: "E00000001" },
+			{ postcode: "E1 7AA", oa: "E00000001", terminated: "202301" },
+			{ postcode: "E1 7AB", oa: "E00000001", largeUser: true },
+			{ postcode: "TD1 1AA", oa: "S00000001" },
 		],
 	);
 
-	assertAlmostEquals(await fixture.areaOf("E1 6"), 5_000, 1e-6);
-	assertAlmostEquals(await fixture.areaOf("E1 7"), 5_000, 1e-6);
-});
-
-Deno.test("a large OA with clustered postcodes is still fully covered", async () => {
-	using fixture = await build(
-		[{ oa: "OA1", wkt: square(0, 0, 1_000) }],
-		[
-			{ postcode: "E1 6AA", oa: "OA1", x: 10, y: 10 },
-			{ postcode: "E1 7AA", oa: "OA1", x: 20, y: 10 },
-		],
-	);
-
-	const [row] = await fixture.query("SELECT sum(ST_Area(geom)) AS area FROM sectors");
-	assertAlmostEquals(Number(row?.area), 1_000_000, 1e-3);
-});
-
-Deno.test("an OA without postcodes joins the neighbour it shares most border with", async () => {
-	using fixture = await build(
-		[
-			{ oa: "OA1", wkt: square(0, 0, 100) }, // shares 100 m with OA3
-			{ oa: "OA2", wkt: rectangle(200, 0, 100, 50) }, // shares 50 m with OA3
-			{ oa: "OA3", wkt: square(100, 0, 100) }, // no postcodes
-		],
-		[
-			{ postcode: "E1 6AA", oa: "OA1", x: 50, y: 50 },
-			{ postcode: "E2 1AA", oa: "OA2", x: 250, y: 25 },
-		],
-	);
-
-	assertAlmostEquals(await fixture.areaOf("E1 6"), 20_000, 1e-6);
-	assertAlmostEquals(await fixture.areaOf("E2 1"), 5_000, 1e-6);
+	assertEquals(await fixture.query("SELECT postcode FROM postcodes"), [{ postcode: "E1 6AA" }]);
 });
 
 Deno.test("sectors tile the OAs and districts nest the sectors", async () => {
-	using fixture = await build(grid.outputAreas, grid.postcodes);
+	using fixture = await build(
+		// a 2×2 grid of OAs
+		[0, 1].flatMap((column) =>
+			[0, 1].map((row) => ({ oa: `E0000000${column}${row}`, wkt: square(column * 100, row * 100, 100) }))
+		),
+		[
+			{ postcode: "E1 6AA", oa: "E000000000" },
+			{ postcode: "E1 6AB", oa: "E000000010" },
+			{ postcode: "E1 7AA", oa: "E000000001" },
+			{ postcode: "E2 1AA", oa: "E000000011" },
+		],
+	);
 
 	const [areas] = await fixture.query(`SELECT
-		(SELECT sum(ST_Area(geom)) FROM output_areas) AS output_areas,
 		(SELECT sum(ST_Area(geom)) FROM sectors) AS sectors,
 		(SELECT ST_Area(ST_Union_Agg(geom)) FROM sectors) AS sectors_union,
 		(SELECT sum(ST_Area(geom)) FROM districts) AS districts`);
 
-	assertAlmostEquals(Number(areas?.sectors), Number(areas?.output_areas), 1e-3, "no gaps");
-	assertAlmostEquals(Number(areas?.sectors_union), Number(areas?.sectors), 1e-3, "no overlaps");
-	assertAlmostEquals(Number(areas?.districts), Number(areas?.sectors), 1e-3, "districts match sectors");
-
-	const outside = await fixture.query(`SELECT s.sector
-		FROM sectors s JOIN districts d USING (district)
-		WHERE ST_Area(ST_Difference(s.geom, d.geom)) > 1e-3`);
-	assertEquals(outside, [], "every sector sits inside its district");
+	assertAlmostEquals(Number(areas?.sectors), 40_000, 1e-3, "no gaps");
+	assertAlmostEquals(Number(areas?.sectors_union), 40_000, 1e-3, "no overlaps");
+	assertAlmostEquals(Number(areas?.districts), 40_000, 1e-3, "districts match sectors");
+	assertAlmostEquals(await fixture.areaOf("districts", "E1"), 30_000, 1e-3);
 });
 
-Deno.test("every postcode falls inside its own sector", async () => {
-	using fixture = await build(grid.outputAreas, grid.postcodes);
-
-	const misplaced = await fixture.query(`SELECT p.postcode
-		FROM postcodes p JOIN sectors s USING (sector)
-		WHERE NOT ST_Intersects(s.geom, ST_Point(p.x, p.y))`);
-	assertEquals(misplaced, []);
-});
-
-Deno.test("an area run keeps only that area, with edges from its neighbours", async () => {
+Deno.test("an area run keeps only sectors in that area", async () => {
 	using fixture = await build(
-		[{ oa: "OA1", wkt: square(0, 0, 100) }],
 		[
-			{ postcode: "E1 6AA", oa: "OA1", x: 25, y: 50 },
-			{ postcode: "IG1 1AA", oa: "OA1", x: 75, y: 50 },
+			{ oa: "E00000001", wkt: square(0, 0, 100) },
+			{ oa: "E00000002", wkt: square(100, 0, 100) },
 		],
+		[{ postcode: "E1 6AA", oa: "E00000001" }, { postcode: "IG1 1AA", oa: "E00000002" }],
 		["E"],
 	);
 
 	assertEquals(await fixture.query("SELECT sector FROM sectors"), [{ sector: "E1 6" }]);
-	assertAlmostEquals(await fixture.areaOf("E1 6"), 5_000, 1e-6);
-});
-
-Deno.test("the OA lookup reports the dominant sector and district", async () => {
-	using fixture = await build(
-		[{ oa: "OA1", wkt: square(0, 0, 100) }],
-		[
-			{ postcode: "E1 6AA", oa: "OA1", x: 10, y: 10 },
-			{ postcode: "E1 6AB", oa: "OA1", x: 20, y: 20 },
-			{ postcode: "E1 6AD", oa: "OA1", x: 30, y: 30 },
-			{ postcode: "E1 7AA", oa: "OA1", x: 90, y: 90 },
-		],
-	);
-
-	const [lookup] = await fixture.query("SELECT * FROM oa_lookup");
-	assertEquals(lookup?.sector, "E1 6");
-	assertAlmostEquals(Number(lookup?.sector_share), 0.75, 1e-9);
-	assertEquals(lookup?.district, "E1");
-	assertAlmostEquals(Number(lookup?.district_share), 1, 1e-9);
 });
 
 // ---------------------------------------------------------------------------
 // Fixtures
 
-/** A 3×3 grid of OAs with a mix of whole, split and empty ones */
-const grid = {
-	outputAreas: [0, 1, 2].flatMap((column) =>
-		[0, 1, 2].map((row) => ({ oa: `OA${column}${row}`, wkt: square(column * 100, row * 100, 100) }))
-	),
-	postcodes: [
-		{ postcode: "E1 6AA", oa: "OA00", x: 30, y: 30 },
-		{ postcode: "E1 6AB", oa: "OA00", x: 60, y: 70 },
-		{ postcode: "E1 6AD", oa: "OA10", x: 120, y: 40 },
-		{ postcode: "E1 7AA", oa: "OA10", x: 180, y: 60 },
-		{ postcode: "E1 7AB", oa: "OA20", x: 250, y: 50 },
-		{ postcode: "E2 1AA", oa: "OA01", x: 50, y: 150 },
-		{ postcode: "E2 1AB", oa: "OA02", x: 40, y: 260 },
-		{ postcode: "E2 2AA", oa: "OA12", x: 150, y: 250 },
-		{ postcode: "E1 7AD", oa: "OA21", x: 210, y: 110 },
-		{ postcode: "E2 2AB", oa: "OA21", x: 290, y: 190 },
-		// OA11 and OA22 have no postcodes
-	],
-};
-
-type Fixture = Database & {
+type Fixture = Disposable & {
 	query(sql: string): Promise<Record<string, unknown>[]>;
-	areaOf(sector: string): Promise<number>;
+	areaOf(table: "sectors" | "districts", name: string): Promise<number>;
 };
 
-/** Runs the boundary stage on hand-made output areas and postcodes, in metres. */
+/** Writes the postcodes as an NSPL-shaped CSV, then runs the boundary stage. */
 async function build(
 	outputAreas: readonly OutputArea[],
 	postcodes: readonly Postcode[],
 	areas: readonly string[] = [],
 ): Promise<Fixture> {
+	const nspl = await Deno.makeTempFile({ suffix: ".csv" });
+	await Deno.writeTextFile(nspl, nsplCsv(postcodes));
+
 	const db = await connect({ log() {} });
+	await loadPostcodes(db, nspl);
 
-	const areaValues = outputAreas
-		.map(({ oa, wkt }) => `(${literal(oa)}, ST_GeomFromText(${literal(wkt)}))`)
-		.join(", ");
-	await db.connection.run(`CREATE TABLE output_areas AS SELECT * FROM (VALUES ${areaValues}) AS t(oa, geom)`);
-
-	const postcodeValues = postcodes
-		.map(({ postcode, oa, x, y }) => `(${literal(postcode)}, ${literal(oa)}, ${x}, ${y})`)
-		.join(", ");
-	await db.connection.run(
-		`CREATE TABLE raw_postcodes AS SELECT * FROM (VALUES ${postcodeValues}) AS t(postcode, oa, x, y)`,
-	);
-	await db.connection.run(derivePostcodes("raw_postcodes"));
+	const values = outputAreas.map(({ oa, wkt }) => `(${literal(oa)}, ST_GeomFromText(${literal(wkt)}))`);
+	await db.connection.run(`CREATE TABLE output_areas AS SELECT * FROM (VALUES ${values.join(", ")}) AS t(oa, geom)`);
 
 	await computeBoundaries(db, { areas });
 
 	return {
-		...db, // includes [Symbol.dispose]
 		query(sql) {
 			return rows(db, sql);
 		},
-		async areaOf(sector) {
-			const [row] = await rows(db, `SELECT ST_Area(geom) AS area FROM sectors WHERE sector = ${literal(sector)}`);
+		async areaOf(table, name) {
+			const key = table === "sectors" ? "sector" : "district";
+			const [row] = await rows(db, `SELECT ST_Area(geom) AS area FROM ${table} WHERE ${key} = ${literal(name)}`);
 			return Number(row?.area ?? 0);
+		},
+		[Symbol.dispose]() {
+			db[Symbol.dispose]();
+			Deno.removeSync(nspl);
 		},
 	};
 }
 
-function rectangle(x: number, y: number, width: number, height: number): string {
-	return `POLYGON((${x} ${y}, ${x + width} ${y}, ${x + width} ${y + height}, ${x} ${y + height}, ${x} ${y}))`;
+/** Only the NSPL columns the pipeline reads */
+function nsplCsv(postcodes: readonly Postcode[]): string {
+	const lines = postcodes.map(({ postcode, oa, terminated = "", largeUser = false }) =>
+		[postcode, terminated, largeUser ? 1 : 0, oa].join(",")
+	);
+	return ["PCDS,DOTERM,USRTYPIND,OA21CD", ...lines].join("\n") + "\n";
 }
 
 function square(x: number, y: number, size: number): string {
-	return rectangle(x, y, size, size);
+	return `POLYGON((${x} ${y}, ${x + size} ${y}, ${x + size} ${y + size}, ${x} ${y + size}, ${x} ${y}))`;
 }
