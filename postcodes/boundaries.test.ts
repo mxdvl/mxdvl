@@ -1,6 +1,5 @@
 import { assertAlmostEquals, assertEquals } from "@std/assert";
 import { computeBoundaries, connect, derivePostcodes, literal, rows } from "./boundaries.ts";
-import type { Settings } from "./boundaries.ts";
 
 type OutputArea = { oa: string; wkt: string };
 type Postcode = { postcode: string; oa: string; x: number; y: number };
@@ -14,7 +13,7 @@ const square = (x: number, y: number, size: number): string => rectangle(x, y, s
 async function build(
 	outputAreas: readonly OutputArea[],
 	postcodes: readonly Postcode[],
-	settings: Settings = {},
+	areas: readonly string[] = [],
 ) {
 	const { connection, close } = await connect();
 
@@ -24,14 +23,14 @@ async function build(
 	await connection.run(`CREATE TABLE output_areas AS SELECT * FROM (VALUES ${areaValues}) AS t(oa, geom)`);
 
 	const postcodeValues = postcodes
-		.map(({ postcode, oa, x, y }) => `(${literal(postcode)}, ${literal(oa)}, 'E12000007', ${x}, ${y})`)
+		.map(({ postcode, oa, x, y }) => `(${literal(postcode)}, ${literal(oa)}, ${x}, ${y})`)
 		.join(", ");
 	await connection.run(
-		`CREATE TABLE raw_postcodes AS SELECT * FROM (VALUES ${postcodeValues}) AS t(postcode, oa, region, x, y)`,
+		`CREATE TABLE raw_postcodes AS SELECT * FROM (VALUES ${postcodeValues}) AS t(postcode, oa, x, y)`,
 	);
 	await connection.run(derivePostcodes("raw_postcodes"));
 
-	await computeBoundaries(connection, { simplifyTolerance: 0, log: () => {}, ...settings });
+	await computeBoundaries(connection, { areas, log: () => {} });
 
 	const query = (sql: string) => rows(connection, sql);
 	const areaOf = async (table: string, column: string, value: string): Promise<number> => {
@@ -177,7 +176,7 @@ Deno.test("an area run keeps only that area, with edges from its neighbours", as
 			{ postcode: "E1 6AA", oa: "OA1", x: 25, y: 50 },
 			{ postcode: "IG1 1AA", oa: "OA1", x: 75, y: 50 },
 		],
-		{ areas: ["E"] },
+		["E"],
 	);
 
 	try {
