@@ -14,7 +14,7 @@ boundaries. Most OAs sit entirely inside one postcode sector, so they make good 
 4. OAs with no usable postcode join the neighbouring sector they share the longest edge with.
 5. Pieces are merged into sectors, and sectors into districts, so the two levels nest exactly.
 
-It's all SQL run by DuckDB (spatial extension) from Deno or Node, in three stages: `loadInputs`,
+It's all SQL run by DuckDB (spatial extension) from Deno (or Node 24+, for `using`), in three stages: `loadInputs`,
 `computeBoundaries` and `writeOutputs`.
 
 ## Data

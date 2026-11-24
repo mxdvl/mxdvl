@@ -41,42 +41,29 @@ export type Options = {
 	log?: Log;
 };
 
-/** SQL string literal */
-export const literal = (value: string): string => `'${value.replaceAll("'", "''")}'`;
+/** A DuckDB connection with the spatial extension, closed when it goes out of scope */
+export type Database = Disposable & { connection: DuckDBConnection; log: Log };
 
-const list = (values: readonly string[]): string => values.map(literal).join(", ");
+export async function buildPostcodeBoundaries(options: Options): Promise<void> {
+	const { outDir = "out", database = ":memory:", log = console.log } = options;
+	using db = await connect({ database, log });
 
-// ---------------------------------------------------------------------------
-// DuckDB helpers
+	await loadInputs(db, options);
+	await computeBoundaries(db, options);
+	await writeOutputs(db, outDir);
 
-export async function connect(database = ":memory:"): Promise<{ connection: DuckDBConnection; close: () => void }> {
-	const instance = await DuckDBInstance.create(database);
-	const connection = await instance.connect();
-	await connection.run("INSTALL spatial; LOAD spatial;");
-
-	const close = () => {
-		connection.closeSync();
-		instance.closeSync();
-	};
-
-	return { connection, close };
-}
-
-export async function rows(connection: DuckDBConnection, sql: string): Promise<Record<string, unknown>[]> {
-	const reader = await connection.runAndReadAll(sql);
-	return reader.getRowObjectsJson() as Record<string, unknown>[];
-}
-
-function stepRunner(connection: DuckDBConnection, log: Log) {
-	return async (name: string, sql: string): Promise<void> => {
-		const start = performance.now();
-		await connection.run(sql);
-		log(`✓ ${name} (${((performance.now() - start) / 1000).toFixed(1)}s)`);
-	};
+	const [summary] = await rows(db, summarySql());
+	console.table(summary);
 }
 
 // ---------------------------------------------------------------------------
 // Stage 1: inputs
+
+export async function loadInputs(db: Database, { nspl, outputAreas, includeLargeUsers = false }: Options): Promise<void> {
+	await step(db, "NSPL", nsplPostcodesSql(nspl, includeLargeUsers));
+	await step(db, "postcodes", derivePostcodes("nspl_postcodes"));
+	await step(db, "output areas", outputAreasSql(outputAreas));
+}
 
 /** Builds `postcodes` from any relation with columns postcode, oa, x, y (British National Grid). */
 export function derivePostcodes(relation: string): string {
@@ -97,7 +84,7 @@ FROM ${relation}`;
  * Live, small-user postcodes in England and Wales with a good grid reference.
  * Grid quality runs from 1 (best) to 9 (none); 6 is a sector mean.
  */
-function nsplPostcodes(nspl: string, includeLargeUsers: boolean): string {
+function nsplPostcodesSql(nspl: string, includeLargeUsers: boolean): string {
 	return `
 CREATE OR REPLACE TEMP VIEW nspl_postcodes AS
 SELECT pcds AS postcode, oa21cd AS oa, east1m AS x, north1m AS y
@@ -109,29 +96,45 @@ WHERE doterm IS NULL
 	${includeLargeUsers ? "" : "AND usrtypind = 0"}`;
 }
 
-const outputAreasFrom = (path: string): string => `
+function outputAreasSql(path: string): string {
+	return `
 CREATE OR REPLACE TABLE output_areas AS
 SELECT OA21CD AS oa, ST_MakeValid(geom) AS geom
 FROM ST_Read(${literal(path)})`;
-
-export async function loadInputs(
-	connection: DuckDBConnection,
-	{ nspl, outputAreas, includeLargeUsers = false, log = console.log }: Options,
-): Promise<void> {
-	const step = stepRunner(connection, log);
-	await step("NSPL", nsplPostcodes(nspl, includeLargeUsers));
-	await step("postcodes", derivePostcodes("nspl_postcodes"));
-	await step("output areas", outputAreasFrom(outputAreas));
 }
 
 // ---------------------------------------------------------------------------
 // Stage 2: boundaries
 
+/** Needs `postcodes` and `output_areas`; creates `sectors`, `districts` and `oa_lookup`. */
+export async function computeBoundaries(
+	db: Database,
+	{ areas = [] }: { areas?: readonly string[] } = {},
+): Promise<void> {
+	await step(db, "scope", scopeSql(areas));
+	await step(db, "sites", sitesSql());
+	await step(db, "sectors per OA", sectorsPerOutputAreaSql());
+	await step(db, "OA lookup", lookupSql());
+	await step(db, "whole OAs", wholeOutputAreasSql());
+	await step(db, "split OAs", splitOutputAreasSql());
+	await step(db, "Voronoi gaps", fillVoronoiGapsSql());
+
+	// an OA surrounded by empty OAs is only filled on a later pass
+	let before: number;
+	do {
+		before = await count(db, "pieces");
+		await step(db, "empty OAs", assignEmptyOutputAreasSql());
+	} while ((await count(db, "pieces")) > before);
+
+	await step(db, "sectors", sectorsSql(areas));
+	await step(db, "districts", districtsSql());
+}
+
 /**
  * Which OAs take part. For an area run: the OAs holding its postcodes, plus
  * empty OAs nearby so they can be assigned.
  */
-function scope(areas: readonly string[]): string {
+function scopeSql(areas: readonly string[]): string {
 	if (areas.length === 0) return `CREATE OR REPLACE TABLE scope AS SELECT oa FROM output_areas`;
 
 	return `
@@ -153,21 +156,26 @@ WHERE o.oa NOT IN (SELECT oa FROM postcodes) AND ST_Intersects(o.geom, extent.bo
  * One site per distinct location in an OA; postcodes sharing a centroid vote.
  * All postcodes in a scoped OA count, whatever their area, so edges are right.
  */
-const sites = `
+function sitesSql(): string {
+	return `
 CREATE OR REPLACE TABLE sites AS
 SELECT oa, x, y, mode(sector) AS sector
 FROM postcodes
 WHERE oa IN (SELECT oa FROM scope)
 GROUP BY oa, x, y`;
+}
 
-const sectorsPerOutputArea = `
+function sectorsPerOutputAreaSql(): string {
+	return `
 CREATE OR REPLACE TABLE oa_sectors AS
 SELECT oa, count(DISTINCT sector) AS sectors, any_value(sector) AS sector
 FROM sites
 GROUP BY oa`;
+}
 
 /** Dominant sector and district of each OA, and the share of its postcodes in them */
-const lookup = `
+function lookupSql(): string {
+	return `
 CREATE OR REPLACE TABLE oa_lookup AS
 WITH by_sector AS (
 	SELECT oa, sector, district, count(*) AS n
@@ -187,15 +195,19 @@ JOIN (
 	SELECT oa, arg_max(district, n) AS district, max(n) / sum(n) AS district_share
 	FROM by_district GROUP BY oa
 ) USING (oa)`;
+}
 
-const wholeOutputAreas = `
+function wholeOutputAreasSql(): string {
+	return `
 CREATE OR REPLACE TABLE pieces AS
 SELECT o.oa, s.sector, o.geom
 FROM output_areas o
 JOIN oa_sectors s USING (oa)
 WHERE s.sectors = 1`;
+}
 
-const splitOutputAreas = `
+function splitOutputAreasSql(): string {
+	return `
 INSERT INTO pieces
 WITH split AS (
 	SELECT oa, ST_Collect(list(ST_Point(x, y))) AS points
@@ -211,6 +223,7 @@ SELECT c.oa, s.sector, ST_CollectionExtract(ST_Intersection(c.geom, o.geom), 3)
 FROM cells c
 JOIN output_areas o ON o.oa = c.oa
 JOIN sites s ON s.oa = c.oa AND ST_Intersects(c.geom, ST_Point(s.x, s.y))`;
+}
 
 /**
  * GEOS clips a Voronoi diagram to a box around its points, so a large OA with
@@ -218,7 +231,8 @@ JOIN sites s ON s.oa = c.oa AND ST_Intersects(c.geom, ST_Point(s.x, s.y))`;
  * nearest site. If the “clustered postcodes” test passes without this step,
  * delete it.
  */
-const fillVoronoiGaps = `
+function fillVoronoiGapsSql(): string {
+	return `
 INSERT INTO pieces
 WITH covered AS (
 	SELECT oa, ST_Union_Agg(geom) AS geom
@@ -239,9 +253,10 @@ SELECT any_value(g.oa), arg_min(s.sector, ST_Distance(g.geom, ST_Point(s.x, s.y)
 FROM gaps g
 JOIN sites s ON s.oa = g.oa
 GROUP BY g.id`;
+}
 
-/** Run until nothing changes: an OA surrounded by empty OAs is filled on a later pass. */
-const assignEmptyOutputAreas = `
+function assignEmptyOutputAreasSql(): string {
+	return `
 INSERT INTO pieces
 WITH empty AS (
 	SELECT oa, geom FROM output_areas
@@ -258,8 +273,9 @@ FROM shared s
 JOIN empty e USING (oa)
 WHERE s.length > 0
 GROUP BY s.oa`;
+}
 
-function dissolveSectors(areas: readonly string[]): string {
+function sectorsSql(areas: readonly string[]): string {
 	return `
 CREATE OR REPLACE TABLE sectors AS
 WITH counts AS (
@@ -279,79 +295,85 @@ LEFT JOIN counts USING (sector)
 ${areas.length === 0 ? "" : `WHERE regexp_extract(sector, '^[A-Z]+') IN (${list(areas)})`}`;
 }
 
-const dissolveDistricts = `
+function districtsSql(): string {
+	return `
 CREATE OR REPLACE TABLE districts AS
 SELECT district, area, sum(postcodes) AS postcodes, count(*) AS sectors, ST_Union_Agg(geom) AS geom
 FROM sectors
 GROUP BY district, area`;
-
-/** Needs `postcodes` and `output_areas`; creates `sectors`, `districts` and `oa_lookup`. */
-export async function computeBoundaries(
-	connection: DuckDBConnection,
-	{ areas = [], log = console.log }: { areas?: readonly string[]; log?: Log } = {},
-): Promise<void> {
-	const step = stepRunner(connection, log);
-	const piecesCount = async () => Number((await rows(connection, "SELECT count(*) AS n FROM pieces"))[0]?.n);
-
-	await step("scope", scope(areas));
-	await step("sites", sites);
-	await step("sectors per OA", sectorsPerOutputArea);
-	await step("OA lookup", lookup);
-	await step("whole OAs", wholeOutputAreas);
-	await step("split OAs", splitOutputAreas);
-	await step("Voronoi gaps", fillVoronoiGaps);
-
-	let before: number;
-	do {
-		before = await piecesCount();
-		await step("empty OAs", assignEmptyOutputAreas);
-	} while ((await piecesCount()) > before);
-
-	await step("sectors", dissolveSectors(areas));
-	await step("districts", dissolveDistricts);
 }
 
 // ---------------------------------------------------------------------------
 // Stage 3: outputs
 
-const geoJson = (table: string, path: string): string => `
+export async function writeOutputs(db: Database, outDir: string): Promise<void> {
+	await mkdir(outDir, { recursive: true });
+
+	await step(db, "sectors.geojson", geoJsonSql("sectors", `${outDir}/sectors.geojson`));
+	await step(db, "districts.geojson", geoJsonSql("districts", `${outDir}/districts.geojson`));
+	await step(db, "oa-lookup.csv", `COPY oa_lookup TO ${literal(`${outDir}/oa-lookup.csv`)} (HEADER)`);
+}
+
+function geoJsonSql(table: string, path: string): string {
+	return `
 COPY (
 	SELECT * EXCLUDE (geom), ST_Transform(geom, 'EPSG:27700', 'EPSG:4326', true) AS geom
 	FROM ${table}
 ) TO ${literal(path)} WITH (FORMAT GDAL, DRIVER 'GeoJSON', LAYER_CREATION_OPTIONS 'COORDINATE_PRECISION=6')`;
+}
 
-export async function writeOutputs(connection: DuckDBConnection, outDir: string, log: Log = console.log): Promise<void> {
-	const step = stepRunner(connection, log);
-	await mkdir(outDir, { recursive: true });
-
-	await step("sectors.geojson", geoJson("sectors", `${outDir}/sectors.geojson`));
-	await step("districts.geojson", geoJson("districts", `${outDir}/districts.geojson`));
-	await step("oa-lookup.csv", `COPY oa_lookup TO ${literal(`${outDir}/oa-lookup.csv`)} (HEADER)`);
+function summarySql(): string {
+	return `
+SELECT
+	(SELECT count(*) FROM postcodes) AS postcodes,
+	(SELECT count(*) FROM postcodes WHERE oa NOT IN (SELECT oa FROM output_areas)) AS without_boundary,
+	(SELECT count(*) FROM oa_sectors WHERE sectors > 1) AS split_output_areas,
+	(SELECT count(*) FROM scope WHERE oa NOT IN (SELECT oa FROM pieces)) AS unassigned_output_areas,
+	(SELECT count(*) FROM sectors) AS sectors,
+	(SELECT count(*) FROM districts) AS districts`;
 }
 
 // ---------------------------------------------------------------------------
+// DuckDB helpers
 
-export async function buildPostcodeBoundaries(options: Options): Promise<void> {
-	const { outDir = "out", database = ":memory:", log = console.log } = options;
-	const { connection, close } = await connect(database);
+export async function connect(
+	{ database = ":memory:", log = console.log }: { database?: string; log?: Log } = {},
+): Promise<Database> {
+	const instance = await DuckDBInstance.create(database);
+	const connection = await instance.connect();
+	await connection.run("INSTALL spatial; LOAD spatial;");
 
-	try {
-		await loadInputs(connection, options);
-		await computeBoundaries(connection, options);
-		await writeOutputs(connection, outDir, log);
+	return {
+		connection,
+		log,
+		[Symbol.dispose]() {
+			connection.closeSync();
+			instance.closeSync();
+		},
+	};
+}
 
-		const [summary] = await rows(
-			connection,
-			`SELECT
-				(SELECT count(*) FROM postcodes) AS postcodes,
-				(SELECT count(*) FROM postcodes WHERE oa NOT IN (SELECT oa FROM output_areas)) AS without_boundary,
-				(SELECT count(*) FROM oa_sectors WHERE sectors > 1) AS split_output_areas,
-				(SELECT count(*) FROM scope WHERE oa NOT IN (SELECT oa FROM pieces)) AS unassigned_output_areas,
-				(SELECT count(*) FROM sectors) AS sectors,
-				(SELECT count(*) FROM districts) AS districts`,
-		);
-		console.table(summary);
-	} finally {
-		close();
-	}
+export async function rows(db: Database, sql: string): Promise<Record<string, unknown>[]> {
+	const reader = await db.connection.runAndReadAll(sql);
+	return reader.getRowObjectsJson() as Record<string, unknown>[];
+}
+
+async function count(db: Database, table: string): Promise<number> {
+	const [row] = await rows(db, `SELECT count(*) AS n FROM ${table}`);
+	return Number(row?.n);
+}
+
+async function step(db: Database, name: string, sql: string): Promise<void> {
+	const start = performance.now();
+	await db.connection.run(sql);
+	db.log(`✓ ${name} (${((performance.now() - start) / 1000).toFixed(1)}s)`);
+}
+
+/** SQL string literal */
+export function literal(value: string): string {
+	return `'${value.replaceAll("'", "''")}'`;
+}
+
+function list(values: readonly string[]): string {
+	return values.map(literal).join(", ");
 }
